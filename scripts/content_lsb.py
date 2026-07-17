@@ -1,0 +1,127 @@
+# -*- coding: utf-8 -*-
+LSB = {}
+
+LSB['LSB_문헌고찰'] = r"""# 요추교감신경차단(LSB) 문헌고찰
+## 방법(Technique) · 적응증(Indication) · 효과(Efficacy)
+*Lumbar Sympathetic Block / Sympatholysis — Technique, Indications, and Efficacy*
+
+작성일 2026-07 · 교육·연구 참고용 문헌고찰. 개별 환자의 진료 결정은 담당 의사의 판단에 따른다.
+
+> 개요: 요추교감신경차단(LSB)과 교감신경 신경파괴(sympatholysis)는 70년 이상 다양한 하지 통증·허혈 질환에 사용되어 왔다. 국소마취제 차단(진단적/치료적)과 화학적/열적 신경파괴로 나뉜다.
+
+## 1. 해부 및 원리
+- 요추 교감신경절은 척추체 전외측에 위치하며, 신경절 밀도가 가장 높은 **L2–L3**(보통 'L2 하 1/3 ~ L3 상 1/3')가 대표 표적이다. 일부는 L2/L3/L4 다분절.
+- 원리: 교감신경 차단 → 혈관 확장·측부순환 증가 → 조직 산소화 개선, 그리고 교감신경 매개 통증(sympathetically-maintained pain) 경로 및 자율신경 동반 침해 구심로 차단.
+
+## 2. 방법 (Technique)
+### 2-1. 접근·영상 유도
+- **표준: 방척추(paravertebral) 접근 + 투시(fluoroscopy).** CT·초음파도 사용 가능.
+- 바늘 진입은 정중선에서 약 **7 cm 외측**. 척추체에 접촉하면 바늘을 전내측으로 'walk'하여 척추체 전외측(perivertebral space)으로 진입.
+- 흡인 후 조영제를 주입하여 **두미측(craniocaudal) 종방향 확산**을 확인한다.
+- **성공 지표:** 동측 하지 피부온도 **≥2°C 상승**(교감 차단 성공의 객관 지표).
+
+### 2-2. 약제
+- 진단적/치료적 차단(국소마취제): lidocaine 1%, bupivacaine 0.25–0.5%, ropivacaine 0.25–0.36%.
+- 신경파괴(neurolysis): **무수알코올(absolute alcohol)** 또는 phenol. 열적 방법으로 **고주파열응고(RFA)**·레이저.
+- 보조제: triamcinolone/dexamethasone 등(연구적).
+- 원칙: **신경파괴는 국소마취제 진단적 차단이 양성일 때에만** 시행(반응 예측·표적 확인).
+
+## 3. 적응증 (Indications)
+### 3-1. 복합부위통증증후군(CRPS I/II, 하지) — 대표 적응증
+- 교감신경 매개 통증의 전형. 진단적 차단 → 신경파괴로 장기 통증완화. **조기(발병 12개월 이내) 시행 시 진통·기능회복 결과가 더 좋다.**
+
+### 3-2. 허혈성 통증 — 말초혈관·허혈질환
+- 죽상경화성 말초동맥질환(PAD), 버거병(폐색성 혈전혈관염), **중증 하지허혈(CLI)의 안정 시 통증(rest pain)**, 재건 불가능한 허혈. 색전성 폐색, 동상·한랭손상, 혈관연축질환.
+
+### 3-3. 기타
+- 당뇨병성 말초신경병증/당뇨발(통증·궤양 관류), 대상포진후신경통(하지 분절), 환상지통·단단통, 족부 다한증, 레이노 증후군(하지)·홍색사지통증, 암성 골반/하지통.
+
+> 감별 주의: **특발성 야간 하지경련(NLC)은 LSB의 적응증이 아니다**(직접 근거 없음). 다만 '밤 다리 증상'이 실제로는 허혈성 안정통(PAD/CLI)이라면 LSB가 적응증이 된다. ABI·도플러 등으로 원인 감별이 선행되어야 한다.
+
+## 4. 효과 (Efficacy)
+### 4-1. 관류 개선 — 실측 근거
+- **Dickey 2024(Cureus):** LSB 후 초음파상 후경골동맥 직경 0.17→0.27 cm(+58.8%), 모세혈관 재충혈 3.92→1.30초, 족부온도 +2.8°C로 하지 관류가 실측 개선.
+- Zhang 2022(Ibrain): LSB가 하지 혈관 긴장도 감소·평활근 연축 완화·측부순환 증가·endothelin 감소를 유도.
+
+### 4-2. 허혈성 통증(PAD/CLI)
+- LSB가 하지 통증을 **최대 75%까지 감소**시켰다는 보고. Fontaine 분류·측부관류 개선(PAD 후향 연구, Medicina 2024).
+- **비재건성 CLI:** 교감신경 신경파괴가 절단 외 대안이 없는 환자의 통증조절에 효과적·안전(Barreto 2018 증례).
+
+### 4-3. CRPS
+- CRPS는 교감신경 매개 통증의 전형으로, LSB(LSGB) 후 유의한 통증완화를 얻는다는 근거가 축적. 최적 환자 선택·조기 시행이 성공률을 높인다.
+- Choi 2024(Sci Rep): 교감신경 신경파괴의 효과 지속기간을 전향 관찰로 제시.
+- **반응 예측:** 교감신경 피부반응(sympathetic skin response)이 LSB 반응을 예측하는 데 유용(Pain Ther 2023).
+- 한계: 중추 감작이 진행되면 시간이 지날수록 효과가 감소할 수 있다.
+
+### 4-4. 기전 요약
+- 교감차단 → 측부순환 혈관확장 → 조직 산소화↑ → 조직손상·통증↓. 더불어 교감신경 매개 통증 경로 차단과 신경파괴의 침해섬유 직접 효과가 복합 작용.
+
+## 5. 합병증·안전성
+- 생식대퇴신경통(genitofemoral neuralgia; 신경파괴 시 5–10%), 외측대퇴피신경 손상, 기립성 저혈압, 혈관·요관·신장 등 내장 구조 천공, 출혈, 신경축(neuraxial) 확산, 신경파괴 후 통증성 신경염(dysesthesia).
+
+## 6. 근거 수준 및 결론
+- 대부분 관찰연구·증례군·소규모 전향연구이며 대규모 RCT는 부족하다(허혈질환·CRPS에서 Level III~IV).
+- 그럼에도 **조기 CRPS**와 **재건 불가능한 중증 하지허혈(안정통)**에서 임상적으로 유용한 선택지다.
+- 시행 원칙: 원인 감별 → 국소마취제 진단적 차단(온도 ≥2°C 상승으로 성공 확인) → 반응 양호 시 신경파괴/RFA. 특발성 경련·비허혈성 증상에는 적응증이 아니다.
+"""
+
+LSB['LSB_요약본'] = r"""# 요추교감신경차단(LSB) 요약본
+## 방법 · 적응증 · 효과 핵심
+
+작성일 2026-07 · 교육·연구 참고용.
+
+## 한눈에 보는 핵심
+- **표적:** L2–L3 교감신경절(척추체 전외측). **표준: 방척추 접근 + 투시**, 정중선 7 cm 외측, 조영제 두미측 확산 확인. **성공지표: 피부온도 ≥2°C 상승.**
+- **약제:** 진단/치료 — lidocaine 1%·bupivacaine 0.25–0.5%·ropivacaine. 신경파괴 — 무수알코올/phenol, RFA. (신경파괴는 진단적 차단 양성일 때만.)
+
+## 적응증 요약
+| 범주 | 대표 적응증 |
+|---|---|
+| 통증증후군 | 하지 CRPS I/II (조기 시행 유리) |
+| 허혈질환 | PAD·중증 하지허혈(CLI) 안정통·비재건성, 버거병, 색전, 동상, 혈관연축 |
+| 신경병증 | 당뇨병성 신경병증/당뇨발, 대상포진후신경통, 환상지통 |
+| 기타 | 족부 다한증, 레이노·홍색사지통, 암성 하지통 |
+
+> 특발성 야간 하지경련(NLC)은 적응증 아님. '밤 다리증상'이 허혈성 안정통(PAD/CLI)이면 적응 — 원인 감별 선행.
+
+## 효과 요약
+- **관류 실측(Dickey 2024):** 후경골동맥 +58.8%, 족부온도 +2.8°C.
+- **허혈성 통증(PAD/CLI):** 통증 최대 75%↓, Fontaine·관류 개선; 비재건성 CLI 신경파괴는 절단 대안.
+- **CRPS:** 유의한 통증완화, 조기·적절 선택 시 성공률↑; 교감피부반응으로 반응 예측.
+
+## 합병증
+생식대퇴신경통(5–10%), 기립성 저혈압, 혈관·요관·신장 손상, 신경파괴 후 신경염.
+
+## 핵심 메시지
+1. 표준은 투시 유도 방척추 접근, 성공은 온도 ≥2°C. 2. 최적 적응은 조기 CRPS·비재건성 CLI 안정통. 3. 신경파괴는 진단차단 양성 시에만. 4. 대규모 RCT는 부족(관찰·증례 중심).
+"""
+
+LSB['LSB_참고문헌'] = r"""# 요추교감신경차단(LSB) 참고문헌 · 근거 요약
+## 문헌 목록 및 핵심 근거 정리
+
+작성일 2026-07 · PubMed/저널·StatPearls 목록 대조.
+
+## 핵심 근거 요약표
+| 영역 | 대표 문헌 | 핵심 내용 |
+|---|---|---|
+| 기법·적응·합병증 | StatPearls(NBK431107, NBK560514) | 방척추 투시 접근, 적응·합병증 총설 |
+| 관류 개선(실측) | Dickey 2024 | 후경골동맥 +58.8%, 족부온도 +2.8°C |
+| 기전 | Zhang 2022 | 혈관긴장↓·측부순환↑·endothelin↓ |
+| PAD/허혈 | Medicina 2024 / Barreto 2018 | 통증·Fontaine·관류 개선 / CLI 신경파괴 |
+| CRPS 지속 | Choi 2024 | 신경파괴 효과 지속기간 |
+| CRPS 반응예측 | Pain Ther 2023 | 교감피부반응으로 예측 |
+
+## 참고문헌
+1. Dua A, Varacallo MA. Lumbar sympathetic block. In: StatPearls [Internet]. Treasure Island (FL): StatPearls Publishing; 2026. NBK431107.
+2. Lumbar sympatholysis. In: StatPearls [Internet]. Treasure Island (FL): StatPearls Publishing. NBK560514.
+3. Zhang JH, Deng YP, Geng MJ. Efficacy of the lumbar sympathetic ganglion block in lower limb pain and its application prospects during the perioperative period. Ibrain. 2022;8(4):442-452. PMID 37786587. PMCID PMC10529158.
+4. Dickey Z, Sharma N. Lumbar sympathetic block leading to increased arterial diameter and blood flow: a mechanism of therapeutic benefit. Cureus. 2024;16(6):e61755. PMID 38975506. PMCID PMC11227424.
+5. Barreto Junior EPS, Nascimento JS, Castro APCR. Neurolytic block of the lumbar sympathetic chain improves chronic pain in a patient with critical lower limb ischemia. Braz J Anesthesiol. 2018;68(1):100-103. PMCID PMC9391669.
+6. Choi EJ, Kim S, Lim D, et al. Effect duration of lumbar sympathetic ganglion neurolysis in patients with complex regional pain syndrome: a prospective observational study. Sci Rep. 2024;14(1):12693. PMID 38830944.
+7. Gungor S, Aiyer R, Baykoca B. Sympathetic blocks for the treatment of complex regional pain syndrome: a case series. Medicine (Baltimore). 2018;97(19):e0705. PMID 29742728.
+8. Retrospective evaluation of the effect of lumbar sympathetic blockade on pain scores, Fontaine classification, and collateral perfusion status in patients with lower extremity peripheral arterial disease. Medicina (Kaunas). 2024;60(5):682.
+9. Prediction of the efficacy of lumbar sympathetic block in patients with lower extremity complex regional pain syndrome type 1 based on the sympathetic skin response. Pain Ther. 2023;12(3):809-822. PMCID PMC10199976.
+10. Gunduz OH, Kenis-Coskun O. Ganglion blocks as a treatment of pain: current perspectives (lumbar sympatholysis: how to and when to use). J Pain Res. 2017 / Semin Intervent Radiol reviews (신경파괴 방법·시점 종설).
+
+*검증 메모: 서지정보는 PubMed/PMC/StatPearls·저널 목록을 웹 검색으로 대조해 정리. 일부 종설(항목 8·10)의 권·페이지·저자는 원문 재확인을 권장한다. 조작된 인용은 없다.*
+"""
