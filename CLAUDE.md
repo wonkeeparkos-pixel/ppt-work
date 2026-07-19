@@ -43,6 +43,25 @@
   `object_stream_mode=generate`, `recompress_flate=True`) 후 업로드하고,
   그래도 크면 업로드를 생략해도 된다 — Drive는 pptx/docx를 자체 미리보기로 열 수 있다.
 
+## 비디오 스킬 (/watch)
+
+`.claude/skills/watch/`에 [bradautomates/claude-video](https://github.com/bradautomates/claude-video)의
+`/watch` 스킬이 설치되어 있다 (영상 URL·로컬 파일 → 프레임 + 대본 → 내용 분석).
+
+**새 세션에서 처음 사용할 때 의존성 설치가 필요하다** (컨테이너가 임시라 매번 초기화됨):
+
+```bash
+pip install yt-dlp imageio-ffmpeg av cffi --upgrade
+ln -sf "$(python3 -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())')" /usr/local/bin/ffmpeg
+cp .claude/ffprobe-shim.py /usr/local/bin/ffprobe && chmod +x /usr/local/bin/ffprobe
+mkdir -p ~/.config/watch && printf 'WATCH_DETAIL=balanced\nSETUP_COMPLETE=true\n' > ~/.config/watch/.env
+```
+
+- `ffprobe-shim.py`는 apt로 ffmpeg를 못 깔기 때문에 PyAV로 ffprobe를 흉내내는 스크립트다 (스킬이 쓰는 JSON 필드만 지원).
+- **주의: 이 원격 환경의 네트워크 정책은 YouTube 등 외부 영상 사이트를 차단한다** (프록시 403).
+  URL 다운로드는 사용자가 환경 네트워크 정책을 완화해야 가능하고, 로컬 비디오 파일 분석은 바로 된다.
+- Whisper API 키(GROQ_API_KEY/OPENAI_API_KEY)는 선택 사항 — 자막 없는 영상의 대본 추출에만 필요.
+
 ### 작업 완료 체크리스트
 
 1. 산출물 생성/수정 → git 커밋·푸시 (기존 규칙대로)
