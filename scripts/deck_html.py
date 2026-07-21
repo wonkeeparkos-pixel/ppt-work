@@ -68,6 +68,10 @@ table.t td{font-weight:300;font-size:1.98cqw;color:#33403B;padding:1.25cqw 1.7cq
 table.t td:first-child{text-align:left;font-weight:700;color:var(--ink)}
 table.t tr:nth-child(even) td{background:#EFF3F2}
 table.t td b{font-weight:800;color:var(--tealD)}
+table.t tr.hl td{background:#FBEAE6;border-top:2px solid var(--red);border-bottom:2px solid var(--red)}
+table.t tr.hl td:first-child{border-left:2px solid var(--red)}
+table.t tr.hl td:last-child{border-right:2px solid var(--red)}
+table.t tr.hl td:first-child{color:var(--red)}
 .note{font-weight:700;font-size:1.92cqw;color:var(--tealD);margin-top:1.8cqw;line-height:1.28}
 .foot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;color:#7A868C;
   border-top:1.5px solid var(--line);padding-top:2.2cqw}
@@ -203,9 +207,11 @@ def slide(s, pg):
 {_foot(s['foot'],pg)}</div></div></section>'''
     if T=='table':
         head='<tr>'+''.join(f'<th>{esc(h)}</th>' for h in s['headers'])+'</tr>'
+        hl=set(s.get('hlrows',[]))
         body=''
-        for r in s['rows']:
-            body+='<tr>'+''.join(f'<td>{c}</td>' for c in r)+'</tr>'
+        for ri,r in enumerate(s['rows']):
+            cls=' class="hl"' if ri in hl else ''
+            body+=f'<tr{cls}>'+''.join(f'<td>{c}</td>' for c in r)+'</tr>'
         note=f'<div class="note">{s["note"]}</div>' if s.get('note') else ''
         return f'''<section class="snap tableS"><div class="stage"><div class="pad">
 <div class="topbar"><div class="eb">{esc(s['eyebrow'])}</div>{_tag(s.get('tag'))}</div>
