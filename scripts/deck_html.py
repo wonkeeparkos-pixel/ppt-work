@@ -91,6 +91,30 @@ table.t td b{font-weight:800;color:var(--tealD)}
 .refs .cols .c{flex:1;display:flex;flex-direction:column;gap:1.02cqw}
 .refs .cols a,.refs .cols div.r{font-weight:300;font-size:1.55cqw;line-height:1.22;color:#33403B;text-decoration:none}
 .refs .cols a b{color:var(--tealD);font-weight:700}
+/* figure slides */
+.figure .figbox{flex:1;display:flex;align-items:stretch;justify-content:center;gap:2.6cqw;min-height:0;margin:1.8cqw 0 1cqw}
+.figpanel{flex:1;background:#FBFCFB;border:1.5px solid var(--line);border-radius:2.2cqw;padding:1.8cqw 1.6cqw 1.4cqw;display:flex;flex-direction:column;align-items:center;gap:.8cqw;min-width:0}
+.figpanel .pt{font-weight:800;font-size:2.05cqw;letter-spacing:-.01em}
+.figpanel.warn{background:#FCF4F2;border-color:#E7CFC9}.figpanel.warn .pt{color:var(--red)}
+.figpanel.good{background:#EFF6F0;border-color:#CFE3D2}.figpanel.good .pt{color:var(--green)}
+.figpanel svg{width:auto;height:auto;max-width:100%;max-height:30cqw;flex:1}
+.figpanel .pl{font-weight:700;font-size:1.72cqw;color:#55615B;text-align:center;line-height:1.28}
+.figpanel .pl b{color:var(--ink);font-weight:800}
+.figcap{font-weight:700;font-size:1.95cqw;color:var(--tealD);text-align:center;line-height:1.32}
+.figcap b{color:var(--ink);font-weight:800}
+.figure .foot{margin-top:.9cqw}
+svg text{font-family:Pretendard,sans-serif}
+@keyframes cramp{0%,100%{transform:scale(1)}50%{transform:scale(.93)}}
+@keyframes spark{0%,100%{opacity:.35;transform:scale(.9)}50%{opacity:1;transform:scale(1.15)}}
+@keyframes sway{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes brk{0%,100%{opacity:.4}50%{opacity:.14}}
+@keyframes flow{to{stroke-dashoffset:-22}}
+.a-cramp{transform-box:fill-box;transform-origin:center;animation:cramp 1.5s ease-in-out infinite}
+.a-spark{transform-box:fill-box;transform-origin:center;animation:spark 1.5s ease-in-out infinite}
+.a-sway{transform-box:fill-box;transform-origin:center;animation:sway 2.8s ease-in-out infinite}
+.a-brk{animation:brk 1.5s ease-in-out infinite}
+.a-flow{stroke-dasharray:6 6;animation:flow 1s linear infinite}
+@media (prefers-reduced-motion:reduce){.a-cramp,.a-spark,.a-sway,.a-brk,.a-flow{animation:none}}
 /* UI chrome */
 .bar{position:fixed;top:0;left:0;height:4px;background:var(--teal);width:0;z-index:10;transition:width .2s}
 .count{position:fixed;right:16px;bottom:14px;z-index:10;background:rgba(23,35,44,.86);color:#EAF1EF;
@@ -186,6 +210,13 @@ def slide(s, pg):
         return f'''<section class="snap tableS"><div class="stage"><div class="pad">
 <div class="topbar"><div class="eb">{esc(s['eyebrow'])}</div>{_tag(s.get('tag'))}</div>
 <h2 class="ct">{s['title']}</h2><table class="t">{head}{body}</table>{note}
+{_foot(s['foot'],pg)}</div></div></section>'''
+    if T=='figure':
+        cap=f'<div class="figcap">{s["caption"]}</div>' if s.get('caption') else ''
+        return f'''<section class="snap figure"><div class="stage"><div class="pad">
+<div class="topbar"><div class="eb">{esc(s['eyebrow'])}</div>{_tag(s.get('tag'))}</div>
+<h2 class="ct">{s['title']}</h2>
+<div class="figbox">{s['svg']}</div>{cap}
 {_foot(s['foot'],pg)}</div></div></section>'''
     if T=='key':
         msgs=''.join(f'<div class="msg"><div class="ml">{esc(l)}</div><div class="md">{d}</div></div>' for l,d in s['msgs'])

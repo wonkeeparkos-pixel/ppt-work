@@ -9,28 +9,80 @@ SERIES = "고령 하지증상 문헌고찰 시리즈 · 2026"
 def PM(pmid): return f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/"
 def PMC(x): return f"https://www.ncbi.nlm.nih.gov/pmc/articles/{x}/"
 
+FIG_REFLEX = '''
+<div class="figpanel good"><div class="pt">정상 · 균형</div>
+<svg viewBox="0 0 240 250" role="img" aria-label="정상 반사: 가속과 브레이크 균형">
+ <rect x="34" y="14" width="172" height="40" rx="20" fill="#E7F1EA" stroke="#C4DDCA" stroke-width="1.5"/>
+ <text x="120" y="39" text-anchor="middle" font-size="15" font-weight="800" fill="#2E7D32">가속 (근방추) ▲</text>
+ <path d="M120 58 L120 84" stroke="#9BB3A2" stroke-width="3" fill="none"/>
+ <path d="M114 79 L120 89 L126 79 Z" fill="#9BB3A2"/>
+ <ellipse cx="120" cy="126" rx="52" ry="34" fill="#3E9E8E"/>
+ <text x="120" y="131" text-anchor="middle" font-size="15" font-weight="800" fill="#fff">근육 편안</text>
+ <path d="M120 168 L120 194" stroke="#9BB3A2" stroke-width="3" fill="none"/>
+ <path d="M114 189 L120 199 L126 189 Z" fill="#9BB3A2"/>
+ <rect x="34" y="196" width="172" height="40" rx="20" fill="#E7F1EA" stroke="#C4DDCA" stroke-width="1.5"/>
+ <text x="120" y="221" text-anchor="middle" font-size="15" font-weight="800" fill="#2E7D32">브레이크 (골지건) ▼</text>
+</svg>
+<div class="pl">가속·브레이크가 <b>균형</b> → 근육 편안</div></div>
+<div class="figpanel warn"><div class="pt">불균형 · 경련</div>
+<svg viewBox="0 0 240 250" role="img" aria-label="불균형: 브레이크 약화로 경련">
+ <rect x="34" y="14" width="172" height="40" rx="20" fill="#DEF0E4" stroke="#8FC79C" stroke-width="2"/>
+ <text x="120" y="39" text-anchor="middle" font-size="15" font-weight="800" fill="#2E7D32">가속 ▲ 강함</text>
+ <path class="a-flow" d="M120 58 L120 84" stroke="#2E7D32" stroke-width="3" fill="none"/>
+ <path d="M114 79 L120 89 L126 79 Z" fill="#2E7D32"/>
+ <g class="a-cramp">
+   <ellipse cx="120" cy="126" rx="54" ry="27" fill="#D64A3A"/>
+   <path d="M92 113 l8 6 M92 139 l8 -6 M148 113 l-8 6 M148 139 l-8 -6" stroke="#fff" stroke-width="2" opacity=".7"/>
+ </g>
+ <text x="120" y="131" text-anchor="middle" font-size="15" font-weight="800" fill="#fff">경련</text>
+ <text class="a-spark" x="174" y="103" font-size="18" fill="#E8A33D">✳</text>
+ <path d="M120 168 L120 194" stroke="#C6B0AB" stroke-width="3" fill="none" stroke-dasharray="4 4"/>
+ <g class="a-brk">
+   <rect x="34" y="196" width="172" height="40" rx="20" fill="#EFE3E0" stroke="#D9BDB6" stroke-width="1.5"/>
+   <text x="120" y="221" text-anchor="middle" font-size="15" font-weight="800" fill="#A8352A">브레이크 ✕ 약함</text>
+ </g>
+</svg>
+<div class="pl"><b>브레이크 약해짐</b> → 근육이 과수축(경련)</div></div>
+'''
+
+FIG_FOOT = '''
+<div class="figpanel warn"><div class="pt">잘 때 · 경련</div>
+<svg viewBox="0 0 240 260" role="img" aria-label="발끝 아래로 종아리 짧아짐 경련">
+ <circle cx="132" cy="34" r="20" fill="#E3E8E6"/>
+ <rect x="120" y="34" width="24" height="156" rx="12" fill="#DCE3E1"/>
+ <g class="a-cramp"><path d="M120 116 C 78 122, 78 178, 120 186 Z" fill="#D64A3A"/></g>
+ <text x="150" y="150" font-size="13" font-weight="800" fill="#A8352A">짧아짐</text>
+ <circle cx="132" cy="192" r="11" fill="#CBD3D0"/>
+ <g transform="rotate(40 132 192)"><rect x="132" y="184" width="70" height="20" rx="10" fill="#4A5A63"/></g>
+ <text class="a-spark" x="182" y="150" font-size="18" fill="#E8A33D">✳</text>
+</svg>
+<div class="pl">발끝이 <b>아래로</b> → 종아리 <b>짧아짐</b> → 경련</div></div>
+<div class="figpanel good"><div class="pt">스트레칭 · 풀림</div>
+<svg viewBox="0 0 240 260" role="img" aria-label="발끝 위로 종아리 늘어남 풀림">
+ <circle cx="132" cy="34" r="20" fill="#E3E8E6"/>
+ <rect x="120" y="34" width="24" height="156" rx="12" fill="#DCE3E1"/>
+ <g class="a-sway"><path d="M120 78 C 92 90, 92 186, 120 196 Z" fill="#3E9E8E"/></g>
+ <text x="150" y="138" font-size="13" font-weight="800" fill="#2E7D32">늘어남</text>
+ <circle cx="132" cy="192" r="11" fill="#CBD3D0"/>
+ <g transform="rotate(-22 132 192)"><rect x="132" y="184" width="70" height="20" rx="10" fill="#4A5A63"/></g>
+</svg>
+<div class="pl">발끝을 <b>몸쪽으로</b> → 종아리 <b>늘어남</b> → 풀림</div></div>
+'''
+
 # ==================================================== NLC
 NLC = [
  {'t':'title','eyebrow':'Nocturnal Leg Cramps · 문헌고찰','title':'야간 하지경련',
   'sub':'병태생리 · 주된 호소 · 근거 기반 치료','order':'ESWT · 주사기법 · 경구약제','series':SERIES},
- {'t':'bullets','eyebrow':'병태생리','tag':('기전',''),'title':'운동신경 과흥분에서 기원한다','foot':'Miller & Layzer 2005; Minetto 2011','items':[
-   (0,'NLC는 <b>운동신경의 폭발적 과흥분</b>에 의한 불수의적·유통성 근수축이다.',''),
-   (0,'진성 근경련은 원위 운동축삭 종말의 자발적·고빈도(최대 ~150 Hz) 방전에서 기원(Miller & Layzer 2005).',''),
-   (0,'Minetto 2011: 후경골신경 차단 하에서도 경련은 유발되나 더 높은 자극빈도 필요·지속이 짧음.',''),
-   (1,'→ 경련 유지에는 척수 회로(운동뉴런 과흥분의 양성 되먹임)가 필수. 중추+말초 복합.','accent'),
-   (0,'이차 유발: 요추관협착·신경근병증, 정맥부전, 신경병증, 전해질, 약물(LABA·이뇨제·statin).',''),
+ {'t':'bullets','eyebrow':'병태생리','tag':('기전',''),'title':'경련은 왜 시작되나 — 신경의 과흥분','foot':'Miller & Layzer 2005; Minetto 2011','items':[
+   (0,'경련은 근육 자체보다, <b>다리로 가는 운동신경이 제멋대로 매우 빠르게 흥분</b>해 신호를 쏟아내며 시작된다.',''),
+   (0,'신경을 마취로 잠시 차단해도 경련이 생긴 실험에서, <b>신경 끝(말초)과 척수(중추)가 함께 관여</b>함이 확인됐다.',''),
+   (-1,'→ 쉽게 말해, 경련은 신경과 척수가 신호를 주고받으며 <b>스스로 되풀이되어</b> 유지된다.','accent'),
+   (0,'이차 유발(악화 요인): 요추관협착·신경근병증, 정맥부전, 신경병증, 전해질 이상, 약물(이뇨제·statin 등).',''),
  ]},
- {'t':'split','eyebrow':'병태생리','tag':('기전',''),'title':'반사 불균형과 근단축','foot':'Minetto 2013; Khan & Burne 2007',
-  'items':[
-   (0,'<b>근방추(Ia) 흥분</b> ↑ + <b>골지건기관(Ib) 억제</b> ↓ 불균형이 경련을 촉발·유지.',''),
-   (0,"경련은 근육이 '단축'된 위치(수면 중 발 저측굴곡)에서 거의 배타적으로 발생, 신전으로 완화.",''),
-   (0,'단축 시 GTO 억제가 약해지고 운동종판 흥분 역치가 낮아진다(Minetto 2013).',''),
-  ],
-  'aside':{'title':'왜 스트레칭이 듣는가','items':[
-   (0,'Khan & Burne 2007: 아킬레스건 자극이 진행 중 경련을 <b>반사적으로 억제</b>.',''),
-   (0,'신전·건 자극이 Ib 구심성으로 경련 회로를 직접 겨냥.',''),
-   (-1,'→ 스트레칭·족배굴곡이 급성 완화·예방의 생리적 근거.','accent'),
-  ]}},
+ {'t':'figure','eyebrow':'병태생리 · 쉽게 보기','tag':('그림 설명','ink'),'title':'경련의 스위치 — 가속과 브레이크의 불균형','foot':'Minetto 2013','svg':FIG_REFLEX,
+  'caption':"근육엔 <b>'가속' 센서(근방추)</b>와 <b>'브레이크' 센서(골지건기관)</b>가 있어요. 브레이크가 약해지고 가속만 세지면 근육이 스스로 강하게 수축 — 이게 경련입니다. (운동종판 = 신경이 근육에 명령을 넘기는 '스위치' 접점)"},
+ {'t':'figure','eyebrow':'병태생리 · 쉽게 보기','tag':('그림 설명','ink'),'title':'왜 밤에 생기고, 스트레칭으로 풀리나','foot':'Khan & Burne 2007; Minetto 2013','svg':FIG_FOOT,
+  'caption':"잘 때 <b>발끝이 아래로 향하면(저측굴곡) 종아리가 짧아져</b> 경련이 잘 나요. <b>발끝을 몸쪽으로 당겨 늘여주면(스트레칭) 바로 풀립니다.</b>"},
  {'t':'bullets','eyebrow':'임상 양상','tag':('호소',''),'title':'환자들의 주된 호소','foot':'Hallegraeff 2017; Grandner & Winkelman 2017','items':[
    (0,'수면 중 갑작스러운 종아리·발의 <b>강한 통증성 경련</b>으로 각성.',''),
    (0,'해당 근육이 단단하게 뭉침(<b>촉지되는 근경직</b>), 발끝을 몸쪽으로 당기면(족배굴곡) 완화.',''),
@@ -91,11 +143,9 @@ NLC = [
  ]},
  {'t':'table','eyebrow':'치료 · 경구약제','tag':('약제',''),'title':'효과 좋은 경구 약제','foot':'AAN(Katzberg 2010); Cochrane 종합',
   'headers':['약제','근거','평가'],'rows':[
-   ['Quinine','El-Tawil 2015 Cochrane','효과 O이나 FDA 미승인·혈소판감소/TTP → 최후'],
-   ['비타민 B 복합','Chan 1998 RCT','빈도·강도 감소, <b>Lv C·안전</b> → 우선 시도'],
-   ['Diltiazem 30mg','Voon 2001 교차','빈도 5.8→0.16/2주, Lv C'],
-   ['Vitamin K2','Tan 2024(JAMA IM)','빈도 2.60→0.96 (⚠정정·교체 통지)'],
-   ['마그네슘(특발성)','Garrison 2020 Cochrane','임상적 이득 없음 — <b>권고 안 함</b>'],
+   ['비타민 B 복합','Chan 1998 RCT','경련 빈도·강도·지속 감소, <b>Lv C · 안전</b> → 우선 시도'],
+   ['Diltiazem 30 mg','Voon 2001 교차','경련 빈도 5.8→0.16/2주 (P=0.04), Lv C'],
+   ['Quinine','El-Tawil 2015 Cochrane','효과 O이나 FDA 미승인·혈소판감소/TTP 위험 → 최후'],
   ]},
  {'t':'bullets','eyebrow':'비약물','tag':('1차','green'),'title':'1차 비약물 치료 (참고)','foot':'Hallegraeff 2012; Allen & Kirby 2012','items':[
    (0,'<b>취침 전 스트레칭(Hallegraeff 2012 RCT):</b> 종아리·햄스트링 6주 → 경련 빈도(−1.2회/야간)·강도(−1.3 cm VAS) 감소.','green'),
@@ -307,7 +357,7 @@ vis = re.sub(r'<style.*?</style>','',allhtml,flags=re.S)
 vis = re.sub(r'<script.*?</script>','',vis,flags=re.S)
 vis = re.sub(r'<[^>]+>',' ',vis)
 chars = set(vis)
-chars |= set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .,:;!?()[]{}<>/'\"%+-=~·•—–…→←↑↓≥≤±×°#&*@")
+chars |= set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .,:;!?()[]{}<>/'\"%+-=~·•—–…→←↑↓≥≤±×°#&*@▲▼✕✳")
 text=''.join(sorted(chars)); print("glyphs:",len(chars))
 
 UP="/root/.claude/uploads/bb19d1cb-d1ba-542e-8235-38fcac774773/"
