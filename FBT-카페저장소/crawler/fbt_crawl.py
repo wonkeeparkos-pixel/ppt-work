@@ -16,16 +16,18 @@ except Exception:
 # ============== 설정 (여기 숫자만 바꾸면 됨) ==============
 CAFE_ID  = "31251118"        # functionalbt 카페 고유번호 (고정)
 MENU_ID  = "29"              # 긁을 게시판 번호  ← 게시판 바꿀 때 이 숫자만 변경
-BASE_DIR = r"C:\FBT"
-OUT_ROOT = os.path.join(BASE_DIR, "data")   # 저장 위치 (나중에 드라이브 폴더로 바꿀 수 있음)
+
+# 결과물 저장 위치 = 구글드라이브 폴더 (C드라이브 + 클라우드 양쪽에 자동 저장)
+OUT_ROOT = r"G:\내 드라이브\claude\FBT\data"
+
+# 브라우저 로그인 정보 = C드라이브에만 (클라우드에 올리면 동기화가 엉킴)
+PROFILE_DIR = r"C:\FBT\.browser"
 
 MIN_DELAY = 4.0    # 글 사이 최소 대기(초)
 MAX_DELAY = 9.0    # 글 사이 최대 대기(초)
 MAX_PAGES = 200    # 목록 페이지 안전 상한
 MAX_ARTICLES_PER_RUN = 100000
 # =====================================================
-
-PROFILE_DIR = os.path.join(BASE_DIR, ".browser")
 
 
 def log(m):
