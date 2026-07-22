@@ -1,0 +1,94 @@
+# -*- coding: utf-8 -*-
+"""LSB(요추교감신경차단) 발표 덱 전용 빌더 — LSB 폴더 자료 기반."""
+import os, sys
+sys.path.insert(0, os.path.dirname(__file__))
+from pptx.util import Inches
+from ppt_lib import Deck, INK, TEALD, GREEN, MINT, RED, MUTE
+
+BASE = "/home/user/ppt-work/문헌고찰_NLC_RLS_LSB"
+
+d = Deck()
+d.title_slide("요추교감신경차단 (Lumbar Sympathetic Block)",
+    ["방법 · 적응증 · 효과", ""],
+    "Lumbar Sympathetic Block / Sympatholysis — Technique, Indications, and Efficacy",
+    "구성: 개요/해부 → 방법 → 적응증 → 효과 → 합병증 → 결론",
+    "교육·연구 참고용. 개별 환자의 진료 결정은 담당 의사의 판단에 따른다.  |  작성 2026-07")
+
+d.bullets_slide("개요 · 해부 · 원리", "개요", "배경", [
+    (0,"LSB와 교감신경 신경파괴(sympatholysis)는 70년 이상 다양한 하지 통증·허혈 질환에 사용.",INK,True),
+    (0,"표적: 신경절 밀도가 가장 높은 L2–L3(보통 'L2 하 1/3 ~ L3 상 1/3'), 척추체 전외측. 일부 L2/L3/L4 다분절.",INK),
+    (0,"원리 ①: 교감신경 차단 → 혈관 확장·측부순환 증가 → 조직 산소화 개선.",INK),
+    (0,"원리 ②: 교감신경 매개 통증(sympathetically-maintained pain) 경로 및 자율신경 동반 침해 구심로 차단.",INK),
+    (-1,"국소마취제 차단(진단적/치료적)과 화학적/열적 신경파괴로 나뉜다.",TEALD,True),
+], "StatPearls NBK431107; Zhang 2022(Ibrain)")
+
+d.split_slide("방법 (Technique)", "방법", "기법", [
+    (0,"표준: 방척추(paravertebral) 접근 + 투시(fluoroscopy). CT·초음파도 가능.",INK,True),
+    (0,"바늘 진입: 정중선에서 약 7 cm 외측. 척추체 접촉 후 전내측으로 'walk'하여 척추체 전외측으로 진입.",INK),
+    (0,"흡인 후 조영제 주입 → 두미측(craniocaudal) 종방향 확산 확인.",INK),
+    (0,"성공 지표: 동측 하지 피부온도 ≥2°C 상승.",INK,True),
+], ("약제", [
+    (0,"진단/치료: lidocaine 1%,",None),
+    (0,"  bupivacaine 0.25–0.5%, ropivacaine",None),
+    (0,"신경파괴: 무수알코올/phenol, RFA",None),
+    (0,"원칙: 신경파괴는 진단적 차단 양성 시에만",None),
+], None), "StatPearls; Lumbar Sympatholysis NBK560514", tag_color=TEALD)
+
+d.table_slide("적응증 (Indications)", "적응증", "적응", [
+    ("범주","대표 적응증"),
+    ("통증증후군","하지 복합부위통증증후군(CRPS I/II) — 조기(≤12개월) 시행이 유리"),
+    ("허혈질환","PAD·중증 하지허혈(CLI) 안정통·비재건성, 버거병, 색전, 동상, 혈관연축"),
+    ("신경병증","당뇨병성 신경병증/당뇨발, 대상포진후신경통, 환상지통·단단통"),
+    ("기타","족부 다한증, 레이노 증후군(하지)·홍색사지통증, 암성 골반/하지통"),
+], [Inches(2.4),Inches(9.45)], "StatPearls; 문헌고찰 종합", size=12, row_h=Inches(0.7),
+    note="특발성 야간 하지경련(NLC)은 적응증 아님 — '밤 다리증상'이 허혈성 안정통(PAD/CLI)이면 적응. 원인 감별(ABI·도플러) 선행.")
+
+d.split_slide("효과 (1) 관류 개선 · 허혈성 통증", "효과", "효과", [
+    (0,"관류 실측(Dickey 2024): LSB 후 후경골동맥 직경 0.17→0.27 cm(+58.8%), 모세혈관 재충혈 3.92→1.30초, 족부온도 +2.8°C.",INK,True),
+    (0,"허혈성 통증(PAD): 하지 통증 최대 75%↓, Fontaine 분류·측부관류 개선(Medicina 2024).",GREEN),
+    (0,"비재건성 CLI: 교감신경 신경파괴가 절단 외 대안이 없는 환자의 통증조절에 효과적·안전(Barreto 2018).",INK),
+], ("실측 수치(Dickey 2024)", [
+    (0,"후경골동맥 +58.8%",MINT,True),
+    (0,"모세혈관 재충혈 3.92→1.30초",None),
+    (0,"족부온도 +2.8°C",None),
+    (0,"→ 관류 개선의 객관 근거",MINT,True),
+], None), "Dickey 2024(Cureus); Medicina 2024; Barreto 2018", tag_color=GREEN, dark_card=True)
+
+d.bullets_slide("효과 (2) CRPS · 기전", "효과", "효과", [
+    (0,"CRPS는 교감신경 매개 통증의 전형 → LSB 후 유의한 통증완화가 축적된 근거. 최적 환자 선택·조기 시행이 성공률↑.",INK,True),
+    (0,"Choi 2024(Sci Rep): 교감신경 신경파괴의 효과 지속기간을 전향 관찰로 제시.",INK),
+    (0,"반응 예측: 교감신경 피부반응(sympathetic skin response)이 LSB 반응 예측에 유용(Pain Ther 2023).",INK),
+    (0,"한계: 중추 감작이 진행되면 시간이 지날수록 효과 감소 가능.",MUTE),
+    (-1,"기전 요약: 교감차단 → 측부순환 혈관확장 → 조직 산소화↑ → 통증↓ + 교감매개통 차단 + 신경파괴 직접효과.",TEALD,True),
+], "Choi 2024(Sci Rep); Pain Ther 2023")
+
+d.bullets_slide("합병증 · 안전성 · 근거수준", "안전성 · 결론", "안전성", [
+    (0,"합병증: 생식대퇴신경통(신경파괴 시 5–10%), 외측대퇴피신경 손상, 기립성 저혈압.",RED,True),
+    (0,"혈관·요관·신장 등 내장 구조 천공, 출혈, 신경축(neuraxial) 확산, 신경파괴 후 통증성 신경염(dysesthesia).",INK),
+    (0,"근거수준: 대부분 관찰·증례군·소규모 전향연구, 대규모 RCT는 부족(허혈질환·CRPS Level III~IV).",INK),
+    (-1,"그럼에도 조기 CRPS·재건 불가능한 중증 하지허혈(안정통)에서 임상적으로 유용.",TEALD,True),
+], "StatPearls; 문헌고찰 종합", tag_color=RED)
+
+d.key_slide("핵심 메시지 — LSB", "표준은 투시 유도 방척추 접근, 성공은 온도 ≥2°C", [
+    ("방법","L2–L3 방척추 접근·투시, 정중선 7 cm 외측, 조영제 두미측 확산, 성공지표 온도 ≥2°C."),
+    ("약제","진단/치료는 국소마취제, 신경파괴는 무수알코올/phenol·RFA — 진단차단 양성 시에만."),
+    ("적응증","조기 CRPS·PAD/CLI 안정통·신경병증·다한증 등. 특발성 NLC는 적응 아님."),
+    ("효과","관류 실측 개선(Dickey), 허혈통 최대 75%↓, CRPS 통증완화(교감피부반응으로 예측)."),
+    ("근거","대규모 RCT 부족(관찰·증례 중심). 조기 CRPS·비재건성 CLI에서 유용."),
+])
+
+d.refs_slide("참고문헌 — LSB", [
+ "Dua A, Varacallo MA. Lumbar sympathetic block. StatPearls. 2026. NBK431107.",
+ "Lumbar sympatholysis. StatPearls. NBK560514.",
+ "Zhang JH, Deng YP, Geng MJ. Efficacy of the lumbar sympathetic ganglion block in lower limb pain. Ibrain. 2022;8(4):442-52. PMID 37786587.",
+ "Dickey Z, Sharma N. Lumbar sympathetic block leading to increased arterial diameter and blood flow. Cureus. 2024;16(6):e61755. PMID 38975506.",
+ "Barreto Junior EPS, et al. Neurolytic block of the lumbar sympathetic chain in critical lower limb ischemia. Braz J Anesthesiol. 2018;68(1):100-3. PMC9391669.",
+ "Choi EJ, et al. Effect duration of lumbar sympathetic ganglion neurolysis in CRPS. Sci Rep. 2024;14(1):12693. PMID 38830944.",
+ "Gungor S, et al. Sympathetic blocks for CRPS: a case series. Medicine (Baltimore). 2018;97(19):e0705. PMID 29742728.",
+ "Effect of lumbar sympathetic blockade on pain, Fontaine classification, collateral perfusion in PAD. Medicina (Kaunas). 2024;60(5):682.",
+ "Prediction of LSB efficacy in CRPS type 1 by sympathetic skin response. Pain Ther. 2023;12(3):809-22. PMC10199976.",
+])
+
+out = os.path.join(BASE, "03_LSB", "LSB_발표.pptx")
+n = d.save(out)
+print("LSB", n, "slides ->", out)
