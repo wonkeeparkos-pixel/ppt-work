@@ -168,7 +168,7 @@ RLS = [
 
  {'t':'split','eyebrow':'치료 · 경구약제','tag':('후순위','red'),'title':'경구약제 ② 도파민 작용제 — augmentation',
   'foot':'Winkelman 2006 (Neurology); Allen 2014 (NEJM); AASM 2025','items':[
-   (0,'pramipexole · ropinirole · rotigotine — 단기 효능은 확립.',''),
+   (0,'pramipexole(미라펙스) · ropinirole · rotigotine — 단기 효능 확립.',''),
    (0,'Winkelman 2006: pramipexole 12주 IRLS·CGI 개선.',''),
    (0,'수개월~수년 후 <b>augmentation</b>(악화·전이, 연 7~10%)이 문제 → 장기 권고 안 함.','red'),
    (-1,'복용 중이면 철분 재평가 · α2δ로 단계적 전환.','accent'),
@@ -209,13 +209,24 @@ RLS = [
    (-1,'AASM 2025 조건부 권고 → 비약물이 필요할 때의 우선 고려 대상.','accent'),
   ]},
 
+ {'t':'table','eyebrow':'근거 부재 · 감별','tag':('비권고','red'),'title':'RLS에 근거 없는 시술 — 정직한 평가',
+  'foot':'StatPearls NBK560514·431107; Charlesworth 2023; 문헌고찰 — 근거 창작 안 함',
+  'headers':['시술','RLS 직접 근거','실제 위치 · 감별'],'rows':[
+   ['체외충격파(ESWT)','없음','근골격계 통증·경직용 — RLS와 병태 다름'],
+   ['요추교감신경차단(LSB)','없음','교감신경 매개 통증·허혈(CRPS·PAD·CLI)용 — RLS 아님'],
+   ['신경차단 주사(경골/비골)','없음','말초는 ‘자극(TOMAC)’이 근거 — 주사 아님'],
+   ['심비골신경 차단(Imura)','—','NLC(야간경련) 근거이지 RLS 근거 아님'],
+   ['근육내 보툴리눔','약함','소규모 RCT · 연구단계'],
+  ],'hlrows':[0,1,2],
+  'note':'공통 원칙: 근거를 창작하지 않는다. PAD·CLI·CRPS·정맥질환이 확인되면 그 원인 표적치료로서만 의미 — 그때는 RLS가 아니라 다른 진단이다.'},
+
  {'t':'table','eyebrow':'종합 · 근거표','tag':('요약',''),'title':'근거 요약표 — RLS 치료',
   'foot':'02_RLS 참고문헌 근거 요약표 · PubMed 대조',
   'headers':['영역','대표 문헌','설계','핵심 결과'],'rows':[
    ['IV 철분','Earley 2024','다기관 RCT n=209','42일 IRLS·CGI 개선'],
    ['IV 철분','메타분석 2024','SR/MA 537명','효과·안전 확인'],
    ['α2δ 리간드','Allen 2014','RCT n=719','<b>augmentation 1.7% vs 9.0%</b>'],
-   ['도파민제','Winkelman 2006','RCT n=344','단기 개선(장기 aug)'],
+   ['도파민제(미라펙스)','Winkelman 2006','RCT n=344','단기 개선(장기 aug)'],
    ['dipyridamole','Garcia-Borreguero 2021','교차 RCT','IRLS 24.1→11.1'],
    ['보툴리눔','Mittal 2018','교차 RCT n=24','4·6주 IRLS·VAS 개선'],
    ['비골신경 자극','Charlesworth 2023','sham 대조','증상 개선·수면 무방해'],
