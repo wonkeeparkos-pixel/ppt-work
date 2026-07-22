@@ -107,6 +107,11 @@ table.t tr.hl td:first-child{color:var(--red)}
 .figcap{font-weight:700;font-size:1.95cqw;color:var(--tealD);text-align:center;line-height:1.32}
 .figcap b{color:var(--ink);font-weight:800}
 .figure .foot{margin-top:.9cqw}
+/* big image-focused figure */
+.bigfig h2.ct{margin:.4cqw 0 0;font-size:3.4cqw}
+.bigfig .bigimg{flex:1;display:flex;align-items:center;justify-content:center;min-height:0;margin:1.3cqw 0 .5cqw}
+.bigfig .bigimg img{max-height:100%;max-width:100%;object-fit:contain;border-radius:1.4cqw;border:1.5px solid var(--line)}
+.bigfig .foot{margin-top:.4cqw}
 svg text{font-family:Pretendard,sans-serif}
 @keyframes cramp{0%,100%{transform:scale(1)}50%{transform:scale(.93)}}
 @keyframes spark{0%,100%{opacity:.35;transform:scale(.9)}50%{opacity:1;transform:scale(1.15)}}
@@ -223,6 +228,12 @@ def slide(s, pg):
 <div class="topbar"><div class="eb">{esc(s['eyebrow'])}</div>{_tag(s.get('tag'))}</div>
 <h2 class="ct">{s['title']}</h2>
 <div class="figbox">{s['svg']}</div>{cap}
+{_foot(s['foot'],pg)}</div></div></section>'''
+    if T=='bigfig':
+        return f'''<section class="snap bigfig"><div class="stage"><div class="pad">
+<div class="topbar"><div class="eb">{esc(s['eyebrow'])}</div>{_tag(s.get('tag'))}</div>
+<h2 class="ct">{s['title']}</h2>
+<div class="bigimg">{s['svg']}</div>
 {_foot(s['foot'],pg)}</div></div></section>'''
     if T=='key':
         msgs=''.join(f'<div class="msg"><div class="ml">{esc(l)}</div><div class="md">{d}</div></div>' for l,d in s['msgs'])
