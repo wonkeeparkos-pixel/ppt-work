@@ -2,9 +2,14 @@
 """하지불안증후군(RLS) 웹 발표 덱 — NLC/LSB와 '동일 템플릿'(deck_html.py, Clinical Ledger).
 세로 스크롤-스냅 · Pretendard 임베드(기존 생성 덱에서 재사용) · 자체 완결형 HTML(외부 리소스 0).
 콘텐츠는 02_RLS 문헌고찰 근거 기반, 프리미엄 PPT와 동일 규격."""
-import os, re, sys
+import os, re, sys, json
 sys.path.insert(0, os.path.dirname(__file__))
 from deck_html import render_deck
+
+# 울트라 업그레이드: 기전 SVG 도식(멀티에이전트 생성 + 검토)
+_FIGD = json.load(open(os.path.join(os.path.dirname(__file__), "rls_figures.json"), encoding="utf-8"))
+FIG  = {f['id']: f['svg']     for f in _FIGD}
+FIGC = {f['id']: f['caption'] for f in _FIGD}
 
 TITLE = "하지불안증후군(RLS) 근거 기반 치료"
 SERIES = "고령 하지증상 문헌고찰 시리즈 · 2026"
@@ -75,10 +80,13 @@ RLS = [
  {'t':'bullets','eyebrow':'병태생리 · 기전','tag':('기전',''),'title':'병태생리 ② 도파민 · 아데노신 가설',
   'foot':'IRLSSG; Garcia-Borreguero 2021 (아데노신); 문헌고찰 Part 1-2·1-3','items':[
    (0,'<b>흐름:</b> 뇌 국소 철분 결핍 → 도파민 신호 이상 / 아데노신 신호↓ → 글루타메이트·도파민 과흥분 → 야간 증상·PLMS.',''),
-   (0,'<b>도파민 이상:</b> 야간 도파민 기능 저하 가설. 도파민제는 단기 효과가 뚜렷하나 장기 사용 시 augmentation을 유발.','red'),
+   (0,'<b>도파민 조절이상:</b> 주간 과잉·D2 하향조절 + 일주기 야간 저점. 도파민제 단기효과·장기 augmentation.','red'),
    (0,'<b>아데노신 저하 가설(최근):</b> 뇌 철분 결핍이 아데노신 신호를 낮춰 과흥분을 유발한다는 가설.',''),
    (-1,'아데노신 가설은 dipyridamole 등 도파민 비의존 표적 치료의 이론적 근거가 된다.','accent'),
   ]},
+
+ {'t':'figure','eyebrow':'병태생리 · 도식','tag':('한눈에',''),'title':'RLS 기전 — 뇌 철분 결핍의 이중 경로',
+  'foot':'문헌고찰 병태생리 종합 · IRLSSG · 아데노신 가설','svg':FIG['rls-pathophysiology-flow'],'caption':FIGC['rls-pathophysiology-flow']},
 
  {'t':'split','eyebrow':'병태생리 · 위험요인','tag':('위험요인',''),'title':'병태생리 ③ 유전 · 이차 요인 · 악화 약물',
   'foot':'IRLSSG; 문헌고찰 Part 1-4','items':[
@@ -109,23 +117,24 @@ RLS = [
   'foot':'Allen 2018 (IRLSSG iron); Earley 2024; AASM 2025','items':[
    (0,'<b>경구 철분:</b> ferritin ≤75에서 고려(+비타민 C). ≥75엔 흡수 미미.',''),
    (0,'<b>정맥 철분(FCM):</b> ferritin ≤100 또는 경구 부적절/불내 시.','green'),
-   (1,'FCM 1000 mg 단회(또는 750×2), 1시간 점적 · Level A.',''),
+   (1,'FCM 1000 mg 단회(또는 750×2), 1시간 점적 · AASM 강한 권고.',''),
    (-1,'철분 교정은 ‘기반’ — 경구로 부족하면 정맥 전환.','accent'),
   ],'aside':{'title':'용량 · 적응','stat':[('1000 mg','FCM 단회(또는 750×2)'),('≤100','정맥 적응(ferritin)'),('1시간','점적 시간')]}},
 
  {'t':'split','eyebrow':'치료 · 주사','tag':('효과 있음','green'),'title':'주사 ① 정맥 철분(IV FCM) — 근거 최강',
   'foot':'Earley CJ, et al. Sleep. 2024;47(7):zsae095. PMID 38625730','items':[
    (0,'뇌 철분 결핍(핵심 병태)을 직접 교정 — 주사 중 근거 최강.',''),
-   (0,'<b>Earley 2024(Sleep) RCT(n=209):</b> FCM 750 mg vs 위약 → 42일 IRLS·CGI 개선.','green'),
-   (0,'메타분석 2024(537명)도 효과·안전성을 확인.',''),
+   (0,'<b>Earley 2024(Sleep) RCT(n=209):</b> FCM 750mg → 42일 IRLS 유의 개선(p=0.004).','green'),
+   (1,'단, CGI-I는 위약과 유의차 없어 공동 1차 평가변수는 미충족.','muted'),
+   (0,'메타분석 2024(537명)은 효과·안전성 확인.',''),
    (-1,'철결핍·경구 부적절 시 AASM 2025 강한 권고.','accent'),
-  ],'aside':{'title':'Earley 2024 (RCT 핵심)','dark':True,'stat':[('n=209','다기관 RCT'),('750 mg','FCM 0일·5일'),('42일','IRLS·CGI 개선'),('537명','메타분석')]}},
+  ],'aside':{'title':'Earley 2024 (RCT 핵심)','dark':True,'stat':[('n=209','다기관 RCT'),('750 mg','FCM 0일·5일'),('42일','IRLS 개선(CGI 미달)'),('537명','메타분석')]}},
 
  {'t':'split','eyebrow':'치료 · 주사','tag':('연구 단계','amber'),'title':'주사 ② 보툴리눔 · ③ 정맥 경화요법',
-  'foot':'Mittal 2018 (Toxins); Pyne 2023 (JVIR); Sundaresan 2019','items':[
+  'foot':'Mittal 2018 (Toxins); Sundaresan 2019 (Cureus); Pyne 2023 (정맥류–RLS 연관성)','items':[
    (0,'<b>보툴리눔(Mittal 2018 교차, n=24):</b> incoA 100U → 전경골근·비복근·대퇴이두근, 4·6주 IRLS·VAS 개선.',''),
    (1,'SR/MA 2021: RCT 2편·27명, SMD −0.819. 표본 작아 확정 불가.','muted'),
-   (0,'<b>정맥 경화요법(정맥류/CVI):</b> 하지정맥 치료 후 IRLS 19.83→7.89(약 63%↓).','green'),
+   (0,'<b>정맥 경화요법(정맥류/CVI):</b> 하지정맥 치료 후 IRLS 19.83→7.89(Sundaresan 2019, 63%↓).','green'),
    (-1,'두 방법 모두 표현형·연구단계 — 특발성 RLS 표준치료 아님.','accent'),
   ],'aside':{'title':'정맥 경화 — 핵심 수치','stat':[('19.83→7.89','IRLS 점수'),('약 63%↓','호전'),('정맥류/CVI','적응 표현형')]}},
 
@@ -179,14 +188,67 @@ RLS = [
    (-1,'장기 1차로 권고되지 않음.','accent'),
   ]}},
 
+ {'t':'split','eyebrow':'RLS 치료 · 안전관리','tag':('단계적 관리','green'),'title':'도파민제 Augmentation — 단계적 관리',
+  'foot':'AASM 2025; Allen 2014(NEJM, PMID 24521108); Garcia-Borreguero 2021','items':[
+   (0,'<b>정의:</b> 도파민제 중 증상이 더 이르게·넓게·강하게 악화.',''),
+   (0,'<b>단서:</b> 오후 조기 발현·부위 확산·증량 후 악화.',''),
+   (0,'<b>위험:</b> 고용량 도파민제·저ferritin(&lt;50~75).','red'),
+   (-1,'조기 인지 + 도파민제 의존 최소화가 핵심.','accent'),
+  ],'aside':{'title':'단계적 대응 사다리','dark':True,'items':[
+   (0,'① 도파민제 감량·분할·시점 조정',''),
+   (0,'② 철분 재평가·보충(ferritin↑)',''),
+   (0,'③ α2δ 리간드로 전환(1차)','green'),
+   (0,'④ 난치: 오피오이드·dipyridamole','red'),
+   (-1,'조기 인지 → 도파민제 이탈','accent'),
+  ]}},
+
+ {'t':'figure','eyebrow':'안전 · 도식','tag':('경과',''),'title':'Augmentation은 어떻게 진행되나',
+  'foot':'Allen 2014(NEJM, PMID 24521108); 문헌고찰 augmentation','svg':FIG['dopamine-augmentation-timeline'],'caption':FIGC['dopamine-augmentation-timeline']},
+
  {'t':'split','eyebrow':'치료 · 경구약제','tag':('조건부','amber'),'title':'경구약제 ③ Dipyridamole · ④ 오피오이드',
   'foot':'Garcia-Borreguero 2021 (Mov Disord); AASM 2025','items':[
    (0,'<b>Dipyridamole(신규·아데노신):</b> Garcia-Borreguero 2021 교차 RCT.',''),
    (1,'IRLS 24.1→11.1(위약 18.7). augmentation 우려 적음(조건부).','green'),
-   (0,'<b>오피오이드(난치성):</b> 저용량 서방형 oxycodone — 조건부.',''),
+   (0,'<b>오피오이드(난치성):</b> 서방형 oxycodone-naloxone(Trenkwalder 2013) — 조건부.',''),
    (1,'부프레노르핀은 상대적 저위험. 진정·호흡 위험 신중.','muted'),
    (-1,'두 약제 모두 1차 아님 — 특정 상황의 선택지.','accent'),
   ],'aside':{'title':'Dipyridamole 수치','stat':[('24.1→11.1','IRLS(약물군)'),('18.7','위약군 IRLS'),('교차 RCT','설계')]}},
+
+ {'t':'table','eyebrow':'RLS 약물치료','tag':('요약',''),'title':'주요 약물 — 시작 · 적정 · 주의 요약',
+  'foot':'AASM 2025; Allen 2014(NEJM, PMID 24521108); Earley 2024(Sleep, PMID 38625730)',
+  'headers':['약물','위치','요지 · 주의'],'rows':[
+   ['Gabapentin enacarbil','1차 α2δ','저녁 1회 · 어지럼/부종 · 신기능↓ 감량'],
+   ['Pregabalin','1차 α2δ','300mg 저녁 · 신기능↓ 감량 · aug 1.7%'],
+   ['Gabapentin','1차 α2δ','저녁 · 분할 · 신기능↓ 감량'],
+   ['Pramipexole/Rotigotine','후순위 DA','augmentation 연 7~10% · 장기 지양'],
+   ['경구 철분','기반 교정','ferritin ≤75 · +Vit C · 격일 투여'],
+   ['FCM (IV)','기반 교정','ferritin ≤100 · 1000mg 단회/750×2'],
+  ],'note':'사다리: 철분 기반 → α2δ 1차 → 도파민제 후순위(augmentation).'},
+
+ {'t':'table','eyebrow':'RLS · 특수상황','tag':('개별화','amber'),'title':'동반질환·특수상황별 접근',
+  'foot':'AASM 2025; IRLSSG 2014; Allen 2014(NEJM, PMID 24521108)',
+  'headers':['범주','핵심 접근','주의'],'rows':[
+   ['공통 기반','ferritin/TSAT → 철분 교정','모든 상황 선행(치료 기반)'],
+   ['임신','경구 철분 우선','IV FCM은 1분기 회피·자료 제한'],
+   ['말기신부전·투석','RLS 흔함 · 철분 교정','α2δ 신기능 따라 감량'],
+   ['말초신경병증 동반','IRLSSG 5기준 감별 후 치료','이상감각 중복 주의'],
+   ['우울증(SSRI/SNRI)','RLS 악화 가능 → 대안','부프로피온 등 · RLS 재평가'],
+  ],'note':'철분 교정이 기반, α2δ 1차, 도파민제 후순위. IV FCM(중등도~중증)만 AASM 강한 권고이며 특수집단 전반에 동일 등급이 적용되진 않는다.'},
+
+ {'t':'split','eyebrow':'RLS 관리 · 추적','tag':('정기 재평가','green'),'title':'장기 추적 — 악화·부작용 조기 포착',
+  'foot':'AASM 2025; Allen 2014(NEJM, PMID 24521108, 52주 aug 1.7% vs 9.0%)','items':[
+   (0,'<b>ferritin/TSAT 재평가</b> — 철분 교정의 기반 지표.','accent'),
+   (0,'<b>Augmentation 정기 점검</b> — 도파민제 연 7~10%.','red'),
+   (0,'<b>도파민제 복용자:</b> 충동조절장애(도박·쇼핑)·주간 졸음발작 문진.','red'),
+   (0,'<b>α2δ 부작용</b> — 졸림·부종·체중↑, 신기능↓ 감량.','muted'),
+   (-1,'생활·악화약물(카페인·SSRI·항히스타민) 재검토.','accent'),
+  ],'aside':{'title':'모니터링 체크리스트','dark':True,'items':[
+   (0,'ferritin/TSAT 재평가·반응',''),
+   (0,'Augmentation 4징후(조기화·강도·부위·잠복기)','red'),
+   (0,'도파민제: 충동조절장애·졸음발작','red'),
+   (0,'α2δ: 부종·체중·졸림','muted'),
+   (0,'생활·악화약물 재검토',''),
+  ]}},
 
  {'t':'split','eyebrow':'치료 · ESWT','tag':('근거 없음','red'),'title':'체외충격파(ESWT) — RLS 직접 근거 없음',
   'foot':'문헌고찰 Part 3(직접 근거 부재); Charlesworth 2023(대안)','items':[
@@ -223,7 +285,7 @@ RLS = [
  {'t':'table','eyebrow':'종합 · 근거표','tag':('요약',''),'title':'근거 요약표 — RLS 치료',
   'foot':'02_RLS 참고문헌 근거 요약표 · PubMed 대조',
   'headers':['영역','대표 문헌','설계','핵심 결과'],'rows':[
-   ['IV 철분','Earley 2024','다기관 RCT n=209','42일 IRLS·CGI 개선'],
+   ['IV 철분','Earley 2024','다기관 RCT n=209','42일 IRLS 개선(CGI 미달)'],
    ['IV 철분','메타분석 2024','SR/MA 537명','효과·안전 확인'],
    ['α2δ 리간드','Allen 2014','RCT n=719','<b>augmentation 1.7% vs 9.0%</b>'],
    ['도파민제(미라펙스)','Winkelman 2006','RCT n=344','단기 개선(장기 aug)'],
@@ -232,6 +294,9 @@ RLS = [
    ['비골신경 자극','Charlesworth 2023','sham 대조','증상 개선·수면 무방해'],
    ['ESWT','—','RLS 표적 연구 없음','직접 근거 없음'],
   ],'hlrows':[7]},
+
+ {'t':'figure','eyebrow':'종합 · 도식','tag':('사다리',''),'title':'단계적 치료 접근 — 한눈에',
+  'foot':'AASM 2025 지침 · 문헌고찰 치료 사다리','svg':FIG['rls-treatment-ladder'],'caption':FIGC['rls-treatment-ladder']},
 
  {'t':'key','eyebrow':'핵심 메시지 · RLS','headline':'철분 교정이 기반, α2δ 리간드가 1차 — 도파민제는 후순위','msgs':[
    ('병태생리','뇌 국소 철분 결핍 → 도파민·아데노신 신호 이상. 유전·이차요인이 악화.'),
@@ -257,6 +322,8 @@ RLS = [
    ('<b>Winkelman.</b> Gabapentin enacarbil PSG study in RLS. Mov Disord. 2011.',PM(21611981)),
    ('<b>Bogan.</b> Long-term gabapentin enacarbil in RLS: RCT. Mayo Clin Proc. 2010.',PM(20511481)),
    ('<b>Garcia-Borreguero.</b> Dipyridamole for RLS: crossover RCT. Mov Disord. 2021.',PM(34137476)),
+   ('<b>Buchfuhrer.</b> Noninvasive peroneal nerve stimulation (TOMAC) for RLS: sham-controlled RCT. J Clin Sleep Med. 2021;17(8):1685-94.',''),
+   ('<b>Trenkwalder.</b> Prolonged-release oxycodone-naloxone for refractory RLS: RCT. Lancet Neurol. 2013;12(12):1141-50.',''),
  ]},
 ]
 
