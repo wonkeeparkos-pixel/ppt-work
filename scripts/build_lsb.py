@@ -43,6 +43,40 @@ d.table_slide("적응증 (Indications)", "적응증", "적응", [
 ], [Inches(2.4),Inches(9.45)], "StatPearls; 문헌고찰 종합", size=12, row_h=Inches(0.7),
     note="특발성 야간 하지경련(NLC)은 적응증 아님 — '밤 다리증상'이 허혈성 안정통(PAD/CLI)이면 적응. 원인 감별(ABI·도플러) 선행.")
 
+# ---------- 적응증별 환자 증상·호소 ① ----------
+d.bullets_slide("적응증별 환자 증상·호소 ① — 통증증후군·허혈", "적응증 · 증상", "환자 증상", [
+    (0,"하지 CRPS I/II (복합부위통증증후군) — 교감신경 매개 통증의 전형",INK,True),
+    (1,"작열통·이질통(옷·바람 스침에도 통증)·통각과민 · 부종 · 피부색(발적↔창백)·좌우 온도차 · 발한 이상",INK),
+    (1,"호소: “발이 타는 듯 화끈거려요” · “이불만 스쳐도 아파요” · “붓고 색이 자꾸 변해요”",MUTE),
+    (0,"허혈질환 — PAD·중증 하지허혈(CLI)·버거병 (동맥성 허혈)",GREEN,True),
+    (1,"간헐적 파행(걷다 종아리 통증→쉬면 완화) → 진행 시 야간 안정통(다리 내리면 완화) · 차고 창백한 발 · 비치유 궤양·괴저",INK),
+    (1,"호소: “걸으면 종아리가 터질 듯 아파요” · “밤에 발이 시려 잠을 못 자요” · “상처가 안 아물어요”",MUTE),
+    (-1,"‘허혈’은 동맥성 부족을 의미 — 하지정맥류 등 정맥질환은 LSB 적응증 아님(압박·정맥폐색술이 표준).",TEALD,True),
+], "StatPearls; 문헌고찰 종합", size=14, gap=6)
+
+# ---------- 적응증별 환자 증상·호소 ② ----------
+d.bullets_slide("적응증별 환자 증상·호소 ② — 신경병증·기타", "적응증 · 증상", "환자 증상", [
+    (0,"신경병증 — 당뇨병성 신경병증/당뇨발·대상포진후신경통·환상지통",INK,True),
+    (1,"저림·화끈거림·전기 오듯 찌름 · 이질통 · 감각저하(양말 신은 느낌) · 야간 악화 · 당뇨발 궤양·관류저하",INK),
+    (1,"호소: “발이 저리고 화끈거려요” · “밤에 더 심해요” · “전기가 찌릿 오는 것 같아요”",MUTE),
+    (0,"기타 — 족부 다한증·레이노(하지)·홍색사지통증·암성 하지통",INK,True),
+    (1,"다한증(과한 발땀·축축·악취) · 레이노(추위·스트레스에 창백→청색→발적 삼색변화·저림) · 홍색사지통증(발작적 발적·작열·열감, 열에 악화)",INK),
+    (1,"호소: “발에 땀이 너무 많아요” · “추우면 발이 하얘졌다 파래져요” · “발이 화끈 달아올라요”",MUTE),
+], "StatPearls; 문헌고찰 종합", size=14, gap=6)
+
+# ---------- 야간 신경병증통 서사 + LSB 치료 삽입 (NLC 스타일) ----------
+d.split_slide("밤에 저리고 화끈거리는 다리 — 당뇨병성 신경병증과 LSB", "적응증 · 심화", "야간 신경병증통", [
+    (0,"임상상: 당뇨병성 말초신경병증 — 발·종아리 저림·화끈거림·전기 찌름, 양측 ‘양말’ 분포.",INK,True),
+    (0,"야간통: 이불 온기·야간 순환·주의분산 소실 → 밤에 증폭·수면 방해.",INK),
+    (0,"먼저 감별: RLS(움직이면 완화)·NLC(경련)·허혈성 안정통과 구분.",INK),
+    (-1,"1차: 혈당조절+약물(가바펜틴·듀록세틴) → 난치성이면 LSB 고려",TEALD,True),
+], ("LSB — 치료 삽입", [
+    (0,"기전: 교감차단 → 미세순환↑ + 교감매개통 차단",None),
+    (0,"근거: 난치성 DPN에 LSB+신경파괴 RCT·증례",None),
+    (0,"적용: 약물 불응·진단차단 양성 시 선택적 시행",None),
+    (0,"성공지표: 피부온도 ≥2°C↑ (근거 제한적)",None),
+], None), "Zhang 2020(RCT) PMID 32915421; 증례 PMID 22606406; StatPearls NBK442009", dark_card=True)
+
 d.split_slide("효과 (1) 관류 개선 · 허혈성 통증", "효과", "효과", [
     (0,"관류 실측(Dickey 2024): LSB 후 후경골동맥 직경 0.17→0.27 cm(+58.8%), 모세혈관 재충혈 3.92→1.30초, 족부온도 +2.8°C.",INK,True),
     (0,"허혈성 통증(PAD): 하지 통증 최대 75%↓, Fontaine 분류·측부관류 개선(Medicina 2024).",GREEN),
@@ -72,7 +106,7 @@ d.bullets_slide("합병증 · 안전성 · 근거수준", "안전성 · 결론",
 d.key_slide("핵심 메시지 — LSB", "표준은 투시 유도 방척추 접근, 성공은 온도 ≥2°C", [
     ("방법","L2–L3 방척추 접근·투시, 정중선 7 cm 외측, 조영제 두미측 확산, 성공지표 온도 ≥2°C."),
     ("약제","진단/치료는 국소마취제, 신경파괴는 무수알코올/phenol·RFA — 진단차단 양성 시에만."),
-    ("적응증","조기 CRPS·PAD/CLI 안정통·신경병증·다한증 등. 특발성 NLC는 적응 아님."),
+    ("적응증","조기 CRPS·PAD/CLI 안정통·신경병증·다한증 등. 특발성 NLC·정맥질환(정맥류)은 적응 아님."),
     ("효과","관류 실측 개선(Dickey), 허혈통 최대 75%↓, CRPS 통증완화(교감피부반응으로 예측)."),
     ("근거","대규모 RCT 부족(관찰·증례 중심). 조기 CRPS·비재건성 CLI에서 유용."),
 ])
@@ -87,6 +121,9 @@ d.refs_slide("참고문헌 — LSB", [
  "Gungor S, et al. Sympathetic blocks for CRPS: a case series. Medicine (Baltimore). 2018;97(19):e0705. PMID 29742728.",
  "Effect of lumbar sympathetic blockade on pain, Fontaine classification, collateral perfusion in PAD. Medicina (Kaunas). 2024;60(5):682.",
  "Prediction of LSB efficacy in CRPS type 1 by sympathetic skin response. Pain Ther. 2023;12(3):809-22. PMC10199976.",
+ "Continuous LSB + sympatholysis for refractory painful diabetic neuropathy — RCT. 2020. PMID 32915421.",
+ "Sympathetic blocks: sustained relief in refractory painful diabetic neuropathy (case). 2012. PMID 22606406.",
+ "Lumbar sympathectomy for ischaemia·vasculitis·diabetic neuropathy·hyperhidrosis — series. 2018. PMID 29516399.",
 ])
 
 out = os.path.join(BASE, "03_LSB", "LSB_발표.pptx")
