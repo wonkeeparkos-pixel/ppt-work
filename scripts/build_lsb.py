@@ -3,7 +3,7 @@
 import os, sys
 sys.path.insert(0, os.path.dirname(__file__))
 from pptx.util import Inches
-from ppt_lib import Deck, INK, TEALD, GREEN, MINT, RED, MUTE
+from ppt_lib import Deck, INK, TEALD, GREEN, MINT, RED, MUTE, AMBER
 
 BASE = "/home/user/ppt-work/문헌고찰_NLC_RLS_LSB"
 
@@ -13,6 +13,19 @@ d.title_slide("요추교감신경차단 (Lumbar Sympathetic Block)",
     "Lumbar Sympathetic Block / Sympatholysis — Technique, Indications, and Efficacy",
     "구성: 개요/해부 → 방법 → 적응증 → 효과 → 합병증 → 결론",
     "교육·연구 참고용. 개별 환자의 진료 결정은 담당 의사의 판단에 따른다.  |  작성 2026-07")
+
+# ---------- 감별 오프너 (NLC 스타일: 감별이 먼저) ----------
+d.table_slide("밤·하지 증상 감별 — LSB는 어디에 쓰나", "가장 먼저", "감별", [
+    ("질환","핵심 소견","LSB 적응"),
+    ("허혈성 안정통 (PAD·CLI)","파행 → 야간 안정통·차고 창백한 발·ABI↓ (동맥성)","○"),
+    ("하지 CRPS","작열통·이질통·부종·피부색/온도 좌우차 (교감매개통)","○"),
+    ("당뇨병성 신경병증","저림·화끈거림·감각이상·야간 악화","△ 난치성"),
+    ("특발성 NLC (야간경련)","통증성 근수축·촉지 근경직·족배굴곡 완화","✕"),
+    ("RLS (하지불안)","움직임 충동·움직이면 완화·근경직 없음","✕"),
+    ("정맥부전·정맥류","부종·무거움·저녁 악화 (정맥 역류)","✕"),
+], [Inches(2.9),Inches(7.15),Inches(1.8)], "감별이 치료의 출발점 · ABI·도플러 선행",
+    tag_color=INK, size=12, row_h=Inches(0.6),
+    note="핵심: ABI·도플러로 동맥성 여부 감별이 출발점 — 정맥류·특발경련·RLS는 LSB 적응 아님.")
 
 d.bullets_slide("개요 · 해부 · 원리", "개요", "배경", [
     (0,"LSB와 교감신경 신경파괴(sympatholysis)는 70년 이상 다양한 하지 통증·허혈 질환에 사용.",INK,True),
@@ -77,7 +90,7 @@ d.split_slide("밤에 저리고 화끈거리는 다리 — 당뇨병성 신경�
     (0,"성공지표: 피부온도 ≥2°C↑ (근거 제한적)",None),
 ], None), "Zhang 2020(RCT) PMID 32915421; 증례 PMID 22606406; StatPearls NBK442009", dark_card=True)
 
-d.split_slide("효과 (1) 관류 개선 · 허혈성 통증", "효과", "효과", [
+d.split_slide("효과 (1) 관류 개선 · 허혈성 통증", "효과", "Lv III–IV", [
     (0,"관류 실측(Dickey 2024): LSB 후 후경골동맥 직경 0.17→0.27 cm(+58.8%), 모세혈관 재충혈 3.92→1.30초, 족부온도 +2.8°C.",INK,True),
     (0,"허혈성 통증(PAD): 하지 통증 최대 75%↓, Fontaine 분류·측부관류 개선(Medicina 2024).",GREEN),
     (0,"비재건성 CLI: 교감신경 신경파괴가 절단 외 대안이 없는 환자의 통증조절에 효과적·안전(Barreto 2018).",INK),
@@ -86,15 +99,15 @@ d.split_slide("효과 (1) 관류 개선 · 허혈성 통증", "효과", "효과"
     (0,"모세혈관 재충혈 3.92→1.30초",None),
     (0,"족부온도 +2.8°C",None),
     (0,"→ 관류 개선의 객관 근거",MINT,True),
-], None), "Dickey 2024(Cureus); Medicina 2024; Barreto 2018", tag_color=GREEN, dark_card=True)
+], None), "Dickey 2024(Cureus); Medicina 2024; Barreto 2018", tag_color=AMBER, dark_card=True)
 
-d.bullets_slide("효과 (2) CRPS · 기전", "효과", "효과", [
+d.bullets_slide("효과 (2) CRPS · 기전", "효과", "Lv III–IV", [
     (0,"CRPS는 교감신경 매개 통증의 전형 → LSB 후 유의한 통증완화가 축적된 근거. 최적 환자 선택·조기 시행이 성공률↑.",INK,True),
     (0,"Choi 2024(Sci Rep): 교감신경 신경파괴의 효과 지속기간을 전향 관찰로 제시.",INK),
     (0,"반응 예측: 교감신경 피부반응(sympathetic skin response)이 LSB 반응 예측에 유용(Pain Ther 2023).",INK),
     (0,"한계: 중추 감작이 진행되면 시간이 지날수록 효과 감소 가능.",MUTE),
     (-1,"기전 요약: 교감차단 → 측부순환 혈관확장 → 조직 산소화↑ → 통증↓ + 교감매개통 차단 + 신경파괴 직접효과.",TEALD,True),
-], "Choi 2024(Sci Rep); Pain Ther 2023")
+], "Choi 2024(Sci Rep); Pain Ther 2023", tag_color=AMBER)
 
 d.bullets_slide("합병증 · 안전성 · 근거수준", "안전성 · 결론", "안전성", [
     (0,"합병증: 생식대퇴신경통(신경파괴 시 5–10%), 외측대퇴피신경 손상, 기립성 저혈압.",RED,True),
@@ -102,6 +115,16 @@ d.bullets_slide("합병증 · 안전성 · 근거수준", "안전성 · 결론",
     (0,"근거수준: 대부분 관찰·증례군·소규모 전향연구, 대규모 RCT는 부족(허혈질환·CRPS Level III~IV).",INK),
     (-1,"그럼에도 조기 CRPS·재건 불가능한 중증 하지허혈(안정통)에서 임상적으로 유용.",TEALD,True),
 ], "StatPearls; 문헌고찰 종합", tag_color=RED)
+
+# ---------- 나의 프로토콜 · 실제 적용 (NLC 스타일 단계적 접근) ----------
+d.bullets_slide("실제 진료 순서 — 교감신경 축을 겨냥한 단계적 접근", "나의 프로토콜 · 실제 적용", "실전 순서", [
+    (0,"① 감별·검사: '밤/하지 증상'이 동맥성 허혈(ABI·도플러)·CRPS·신경병증인지 확인. 특발 경련·RLS·정맥류 배제.",INK),
+    (0,"② 방향 설정: 교감매개통·허혈로 판단되면 교감신경 축(L2–L3)을 겨냥.",INK),
+    (0,"③ 진단적 차단: 투시 유도 국소마취제 LSB → 피부온도 ≥2°C 상승·통증 반응 확인.",GREEN,True),
+    (0,"④ 반응 양호 시: 치료적 반복 차단, 또는 신경파괴(무수알코올/phenol)·RFA로 장기 완화.",GREEN,True),
+    (0,"⑤ 대상별: CRPS는 조기(≤12개월) 유리 · 난치성 당뇨병성 신경병증은 지속 LSB+신경파괴(RCT).",INK),
+    (-1,"⑥ 주의: 특발성 NLC·정맥질환은 적응 아님 · 합병증(생식대퇴신경통 5–10% 등) 사전 고지.",TEALD,True),
+], "교육용 제안 · 개별 적용은 임상 판단 · 신경파괴는 진단차단 양성 시에만", tag_color=INK, size=14, gap=8)
 
 d.key_slide("핵심 메시지 — LSB", "표준은 투시 유도 방척추 접근, 성공은 온도 ≥2°C", [
     ("방법","L2–L3 방척추 접근·투시, 정중선 7 cm 외측, 조영제 두미측 확산, 성공지표 온도 ≥2°C."),
