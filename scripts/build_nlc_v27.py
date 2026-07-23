@@ -6,7 +6,7 @@ from deck_html import render_deck
 from fontTools.subset import Subsetter, Options
 from fontTools.ttLib import TTFont
 
-SERIES = "고령 하지증상 문헌고찰 시리즈 · 2026 · v2.6"
+SERIES = "고령 하지증상 문헌고찰 시리즈 · 2026 · v2.7"
 def PM(pmid): return f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/"
 
 # ---- SVG: 반사 균형 / 단축 → 경련 (page 3 그림, 개선) ----
@@ -303,11 +303,10 @@ NLC = [
  # ---- Page 9(구): dry needling 제거 ----
 
  # ---- ② 심비골신경 차단 (부위 명확화) ----
- {'t':'split','eyebrow':'치료 · 주사기법 · 직접근거','tag':('Lv II','green'),'title':'② 심비골신경 내측분지 차단 (협착·요추수술 후 환자)','foot':'Imura 2015 (Brain Behav; PMID 26445706)',
+ {'t':'split','eyebrow':'치료 · 주사기법 · 직접근거','tag':('Lv II','green'),'title':'② 심비골신경 내측분지 차단 (협착·요추수술 후 환자)','foot':'Imura 2015 (Brain Behav; PMID 26445706) · 대조군은 32%만 빈도 감소 → 블록군 유의(P<0.05·0.01)',
   'items':[
    (0,'<b>Imura 2015:</b> 야간경련에 <b>말초 운동신경가지를 직접 표적</b>한 유일한 전향적 비교연구(블록 41·대조 25).',''),
    (0,'<b>어디를:</b> 발등 <b>제1–2 중족골 사이 원위 2/3</b>. 1.0% 리도카인 <b>5.0 mL</b>, 깊이 1.0–1.5 cm.',''),
-   (0,'<b>대조군 대비:</b> 대조군은 <b>32%만</b> 빈도 감소 → 블록군이 <b>유의하게 우수</b>(P<0.05·0.01).','green'),
    (-1,'<b>왜 발등 찌르는데 종아리가 풀리나:</b> 경련은 <b>빙빙 도는 신호 고리</b>로 유지 → 발 감각이 그 고리의 한 축. <b>신경을 끊으면 고리가 멈춰</b> 종아리도 풀림(근육 마비 아님).','accent'),
   ],
   'aside':{'title':'블록군 결과 (2주)','stat':[('61.0%','빈도 1/4 이하 (n=25)'),('80.5%','빈도 1/2 이하 (n=33)'),('63.4%','경련 강도 감소 (n=26)')]}},
@@ -433,12 +432,12 @@ NLC = [
  ]},
 ]
 
-TITLE = "야간 하지경련 · 문헌고찰 발표 · v2.6 (수정본)"
+TITLE = "야간 하지경련 · 문헌고찰 발표 · v2.7 (수정본)"
 BASE = "/home/user/ppt-work/문헌고찰_NLC_RLS_LSB/01_NLC"
 htmlc = render_deck(TITLE, NLC)
 # 화면 하단 버전 라벨 강조
 htmlc = htmlc.replace(f'<div class="deckttl">{TITLE}</div>',
-                      '<div class="deckttl">야간 하지경련 · 문헌고찰 발표 · <b>v2.6 (수정본)</b></div>')
+                      '<div class="deckttl">야간 하지경련 · 문헌고찰 발표 · <b>v2.7 (수정본)</b></div>')
 # 페이지3 힉스필드 이미지 임베드
 import base64 as _b64
 _p3=_b64.b64encode(open(os.path.join(BASE,"assets/page3_reflex.jpg"),'rb').read()).decode()
@@ -465,6 +464,6 @@ for ph,path in FONTS.items():
     buf=io.BytesIO(); f.save(buf); uri="data:font/woff2;base64,"+base64.b64encode(buf.getvalue()).decode()
     htmlc=htmlc.replace(ph,uri); print(ph,f"{len(buf.getvalue())/1024:.0f}KB")
 
-out=os.path.join(BASE,"NLC_발표_웹_v2.6.html")
+out=os.path.join(BASE,"NLC_발표_웹_v2.7.html")
 open(out,'w',encoding='utf-8').write(htmlc)
 print("slides:",len(NLC),"| out:",out,f"{len(htmlc.encode())/1024:.0f}KB")

@@ -15,7 +15,7 @@ SCRATCH = "/tmp/claude-0/-home-user-ppt-work/bb19d1cb-d1ba-542e-8235-38fcac77477
 PNG_DIR = os.path.join(SCRATCH, "png")
 MOVIE   = os.path.join(SCRATCH, "fga_video_v2.mp4")
 POSTER  = os.path.join(BASE, "assets/fga_us.jpg")
-OUT     = os.path.join(BASE, "NLC_발표_v2.6_동영상.pptx")
+OUT     = os.path.join(BASE, "NLC_발표_v2.7_동영상.pptx")
 
 FGA_PAGE = 16
 VID = dict(left=0.859, top=2.250, width=5.219, height=3.625)
