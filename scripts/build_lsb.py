@@ -3,7 +3,10 @@
 import os, sys
 sys.path.insert(0, os.path.dirname(__file__))
 from pptx.util import Inches
-from ppt_lib import Deck, INK, TEALD, GREEN, MINT, RED, MUTE, AMBER
+from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
+from ppt_lib import Deck, INK, TEALD, GREEN, MINT, RED, MUTE, AMBER, WHITE
+
+AXIAL_IMG = "/home/user/ppt-work/문헌고찰_NLC_RLS_LSB/03_LSB/assets/lsb_axial.png"
 
 BASE = "/home/user/ppt-work/문헌고찰_NLC_RLS_LSB"
 
@@ -46,6 +49,40 @@ d.split_slide("방법 (Technique)", "방법", "기법", [
     (0,"신경파괴: 무수알코올/phenol, RFA",None),
     (0,"원칙: 신경파괴는 진단적 차단 양성 시에만",None),
 ], None), "StatPearls; Lumbar Sympatholysis NBK560514", tag_color=TEALD)
+
+# ---------- L2·L3 조감도 (오리지널 도해 이미지) ----------
+_s = d._slide()
+d.rect(_s, 0, 0, d.SW, d.SH, WHITE)
+d.header(_s, "L2·L3 조감도 — 표적과 위험 구조", "방법 · 그림으로", "축상면 axial")
+_pic = _s.shapes.add_picture(AXIAL_IMG, 0, Inches(1.45), height=Inches(4.55))
+_pic.left = int((d.SW - _pic.width) / 2)
+d.text(_s, Inches(0.7), Inches(6.3), Inches(11.95), Inches(0.5),
+       [[("표적=척추체 전외측 교감신경절 · 방척추(정중선 ~7cm) 접근 · 대동맥·IVC·요관·신장·생식대퇴신경·추간공 회피", 11, TEALD, True)]],
+       align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+d.footer(_s, "교육용 오리지널 도해 · StatPearls NBK431107")
+
+# ---------- L2·L3 시술 주의점 ----------
+d.bullets_slide("L2·L3 시술 — 전·중 주의할 점", "방법 · 안전", "시술 주의", [
+    (0,"영상 유도 필수: 투시(또는 CT). 조영제로 두미측 종방향 확산 확인 — 후방(추간공)·혈관 확산 시 즉시 재위치.",INK),
+    (0,"바늘 끝은 척추체 전외측에 — psoas·추간공 진입 금지.",INK,True),
+    (0,"레벨은 L2 하1/3~L3 상1/3, L4로 내려가지 말 것(생식대퇴신경통 급증).",INK,True),
+    (0,"흡인 후 분할·점진 주입(혈관내·경막외 조기 발견) · 소량 시험주입.",INK),
+    (0,"항응고·항혈소판제 중단(심부·후복막 차단 — 출혈 위험) · 무균술.",INK),
+    (-1,"성공지표 온도 ≥2°C↑ 확인 · 시술 후 혈압·하지 근력/감각 모니터.",TEALD,True),
+], "StatPearls NBK431107 · NBK557637 · Feigl 1998(PMID 9425975)", size=14, gap=7)
+
+# ---------- 합병증 & 회피법 (표) ----------
+d.table_slide("합병증 & 회피법", "안전성", "합병증·회피", [
+    ("합병증","원인·기전","피하는 법"),
+    ("생식대퇴신경통 (5–10%)","psoas 역류·자극 (L2 0%·L4 40%)","L4 회피·psoas 주입금지·최소용량"),
+    ("혈관손상·혈관내주입","대동맥/IVC·요추혈관 인접","투시+흡인+조영제·항응고 중단"),
+    ("요관·신장 천공","후복막 장기 인접","조영제로 깊이·궤적 확인"),
+    ("체성신경·신경축 확산","바늘 후방→경막외 tracking","바늘 전외측 유지"),
+    ("기립성 저혈압","교감차단 → 혈관확장","수액·서서히 기립·양측 신중"),
+    ("신경염·사정장애","알코올/phenol·양측 L1–L2","진단차단 양성 시만·L1–L2 회피"),
+], [Inches(3.0),Inches(4.55),Inches(4.3)], "StatPearls NBK431107·NBK557637 · Feigl 1998(PMID 9425975)",
+    tag_color=RED, size=11.5, row_h=Inches(0.62),
+    note="핵심: 투시+조영제로 확산 확인 · 바늘 전외측 유지 · L2~L3 표적 · 신경파괴는 진단차단 양성 시.")
 
 d.table_slide("적응증 (Indications)", "적응증", "적응", [
     ("범주","대표 적응증"),
@@ -109,11 +146,11 @@ d.bullets_slide("효과 (2) CRPS · 기전", "효과", "Lv III–IV", [
     (-1,"기전 요약: 교감차단 → 측부순환 혈관확장 → 조직 산소화↑ → 통증↓ + 교감매개통 차단 + 신경파괴 직접효과.",TEALD,True),
 ], "Choi 2024(Sci Rep); Pain Ther 2023", tag_color=AMBER)
 
-d.bullets_slide("합병증 · 안전성 · 근거수준", "안전성 · 결론", "안전성", [
-    (0,"합병증: 생식대퇴신경통(신경파괴 시 5–10%), 외측대퇴피신경 손상, 기립성 저혈압.",RED,True),
-    (0,"혈관·요관·신장 등 내장 구조 천공, 출혈, 신경축(neuraxial) 확산, 신경파괴 후 통증성 신경염(dysesthesia).",INK),
-    (0,"근거수준: 대부분 관찰·증례군·소규모 전향연구, 대규모 RCT는 부족(허혈질환·CRPS Level III~IV).",INK),
-    (-1,"그럼에도 조기 CRPS·재건 불가능한 중증 하지허혈(안정통)에서 임상적으로 유용.",TEALD,True),
+d.bullets_slide("근거수준 · 결론", "안전성 · 결론", "결론", [
+    (0,"합병증·회피는 앞의 조감도·회피표 참고 — 대부분 영상유도·정확한 바늘 위치로 예방 가능.",RED,True),
+    (0,"근거수준: 대부분 관찰·증례군·소규모 전향연구로 대규모 RCT는 부족(허혈·CRPS Level III~IV). 단, 난치성 당뇨병성 신경병증엔 RCT 존재.",INK),
+    (0,"시행 원칙: 원인 감별 → 진단적 국소마취제 차단(온도 ≥2°C 확인) → 반응 양호 시 신경파괴/RFA.",INK),
+    (-1,"그럼에도 조기 CRPS·재건 불가능한 중증 하지허혈(안정통)·난치성 신경병증에서 임상적으로 유용.",TEALD,True),
 ], "StatPearls; 문헌고찰 종합", tag_color=RED)
 
 # ---------- 나의 프로토콜 · 실제 적용 (NLC 스타일 단계적 접근) ----------
