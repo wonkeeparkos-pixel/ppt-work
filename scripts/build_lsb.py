@@ -6,7 +6,21 @@ from pptx.util import Inches
 from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
 from ppt_lib import Deck, INK, TEALD, GREEN, MINT, RED, MUTE, AMBER, WHITE
 
-AXIAL_IMG = "/home/user/ppt-work/문헌고찰_NLC_RLS_LSB/03_LSB/assets/lsb_axial.png"
+_ASSET = "/home/user/ppt-work/문헌고찰_NLC_RLS_LSB/03_LSB/assets/"
+AXIAL_IMG = _ASSET + "lsb_axial.png"
+CONTRAST_IMG = _ASSET + "lsb_contrast.png"
+GF_IMG = _ASSET + "lsb_gf.png"
+
+def fig_slide(d, title, eyebrow, tag, img, caption, foot, h=4.5):
+    s = d._slide()
+    d.rect(s, 0, 0, d.SW, d.SH, WHITE)
+    d.header(s, title, eyebrow, tag)
+    pic = s.shapes.add_picture(img, 0, Inches(1.55), height=Inches(h))
+    pic.left = int((d.SW - pic.width) / 2)
+    d.text(s, Inches(0.7), Inches(6.4), Inches(11.95), Inches(0.5),
+           [[(caption, 11, TEALD, True)]], align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+    d.footer(s, foot)
+    return s
 
 BASE = "/home/user/ppt-work/문헌고찰_NLC_RLS_LSB"
 
@@ -71,6 +85,11 @@ d.bullets_slide("L2·L3 시술 — 전·중 주의할 점", "방법 · 안전", 
     (-1,"성공지표 온도 ≥2°C↑ 확인 · 시술 후 혈압·하지 근력/감각 모니터.",TEALD,True),
 ], "StatPearls NBK431107 · NBK557637 · Feigl 1998(PMID 9425975)", size=14, gap=7)
 
+# ---------- 조영제 확산 읽기 (도해 이미지) ----------
+fig_slide(d, "조영제 확산 읽기 — 이 패턴이면 멈춰라", "안전 · 핵심기술", "조영제 읽기", CONTRAST_IMG,
+    "실시간 조영제가 최고의 안전장치 — 종방향(위·아래) 확산만 진행 · 혈관·경막외·근육내 패턴이면 즉시 재위치",
+    "조영제 확산 패턴 판독 · StatPearls NBK431107", h=4.35)
+
 # ---------- 합병증 & 회피법 (표) ----------
 d.table_slide("합병증 & 회피법", "안전성", "합병증·회피", [
     ("합병증","원인·기전","피하는 법"),
@@ -83,6 +102,29 @@ d.table_slide("합병증 & 회피법", "안전성", "합병증·회피", [
 ], [Inches(3.0),Inches(4.55),Inches(4.3)], "StatPearls NBK431107·NBK557637 · Feigl 1998(PMID 9425975)",
     tag_color=RED, size=11.5, row_h=Inches(0.62),
     note="핵심: 투시+조영제로 확산 확인 · 바늘 전외측 유지 · L2~L3 표적 · 신경파괴는 진단차단 양성 시.")
+
+# ---------- 생식대퇴신경통 심화 (도해 이미지) ----------
+fig_slide(d, "생식대퇴신경통 — 가장 흔한 걱정, 대부분 회피 가능", "합병증 · 심화", "최다 우려", GF_IMG,
+    "회피: L2하~L3상 표적·L4 회피·psoas 주입금지·소량 / 발생 시: 대개 수 주 내 자연호전·신경병증통 약물로 대증",
+    "Feigl 1998(PMID 9425975); StatPearls NBK431107", h=4.5)
+
+# ---------- 혈관·LAST·신경 손상 대응 ----------
+d.bullets_slide("혈관·LAST·신경 손상 — 조기 인지와 대응", "합병증 · 대응", "인지·구조", [
+    (0,"LAST(국소마취제 전신독성): 입 주변 저림·이명·금속맛·어지럼 → 경련·부정맥.",RED,True),
+    (0,"대응 — 즉시 중단·산소/기도·경련조절·20% 지질유탁액 정주·소생술. 예방 — 흡인+조영제+분할주입+용량제한.",INK),
+    (0,"신경·신경축: 주입 중 방사통·하지 위약 → 즉시 중단·재위치. 시술 후 근력·감각 확인.",INK),
+    (0,"출혈·감염: 항응고 중단·무균술 · 심한 통증·발열·팽창 시 즉시 평가.",INK),
+    (-1,"준비된 상태(모니터·정맥로·지질유탁액)면 대부분 안전하게 관리된다.",TEALD,True),
+], "ASRA LAST 지침 · StatPearls NBK431107", tag_color=RED, size=14, gap=8)
+
+# ---------- 합병증 대비 · 환자설명 ----------
+d.bullets_slide("합병증 대비 — 준비·조기인지·환자설명", "합병증 · 대비", "환자 안심", [
+    (0,"대부분 경미·자가회복 — 심각 합병증은 영상유도·정확한 술기로 드묾.",INK,True),
+    (0,"준비: 모니터·정맥로·응급장비·20% 지질유탁액 구비, 소생 프로토콜 숙지.",INK),
+    (0,"조기 인지: 조영제 패턴 + 환자 증상(통증·저림·어지럼)을 실시간 관찰.",INK),
+    (0,"환자 설명(동의): 흔한 것(일시적 저림·주사부위통·저혈압) vs 드문 것(신경통·출혈)을 사전 고지 → 신뢰·불안↓.",INK),
+    (-1,"신경파괴는 진단차단 양성 시에만·소량 — 위해를 최소화.",TEALD,True),
+], "교육용 정리", tag_color=INK, size=14, gap=8)
 
 d.table_slide("적응증 (Indications)", "적응증", "적응", [
     ("범주","대표 적응증"),
