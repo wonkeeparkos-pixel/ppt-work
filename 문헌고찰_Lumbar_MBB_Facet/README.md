@@ -46,11 +46,15 @@
 **원문을 채우려면** 네트워크 제약이 없는 환경에서:
 
 ```bash
-export UNPAYWALL_EMAIL="본인@메일.주소"
-export EZPROXY="https://openurl.본인병원.ac.kr/login?url="   # 있으면
-
 python3 scripts/fetch_papers.py                        # 전체
 python3 scripts/fetch_papers.py 02_연관통_Referred_Pain   # 특정 폴더만
+```
+
+Unpaywall 조회용 이메일은 스크립트에 기본값으로 들어 있다. 병원 도서관 프록시가
+있으면 아래를 함께 설정하면 미확보 문헌에 기관 접근 링크가 붙는다.
+
+```bash
+export EZPROXY="https://openurl.본인병원.ac.kr/login?url="
 ```
 
 합법 공개본을 네 단계로 훑는다.

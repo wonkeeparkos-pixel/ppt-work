@@ -18,8 +18,11 @@
   4) OpenAlex — Unpaywall이 놓친 best_oa_location 보강
   5) 그래도 없으면 초록만 저장하고, 소속 기관 프록시 링크를 함께 남긴다
 
-설정 (환경변수)
-    export UNPAYWALL_EMAIL="본인@메일.주소"      # 필수는 아니지만 넣는 편이 안정적
+설정
+  Unpaywall 조회용 이메일은 아래 EMAIL 기본값에 들어 있다(wonkeepark@naver.com).
+  다른 주소를 쓰려면 환경변수로 덮어쓴다.
+
+    export UNPAYWALL_EMAIL="다른@메일.주소"
     export EZPROXY="https://openurl.본인병원.ac.kr/login?url="   # 있으면 기관 링크 생성
 
     python3 scripts/fetch_papers.py                    # 전체
@@ -41,7 +44,7 @@ ARCHIVE = os.path.join(BASE, "문헌고찰_Lumbar_MBB_Facet")
 EPMC = "https://www.ebi.ac.uk/europepmc/webservices/rest"
 UNPAYWALL = "https://api.unpaywall.org/v2"
 OPENALEX = "https://api.openalex.org/works"
-EMAIL = os.environ.get("UNPAYWALL_EMAIL", "").strip()
+EMAIL = os.environ.get("UNPAYWALL_EMAIL", "wonkeepark@naver.com").strip()
 EZPROXY = os.environ.get("EZPROXY", "").strip()
 UA = {"User-Agent": f"lumbar-mbb-litreview/1.1 (academic use; mailto:{EMAIL or 'user@example.com'})"}
 PAUSE = 0.7   # API 예의상 간격
