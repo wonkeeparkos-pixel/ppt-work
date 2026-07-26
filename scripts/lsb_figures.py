@@ -121,10 +121,11 @@ CONTRAST_SVG = ('<svg viewBox="0 0 960 470" width="100%" height="100%" preserveA
   # P1 안전: 두미측 종방향
   + _panel(16, True, '종방향 확산', '안전 — 진행',
       _spine(96, 130)
-      + '<path d="M132,120 Q150,220 132,320 Q120,220 132,120 Z" fill="#0E7C7B" opacity="0.5"/>'
-      + '<line x1="205" y1="120" x2="150" y2="180" stroke="#3E4A55" stroke-width="4" stroke-linecap="round"/>'
-      + '<text x="127" y="405" text-anchor="middle" font-size="13" fill="#2E7D32" font-weight="700">위·아래로 길게</text>'
-      + '<text x="127" y="424" text-anchor="middle" font-size="12" fill="#5A6B7B">척추체 전외측 층 확산</text>')
+      # 실제 확산은 척추체 한 마디 남짓 — 길게 그리지 않는다
+      + '<path d="M133,168 Q143,208 133,248 Q125,208 133,168 Z" fill="#0E7C7B" opacity="0.5"/>'
+      + '<line x1="205" y1="140" x2="150" y2="196" stroke="#3E4A55" stroke-width="4" stroke-linecap="round"/>'
+      + '<text x="127" y="405" text-anchor="middle" font-size="13" fill="#2E7D32" font-weight="700">위·아래로 <tspan font-weight="800">한 마디 정도</tspan></text>'
+      + '<text x="127" y="424" text-anchor="middle" font-size="12" fill="#5A6B7B">척추체 전외측에 얇게 — 길면 과다·오확산</text>')
   # P2 위험: 혈관내
   + _panel(254, False, '혈관 음영', '위험 — 씻겨나감',
       _spine(334, 130)
@@ -391,3 +392,105 @@ CORONAL_SVG = (
  + '<text x="951" y="318" text-anchor="middle" font-size="16.5" font-weight="900" fill="#fff">LSB 표적 L2–L3</text>'
  + '<text x="286" y="622" font-size="12.5" fill="#8A96A0">*후면(등 쪽에서 본) 모식도 — 엎드린 자세 기준 · 화면 좌측 = 환자 좌측</text>'
  + '</svg>')
+
+
+# ============================================================
+# 혈관(대동맥·IVC)·신장 천자 회피 — 축상면 (후방=위, 전방=아래)
+# 기존 AXIAL_SVG와 같은 방향 규약을 따른다.
+# ============================================================
+AVOID_SVG = r'''<svg viewBox="0 0 1400 560" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard,sans-serif">
+<defs>
+  <marker id="avr" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+    <path d="M0,0 L10,5 L0,10 Z" fill="#A8352A"/></marker>
+  <marker id="avg" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+    <path d="M0,0 L10,5 L0,10 Z" fill="#2E7D32"/></marker>
+  <marker id="avd" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5">
+    <circle cx="3.5" cy="3.5" r="2.2" fill="#8A96A0"/></marker>
+</defs>
+
+<text x="700" y="22" text-anchor="middle" font-size="15" font-weight="800" fill="#6B7680">후방 (등) · 바늘 진입</text>
+<text x="700" y="548" text-anchor="middle" font-size="15" font-weight="800" fill="#6B7680">전방 (배)</text>
+<text x="392" y="300" text-anchor="middle" font-size="14" font-weight="800" fill="#B7C0C7">좌</text>
+<text x="1008" y="300" text-anchor="middle" font-size="14" font-weight="800" fill="#B7C0C7">우</text>
+
+<!-- 후방 근육 -->
+<ellipse cx="612" cy="118" rx="72" ry="42" fill="#E9D9D4" stroke="#CBB4AE" stroke-width="1.6"/>
+<ellipse cx="788" cy="118" rx="72" ry="42" fill="#E9D9D4" stroke="#CBB4AE" stroke-width="1.6"/>
+<!-- 극돌기·척추궁·척수강 -->
+<rect x="692" y="62" width="16" height="54" rx="7" fill="#ECE7DB" stroke="#C7BFAE" stroke-width="2"/>
+<path d="M642,186 Q700,124 758,186 Z" fill="#F3EFE4" stroke="#C7BFAE" stroke-width="2"/>
+<ellipse cx="700" cy="198" rx="50" ry="28" fill="#DCE7EE" stroke="#A9BECB" stroke-width="2"/>
+<text x="700" y="203" text-anchor="middle" font-size="11.5" font-weight="700" fill="#5A7186">척수강</text>
+<!-- 횡돌기 -->
+<rect x="486" y="212" width="104" height="22" rx="10" fill="#ECE7DB" stroke="#C7BFAE" stroke-width="2"/>
+<rect x="810" y="212" width="104" height="22" rx="10" fill="#ECE7DB" stroke="#C7BFAE" stroke-width="2"/>
+<!-- 척추체 -->
+<ellipse cx="700" cy="318" rx="116" ry="84" fill="#ECE7DB" stroke="#C7BFAE" stroke-width="2.6"/>
+<text x="700" y="314" text-anchor="middle" font-size="15" font-weight="800" fill="#8A7A66">척추체</text>
+<text x="700" y="333" text-anchor="middle" font-size="12" fill="#A2937C">(L2–L3)</text>
+<!-- 대요근 -->
+<ellipse cx="556" cy="356" rx="58" ry="46" fill="#E6C7C1" stroke="#CC9E96" stroke-width="2"/>
+<ellipse cx="844" cy="356" rx="58" ry="46" fill="#E6C7C1" stroke="#CC9E96" stroke-width="2"/>
+<text x="556" y="361" text-anchor="middle" font-size="12" font-weight="700" fill="#A76F65">대요근</text>
+<text x="844" y="361" text-anchor="middle" font-size="12" font-weight="700" fill="#A76F65">대요근</text>
+<!-- 신장 -->
+<ellipse cx="452" cy="286" rx="52" ry="78" fill="#D8C2A8" stroke="#B2966F" stroke-width="2.4"/>
+<ellipse cx="948" cy="286" rx="52" ry="78" fill="#D8C2A8" stroke="#B2966F" stroke-width="2.4"/>
+<text x="452" y="291" text-anchor="middle" font-size="13" font-weight="800" fill="#8A6A3C">신장</text>
+<text x="948" y="291" text-anchor="middle" font-size="13" font-weight="800" fill="#8A6A3C">신장</text>
+<!-- 대혈관: 대동맥=좌(화면 왼쪽), IVC=우 -->
+<circle cx="640" cy="432" r="34" fill="#E8B4AC" stroke="#B03A2E" stroke-width="3"/>
+<text x="640" y="437" text-anchor="middle" font-size="13" font-weight="800" fill="#8E2F25">대동맥</text>
+<text x="640" y="478" text-anchor="middle" font-size="11" fill="#8E2F25">(좌)</text>
+<ellipse cx="768" cy="434" rx="38" ry="28" fill="#B8CBDE" stroke="#3E6E93" stroke-width="3"/>
+<text x="768" y="439" text-anchor="middle" font-size="13" font-weight="800" fill="#2F5872">IVC</text>
+<text x="768" y="478" text-anchor="middle" font-size="11" fill="#2F5872">(우)</text>
+<!-- 표적 -->
+<circle cx="800" cy="386" r="15" fill="none" stroke="#0E7C7B" stroke-width="3"/>
+<circle cx="800" cy="386" r="7" fill="#0E7C7B"/>
+
+<!-- 안전 경로 -->
+<path d="M1052,64 L900,214 Q822,300 806,370" fill="none" stroke="#2E7D32" stroke-width="5.5"
+      stroke-linecap="round" marker-end="url(#avg)"/>
+<!-- 위험 1: 전연을 넘김 → IVC/대동맥 -->
+<path d="M804,398 L776,424" fill="none" stroke="#A8352A" stroke-width="4.5"
+      stroke-dasharray="7 5" stroke-linecap="round" marker-end="url(#avr)"/>
+<!-- 위험 2: 너무 외측 → 신장 -->
+<path d="M1108,96 L980,212" fill="none" stroke="#A8352A" stroke-width="4.5"
+      stroke-dasharray="7 5" stroke-linecap="round" marker-end="url(#avr)"/>
+<!-- 위험 3: 너무 내측 → 추간공·척수강 -->
+<path d="M846,60 L740,158" fill="none" stroke="#A8352A" stroke-width="4.5"
+      stroke-dasharray="7 5" stroke-linecap="round" marker-end="url(#avr)"/>
+
+<!-- 우측 설명 블록 -->
+<rect x="1116" y="150" width="272" height="94" rx="12" fill="#F1F7F1" stroke="#CFE3D2" stroke-width="2"/>
+<text x="1132" y="178" font-size="15" font-weight="800" fill="#2E7D32">안전 — 뼈를 따라</text>
+<text x="1132" y="202" font-size="12.5" fill="#3F5A46">척추체에 <tspan font-weight="800">접촉을 유지</tspan>한 채</text>
+<text x="1132" y="222" font-size="12.5" fill="#3F5A46">외측으로 미끄러뜨려 전외측에서 정지</text>
+<line x1="1116" y1="196" x2="1012" y2="150" stroke="#2E7D32" stroke-width="1.4" marker-end="url(#avd)"/>
+
+<rect x="1116" y="266" width="272" height="76" rx="12" fill="#FCF4F2" stroke="#E7CFC9" stroke-width="2"/>
+<text x="1132" y="292" font-size="14.5" font-weight="800" fill="#A8352A">너무 외측 → 신장</text>
+<text x="1132" y="314" font-size="12.5" fill="#7A4A44">진입점은 정중선 ~7 cm를 지킨다</text>
+<text x="1132" y="332" font-size="12.5" fill="#7A4A44">마른 환자·신장하수는 하극 먼저 확인</text>
+<line x1="1116" y1="300" x2="1002" y2="286" stroke="#A8352A" stroke-width="1.4" marker-end="url(#avd)"/>
+
+<!-- 좌측 설명 블록 -->
+<rect x="12" y="150" width="264" height="76" rx="12" fill="#FCF4F2" stroke="#E7CFC9" stroke-width="2"/>
+<text x="28" y="176" font-size="14.5" font-weight="800" fill="#A8352A">너무 내측 → 추간공</text>
+<text x="28" y="198" font-size="12.5" fill="#7A4A44">경막외·신경축 확산 — 바늘을</text>
+<text x="28" y="216" font-size="12.5" fill="#7A4A44">전외측으로 되돌린다</text>
+<line x1="276" y1="188" x2="676" y2="140" stroke="#A8352A" stroke-width="1.4" marker-end="url(#avd)"/>
+
+<rect x="12" y="392" width="264" height="94" rx="12" fill="#FCF4F2" stroke="#E7CFC9" stroke-width="2"/>
+<text x="28" y="418" font-size="14.5" font-weight="800" fill="#A8352A">전연을 넘기면 → 대혈관</text>
+<text x="28" y="440" font-size="12.5" fill="#7A4A44"><tspan font-weight="800">측면상</tspan>에서 끝이 척추체 전연</text>
+<text x="28" y="458" font-size="12.5" fill="#7A4A44">바로 앞이면 정지. 우측 접근은</text>
+<text x="28" y="476" font-size="12.5" fill="#7A4A44"><tspan font-weight="800">IVC</tspan>가 먼저 온다</text>
+<line x1="276" y1="432" x2="604" y2="432" stroke="#A8352A" stroke-width="1.4" marker-end="url(#avd)"/>
+
+<!-- 표적 라벨: 아래 여백으로 빼고 지시선 -->
+<line x1="906" y1="492" x2="814" y2="398" stroke="#0E7C7B" stroke-width="1.5" marker-end="url(#avd)"/>
+<text x="916" y="498" font-size="13.5" font-weight="800" fill="#0B5F5E">표적 · 교감신경절</text>
+<text x="916" y="516" font-size="11.5" fill="#3F6E6C">척추체 전외측 모서리 — 여기서 정지</text>
+</svg>'''

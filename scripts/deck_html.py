@@ -112,6 +112,18 @@ table.t tr.hl td:first-child{color:var(--red)}
 .key .msg{display:flex;gap:3cqw;align-items:flex-start;padding:1.35cqw 0;border-top:1px solid #2A3942}
 .key .msg .ml{flex:none;width:22cqw;font-weight:800;font-size:2.5cqw;color:#5FD6CC}
 .key .msg .md{font-weight:300;font-size:2.22cqw;line-height:1.3;color:#D3DBD8}
+/* photo: 그림을 최대한 크게 — 제목은 좌상단 칩, 설명은 하단 귀퉁이 */
+.photoS .pad{padding:2.6cqw 3cqw}
+.photoS .ph{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
+.photoS .ph img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;
+  border-radius:1.2cqw;border:1.5px solid var(--line)}
+.photoS .hd{display:flex;align-items:baseline;gap:1.6cqw;margin-bottom:1.2cqw}
+.photoS .hd .eb{font-size:1.72cqw;letter-spacing:.12em}
+.photoS .hd h2{margin:0;font-weight:800;font-size:2.62cqw;line-height:1.1;letter-spacing:-.02em;color:var(--ink)}
+.photoS .cap{margin-top:1.1cqw;display:flex;justify-content:space-between;align-items:flex-end;gap:2cqw}
+.photoS .cap .tx{font-weight:300;font-size:1.72cqw;line-height:1.3;color:#5A666C;max-width:88%}
+.photoS .cap .tx b{font-weight:700;color:var(--tealD)}
+.photoS .cap .pg{font-weight:800;font-size:2cqw;color:#7A868C;font-variant-numeric:tabular-nums}
 /* refs */
 .refs .stage{background:var(--paper)}
 .refs .cols{display:flex;gap:4cqw;flex:1;min-height:0}
@@ -139,6 +151,7 @@ table.t tr.hl td:first-child{color:var(--red)}
 .figsplit .figcol{width:41cqw;flex:none;display:flex;align-items:center;justify-content:center;min-height:0;
   background:#FBFCFB;border:1.5px solid var(--line);border-radius:2.2cqw;padding:1.2cqw}
 .figsplit .figcol svg{max-width:100%;max-height:100%;width:100%;height:100%}
+.figsplit .figcol img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:1cqw}
 .figsplit ul.b{gap:1.15cqw}
 .figsplit ul.b li{font-size:2.08cqw}
 .bigfig .bigimg{margin:.7cqw 0 .3cqw}
@@ -276,6 +289,12 @@ def slide(s, pg):
 <h2 class="ct">{s['title']}</h2>
 <div class="bigimg">{s['svg']}</div>
 {_foot(s['foot'],pg)}</div></div></section>'''
+    if T=='photo':
+        return f'''<section class="snap photoS"><div class="stage"><div class="pad">
+<div class="hd"><div class="eb">{esc(s['eyebrow'])}</div><h2>{s['title']}</h2></div>
+<div class="ph">{s['img']}</div>
+<div class="cap"><div class="tx">{s['caption']}</div><div class="pg">{pg:02d}</div></div>
+</div></div></section>'''
     if T=='key':
         msgs=''.join(f'<div class="msg"><div class="ml">{esc(l)}</div><div class="md">{d}</div></div>' for l,d in s['msgs'])
         return f'''<section class="snap key{_dense(s)}"><div class="stage"><div class="pad">
