@@ -18,11 +18,11 @@ from playwright.sync_api import sync_playwright
 from pptx import Presentation
 from pptx.util import Emu, Inches
 
-import content_mbb as C
+import decks_mbb as DK
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(BASE, "문헌고찰_Lumbar_MBB_Facet")
-HTML = os.path.join(OUT, "요추_MBB_후관절차단_발표.html")
+STEMS = {"mbb": "요추_내측지차단_발표", "fj": "요추_후관절_관절강내주사_발표"}
 CHROME = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
 SHOT_W = 1600          # CSS px — device_scale_factor로 2배 확대해 3200px로 저장
 SCALE = 2
@@ -82,13 +82,13 @@ def slide_notes(sl, n):
     return "\n".join(L)
 
 
-def shoot(tmpdir):
+def shoot(tmpdir, html):
     paths = []
     with sync_playwright() as p:
         b = p.chromium.launch(executable_path=CHROME)
         pg = b.new_page(viewport={"width": SHOT_W, "height": int(SHOT_W * 9 / 16) + 60},
                         device_scale_factor=SCALE, color_scheme="light")
-        pg.goto("file://" + HTML)
+        pg.goto("file://" + html)
         pg.wait_for_timeout(2000)
         n = pg.evaluate("document.querySelectorAll('.snap').length")
         for i in range(n):
@@ -101,7 +101,7 @@ def shoot(tmpdir):
     return paths
 
 
-def build_pptx(pngs, out):
+def build_pptx(pngs, out, slides):
     prs = Presentation()
     prs.slide_width = Inches(13.333)
     prs.slide_height = Inches(7.5)
@@ -110,28 +110,33 @@ def build_pptx(pngs, out):
         s = prs.slides.add_slide(blank)
         s.shapes.add_picture(png, Emu(0), Emu(0),
                              width=prs.slide_width, height=prs.slide_height)
-        if i < len(C.SLIDES):
-            s.notes_slide.notes_text_frame.text = slide_notes(C.SLIDES[i], i + 1)
+        if i < len(slides):
+            s.notes_slide.notes_text_frame.text = slide_notes(slides[i], i + 1)
     prs.save(out)
     return out
 
 
-def build_pdf(out):
+def build_pdf(out, html):
     subprocess.run([CHROME, "--headless", "--disable-gpu", "--no-sandbox",
                     "--no-pdf-header-footer", "--print-to-pdf-no-header",
-                    f"--print-to-pdf={out}", "file://" + HTML],
+                    f"--print-to-pdf={out}", "file://" + html],
                    check=True, capture_output=True, timeout=300)
     return out
 
 
 if __name__ == "__main__":
-    tmp = os.path.join(BASE, "_shots")
-    shutil.rmtree(tmp, ignore_errors=True)
-    os.makedirs(tmp)
-    pngs = shoot(tmp)
-    print(f"슬라이드 {len(pngs)}장 렌더 ({SHOT_W*SCALE}px)")
-    p = build_pptx(pngs, os.path.join(OUT, "요추_MBB_후관절차단_발표.pptx"))
-    print("→", p, f"{os.path.getsize(p)/1e6:.1f}MB")
-    d = build_pdf(os.path.join(OUT, "요추_MBB_후관절차단_발표.pdf"))
-    print("→", d, f"{os.path.getsize(d)/1e6:.1f}MB")
-    shutil.rmtree(tmp, ignore_errors=True)
+    want = sys.argv[1] if len(sys.argv) > 1 else "all"
+    for key in (STEMS if want == "all" else [want]):
+        stem = STEMS[key]
+        _, slides = DK.DECKS[key]
+        html = os.path.join(OUT, stem + ".html")
+        tmp = os.path.join(BASE, "_shots")
+        shutil.rmtree(tmp, ignore_errors=True)
+        os.makedirs(tmp)
+        pngs = shoot(tmp, html)
+        print(f"[{key}] 슬라이드 {len(pngs)}장 렌더 ({SHOT_W*SCALE}px)")
+        p = build_pptx(pngs, os.path.join(OUT, stem + ".pptx"), slides)
+        print("  →", os.path.basename(p), f"{os.path.getsize(p)/1e6:.1f}MB")
+        d = build_pdf(os.path.join(OUT, stem + ".pdf"), html)
+        print("  →", os.path.basename(d), f"{os.path.getsize(d)/1e6:.1f}MB")
+        shutil.rmtree(tmp, ignore_errors=True)

@@ -517,3 +517,55 @@ def algorithm():
     g.append(_t(465, 228, "위양성 25–41%를 걸러내는 단계 — 단일 차단만으로 RFA로 가지 않는다",
                 12, "middle", "var(--crit)", 700))
     return _svg(f"0 0 {W} {H}", ''.join(g))
+
+
+# ══════════════════════════════════════════════════════════════════
+# 12. 후관절 구조 — 피막·상하 오목·반월판
+# ══════════════════════════════════════════════════════════════════
+def facet_capsule():
+    """시상 단면: 관절강, 상부·하부 오목, 섬유지방 반월판, 피막 두께."""
+    W, H = 780, 340
+    g = []
+    # ── 왼쪽: 관절 단면
+    g.append(f'<path d="M104 44 Q160 38 200 60 L206 206 Q164 228 110 220 Z" {BONE}/>')
+    g.append(f'<path d="M216 122 Q272 114 306 138 L312 296 Q266 314 218 302 Z" {BONE}/>')
+    g.append(_t(150, 132, "하관절돌기", 13, "middle", "var(--muted)", 600))
+    g.append(_t(150, 149, "IAP · 위 척추", 11.5, "middle", "var(--muted)", 500))
+    g.append(_t(266, 224, "상관절돌기", 13, "middle", "var(--muted)", 600))
+    g.append(_t(266, 241, "SAP · 아래 척추", 11.5, "middle", "var(--muted)", 500))
+
+    # 관절강
+    g.append(f'<path d="M202 64 L212 70 L220 296 L208 292 Z" fill="var(--joint)" opacity=".28"/>')
+    # 피막
+    cap = ('M198 56 Q226 48 242 64 L250 114 Q260 120 260 134'
+           ' L266 302 Q240 318 212 310 Q200 296 202 282 L194 132 Q186 124 188 110 Z')
+    g.append(f'<path d="{cap}" fill="none" stroke="var(--joint)" stroke-width="3.2" '
+             f'stroke-linejoin="round" opacity=".95"/>')
+    # 오목
+    g.append(f'<ellipse cx="222" cy="74" rx="26" ry="17" fill="var(--joint)" opacity=".45"/>')
+    g.append(f'<ellipse cx="240" cy="296" rx="28" ry="18" fill="var(--joint)" opacity=".58"/>')
+    g.append(_target(240, 296, 9, "var(--good)"))
+    g.append(_needle(140, 314, 230, 300, "var(--good)"))
+    # 반월판
+    for cx_, cy_ in ((202, 98), (208, 264)):
+        g.append(f'<path d="M{cx_-2} {cy_}q11 7 2 17" stroke="var(--nerve)" stroke-width="3.6" '
+                 f'fill="none" stroke-linecap="round"/>')
+
+    # ── 오른쪽: 주석 열
+    def row(y, color, kicker, l1, l2, ax, ay):
+        g.append(_lead(ax, ay, 388, y - 6, color))
+        g.append(f'<rect x="392" y="{y-26}" width="4" height="46" rx="2" fill="{color}"/>')
+        g.append(_mono(410, y - 10, kicker, 12.5, "start", color))
+        g.append(_t(410, y + 8, l1, 13.5, "start", "var(--ink)", 700))
+        g.append(_t(410, y + 25, l2, 12, "start", "var(--muted)", 600))
+
+    row(62, "var(--crit)", "SUPERIOR RECESS", "상부 오목 — 피한다",
+        "황색인대·경막외강에 인접. 터지면 여기로 샌다", 246, 70)
+    row(140, "var(--nerve)", "MENISCOID", "섬유지방 반월판",
+        "관절면 사이로 들어간다 · 통증 유발 후보", 210, 104)
+    row(218, "var(--joint)", "CAPSULE", "섬유 피막 ≈1 mm",
+        "관절연에서 약 2 mm 바깥에 부착", 192, 180)
+    row(296, "var(--good)", "INFERIOR RECESS", "하부 오목 — 진입 표적",
+        "더 크고 잘 늘어난다 · 퇴행 관절의 대안", 266, 296)
+
+    return _svg(f"0 24 {W} {H-40}", ''.join(g))

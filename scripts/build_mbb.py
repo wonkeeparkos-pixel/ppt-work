@@ -12,7 +12,7 @@ from fontTools.subset import Options, Subsetter
 from fontTools.ttLib import TTFont
 
 import deck_mbb as D
-import content_mbb as C
+import decks_mbb as DK
 
 BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FDIR = os.path.join(BASE, "assets", "fonts")
@@ -54,11 +54,11 @@ def subset(path, text, mono=False):
     return "data:font/woff2;base64," + base64.b64encode(buf.getvalue()).decode()
 
 
-def build(out_path, title):
-    html = D.render_deck(title, C.SLIDES)
+def build(out_path, title, slides):
+    html = D.render_deck(title, slides)
     chars = set(visible_text(html)) | set(LATIN)
     text = "".join(sorted(chars))
-    print(f"슬라이드 {len(C.SLIDES)}장 · 글리프 {len(chars)}자")
+    print(f"슬라이드 {len(slides)}장 · 글리프 {len(chars)}자")
     for ph, fn in FONTS.items():
         path = os.path.join(FDIR, fn)
         uri = subset(path, text, mono=ph.startswith("__M"))
@@ -70,6 +70,11 @@ def build(out_path, title):
     return out_path
 
 
+OUTDIR = os.path.join(BASE, "문헌고찰_Lumbar_MBB_Facet")
+FILES = {"mbb": "요추_내측지차단_발표.html", "fj": "요추_후관절_관절강내주사_발표.html"}
+
 if __name__ == "__main__":
-    out = sys.argv[1] if len(sys.argv) > 1 else os.path.join(BASE, "요추_MBB_후관절차단_발표.html")
-    build(out, "요추 내측지차단 · 후관절차단 문헌고찰")
+    want = sys.argv[1] if len(sys.argv) > 1 else "all"
+    for key in (FILES if want == "all" else [want]):
+        title, slides = DK.DECKS[key]
+        build(os.path.join(OUTDIR, FILES[key]), title, slides)

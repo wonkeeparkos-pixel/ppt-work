@@ -4,11 +4,33 @@
 
 ## 산출물
 
+두 시술을 **각각 독립 발표**로 나눴다. 연관통·적응증 비교·환자 선정·한계·참고문헌은
+양쪽에 공통으로 들어간다.
+
+### 1. 요추 내측지 차단 (MBB) — 47장
+
 | 파일 | 내용 |
 |---|---|
-| `요추_MBB_후관절차단_발표.html` | 발표용 웹 슬라이드 43장 (16:9, 방향키·스크롤 이동, 인쇄 가능) |
-| `요추_MBB_후관절차단_발표.pptx` | 파워포인트 (슬라이드 이미지 + 발표자 노트) |
-| `요추_MBB_후관절차단_발표.pdf` | 인쇄·배포용 |
+| `요추_내측지차단_발표.html` | 웹 슬라이드 (16:9, 방향키·스크롤, 인쇄 가능) |
+| `요추_내측지차단_발표.pptx` | 파워포인트 (슬라이드 이미지 + 발표자 노트) |
+| `요추_내측지차단_발표.pdf` | 인쇄·배포용 |
+
+해부와 표적 → 연관통 → 진단적 차단 → 정확한 주사 → RFA 효과·논쟁 → 안전성 → 적응증
+
+### 2. 요추 후관절 관절강내 주사 (IA facet injection) — 27장
+
+| 파일 | 내용 |
+|---|---|
+| `요추_후관절_관절강내주사_발표.html` | 웹 슬라이드 |
+| `요추_후관절_관절강내주사_발표.pptx` | 파워포인트 |
+| `요추_후관절_관절강내주사_발표.pdf` | 인쇄·배포용 |
+
+관절 구조·통증수용·방향 → 연관통 → 오목 표적과 관절조영상 → 무작위 근거 → 적응증
+
+### 문헌
+
+| 파일 | 내용 |
+|---|---|
 | `00_전체참고문헌.md` | 주제 폴더 전체를 가로지르는 문헌 색인 |
 | `01_` ~ `06_` 폴더 | 주제별 문헌 카드 + `_INDEX.md` |
 
@@ -24,12 +46,23 @@
 **원문을 채우려면** 네트워크 제약이 없는 환경에서:
 
 ```bash
+export UNPAYWALL_EMAIL="본인@메일.주소"
+export EZPROXY="https://openurl.본인병원.ac.kr/login?url="   # 있으면
+
 python3 scripts/fetch_papers.py                        # 전체
 python3 scripts/fetch_papers.py 02_연관통_Referred_Pain   # 특정 폴더만
 ```
 
-Europe PMC에서 공개접근(OA) 논문은 PDF로, 구독 저널은 초록으로 저장하고
-결과를 `_다운로드결과.md`에 기록한다. 구독 원문은 내려받지 않는다.
+합법 공개본을 네 단계로 훑는다.
+
+1. **Europe PMC** — OA 논문의 PDF
+2. **Unpaywall** — 구독 저널이라도 저자 원고본(accepted manuscript)이나 기관
+   리포지토리 공개본이 있으면 그 위치를 알려준다. 실제 수확은 여기서 가장 많다.
+3. **OpenAlex** — Unpaywall이 놓친 공개본 보강
+4. 그래도 없으면 초록만 저장하고 **기관 프록시 링크**를 남긴다
+
+결과는 `_다운로드결과.md`에 기록되며, 미확보 문헌은 병원 도서관 전자저널 →
+RISS 상호대차 → 저자 직접 요청 → 학회 회원 접근 순으로 이어서 처리하면 된다.
 
 ## 다루지 못한 주제
 
@@ -46,10 +79,13 @@ Europe PMC에서 공개접근(OA) 논문은 PDF로, 구독 저널은 초록으�
 ## 재생성
 
 ```bash
-python3 scripts/build_mbb.py 문헌고찰_Lumbar_MBB_Facet/요추_MBB_후관절차단_발표.html
-python3 scripts/export_mbb.py     # PPTX + PDF
+python3 scripts/build_mbb.py            # 두 덱 HTML
+python3 scripts/build_mbb.py mbb        # 내측지 차단만
+python3 scripts/export_mbb.py           # 두 덱 PPTX + PDF
+python3 scripts/export_mbb.py fj        # 관절강내만
 ```
 
-- `scripts/content_mbb.py` — 슬라이드 내용 (여기만 고치면 된다)
+- `scripts/content_mbb.py` — 슬라이드 내용 (여기만 고치면 된다). 각 슬라이드에 `key`가 붙는다
+- `scripts/decks_mbb.py` — 두 덱의 구성·순서·표지·요약. 슬라이드는 `key`로 골라 쓴다
 - `scripts/deck_mbb.py` — 렌더러·디자인 토큰
 - `scripts/figs_mbb.py` — 해부·투시 도해 (SVG)
