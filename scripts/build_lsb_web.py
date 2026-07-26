@@ -16,11 +16,28 @@ def CDSR(x): return f"https://www.cochranelibrary.com/cdsr/doi/10.1002/14651858.
 
 ASSETS = "/home/user/ppt-work/문헌고찰_NLC_RLS_LSB/03_LSB/assets"
 
-def IMG(name, alt=""):
-    """assets/의 래스터 그림을 data URI <img>로 임베드(덱 단일 파일 유지)."""
-    with open(os.path.join(ASSETS, name), "rb") as fh:
-        b64 = base64.b64encode(fh.read()).decode()
-    return f'<img src="data:image/png;base64,{b64}" alt="{alt}">'
+def IMG(name, alt="", jpeg=False, q=90):
+    """assets/의 래스터 그림을 data URI <img>로 임베드(덱 단일 파일 유지).
+
+    사진성 그림(투시상·3D 렌더)은 jpeg=True로 재인코딩해 용량을 1/4로 줄인다.
+    선화(해부 도판)는 글자 가장자리에 링잉이 생기므로 PNG 그대로 둔다.
+    """
+    path = os.path.join(ASSETS, name)
+    if jpeg:
+        from PIL import Image
+        buf = io.BytesIO()
+        Image.open(path).convert("RGB").save(
+            buf, "JPEG", quality=q, optimize=True, progressive=True)
+        data, mime = buf.getvalue(), "jpeg"
+    else:
+        data, mime = open(path, "rb").read(), "png"
+    b64 = base64.b64encode(data).decode()
+    return f'<img src="data:image/{mime};base64,{b64}" alt="{esc_attr(alt)}">'
+
+
+def esc_attr(s):
+    return (str(s).replace("&", "&amp;").replace('"', "&quot;")
+            .replace("<", "&lt;").replace(">", "&gt;"))
 
 LSB = [
  {'t':'title','eyebrow':'Lumbar Sympathetic Block · 문헌고찰','title':'요추교감신경차단',
@@ -70,12 +87,12 @@ LSB = [
  {'t':'bigfig','eyebrow':'방법 · 영상으로','tag':('실제 투시상',''),
   'title':'투시 영상으로 본 술기 — 바늘은 이렇게 들어간다',
   'foot':'실제 시술 영상 스틸(TheProcedureGuide.com) · 사위 → 측면 → 정면 3-view · 교육용 인용',
-  'svg':IMG('lsb_fluoro_steps.png','LSB 투시 술기 4단계')},
+  'svg':IMG('lsb_fluoro_steps.png','LSB 투시 술기 4단계', jpeg=True)},
  # ---------- 3D 애니메이션 스틸 ----------
  {'t':'bigfig','eyebrow':'방법 · 그림으로','tag':('3D 애니메이션',''),
   'title':'약물은 어디로 퍼지나 — 표적과 확산',
   'foot':'3D 의학 애니메이션 스틸 · 분홍=교감신경간(척추체 전외측), 파랑·보라=약물 확산 · 실제 확산 범위는 반드시 조영제로 확인 · 교육용 인용',
-  'svg':IMG('lsb_anim_steps.png','LSB 3D 애니메이션 4단계')},
+  'svg':IMG('lsb_anim_steps.png','LSB 3D 애니메이션 4단계', jpeg=True)},
  # ---------- L2·L3 조감도 (오리지널 도해) ----------
  {'t':'bigfig','eyebrow':'방법 · 그림으로','tag':('축상면 axial',''),'title':'L2·L3 조감도 — 표적과 위험 구조',
   'foot':'표적=척추체 전외측 교감신경절 · 방척추(정중선 ~7cm) 접근 · 대동맥·IVC·요관·신장·생식대퇴신경·추간공 회피 · 오리지널 도해','svg':AXIAL_SVG},
