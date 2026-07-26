@@ -5,7 +5,7 @@ build_web_decks.py의 LSB 정의를 기반으로 하되, LSB 한 덱만 재생�
 import os, sys, re, base64, io
 sys.path.insert(0, os.path.dirname(__file__))
 from deck_html import render_deck
-from lsb_figures import AXIAL_SVG, CONTRAST_SVG, GF_SVG
+from lsb_figures import AXIAL_SVG, CONTRAST_SVG, GF_SVG, SAGITTAL_SVG, CORONAL_SVG
 from fontTools.subset import Subsetter, Options
 from fontTools.ttLib import TTFont
 
@@ -34,20 +34,22 @@ LSB = [
    (0,'원리 ②: 교감신경 매개 통증(sympathetically-maintained pain) 경로·자율신경 동반 구심로 차단.',''),
    (-1,'국소마취제 차단(진단적/치료적)과 화학적/열적 신경파괴로 나뉜다.','accent'),
  ]},
- {'t':'split','eyebrow':'방법','tag':('기법',''),'title':'방법 (Technique)','foot':'StatPearls NBK431107 · NBK560514',
+ {'t':'figsplit','eyebrow':'방법','tag':('기법',''),'title':'방법 (Technique)','foot':'StatPearls NBK431107 · NBK560514 · 측면 모식도',
+  'svg':SAGITTAL_SVG,
   'items':[
-   (0,'<b>표준: 방척추(paravertebral) 접근 + 투시(fluoroscopy).</b> CT·초음파도 가능.',''),
-   (0,"바늘 진입: 정중선에서 약 7 cm 외측. 척추체 접촉 후 전내측으로 'walk'하여 척추체 전외측으로 진입.",''),
-   (0,'흡인 후 조영제 주입 → 두미측(craniocaudal) 종방향 확산 확인.',''),
-   (0,'<b>성공 지표: 동측 하지 피부온도 ≥2°C 상승.</b>',''),
-  ],
-  'aside':{'title':'약제','items':[
-   (0,'진단/치료: lidocaine 1%,',''),(0,'bupivacaine 0.25–0.5%, ropivacaine',''),
-   (0,'신경파괴: 무수알코올/phenol, RFA',''),(-1,'신경파괴는 진단적 차단 양성 시에만','accent'),
-  ]}},
+   (0,'<b>표준: 방척추 접근 + 투시</b> (CT·초음파도 가능)',''),
+   (0,"바늘: 정중선 <b>~7 cm 외측</b> → 척추체 접촉 후 전내측 'walk'",''),
+   (0,'조영제로 <b>두미측 종방향 확산</b> 확인',''),
+   (0,'<b>성공 지표: 피부온도 ≥2°C↑</b>',''),
+   (-1,'약제: 국소마취제 / 신경파괴(무수알코올·phenol·RFA)는 진단차단 양성 시에만','accent'),
+  ]},
  # ---------- L2·L3 조감도 (오리지널 도해) ----------
  {'t':'bigfig','eyebrow':'방법 · 그림으로','tag':('축상면 axial',''),'title':'L2·L3 조감도 — 표적과 위험 구조',
   'foot':'표적=척추체 전외측 교감신경절 · 방척추(정중선 ~7cm) 접근 · 대동맥·IVC·요관·신장·생식대퇴신경·추간공 회피 · 오리지널 도해','svg':AXIAL_SVG},
+ # ---------- 요추 레벨 해부 (관상면) ----------
+ {'t':'bigfig','eyebrow':'해부 · 레벨','tag':('요추 레벨',''),'title':'복부 교감신경간과 요추 레벨 — 어디를 겨냥하나',
+  'foot':'교감신경간은 척추체 전외측을 좌우로 주행 · 복강(T12–L1)·상장간막·하장간막 신경절은 대동맥 전면 · LSB 표적은 L2–L3',
+  'svg':CORONAL_SVG},
  # ---------- L2·L3 시술 주의점 ----------
  {'t':'bullets','eyebrow':'방법 · 안전','tag':('시술 주의',''),'title':'L2·L3 시술 — 전·중 주의할 점','foot':'StatPearls NBK431107 · NBK557637 · Feigl 1998(PMID 9425975)','items':[
    (0,'<b>영상 유도 필수:</b> 투시(또는 CT). <b>조영제</b>로 두미측 종방향 확산 확인 — 후방(추간공)·혈관 확산 시 즉시 재위치.',''),

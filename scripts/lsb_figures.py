@@ -195,3 +195,199 @@ GF_SVG = ('<svg viewBox="0 0 900 470" width="100%" height="100%" preserveAspectR
   + _mini_axial(636, 150, True, False)
   + '<text x="674" y="410" text-anchor="middle" font-size="14" fill="#33403B">신경이 psoas 전면으로 나옴 + 약물 역류 → 자극</text>'
   + '</svg>')
+
+
+# ============================================================
+# 측면도(lateral/sagittal 모식도): L2–L4 · 교감신경사슬 · 바늘 접근 · 척수신경 분지
+# ============================================================
+_BONE, _BONE_S = '#ECE7DB', '#C7BFAE'
+_DISC, _DISC_S = '#C3D7E8', '#9DB6CD'
+_NRV,  _NRV_S  = '#F0DB90', '#B9973F'
+
+def _sag_level(yb, label):
+    s = ''
+    s += f'<rect x="300" y="{yb}" width="152" height="90" rx="10" fill="{_BONE}" stroke="{_BONE_S}" stroke-width="2.2"/>'
+    s += f'<ellipse cx="232" cy="{yb+42}" rx="45" ry="35" fill="{_BONE}" stroke="{_BONE_S}" stroke-width="2"/>'
+    s += f'<rect x="258" y="{yb+26}" width="50" height="32" rx="9" fill="{_BONE}" stroke="{_BONE_S}" stroke-width="2"/>'
+    s += f'<polygon points="197,{yb+24} 148,{yb+36} 148,{yb+62} 197,{yb+60}" fill="{_BONE}" stroke="{_BONE_S}" stroke-width="2"/>'
+    s += f'<text x="376" y="{yb+80}" text-anchor="middle" font-size="21" font-weight="800" fill="#8C8368">{label}</text>'
+    return s
+
+def _sag_nerves(yb):
+    """후근신경절 + 후/전 일차분지 + 내측분지 + 교통가지."""
+    g = yb + 98                      # 신경 출구(추간공) 높이
+    s = ''
+    # 전방일차분지 → 교감사슬 방향
+    s += f'<path d="M272,{g} C330,{g+6} 400,{g+16} 458,{g+10}" fill="none" stroke="{_NRV}" stroke-width="9" stroke-linecap="round"/>'
+    s += f'<path d="M272,{g} C330,{g+6} 400,{g+16} 458,{g+10}" fill="none" stroke="{_NRV_S}" stroke-width="1.2" opacity=".55"/>'
+    # 교통가지 (사슬로 연결)
+    s += f'<path d="M430,{g+14} C450,{g+12} 462,{g+4} 470,{g-8}" fill="none" stroke="{_NRV}" stroke-width="6" stroke-linecap="round"/>'
+    # 후방일차분지
+    s += f'<path d="M258,{g-4} C232,{g+6} 214,{g+16} 196,{g+14}" fill="none" stroke="{_NRV}" stroke-width="8" stroke-linecap="round"/>'
+    # 내측분지 (후지에서 갈라져 관절 쪽)
+    s += f'<path d="M224,{g+10} C216,{g-6} 220,{g-22} 234,{g-30}" fill="none" stroke="{_NRV}" stroke-width="5.5" stroke-linecap="round"/>'
+    # 후근신경절
+    s += f'<ellipse cx="268" cy="{g-4}" rx="17" ry="12" fill="{_NRV}" stroke="{_NRV_S}" stroke-width="2"/>'
+    return s
+
+_chain = ''.join(
+    f'<ellipse cx="478" cy="{y}" rx="13" ry="21" fill="{_NRV}" stroke="{_NRV_S}" stroke-width="2"/>'
+    for y in (145, 267, 389, 511))
+
+SAGITTAL_SVG = (
+ '<svg viewBox="0 0 790 640" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" '
+ 'xmlns="http://www.w3.org/2000/svg" font-family="Pretendard,sans-serif">'
+ '<defs><marker id="ld2" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5">'
+ '<circle cx="3.5" cy="3.5" r="2.2" fill="#8A96A0"/></marker></defs>'
+ # 방향 표시
+ '<text x="150" y="26" font-size="14" font-weight="800" fill="#6B7680">후방 (등)</text>'
+ '<text x="560" y="26" font-size="14" font-weight="800" fill="#6B7680">전방 (배)</text>'
+ # 위/아래 잘린 분절
+ f'<rect x="300" y="44" width="152" height="56" rx="10" fill="{_BONE}" stroke="{_BONE_S}" stroke-width="2.2"/>'
+ f'<rect x="300" y="466" width="152" height="60" rx="10" fill="{_BONE}" stroke="{_BONE_S}" stroke-width="2.2"/>'
+ # 디스크
+ + ''.join(f'<rect x="300" y="{y}" width="152" height="32" rx="7" fill="{_DISC}" stroke="{_DISC_S}" stroke-width="2"/>'
+           for y in (100, 190, 312, 434))
+ # 척추 3분절
+ + _sag_level(122, 'L2') + _sag_level(222, 'L3') + _sag_level(344, 'L4')
+ # 교감신경사슬 (전외측 세로 주행)
+ + f'<path d="M478,52 C470,140 486,200 478,268 C470,330 486,400 478,468 C474,500 478,530 478,560" '
+   f'fill="none" stroke="{_NRV}" stroke-width="10" stroke-linecap="round"/>'
+ + _chain
+ # 신경 분지
+ + _sag_nerves(122) + _sag_nerves(222) + _sag_nerves(344)
+ # 표적 강조 (L3 신경절)
+ + '<circle cx="478" cy="267" r="30" fill="none" stroke="#0E7C7B" stroke-width="3.4"/>'
+ # 바늘 (후외측 → 전외측), 흰 halo로 '척추체 외측면 통과' 표현
+ + '<line x1="24" y1="243" x2="470" y2="267" stroke="#F7F8F6" stroke-width="13" stroke-linecap="round"/>'
+ + '<line x1="24" y1="243" x2="470" y2="267" stroke="#3E4A55" stroke-width="5.5" stroke-linecap="round"/>'
+ + '<rect x="10" y="230" width="52" height="24" rx="5" fill="#5A6B7B" stroke="#3E4A55" stroke-width="1.6"/>'
+ + '<circle cx="470" cy="267" r="5.5" fill="#A8352A"/>'
+ # ---- 라벨 (좌: 후방 구조 / 우: 교감·바늘) ----
+ + '<text x="12" y="284" font-size="15" font-weight="800" fill="#3E4A55">바늘</text>'
+ + '<line x1="118" y1="120" x2="228" y2="196" stroke="#8A96A0" stroke-width="1.2" marker-end="url(#ld2)"/>'
+ + '<text x="12" y="112" font-size="14.5" font-weight="800" fill="#9A6800">후근신경절</text>'
+ + '<text x="12" y="130" font-size="12" fill="#8A96A0">(DRG)</text>'
+ + '<line x1="118" y1="168" x2="222" y2="212" stroke="#8A96A0" stroke-width="1.2" marker-end="url(#ld2)"/>'
+ + '<text x="12" y="172" font-size="14" font-weight="700" fill="#9A6800">내측분지</text>'
+ + '<line x1="120" y1="452" x2="200" y2="452" stroke="#8A96A0" stroke-width="1.2" marker-end="url(#ld2)"/>'
+ + '<text x="12" y="440" font-size="14" font-weight="700" fill="#9A6800">후방일차분지</text>'
+ + '<line x1="150" y1="536" x2="300" y2="472" stroke="#8A96A0" stroke-width="1.2" marker-end="url(#ld2)"/>'
+ + '<text x="12" y="548" font-size="14" font-weight="700" fill="#9A6800">전방일차분지</text>'
+ + '<line x1="514" y1="252" x2="560" y2="238" stroke="#0E7C7B" stroke-width="1.4" marker-end="url(#ld2)"/>'
+ + '<text x="566" y="232" font-size="15.5" font-weight="800" fill="#0B5F5E">교감신경사슬</text>'
+ + '<text x="566" y="251" font-size="12.5" fill="#0B5F5E">L2–L3가 표적</text>'
+ + '<line x1="500" y1="372" x2="556" y2="384" stroke="#8A96A0" stroke-width="1.2" marker-end="url(#ld2)"/>'
+ + '<text x="562" y="390" font-size="14" font-weight="700" fill="#9A6800">교통가지</text>'
+ + '<text x="562" y="408" font-size="12" fill="#8A96A0">(rami comm.)</text>'
+ + '<text x="300" y="600" font-size="12.5" fill="#8A96A0">*측면 모식도 — 바늘은 척추체 <tspan font-weight="800">외측면</tspan>을 따라 전외측으로 진행</text>'
+ + '</svg>')
+
+
+# ============================================================
+# 관상면(전면) 해부 모식도: 복부 교감신경간 · 대동맥/IVC · 신경절 + 요추 레벨(T12–L5)
+# ============================================================
+_LEVELS = [('T12', 50), ('L1', 134), ('L2', 218), ('L3', 302), ('L4', 386), ('L5', 470)]
+_BODY_H = 72
+_BX, _BW = 350, 220          # 척추체 x, 폭
+
+def _coronal_spine():
+    s = ''
+    for name, y in _LEVELS:
+        s += (f'<rect x="{_BX}" y="{y}" width="{_BW}" height="{_BODY_H}" rx="10" '
+              f'fill="{_BONE}" stroke="{_BONE_S}" stroke-width="2.2"/>')
+        s += (f'<rect x="{_BX}" y="{y+_BODY_H}" width="{_BW}" height="12" '
+              f'fill="{_DISC}" stroke="{_DISC_S}" stroke-width="1.6"/>')
+    return s
+
+def _level_tags():
+    s = ''
+    for name, y in _LEVELS:
+        cy = y + _BODY_H / 2
+        hot = name in ('L2', 'L3')
+        fill = '#0E7C7B' if hot else '#FFFFFF'
+        txt = '#FFFFFF' if hot else '#5A6B7B'
+        bd = '#0E7C7B' if hot else '#C7CDD2'
+        s += (f'<rect x="248" y="{cy-19}" width="70" height="38" rx="10" fill="{fill}" '
+              f'stroke="{bd}" stroke-width="2.2"/>')
+        s += (f'<text x="283" y="{cy+7}" text-anchor="middle" font-size="20" font-weight="900" '
+              f'fill="{txt}">{name}</text>')
+        s += f'<line x1="318" y1="{cy}" x2="{_BX}" y2="{cy}" stroke="{bd}" stroke-width="2.2"/>'
+    return s
+
+def _trunk(x, flip=1):
+    """교감신경간(사슬) + 신경절."""
+    s = (f'<path d="M{x},44 C{x-8*flip},150 {x+8*flip},240 {x},330 '
+         f'C{x-8*flip},420 {x+6*flip},500 {x},572" fill="none" '
+         f'stroke="{_NRV}" stroke-width="9" stroke-linecap="round"/>')
+    for _, y in _LEVELS:
+        s += (f'<ellipse cx="{x}" cy="{y+_BODY_H/2}" rx="12" ry="19" fill="{_NRV}" '
+              f'stroke="{_NRV_S}" stroke-width="2"/>')
+    # 교통가지 (사슬 → 대동맥신경총 방향)
+    for _, y in _LEVELS[1:5]:
+        yy = y + _BODY_H / 2
+        s += (f'<path d="M{x+18*flip},{yy} C{x+60*flip},{yy-6} {x+96*flip},{yy+4} {x+128*flip},{yy}" '
+              f'fill="none" stroke="{_NRV}" stroke-width="4.5" stroke-linecap="round" opacity=".95"/>')
+    return s
+
+CORONAL_SVG = (
+ '<svg viewBox="0 0 1200 640" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" '
+ 'xmlns="http://www.w3.org/2000/svg" font-family="Pretendard,sans-serif">'
+ '<defs><marker id="ld3" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5">'
+ '<circle cx="3.5" cy="3.5" r="2.2" fill="#8A96A0"/></marker></defs>'
+ + _coronal_spine()
+ # LSB 표적 밴드 (L2–L3)
+ + f'<rect x="{_BX-6}" y="218" width="{_BW+12}" height="156" rx="10" fill="#0E7C7B" opacity="0.13"/>'
+ + f'<rect x="{_BX-6}" y="218" width="{_BW+12}" height="156" rx="10" fill="none" stroke="#0E7C7B" '
+   'stroke-width="2.6" stroke-dasharray="8 6"/>'
+ # 하대정맥 (우) / 대동맥 (좌) — 전면 관찰이므로 화면 좌=환자 우
+ + '<path d="M516,40 L556,40 L556,452 L516,452 Z" fill="#5A7C9C" opacity=".92"/>'
+ + '<path d="M462,40 L508,40 L508,452 L462,452 Z" fill="#C0504D"/>'
+ # 총장골동맥 분지 (L4 높이)
+ + '<path d="M462,440 L508,440 L560,600 L520,600 Z" fill="#C0504D"/>'
+ + '<path d="M462,440 L508,440 L452,600 L412,600 Z" fill="#C0504D"/>'
+ # 신동맥 (L1–L2)
+ + '<rect x="330" y="196" width="132" height="13" rx="6" fill="#C0504D"/>'
+ + '<rect x="508" y="196" width="120" height="13" rx="6" fill="#C0504D"/>'
+ # 교감신경간 좌·우
+ + _trunk(332, 1) + _trunk(588, -1)
+ # 내장신경 (상부 → 복강신경절)
+ + f'<path d="M336,60 C380,96 410,116 432,136" fill="none" stroke="{_NRV}" stroke-width="6.5" stroke-linecap="round"/>'
+ + f'<path d="M584,60 C542,96 514,116 494,136" fill="none" stroke="{_NRV}" stroke-width="6.5" stroke-linecap="round"/>'
+ # 복강신경절 (좌우)
+ + f'<ellipse cx="436" cy="146" rx="24" ry="17" fill="{_NRV}" stroke="{_NRV_S}" stroke-width="2"/>'
+ + f'<ellipse cx="500" cy="146" rx="22" ry="16" fill="{_NRV}" stroke="{_NRV_S}" stroke-width="2"/>'
+ # 대동맥신장신경절 · 상장간막신경절 · 하장간막신경절
+ + f'<ellipse cx="440" cy="206" rx="19" ry="14" fill="{_NRV}" stroke="{_NRV_S}" stroke-width="2"/>'
+ + f'<ellipse cx="486" cy="236" rx="17" ry="13" fill="{_NRV}" stroke="{_NRV_S}" stroke-width="2"/>'
+ + f'<ellipse cx="470" cy="404" rx="18" ry="13" fill="{_NRV}" stroke="{_NRV_S}" stroke-width="2"/>'
+ # 대동맥신경총 (얇은 그물)
+ + ''.join(f'<path d="M446,{y} C470,{y+16} 500,{y-12} 520,{y+8}" fill="none" stroke="{_NRV}" '
+           f'stroke-width="2.6" opacity=".85"/>' for y in (270, 310, 350, 384))
+ + _level_tags()
+ # ---- 라벨 ----
+ + '<text x="248" y="34" font-size="14.5" font-weight="800" fill="#0B5F5E">요추 레벨</text>'
+ + '<line x1="612" y1="264" x2="874" y2="248" stroke="#8A96A0" stroke-width="1.3" marker-end="url(#ld3)"/>'
+ + '<text x="880" y="242" font-size="16.5" font-weight="800" fill="#0B5F5E">교감신경간(사슬)</text>'
+ + '<text x="880" y="263" font-size="13.5" fill="#0B5F5E">척추체 전외측 · 좌우 한 쌍</text>'
+ + '<line x1="520" y1="140" x2="874" y2="120" stroke="#8A96A0" stroke-width="1.3" marker-end="url(#ld3)"/>'
+ + '<text x="880" y="116" font-size="15.5" font-weight="700" fill="#9A6800">복강신경절</text>'
+ + '<text x="880" y="136" font-size="13" fill="#8A96A0">(celiac, T12–L1)</text>'
+ + '<line x1="503" y1="236" x2="874" y2="186" stroke="#8A96A0" stroke-width="1.3" marker-end="url(#ld3)"/>'
+ + '<text x="880" y="182" font-size="14.5" font-weight="700" fill="#9A6800">상장간막신경절</text>'
+ + '<line x1="488" y1="404" x2="874" y2="404" stroke="#8A96A0" stroke-width="1.3" marker-end="url(#ld3)"/>'
+ + '<text x="880" y="400" font-size="14.5" font-weight="700" fill="#9A6800">하장간막신경절</text>'
+ + '<text x="880" y="420" font-size="13" fill="#8A96A0">(L3 부근)</text>'
+ + '<line x1="150" y1="190" x2="336" y2="200" stroke="#8A96A0" stroke-width="1.2" marker-end="url(#ld3)"/>'
+ + '<text x="86" y="186" font-size="13.5" font-weight="700" fill="#9B3F3C">신동맥</text>'
+ + '<line x1="150" y1="96" x2="340" y2="74" stroke="#8A96A0" stroke-width="1.2" marker-end="url(#ld3)"/>'
+ + '<text x="86" y="92" font-size="13.5" font-weight="700" fill="#9A6800">내장신경</text>'
+ + '<text transform="rotate(-90 486 95)" x="486" y="95" text-anchor="middle" font-size="15" '
+   'font-weight="800" fill="#fff">대동맥</text>'
+ + '<text transform="rotate(-90 536 95)" x="536" y="95" text-anchor="middle" font-size="13.5" '
+   'font-weight="800" fill="#fff">하대정맥</text>'
+ # 표적 배지
+ + '<rect x="876" y="292" width="150" height="38" rx="19" fill="#0E7C7B"/>'
+ + '<text x="951" y="318" text-anchor="middle" font-size="16.5" font-weight="900" fill="#fff">LSB 표적 L2–L3</text>'
+ + '<text x="286" y="622" font-size="12.5" fill="#8A96A0">*후면(등 쪽에서 본) 모식도 — 엎드린 자세 기준 · 화면 좌측 = 환자 좌측</text>'
+ + '</svg>')

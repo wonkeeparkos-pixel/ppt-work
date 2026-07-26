@@ -4,12 +4,31 @@ import os, sys
 sys.path.insert(0, os.path.dirname(__file__))
 from pptx.util import Inches
 from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
-from ppt_lib import Deck, INK, TEALD, GREEN, MINT, RED, MUTE, AMBER, WHITE
+from ppt_lib import Deck, INK, TEALD, GREEN, MINT, RED, MUTE, AMBER, WHITE, TEAL
 
 _ASSET = "/home/user/ppt-work/문헌고찰_NLC_RLS_LSB/03_LSB/assets/"
 AXIAL_IMG = _ASSET + "lsb_axial.png"
 CONTRAST_IMG = _ASSET + "lsb_contrast.png"
 GF_IMG = _ASSET + "lsb_gf.png"
+SAG_IMG = _ASSET + "lsb_sag.png"
+COR_IMG = _ASSET + "lsb_cor.png"
+
+def figsplit_slide(d, title, eyebrow, tag, items, img, footer, tag_color=TEAL):
+    """좌: 불릿 / 우: 그림 카드."""
+    s = d._slide()
+    d.rect(s, 0, 0, d.SW, d.SH, WHITE)
+    d.header(s, title, eyebrow, tag, tag_color)
+    d.bullets(s, Inches(0.8), Inches(1.6), Inches(6.5), Inches(4.8), items, size=13.5, gap=9)
+    cx, cy, cw, ch = Inches(7.7), Inches(1.55), Inches(4.95), Inches(4.95)
+    d.card(s, cx, cy, cw, ch)
+    pic = s.shapes.add_picture(img, 0, 0, height=Inches(4.5))
+    if pic.width > Inches(4.65):
+        pic.height = int(pic.height * Inches(4.65) / pic.width)
+        pic.width = Inches(4.65)
+    pic.left = int(cx + (cw - pic.width) / 2)
+    pic.top = int(cy + (ch - pic.height) / 2)
+    d.footer(s, footer)
+    return s
 
 def fig_slide(d, title, eyebrow, tag, img, caption, foot, h=4.5):
     s = d._slide()
@@ -52,17 +71,13 @@ d.bullets_slide("개요 · 해부 · 원리", "개요", "배경", [
     (-1,"국소마취제 차단(진단적/치료적)과 화학적/열적 신경파괴로 나뉜다.",TEALD,True),
 ], "StatPearls NBK431107; Zhang 2022(Ibrain)")
 
-d.split_slide("방법 (Technique)", "방법", "기법", [
-    (0,"표준: 방척추(paravertebral) 접근 + 투시(fluoroscopy). CT·초음파도 가능.",INK,True),
-    (0,"바늘 진입: 정중선에서 약 7 cm 외측. 척추체 접촉 후 전내측으로 'walk'하여 척추체 전외측으로 진입.",INK),
-    (0,"흡인 후 조영제 주입 → 두미측(craniocaudal) 종방향 확산 확인.",INK),
-    (0,"성공 지표: 동측 하지 피부온도 ≥2°C 상승.",INK,True),
-], ("약제", [
-    (0,"진단/치료: lidocaine 1%,",None),
-    (0,"  bupivacaine 0.25–0.5%, ropivacaine",None),
-    (0,"신경파괴: 무수알코올/phenol, RFA",None),
-    (0,"원칙: 신경파괴는 진단적 차단 양성 시에만",None),
-], None), "StatPearls; Lumbar Sympatholysis NBK560514", tag_color=TEALD)
+figsplit_slide(d, "방법 (Technique)", "방법", "기법", [
+    (0,"표준: 방척추(paravertebral) 접근 + 투시 (CT·초음파도 가능)",INK,True),
+    (0,"바늘: 정중선 ~7 cm 외측 → 척추체 접촉 후 전내측 'walk'",INK),
+    (0,"조영제로 두미측 종방향 확산 확인",INK),
+    (0,"성공 지표: 피부온도 ≥2°C 상승",INK,True),
+    (-1,"약제: 국소마취제 / 신경파괴(무수알코올·phenol·RFA)는 진단차단 양성 시에만",TEALD,True),
+], SAG_IMG, "StatPearls NBK431107 · NBK560514 · 측면 모식도")
 
 # ---------- L2·L3 조감도 (오리지널 도해 이미지) ----------
 _s = d._slide()
@@ -74,6 +89,11 @@ d.text(_s, Inches(0.7), Inches(6.3), Inches(11.95), Inches(0.5),
        [[("표적=척추체 전외측 교감신경절 · 방척추(정중선 ~7cm) 접근 · 대동맥·IVC·요관·신장·생식대퇴신경·추간공 회피", 11, TEALD, True)]],
        align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
 d.footer(_s, "교육용 오리지널 도해 · StatPearls NBK431107")
+
+# ---------- 요추 레벨 해부 (관상면) ----------
+fig_slide(d, "복부 교감신경간과 요추 레벨 — 어디를 겨냥하나", "해부 · 레벨", "요추 레벨", COR_IMG,
+    "교감신경간은 척추체 전외측을 좌우로 주행 · 복강(T12–L1)·상장간막·하장간막 신경절은 대동맥 전면 · LSB 표적은 L2–L3",
+    "교육용 오리지널 도해 · StatPearls NBK431107", h=4.4)
 
 # ---------- L2·L3 시술 주의점 ----------
 d.bullets_slide("L2·L3 시술 — 전·중 주의할 점", "방법 · 안전", "시술 주의", [
