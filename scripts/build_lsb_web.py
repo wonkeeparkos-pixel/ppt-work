@@ -35,6 +35,17 @@ def IMG(name, alt="", jpeg=False, q=90):
     return f'<img src="data:image/{mime};base64,{b64}" alt="{esc_attr(alt)}">'
 
 
+def FIG(name, fallback, alt="", q=88):
+    """assets/<name>.png 가 있으면 그 그림을, 없으면 기존 SVG 도해를 쓴다.
+
+    힉스필드로 생성한 그림(scripts/hf_figures.py)이 들어오는 즉시
+    덱이 자동으로 교체되도록 하기 위한 해석기.
+    """
+    if os.path.exists(os.path.join(ASSETS, name + ".png")):
+        return IMG(name + ".png", alt or name, jpeg=True, q=q)
+    return fallback
+
+
 def esc_attr(s):
     return (str(s).replace("&", "&amp;").replace('"', "&quot;")
             .replace("<", "&lt;").replace(">", "&gt;"))
@@ -112,13 +123,15 @@ LSB = [
   'svg':IMG('lsb_anim_steps.png','LSB 3D 애니메이션 4단계', jpeg=True)},
  # ---------- L2·L3 조감도 (오리지널 도해) ----------
  {'t':'bigfig','eyebrow':'방법 · 그림으로','tag':('축상면 axial',''),'title':'L2·L3 조감도 — 표적과 위험 구조',
-  'foot':'표적=척추체 전외측 교감신경절 · 방척추(정중선 ~7cm) 접근 · 대동맥·IVC·요관·신장·생식대퇴신경·추간공 회피 · 오리지널 도해','svg':AXIAL_SVG},
+  'foot':'표적=척추체 전외측 교감신경절 · 방척추(정중선 ~7cm) 접근 · 대동맥·IVC·요관·신장·생식대퇴신경·추간공 회피',
+  'svg':FIG('hf_axial', AXIAL_SVG, 'L2·L3 축상면 해부도')},
  # ---------- 해부 (도해 + 실제 도판 병합, 그림 최대 크기) ----------
  {'t':'photo','eyebrow':'해부','title':'요추 교감신경간 — 어디를 겨냥하나',
   'caption':'교감신경간은 척추체 <b>전외측</b>을 좌우로 종주하며 <b>대동맥에 바짝 붙어</b> 지나간다 — LSB 표적은 <b>L2–L3</b>. '
             '복강(T12–L1)·상·하장간막 신경절은 대동맥 전면. 이 인접성 때문에 <b>혈관 손상·혈관내 주입</b>이 핵심 위험이고, '
             '조영제로 확산을 반드시 확인한다. · 좌: 오리지널 도해 / 우: 해부학 교과서 도판(교육용 인용)',
-  'img':IMG('lsb_anatomy_merged.png','요추 교감신경간 해부 — 관상면 도해와 교과서 도판', jpeg=True, q=88)},
+  'img':FIG('hf_anatomy', IMG('lsb_anatomy_merged.png','요추 교감신경간 해부 — 관상면 도해와 교과서 도판', jpeg=True, q=88),
+            '요추 교감신경간 해부 — 관상면과 축상면')},
  # ---------- L2·L3 시술 주의점 ----------
  {'t':'bullets','eyebrow':'방법 · 안전','tag':('시술 주의',''),'title':'L2·L3 시술 — 전·중 주의할 점','foot':'StatPearls NBK431107 · NBK557637 · Feigl 1998(PMID 9425975)','items':[
    (0,'<b>영상 유도 필수:</b> 투시(또는 CT). <b>조영제</b>로 두미측 종방향 확산 확인 — 후방(추간공)·혈관 확산 시 즉시 재위치.',''),
@@ -133,7 +146,7 @@ LSB = [
  {'t':'bigfig','eyebrow':'안전 · 위험구조','tag':('혈관·신장 회피','red'),
   'title':'대동맥·IVC·신장을 피하는 법 — 뼈를 놓치지 않는다',
   'foot':'핵심 3가지 — ① 척추체 접촉을 유지한 채 뼈를 따라 미끄러뜨린다 ② 측면상에서 바늘 끝을 척추체 전연 앞으로 넘기지 않는다 ③ 너무 외측이면 신장, 너무 내측이면 추간공 · 오리지널 도해',
-  'svg':AVOID_SVG},
+  'svg':FIG('hf_avoid', AVOID_SVG, '대혈관·신장 회피 축상면')},
  {'t':'bullets','eyebrow':'안전 · 위험구조','tag':('회피 수칙','red'),
   'title':'혈관·신장 천자 — 실제로 어떻게 피하나',
   'foot':'StatPearls NBK431107 · NBK557637 · 교육용 정리',
@@ -147,7 +160,8 @@ LSB = [
   ]},
  # ---------- 조영제 확산 읽기 (도해) ----------
  {'t':'bigfig','eyebrow':'안전 · 핵심기술','tag':('조영제 읽기',''),'title':'조영제 확산 읽기 — 이 패턴이면 멈춰라',
-  'foot':'실시간 조영제가 최고의 안전장치 — 종방향(위·아래) 확산만 진행 · 혈관·경막외·근육내 패턴이면 즉시 바늘 재위치·재확인','svg':CONTRAST_SVG},
+  'foot':'실시간 조영제가 최고의 안전장치 — 종방향(위·아래) 확산만 진행 · 혈관·경막외·근육내 패턴이면 즉시 바늘 재위치·재확인',
+  'svg':FIG('hf_contrast', CONTRAST_SVG, '조영제 종방향 확산')},
  # ---------- 합병증 & 회피법 (표) ----------
  {'t':'table','eyebrow':'안전성','tag':('합병증·회피','red'),'title':'합병증 & 회피법','foot':'StatPearls NBK431107·NBK557637 · Feigl 1998(PMID 9425975)',
   'note':"핵심: 투시+조영제로 확산 확인 · 바늘 전외측 유지 · L2~L3 표적 · 신경파괴는 진단차단 양성 시.",
