@@ -248,6 +248,41 @@ d.refs_slide("참고문헌 — LSB", [
  "Lumbar sympathectomy for ischaemia·vasculitis·diabetic neuropathy·hyperhidrosis — series. 2018. PMID 29516399.",
 ])
 
+# ---------- 전체 흐름 안내(로드맵) ----------
+d.key_slide("전체 흐름 · Roadmap", "누구에게 → 어디를 → 왜 → 어떻게 → 안전하게", [
+    ("① 감별","밤·하지 증상 중 LSB가 듣는 것과 아닌 것을 먼저 가른다"),
+    ("② 해부","교감신경간은 척추체 전외측 L2–L3 — 표적과 주변 위험 구조"),
+    ("③ 적응증·증상","CRPS·허혈·신경병증에서 환자가 실제로 하는 말"),
+    ("④ 효과","관류 실측·통증 감소·CRPS 완화 (근거수준과 함께)"),
+    ("⑤ 술기·안전","투시+조영제로 정확히 — 합병증은 대부분 회피·관리 가능"),
+])
+
+# ---------- 강의 흐름에 맞춘 슬라이드 순서 재배열 ----------
+_NORDER = ['요추교감신경차단 (Lumbar', '전체 흐름', '밤·하지 증상 감별', '개요 · 해부 · 원리',
+           '복부 교감신경간과 요추 레벨', '적응증 (Indications)', '증상·호소 ①', '증상·호소 ②',
+           '밤에 저리고 화끈거리는 다리', '효과 (1)', '효과 (2)',
+           '방법 (Technique)', 'L2·L3 조감도', '조영제 확산 읽기', 'L2·L3 시술',
+           '합병증 & 회피법', '생식대퇴신경통 — 가장', '혈관·LAST', '합병증 대비',
+           '근거수준 · 결론', '실제 진료 순서', '핵심 메시지', '참고문헌']
+
+def _reorder(deck, order):
+    lst = deck.prs.slides._sldIdLst
+    els = list(lst)
+    def rank(i):
+        txt = ' '.join(sh.text_frame.text for sh in deck.prs.slides[i].shapes
+                       if sh.has_text_frame)
+        for n, frag in enumerate(order):
+            if frag in txt:
+                return n
+        return 999
+    seq = sorted(range(len(els)), key=rank)
+    for el in els:
+        lst.remove(el)
+    for i in seq:
+        lst.append(els[i])
+
+_reorder(d, _NORDER)
+
 out = os.path.join(BASE, "03_LSB", "LSB_발표.pptx")
 n = d.save(out)
 print("LSB", n, "slides ->", out)
