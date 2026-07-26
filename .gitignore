@@ -1,2 +1,13 @@
 __pycache__/
 *.pyc
+
+# 산출물은 구글 드라이브에만 보관한다 (CLAUDE.md 참조)
+# GitHub에는 빌드 스크립트와 빌드 입력 에셋만 둔다.
+*.pptx
+*.docx
+*.pdf
+문헌고찰_NLC_RLS_LSB/**/*.md
+문헌고찰_NLC_RLS_LSB/**/*.html
+
+# 예외: assets/ 는 산출물이 아니라 빌드 입력물이므로 추적한다
+!문헌고찰_NLC_RLS_LSB/**/assets/**
