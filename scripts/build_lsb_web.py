@@ -392,6 +392,31 @@ FNAME = "LSB_발표_웹"
 # ---- font sources: /tmp/pretendard 우선, 없으면 업로드 경로 폴백 ----
 TMP = "/tmp/pretendard"
 UP = "/root/.claude/uploads/bb19d1cb-d1ba-542e-8235-38fcac774773/"
+FONT_ZIP = ("https://github.com/orioncactus/pretendard/releases/download/"
+            "v1.3.9/Pretendard-1.3.9.zip")
+FONT_FILES = ["Pretendard-Black.otf", "Pretendard-ExtraBold.otf",
+              "Pretendard-Bold.otf", "Pretendard-Light.otf"]
+
+def ensure_fonts():
+    """새 컨테이너에는 /tmp 폰트도 업로드 폴더도 없다 — GitHub에서 받아 채운다.
+
+    업로드 경로(UP)는 세션이 끝나면 사라지므로 그것만 믿으면 덱을 다시 못 만든다.
+    github.com 은 이 환경의 egress 정책에 열려 있어 이 경로는 항상 동작한다.
+    """
+    if all(os.path.exists(os.path.join(TMP, n)) for n in FONT_FILES):
+        return
+    import urllib.request, zipfile
+    os.makedirs(TMP, exist_ok=True)
+    print("Pretendard 폰트가 없다 — 내려받는 중 …")
+    path, _ = urllib.request.urlretrieve(FONT_ZIP)
+    with zipfile.ZipFile(path) as z:
+        for n in FONT_FILES:
+            with z.open("public/static/" + n) as src:
+                open(os.path.join(TMP, n), "wb").write(src.read())
+    print("폰트 준비 완료 →", TMP)
+
+ensure_fonts()
+
 def pick(tmp_name, up_name):
     p = os.path.join(TMP, tmp_name)
     return p if os.path.exists(p) else (UP + up_name)

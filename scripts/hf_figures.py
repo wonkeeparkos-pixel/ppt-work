@@ -1,28 +1,43 @@
 # -*- coding: utf-8 -*-
-"""힉스필드 CLI로 LSB 덱 그림을 생성·내려받아 assets/에 넣는다.
+"""LSB 덱 그림 4종을 힉스필드에서 받아 assets/에 넣는다.
 
-전제
-  npm i -g @higgsfield/cli
-  higgsfield auth login          # 브라우저 OAuth (PKCE)
-  higgsfield workspace set <id>
+■ 그림 4종은 이미 생성이 끝나 있다 (2026-07-26, nano_banana_pro, 1k)
+  아래 GENERATED 의 CDN 주소가 그 결과물이다. 그러므로 다음 세션에서 할 일은
+  '생성'이 아니라 '내려받기' 하나뿐이고, 크레딧도 더 들지 않는다:
 
-네트워크
-  이 스크립트는 아래 호스트에 직접 나간다. 환경 네트워크 정책에 모두 열려 있어야 한다.
+      python3 scripts/hf_figures.py --fetch      # 4장 내려받기 (크레딧 0)
+      python3 scripts/build_lsb_web.py           # 덱 재생성
+
+  --fetch 은 인증도 CLI도 필요 없다. CDN이 공개 URL이라 curl 한 번이면 된다.
+
+■ 네트워크 — 이게 유일한 관문이다
+  2026-07-26 현재 이 컨테이너의 egress 정책은 아래를 전부 403 으로 막는다.
+  환경 네트워크 정책에 최소한 CDN 한 줄은 허용돼 있어야 --fetch 이 돈다.
+
+    d8j0ntlcm91z4.cloudfront.net   생성물 CDN   ← --fetch 에 필요한 유일한 호스트
+    (또는 *.cloudfront.net 로 한 번에)
+
+  새로 생성까지 하려면 아래도 함께 열어야 한다(--fetch 만 쓸 거면 불필요):
     fnf-api-gw.higgsfield.ai   API 게이트웨이
     clerk.higgsfield.ai        OAuth
     higgsfield.ai / cloud.higgsfield.ai
-    *.cloudfront.net           생성물 CDN
-  정책은 컨테이너 부팅 시점에 적용되므로, 정책을 바꿨으면 새 세션에서 실행할 것.
 
-사용
-  python3 scripts/hf_figures.py --list            # 정의된 그림 목록
-  python3 scripts/hf_figures.py --check           # 네트워크·인증만 점검
-  python3 scripts/hf_figures.py --only hf_axial   # 하나만 생성
-  python3 scripts/hf_figures.py                   # 전부 생성
+  정책은 컨테이너 부팅 시점에 적용된다. 정책을 바꿨으면 반드시 '새 세션'에서
+  실행할 것 — 이미 떠 있는 세션에서는 절대 열리지 않는다.
 
-생성이 끝나면 assets/<이름>.png 가 놓이고, build_lsb_web.py 의 FIG()가
-자동으로 SVG 대신 이 파일을 쓴다. 덱 재생성:
-  python3 scripts/build_lsb_web.py
+■ 새로 생성해야 할 때 (프롬프트를 고쳤다든지)
+  전제: npm i -g @higgsfield/cli / higgsfield auth login / workspace set <id>
+      python3 scripts/hf_figures.py --check           # 네트워크·인증 점검
+      python3 scripts/hf_figures.py --only hf_axial   # 하나만 재생성
+      python3 scripts/hf_figures.py                   # 전부 재생성
+  세션에 힉스필드 MCP가 붙어 있으면 CLI 없이 MCP generate_image 로 만들어도
+  된다. 그 경우 결과 rawUrl 을 GENERATED 에 갱신해 두면 재현이 쉬워진다.
+
+■ 파일이 들어온 뒤
+  assets/<이름>.png 가 놓이면 build_lsb_web.py 의 FIG()가 자동으로 SVG 폴백
+  대신 이 그림을 쓴다. 덱 재생성만 하면 끝이다.
+
+  로컬 의존성: Pillow, fontTools (컨테이너에 없으면 pip install Pillow fonttools)
 """
 import argparse
 import json
@@ -34,7 +49,18 @@ import urllib.request
 ASSETS = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
                       "문헌고찰_NLC_RLS_LSB", "03_LSB", "assets")
 MODEL = "nano_banana_pro"          # 도해·텍스트에 가장 강한 모델
+CDN_HOST = "d8j0ntlcm91z4.cloudfront.net"
 HOSTS = ["fnf-api-gw.higgsfield.ai", "clerk.higgsfield.ai", "higgsfield.ai"]
+
+# 2026-07-26 생성 완료분. --fetch 는 이 주소에서 그대로 내려받는다(크레딧 0).
+# 서명 없는 공개 URL이라 인증이 필요 없다. 재생성하면 이 표를 갱신할 것.
+_CDN = f"https://{CDN_HOST}/user_3GT8ygzdNn4HlTmVkTms2YtAvoj/"
+GENERATED = {
+    "hf_anatomy":  _CDN + "hf_20260726_084638_11adda0b-8d86-4b9c-9e83-dfe133969720.png",
+    "hf_axial":    _CDN + "hf_20260726_084643_9b653c28-b354-423e-b523-1dfd93339491.png",
+    "hf_avoid":    _CDN + "hf_20260726_084646_8a84c14c-249d-4408-81b6-389c2b49f058.png",
+    "hf_contrast": _CDN + "hf_20260726_084649_c938ce17-44dc-4ac9-b928-9878f2fd16de.png",
+}
 
 # 라벨은 모델에게 맡기지 않는다 — 한글이 깨지므로 그림만 받고 라벨은 우리가 얹는다.
 NO_TEXT = ("절대 금지: 어떤 문자·숫자·라벨·화살표·워터마크도 넣지 말 것. "
@@ -105,16 +131,45 @@ def run(*args, timeout=180):
     return p.returncode, p.stdout.strip(), p.stderr.strip()
 
 
+def probe(host):
+    """해당 호스트로 나갈 수 있는지만 본다. 열림/차단을 그대로 돌려준다."""
+    rc = subprocess.run(["curl", "-sS", "-o", "/dev/null", "--max-time", "12",
+                         f"https://{host}/"], capture_output=True).returncode
+    print(f"  {host:<32} {'열림' if rc == 0 else '차단'}")
+    return rc == 0
+
+
+def fetch():
+    """이미 생성된 4종을 CDN에서 그대로 내려받는다 — 인증도 크레딧도 필요 없다."""
+    if not probe(CDN_HOST):
+        print("\n→ CDN이 막혀 있다. 환경 네트워크 정책에 아래를 허용한 뒤"
+              " '새 세션'에서 다시 실행할 것:\n"
+              f"     {CDN_HOST}   (또는 *.cloudfront.net)\n"
+              "  정책은 컨테이너 부팅 시 적용되므로 지금 세션에서는 열리지 않는다.")
+        return False
+    os.makedirs(ASSETS, exist_ok=True)
+    fails = []
+    for name, url in GENERATED.items():
+        dest = os.path.join(ASSETS, f"{name}.png")
+        try:
+            urllib.request.urlretrieve(url, dest)
+            print(f"[{name}] 저장 → {dest} ({os.path.getsize(dest)/1024:.0f}KB)")
+        except Exception as e:
+            print(f"[{name}] 실패: {e}")
+            fails.append(name)
+    if fails:
+        print(f"\n실패: {', '.join(fails)}")
+        return False
+    print("\n4종 모두 확보. 이제 실행: python3 scripts/build_lsb_web.py")
+    return True
+
+
 def check():
     """네트워크·인증을 먼저 점검한다 — 실패 원인을 분명히 갈라 보여준다."""
-    ok = True
+    ok = probe(CDN_HOST)          # --fetch 에 필요한 유일한 호스트
     for h in HOSTS:
-        rc = subprocess.run(["curl", "-sS", "-o", "/dev/null", "--max-time", "12",
-                             f"https://{h}/"], capture_output=True).returncode
-        state = "열림" if rc == 0 else "차단"
-        if rc != 0:
+        if not probe(h):
             ok = False
-        print(f"  {h:<30} {state}")
     if not ok:
         print("\n→ 네트워크 정책이 막고 있다. 정책을 바꿨다면 '새 세션'에서 실행할 것"
               "(정책은 컨테이너 부팅 시 적용된다).")
@@ -162,6 +217,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--list", action="store_true")
     ap.add_argument("--check", action="store_true")
+    ap.add_argument("--fetch", action="store_true",
+                    help="생성 완료분을 CDN에서 내려받기만 한다(크레딧 0, 인증 불필요)")
     ap.add_argument("--only", action="append", default=[])
     a = ap.parse_args()
 
@@ -170,6 +227,8 @@ def main():
             have = "있음" if os.path.exists(os.path.join(ASSETS, f"{k}.png")) else "없음"
             print(f"  {k:<14} {v['aspect']:<6} assets/{k}.png: {have}")
         return
+    if a.fetch:
+        sys.exit(0 if fetch() else 1)
     if a.check:
         sys.exit(0 if check() else 1)
     if not check():
