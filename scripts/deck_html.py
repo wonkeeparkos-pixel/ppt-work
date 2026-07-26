@@ -73,6 +73,38 @@ table.t tr.hl td:first-child{border-left:2px solid var(--red)}
 table.t tr.hl td:last-child{border-right:2px solid var(--red)}
 table.t tr.hl td:first-child{color:var(--red)}
 .note{font-weight:700;font-size:1.92cqw;color:var(--tealD);margin-top:1.8cqw;line-height:1.28}
+/* cp(compact): 항목이 많은 덱 전용 타입 스케일 (기존 덱에는 영향 없음) */
+.content.cp h2.ct,.split.cp h2.ct{font-size:3.5cqw}
+.content.cp ul.b,.split.cp ul.b{gap:1.0cqw}
+.content.cp ul.b li,.split.cp ul.b li{font-size:2.0cqw;line-height:1.2}
+.content.cp ul.b li::before,.split.cp ul.b li::before{top:.72cqw;width:1.02cqw;height:1.02cqw}
+.content.cp ul.b li.sub2,.split.cp ul.b li.sub2{font-size:1.88cqw}
+.content.cp ul.b li.sub2::before,.split.cp ul.b li.sub2::before{top:1.34cqw;width:1.24cqw;height:.2cqw}
+.content.cp .note,.split.cp .note{font-size:1.7cqw;margin-top:1.2cqw}
+.content.cp .stat{padding-top:1.4cqw}
+.content.cp .stat .it b{font-size:3.5cqw}
+.content.cp .stat .it span{font-size:1.66cqw}
+.split.cp .aside{padding:2.1cqw 2.3cqw}
+.split.cp .aside .at{font-size:2.0cqw;margin-bottom:1.1cqw}
+.split.cp .aside ul.b li{font-size:1.84cqw;line-height:1.2}
+.split.cp .astat{gap:1.2cqw}
+.split.cp .astat .it b{font-size:2.85cqw}
+.split.cp .astat .it span{font-size:1.62cqw}
+.content.cp .foot,.split.cp .foot{margin-top:1.1cqw;padding-top:1.5cqw}
+.key.cp .pad{padding:5.2cqw 6.4cqw}
+.key.cp h2.kh{font-size:4.2cqw;margin:1.1cqw 0 1.7cqw}
+.key.cp .msg{padding:1.0cqw 0;gap:2.4cqw}
+.key.cp .msg .ml{width:19cqw;font-size:2.15cqw}
+.key.cp .msg .md{font-size:1.92cqw;line-height:1.26}
+.refs.cp .cols .c{gap:.74cqw}
+.refs.cp .cols a,.refs.cp .cols div.r{font-size:1.32cqw;line-height:1.17}
+/* dense: 행이 많은 표 전용 (기존 덱에는 영향 없음) */
+.tableS.dense h2.ct{font-size:3.2cqw}
+.tableS.dense table.t{margin-top:.5cqw}
+.tableS.dense table.t th{font-size:1.6cqw;padding:.58cqw 1.1cqw}
+.tableS.dense table.t td{font-size:1.54cqw;padding:.42cqw 1.1cqw;line-height:1.18}
+.tableS.dense .note{font-size:1.6cqw;margin-top:1cqw;line-height:1.24}
+.tableS.dense .foot{margin-top:1cqw;padding-top:1.4cqw}
 .foot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;color:#7A868C;
   border-top:1.5px solid var(--line);padding-top:2.2cqw}
 .content .foot,.split .foot,.tableS .foot{margin-top:1.6cqw}
@@ -218,7 +250,8 @@ def slide(s, pg):
             cls=' class="hl"' if ri in hl else ''
             body+=f'<tr{cls}>'+''.join(f'<td>{c}</td>' for c in r)+'</tr>'
         note=f'<div class="note">{s["note"]}</div>' if s.get('note') else ''
-        return f'''<section class="snap tableS"><div class="stage"><div class="pad">
+        dense=' dense' if s.get('dense') else ''
+        return f'''<section class="snap tableS{dense}"><div class="stage"><div class="pad">
 <div class="topbar"><div class="eb">{esc(s['eyebrow'])}</div>{_tag(s.get('tag'))}</div>
 <h2 class="ct">{s['title']}</h2><table class="t">{head}{body}</table>{note}
 {_foot(s['foot'],pg)}</div></div></section>'''
