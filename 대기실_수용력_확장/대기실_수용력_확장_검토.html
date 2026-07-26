@@ -1,0 +1,763 @@
+<title>상록탑정형외과 · 동측 대기실 수용력 확장 검토</title>
+
+<style>
+:root{
+  --fs:'Pretendard','Pretendard Variable',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',system-ui,sans-serif;
+  --fm:ui-monospace,'SFMono-Regular','SF Mono','Cascadia Mono','Roboto Mono',Menlo,Consolas,monospace;
+
+  --bg:#FBF9F6; --surface:#F4F1EC; --sunk:#EDE8E1;
+  --ink:#1C2228; --ink2:#515C67; --ink3:#8A939C;
+  --rule:#DDD6CC; --rule2:#C6BDB1;
+  --accent:#2F5D7C; --accent-soft:#E4EDF3;
+  --bronze:#96703F;
+  --warn:#A8412F; --warn-soft:#F6E9E5;
+  --good:#376F55;
+  --c-use:#0B6FA4; --c-idle:#BD4C2E; --on-mark:#fff;   /* 검증된 차트 마크 */
+
+  --pl-bg:#FBF9F6; --pl-wall:#39434D; --pl-solid:#CFC8BC;
+  --pl-room:#E8E2D8; --pl-room2:#DBD3C6; --pl-counter:#6B7883; --pl-oncounter:#fff;
+  --pl-bench:#EEE1CE; --pl-benchs:#C0A98A; --pl-occ:#876E48; --pl-lost:#A8412F;
+  --pl-seat:#DCE8EF; --pl-seats:#2F5D7C; --pl-arm:#2F5D7C;
+  --pl-ink:#1C2228; --pl-ink2:#515C67; --pl-ink3:#8A939C;
+  --pl-znow:rgba(168,65,47,.05); --pl-z1:rgba(47,93,124,.07); --pl-z1s:#2F5D7C;
+  --pl-z2:rgba(55,111,85,.08); --pl-z2s:#376F55;
+  --pl-z3:rgba(150,112,63,.10); --pl-z3s:#7E5C2E;
+  --pl-void:rgba(168,65,47,.04); --pl-voids:#BC8B80; --pl-demo:#A8412F;
+  --pl-flow:#7A8EA0; --pl-wc:rgba(47,93,124,.10); --pl-ondisp:#fff;
+  --pl-accent:#2F5D7C;
+}
+@media (prefers-color-scheme:dark){ :root{
+  --bg:#14181C; --surface:#1C2127; --sunk:#232931;
+  --ink:#E7E3DB; --ink2:#A3ADB6; --ink3:#727C86;
+  --rule:#2C333B; --rule2:#3D454E;
+  --accent:#7BB3D6; --accent-soft:#1B2A35;
+  --bronze:#C9A36C;
+  --warn:#DE8878; --warn-soft:#2E2020;
+  --good:#72B694;
+  --c-use:#45A0CC; --c-idle:#D4704A; --on-mark:#101519;
+
+  --pl-bg:#14181C; --pl-wall:#9AA5AF; --pl-solid:#3A424B;
+  --pl-room:#232930; --pl-room2:#2B323A; --pl-counter:#586570; --pl-oncounter:#F2EFE9;
+  --pl-bench:#3A322A; --pl-benchs:#8A755A; --pl-occ:#C2A272; --pl-lost:#DE8878;
+  --pl-seat:#1E2E39; --pl-seats:#7BB3D6; --pl-arm:#7BB3D6;
+  --pl-ink:#E7E3DB; --pl-ink2:#A3ADB6; --pl-ink3:#727C86;
+  --pl-znow:rgba(222,136,120,.07); --pl-z1:rgba(123,179,214,.08); --pl-z1s:#7BB3D6;
+  --pl-z2:rgba(114,182,148,.09); --pl-z2s:#72B694;
+  --pl-z3:rgba(201,163,108,.11); --pl-z3s:#C9A36C;
+  --pl-void:rgba(222,136,120,.05); --pl-voids:#8C635C; --pl-demo:#DE8878;
+  --pl-flow:#6C7C8B; --pl-wc:rgba(123,179,214,.12); --pl-ondisp:#0F1418;
+  --pl-accent:#7BB3D6;
+}}
+:root[data-theme="light"]{
+  --bg:#FBF9F6; --surface:#F4F1EC; --sunk:#EDE8E1;
+  --ink:#1C2228; --ink2:#515C67; --ink3:#8A939C;
+  --rule:#DDD6CC; --rule2:#C6BDB1;
+  --accent:#2F5D7C; --accent-soft:#E4EDF3; --bronze:#96703F;
+  --warn:#A8412F; --warn-soft:#F6E9E5; --good:#376F55;
+  --c-use:#0B6FA4; --c-idle:#BD4C2E; --on-mark:#fff;
+  --pl-bg:#FBF9F6; --pl-wall:#39434D; --pl-solid:#CFC8BC;
+  --pl-room:#E8E2D8; --pl-room2:#DBD3C6; --pl-counter:#6B7883; --pl-oncounter:#fff;
+  --pl-bench:#EEE1CE; --pl-benchs:#C0A98A; --pl-occ:#876E48; --pl-lost:#A8412F;
+  --pl-seat:#DCE8EF; --pl-seats:#2F5D7C; --pl-arm:#2F5D7C;
+  --pl-ink:#1C2228; --pl-ink2:#515C67; --pl-ink3:#8A939C;
+  --pl-znow:rgba(168,65,47,.05); --pl-z1:rgba(47,93,124,.07); --pl-z1s:#2F5D7C;
+  --pl-z2:rgba(55,111,85,.08); --pl-z2s:#376F55;
+  --pl-z3:rgba(150,112,63,.10); --pl-z3s:#7E5C2E;
+  --pl-void:rgba(168,65,47,.04); --pl-voids:#BC8B80; --pl-demo:#A8412F;
+  --pl-flow:#7A8EA0; --pl-wc:rgba(47,93,124,.10); --pl-ondisp:#fff; --pl-accent:#2F5D7C;
+}
+:root[data-theme="dark"]{
+  --bg:#14181C; --surface:#1C2127; --sunk:#232931;
+  --ink:#E7E3DB; --ink2:#A3ADB6; --ink3:#727C86;
+  --rule:#2C333B; --rule2:#3D454E;
+  --accent:#7BB3D6; --accent-soft:#1B2A35; --bronze:#C9A36C;
+  --warn:#DE8878; --warn-soft:#2E2020; --good:#72B694;
+  --c-use:#45A0CC; --c-idle:#D4704A; --on-mark:#101519;
+  --pl-bg:#14181C; --pl-wall:#9AA5AF; --pl-solid:#3A424B;
+  --pl-room:#232930; --pl-room2:#2B323A; --pl-counter:#586570; --pl-oncounter:#F2EFE9;
+  --pl-bench:#3A322A; --pl-benchs:#8A755A; --pl-occ:#C2A272; --pl-lost:#DE8878;
+  --pl-seat:#1E2E39; --pl-seats:#7BB3D6; --pl-arm:#7BB3D6;
+  --pl-ink:#E7E3DB; --pl-ink2:#A3ADB6; --pl-ink3:#727C86;
+  --pl-znow:rgba(222,136,120,.07); --pl-z1:rgba(123,179,214,.08); --pl-z1s:#7BB3D6;
+  --pl-z2:rgba(114,182,148,.09); --pl-z2s:#72B694;
+  --pl-z3:rgba(201,163,108,.11); --pl-z3s:#C9A36C;
+  --pl-void:rgba(222,136,120,.05); --pl-voids:#8C635C; --pl-demo:#DE8878;
+  --pl-flow:#6C7C8B; --pl-wc:rgba(123,179,214,.12); --pl-ondisp:#0F1418; --pl-accent:#7BB3D6;
+}
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--fs);
+  font-size:16px;line-height:1.68;-webkit-font-smoothing:antialiased}
+.wrap{max-width:940px;margin:0 auto;padding:0 24px 96px}
+@media (max-width:600px){ .wrap{padding:0 16px 64px} body{font-size:15px} }
+
+/* ── 표제 블록 ─────────────────────────────────── */
+.sheet-head{border-bottom:2px solid var(--ink);padding:40px 0 20px;margin-bottom:40px}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:14px 26px;font-family:var(--fm);font-size:11.5px;line-height:1.5;
+  padding-bottom:26px;border-bottom:1px solid var(--rule)}
+.meta dt{color:var(--ink3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px}
+.meta dd{margin:0;color:var(--ink);font-weight:500}
+h1{font-size:clamp(27px,4.4vw,40px);line-height:1.28;letter-spacing:-.022em;
+  font-weight:800;margin:28px 0 0;text-wrap:balance}
+h1 em{font-style:normal;color:var(--warn)}
+.lede{margin:18px 0 0;font-size:clamp(15.5px,1.9vw,17.5px);color:var(--ink2);
+  max-width:64ch;line-height:1.72}
+
+/* ── 섹션 ──────────────────────────────────────── */
+section{margin-top:64px;scroll-margin-top:20px}
+.sec-no{font-family:var(--fm);font-size:11.5px;letter-spacing:.16em;color:var(--accent);
+  font-weight:600;display:block;margin-bottom:9px}
+h2{font-size:clamp(20px,2.9vw,25px);line-height:1.34;letter-spacing:-.016em;
+  font-weight:800;margin:0 0 8px;text-wrap:balance;
+  padding-bottom:13px;border-bottom:1px solid var(--rule2)}
+h3{font-size:16.5px;font-weight:700;letter-spacing:-.008em;margin:38px 0 10px}
+h4{font-size:14px;font-weight:700;margin:24px 0 8px;color:var(--ink2)}
+p{margin:0 0 15px;max-width:66ch}
+strong{font-weight:700}
+.hl{background:var(--accent-soft);padding:.06em .3em;border-radius:2px;font-weight:600}
+
+/* ── 요약 카드 ─────────────────────────────────── */
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);margin:26px 0}
+.opt{background:var(--surface);padding:18px 17px 17px}
+.opt.now{background:var(--sunk)}
+.opt.pick{background:var(--accent-soft)}
+.opt-k{font-family:var(--fm);font-size:11px;letter-spacing:.13em;color:var(--ink3);
+  text-transform:uppercase;margin-bottom:9px}
+.opt.pick .opt-k{color:var(--accent);font-weight:700}
+.opt-n{font-family:var(--fm);font-size:34px;font-weight:700;line-height:1;
+  letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.opt-n span{font-size:14px;font-weight:500;margin-left:3px;letter-spacing:0}
+.opt-d{font-size:12.5px;color:var(--ink2);margin-top:11px;line-height:1.55}
+.opt-c{font-family:var(--fm);font-size:12px;color:var(--ink);margin-top:9px;
+  padding-top:9px;border-top:1px solid var(--rule2);font-variant-numeric:tabular-nums}
+
+.callout{border-left:3px solid var(--accent);background:var(--surface);
+  padding:16px 18px;margin:26px 0;font-size:15px}
+.callout p:last-child{margin-bottom:0}
+.callout.warn{border-left-color:var(--warn);background:var(--warn-soft)}
+
+/* ── 지표 ──────────────────────────────────────── */
+.stat{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 18px;margin:22px 0 6px}
+.stat-n{font-family:var(--fm);font-size:clamp(40px,7vw,62px);font-weight:700;
+  line-height:.95;letter-spacing:-.035em;color:var(--c-use);font-variant-numeric:tabular-nums}
+.stat-t{font-size:14.5px;color:var(--ink2);max-width:34ch;line-height:1.5}
+
+.pbar{display:flex;height:34px;margin:16px 0 8px;gap:2px;
+  border:1px solid var(--rule2);padding:2px;background:var(--surface)}
+.pbar>div{display:flex;align-items:center;justify-content:center;
+  font-family:var(--fm);font-size:11.5px;font-weight:600;color:var(--on-mark);
+  white-space:nowrap;overflow:hidden;border-radius:1px}
+.pb-use{background:var(--c-use)} .pb-idle{background:var(--c-idle)}
+.legend{display:flex;flex-wrap:wrap;gap:7px 20px;font-family:var(--fm);font-size:11.5px;
+  color:var(--ink2);margin-top:10px}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:2px;
+  margin-right:6px;vertical-align:-1px}
+
+/* ── 좌석 막대 ─────────────────────────────────── */
+.bars{margin:22px 0 6px;display:grid;gap:9px}
+.bar-row{display:grid;grid-template-columns:78px 1fr;align-items:center;gap:12px}
+.bar-l{font-family:var(--fm);font-size:12px;color:var(--ink2);text-align:right}
+.bar-t{position:relative;height:26px;background:var(--sunk);border-radius:2px}
+.bar-f{height:100%;border-radius:2px 4px 4px 2px;background:var(--c-use);
+  display:flex;align-items:center;justify-content:flex-end;padding-right:9px;
+  font-family:var(--fm);font-size:12px;font-weight:700;color:var(--on-mark);
+  font-variant-numeric:tabular-nums}
+.bar-f.idle{background:var(--c-idle)}
+
+/* ── 도면 시트 ─────────────────────────────────── */
+figure{margin:26px 0 0;border:1px solid var(--rule2);background:var(--surface)}
+.fig-h{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 14px;
+  padding:11px 15px;border-bottom:1px solid var(--rule2);
+  font-family:var(--fm);font-size:11.5px;letter-spacing:.05em}
+.fig-h b{font-weight:700;letter-spacing:.11em;text-transform:uppercase}
+.fig-h span{color:var(--ink3)}
+figure svg{display:block;width:100%;height:auto;padding:12px 14px;background:var(--pl-bg)}
+figcaption{padding:11px 15px;border-top:1px solid var(--rule);
+  font-size:12.5px;color:var(--ink2);line-height:1.6}
+.keys{display:flex;flex-wrap:wrap;gap:6px 18px;padding:10px 15px;
+  border-top:1px solid var(--rule);font-family:var(--fm);font-size:11px;color:var(--ink2)}
+.keys i{display:inline-block;width:10px;height:10px;margin-right:6px;vertical-align:-1px;
+  border-radius:50%}
+.k-occ{background:var(--pl-occ)}
+.k-lost{border:1.5px dashed var(--pl-lost)}
+.k-seat{background:var(--pl-seats);border-radius:2px!important}
+
+/* ── 표 ────────────────────────────────────────── */
+.tw{overflow-x:auto;margin:22px 0;border:1px solid var(--rule2)}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:13.5px}
+caption{caption-side:top;text-align:left;padding:11px 14px;font-family:var(--fm);
+  font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink3);
+  border-bottom:1px solid var(--rule2);background:var(--surface)}
+th,td{padding:9px 14px;text-align:left;border-bottom:1px solid var(--rule);
+  vertical-align:top;line-height:1.55}
+thead th{font-family:var(--fm);font-size:11px;letter-spacing:.07em;color:var(--ink2);
+  font-weight:600;background:var(--surface);white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+td.n,th.n{text-align:right;font-family:var(--fm);font-variant-numeric:tabular-nums;
+  white-space:nowrap}
+tr.tot td{font-weight:700;background:var(--sunk);border-top:1.5px solid var(--rule2)}
+tr.tot td.n{color:var(--accent)}
+td.lab{font-weight:600;white-space:nowrap}
+.mono{font-family:var(--fm);font-variant-numeric:tabular-nums}
+
+/* ── 목록 ──────────────────────────────────────── */
+ul,ol{margin:0 0 15px;padding-left:22px;max-width:66ch}
+li{margin-bottom:8px;line-height:1.66}
+ul.plain{list-style:none;padding-left:0}
+ul.plain li{padding-left:20px;position:relative}
+ul.plain li::before{content:"—";position:absolute;left:0;color:var(--ink3);
+  font-family:var(--fm)}
+ul.no li::before{content:"×";color:var(--warn);font-weight:700}
+
+/* ── 로드맵 ────────────────────────────────────── */
+.road{margin:26px 0;border-top:1px solid var(--rule2)}
+.step{display:grid;grid-template-columns:96px 1fr;gap:18px;
+  padding:19px 0;border-bottom:1px solid var(--rule)}
+@media (max-width:560px){ .step{grid-template-columns:1fr;gap:4px} }
+.step-k{font-family:var(--fm);font-size:11.5px;color:var(--accent);font-weight:600;
+  letter-spacing:.06em;line-height:1.5}
+.step-k b{display:block;color:var(--ink3);font-weight:500;margin-top:2px}
+.step h3{margin:0 0 5px;font-size:15.5px}
+.step p{margin:0;font-size:14px;color:var(--ink2)}
+
+footer{margin-top:72px;padding-top:22px;border-top:2px solid var(--ink);
+  font-family:var(--fm);font-size:11.5px;color:var(--ink3);line-height:1.75}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+
+<header class="sheet-head">
+  <dl class="meta">
+    <div><dt>프로젝트</dt><dd>상록탑정형외과 대기 수용력 확장</dd></div>
+    <div><dt>대상 범위</dt><dd>동측 공용부 약 85 m² (25.7평)</dd></div>
+    <div><dt>제외</dt><dd>서측 치료동 (기존 구조물 존치)</dd></div>
+    <div><dt>작성</dt><dd>2026-07-26 · 기획 검토</dd></div>
+    <div><dt>근거</dt><dd>조명평면도 1 · 현장사진 5 · CCTV 3프레임</dd></div>
+    <div><dt>축척</dt><dd>도면 환산 ±5% · 실측 전</dd></div>
+  </dl>
+  <h1>대기실이 좁은 게 아니라,<br>대기 기능이 <em>24 m² 한 곳</em>에 갇혀 있습니다</h1>
+  <p class="lede">동측 공용부는 약 85 m²인데 실제로 앉을 수 있는 구역은 24 m²의 메인 대기홀
+  하나뿐입니다. 로비·전실 19 m², 간호부 19 m², 데드코리도 8 m²는 대기에 전혀 쓰이지
+  않습니다. 여기에 팔걸이 없는 벤치소파가 공칭 좌석의 35%를 스스로 깎아먹고 있습니다.
+  <strong>공사를 하지 않고 가구 교체와 재배치만으로 15석 → 31석</strong>, 간호부 동측을
+  편입하면 41석까지 갑니다.</p>
+</header>
+
+<!-- ══ 요약 ══ -->
+<section id="summary">
+  <span class="sec-no">SUMMARY</span>
+  <h2>세 가지 안과 권고</h2>
+
+  <div class="opts">
+    <div class="opt now">
+      <div class="opt-k">현황</div>
+      <div class="opt-n">15<span>석</span></div>
+      <div class="opt-d">벤치소파 4대 + 산재 좌석.<br>공칭 19석이나 실착석 15석.</div>
+      <div class="opt-c">—</div>
+    </div>
+    <div class="opt pick">
+      <div class="opt-k">A안 · 권고</div>
+      <div class="opt-n">31<span>석</span></div>
+      <div class="opt-d">무공사. 의자 전량 교체 + 등맞댐 재배치 + 로비 대기존 신설.</div>
+      <div class="opt-c">1,800–2,600만원<br>2–3주 · 휴진 0일</div>
+    </div>
+    <div class="opt">
+      <div class="opt-k">B안</div>
+      <div class="opt-n">41<span>석</span></div>
+      <div class="opt-d">A안 + 간호부 동측 11.4 m² 철거·편입, 간호 스테이션 축소.</div>
+      <div class="opt-c">4,300–6,000만원<br>4–6주 · 휴진 0–2일</div>
+    </div>
+    <div class="opt">
+      <div class="opt-k">C안</div>
+      <div class="opt-n">50<span>석</span></div>
+      <div class="opt-d">동측 공용부 전면 재구성. 간호부 전량 이전 + 카운터 축소 + 키오스크.</div>
+      <div class="opt-c">1.0–1.4억원<br>8–10주 · 휴진 1–2주</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <p><strong>권고 — A안부터, C안은 아직 하지 마세요.</strong> 돈을 쓰실 의향이 있다는 건
+    알겠습니다. 다만 지금 확보된 근거로 보면 <span class="hl">A안 1,800~2,600만원이면
+    피크 수요가 거의 해결</span>됩니다. 여기에 아래 <a href="#ops">운영 개선</a>(모바일 호출·
+    물리치료 슬롯 예약)을 얹으면 동시 체류 인원 자체가 20~30% 줄어듭니다. 31석 + 수요 감소면
+    추정 피크 25~35명을 감당합니다.</p>
+    <p>C안(1억+)은 지금 쓰면 <strong>효과를 측정할 기준선이 없는 상태</strong>에서 쓰는 돈이
+    됩니다. A안 시행 → 2주 재측정 → 그래도 부족하면 B안, 이 순서를 권합니다.</p>
+  </div>
+</section>
+
+<!-- ══ 01 진단 ══ -->
+<section id="diagnosis">
+  <span class="sec-no">01 · DIAGNOSIS</span>
+  <h2>진단 — 무엇이 실제로 문제인가</h2>
+
+  <h3>1.1 &nbsp;면적은 있는데 대기에 안 쓰입니다</h3>
+  <div class="stat">
+    <div class="stat-n">28%</div>
+    <div class="stat-t">동측 공용부 85 m² 가운데 대기 좌석이 놓인 면적.
+      나머지 61 m² 중 최소 30 m²는 좌석으로 전환 가능합니다.</div>
+  </div>
+  <div class="pbar" role="img" aria-label="동측 공용부 85제곱미터 중 대기 좌석 구역 24, 그 외 61">
+    <div class="pb-use" style="flex:24">대기 24 m²</div>
+    <div class="pb-idle" style="flex:61">대기 외 61 m²</div>
+  </div>
+  <div class="legend">
+    <span><i style="background:var(--c-use)"></i>대기 좌석 구역</span>
+    <span><i style="background:var(--c-idle)"></i>로비·간호부·통로·카운터</span>
+  </div>
+
+  <div class="tw"><table>
+    <caption>동측 공용부 면적 배분 · 도면 환산</caption>
+    <thead><tr><th>구역</th><th class="n">면적</th><th>현재 용도</th></tr></thead>
+    <tbody>
+      <tr><td class="lab">메인 대기홀</td><td class="n">24 m²</td><td>대기 좌석 — 벤치소파 4대</td></tr>
+      <tr><td class="lab">로비 · 전실</td><td class="n">19 m²</td><td>3인 벤치 1대 외 거의 비어 있음</td></tr>
+      <tr><td class="lab">간호부 · 간호실</td><td class="n">19 m²</td><td>워크스테이션 2석 + 수납</td></tr>
+      <tr><td class="lab">접수 카운터 · 원무 백존</td><td class="n">10 m²</td><td>직원 — 카운터 길이 5,400</td></tr>
+      <tr><td class="lab">간호부 남측 코리도</td><td class="n">8 m²</td><td>통로</td></tr>
+      <tr><td class="lab">동측 레인</td><td class="n">5 m²</td><td>X-RAY·탈의실 동선</td></tr>
+      <tr class="tot"><td>계</td><td class="n">85 m²</td><td>이 중 대기 좌석 24 m²</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>1.2 &nbsp;벤치소파가 좌석의 35%를 깎아먹습니다</h3>
+  <p>지금 놓인 가구는 <strong>팔걸이도 좌석 구분도 없는 벤치소파(1,800 × 700)</strong>입니다.
+  경계가 없으면 모르는 사람끼리 붙어 앉지 않습니다. CCTV 3개 프레임에서 1,800 벤치 1대당
+  실제 착석은 <span class="mono">2~3명</span>이었습니다 — 공칭 4석 대비 실착석률 약
+  <span class="mono">0.65</span>.</p>
+
+  <p>정형외과에서는 팔걸이가 편의 사양이 아니라 <strong>임상 요건</strong>입니다.
+  슬·고관절, 척추 환자는 팔걸이 없이 일어서지 못합니다. 좌면이 낮고 물러서
+  더 못 일어납니다. 못 일어나는 환자는 통로쪽 자리를 차지하고 안쪽으로 들어가지 않으니,
+  가운데 자리는 계속 비어 있게 됩니다.</p>
+
+  <h3>1.3 &nbsp;피크 수요 추정</h3>
+  <div class="tw"><table>
+    <caption>제공된 CCTV 프레임 판독</caption>
+    <thead><tr><th>일시</th><th class="n">착석</th><th class="n">입석·대기</th><th>관찰</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">07-04 09:46</td><td class="n">14–16</td><td class="n">2–3</td><td>벤치당 2~3인, 뒤편 입석</td></tr>
+      <tr><td class="mono">07-18 11:49</td><td class="n">12–14</td><td class="n">3–5</td><td>보호자 동반 다수, 좌석 포화</td></tr>
+      <tr><td class="mono">07-26 11:06</td><td class="n">10–12</td><td class="n">5–7</td><td>복도 입석, 휠체어 1대 대기</td></tr>
+    </tbody>
+  </table></div>
+  <p>오전 피크 동시 체류 인원은 보호자 포함 <strong>25~35명</strong>으로 추정됩니다.
+  좌석 15석이니 <strong>10~20명분이 구조적으로 부족</strong>하고, 그 사람들이 서 있다가
+  나가는 겁니다.</p>
+
+  <div class="callout warn">
+    <p><strong>이탈 손실은 원장님 숫자로 계산하셔야 합니다.</strong>
+    <span class="mono">일 이탈 N명 × 월 22일 × 객단가</span>. 정형외과는 진료비만이 아니라
+    영상검사·물리치료·도수 패키지가 함께 날아가므로 객단가를 낮게 잡아도 손실이 큽니다.
+    일 8명 · 객단가 4만원이면 월 704만원, 연 8,400만원입니다 —
+    <strong>A안 공사비를 3~4개월이면 회수</strong>합니다. 다만 이 N값을 2주간 실제로
+    세어보시는 게 먼저입니다.</p>
+  </div>
+</section>
+
+<!-- ══ 02 의자 ══ -->
+<section id="chairs">
+  <span class="sec-no">02 · FURNITURE</span>
+  <h2>의자 — 무엇을, 왜 바꾸나</h2>
+
+  <p>같은 벽면 길이에서도 팔걸이로 좌석이 구획되면 실착석이 올라갑니다.
+  다만 <strong>의자 교체 하나만으로 좌석이 두 배가 되지는 않습니다</strong> —
+  길이당 이득은 약 +29%입니다. 나머지는 배치(등맞댐)와 미사용 면적에서 나옵니다.
+  솔직히 말씀드리는 편이 견적 판단에 도움이 됩니다.</p>
+
+  <figure>
+    <div class="fig-h"><b>FIG. 1 — 좌석 유닛 비교</b><span>동일 벽면 3,600 · 평면</span></div>
+    <svg viewBox="0 0 226 138" role="img" aria-label="의자 비교 — 동일 벽면 3,600 실착석" xmlns="http://www.w3.org/2000/svg"><style>
+text{font-family:var(--fs);fill:var(--pl-ink)}
+.base{stroke:var(--pl-wall);stroke-width:2}
+.bench2{fill:var(--pl-bench);stroke:var(--pl-benchs);stroke-width:.9}
+.bench-back2{stroke:var(--pl-benchs);stroke-width:3}
+.gang{fill:var(--pl-seat);stroke:var(--pl-seats);stroke-width:.9}
+.seat-back2{stroke:var(--pl-seats);stroke-width:3}
+.arm2{stroke:var(--pl-arm);stroke-width:1.8;stroke-linecap:round}
+.occ2{fill:var(--pl-occ)}
+.lost2{fill:none;stroke:var(--pl-lost);stroke-width:1.2;stroke-dasharray:2 1.6}
+.dimline,.dimtick{stroke:var(--pl-ink3);stroke-width:.8}
+.ct{font-size:6px;font-weight:700}
+.cd{font-family:var(--fm);font-size:5.2px;fill:var(--pl-ink3)}
+</style><line class="base" x1="10" y1="20" x2="190.0" y2="20"/><line class="base" x1="10" y1="76" x2="190.0" y2="76"/><rect class="bench2" x="10.0" y="20" width="90.0" height="35.0" rx="1.5"/><line class="bench-back2" x1="10.0" y1="20" x2="100.0" y2="20"/><circle class="occ2" cx="21.25" cy="39.0" r="4.4"/><circle class="occ2" cx="43.75" cy="39.0" r="4.4"/><circle class="occ2" cx="66.25" cy="39.0" r="4.4"/><circle class="lost2" cx="88.75" cy="39.0" r="4.4"/><rect class="bench2" x="100.0" y="20" width="90.0" height="35.0" rx="1.5"/><line class="bench-back2" x1="100.0" y1="20" x2="190.0" y2="20"/><circle class="occ2" cx="111.25" cy="39.0" r="4.4"/><circle class="occ2" cx="133.75" cy="39.0" r="4.4"/><circle class="occ2" cx="156.25" cy="39.0" r="4.4"/><circle class="lost2" cx="178.75" cy="39.0" r="4.4"/><text class="ct" x="10" y="13">현재 · 무팔걸이 벤치소파 1,800 × 700</text><text class="cd" x="190.0" y="13" text-anchor="end">공칭 8석 → 실착석 5.2</text><text class="cd" x="196.0" y="41.0">깊이 700</text><rect class="gang" x="10" y="76" width="175.0" height="29.0" rx="1.5"/><line class="seat-back2" x1="10" y1="76" x2="185.0" y2="76"/><line class="arm2" x1="10.0" y1="78" x2="10.0" y2="103.0"/><line class="arm2" x1="35.0" y1="78" x2="35.0" y2="103.0"/><line class="arm2" x1="60.0" y1="78" x2="60.0" y2="103.0"/><line class="arm2" x1="85.0" y1="78" x2="85.0" y2="103.0"/><line class="arm2" x1="110.0" y1="78" x2="110.0" y2="103.0"/><line class="arm2" x1="135.0" y1="78" x2="135.0" y2="103.0"/><line class="arm2" x1="160.0" y1="78" x2="160.0" y2="103.0"/><line class="arm2" x1="185.0" y1="78" x2="185.0" y2="103.0"/><circle class="occ2" cx="22.5" cy="92.5" r="4.4"/><circle class="occ2" cx="47.5" cy="92.5" r="4.4"/><circle class="occ2" cx="72.5" cy="92.5" r="4.4"/><circle class="occ2" cx="97.5" cy="92.5" r="4.4"/><circle class="occ2" cx="122.5" cy="92.5" r="4.4"/><circle class="occ2" cx="147.5" cy="92.5" r="4.4"/><circle class="occ2" cx="172.5" cy="92.5" r="4.4"/><text class="ct" x="10" y="69">제안 · 팔걸이 분리형 연결의자 500 × 580</text><text class="cd" x="190.0" y="69" text-anchor="end">공칭 7석 → 실착석 6.7</text><text class="cd" x="191.0" y="93.0">깊이 580</text><line class="dimline" x1="10" y1="114" x2="190.0" y2="114"/><line class="dimtick" x1="10" y1="109" x2="10" y2="119"/><line class="dimtick" x1="190.0" y1="109" x2="190.0" y2="119"/><text class="cd" x="100.0" y="127" text-anchor="middle">동일 벽면 3,600 기준</text></svg>
+    <div class="keys">
+      <span><i class="k-occ"></i>실제 착석</span>
+      <span><i class="k-lost"></i>구획 부재로 비는 자리</span>
+    </div>
+    <figcaption>실착석률은 CCTV 판독값(현행 0.65)과 팔걸이 구획형의 통상값(0.95)을 적용.
+      제안형은 1인 폭이 넓어지지만(450→500) 구획 효과가 이를 상쇄하고 남습니다.</figcaption>
+  </figure>
+
+  <div class="tw"><table>
+    <caption>권장 사양</caption>
+    <thead><tr><th>항목</th><th>현재</th><th>제안</th><th>이유</th></tr></thead>
+    <tbody>
+      <tr><td class="lab">팔걸이</td><td>없음</td><td class="mono">전 좌석 사이 + 양끝</td><td>인접 착석 유도 · 기립 보조</td></tr>
+      <tr><td class="lab">좌면 높이</td><td class="mono">약 400</td><td class="mono">450–470</td><td>슬·고관절 환자 기립. 정형외과 필수</td></tr>
+      <tr><td class="lab">전체 깊이</td><td class="mono">700</td><td class="mono">560–600</td><td>4열 기준 400–560 절약</td></tr>
+      <tr><td class="lab">1인 피치</td><td class="mono">450 · 구획 없음</td><td class="mono">500 · 구획 명확</td><td>실착석률 0.65 → 0.95</td></tr>
+      <tr><td class="lab">등맞댐</td><td>구조상 곤란</td><td>전용 모듈 존재</td><td>통로 수를 줄여 열 확보</td></tr>
+      <tr><td class="lab">소재</td><td>아이보리 레자</td><td>항균·방오 PU / 의료용 비닐<br>중명도 그레이·세이지</td><td>알코올 소독 가능 · 오염 은폐</td></tr>
+      <tr><td class="lab">다리</td><td>4다리</td><td>2다리 빔 또는 벽부 고정</td><td>바닥 물청소 · 로봇청소기</td></tr>
+      <tr><td class="lab">특수석</td><td>없음</td><td>좌폭 700 광폭 각 존 1석<br>휠체어 공간 900×1,300 × 2</td><td>고도비만·거동불편 환자</td></tr>
+      <tr class="tot"><td>1석 단가</td><td>—</td><td class="mono">12–25만원</td><td>국산 중급 · 팔걸이 포함 기준</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>이건 피하세요</h4>
+  <ul class="plain no">
+    <li>지금과 같은 무팔걸이 3인 이상 일체형 — 문제가 그대로 반복됩니다</li>
+    <li>좌고 420 이하 저좌면 라운지 소파 — 보기엔 좋지만 정형외과 환자가 못 일어납니다</li>
+    <li>밝은 아이보리 레자 — 이미 관리 부담이 사진에 보입니다</li>
+    <li>패브릭 — 파스·연고·땀이 그대로 남습니다</li>
+    <li>등받이 없는 스툴을 주좌석으로 — 보조석으로만</li>
+  </ul>
+</section>
+
+<!-- ══ 03 배치 ══ -->
+<section id="plans">
+  <span class="sec-no">03 · LAYOUT</span>
+  <h2>배치 — 현황과 개선</h2>
+
+  <figure>
+    <div class="fig-h"><b>FIG. 2 — 현황</b><span>동측 공용부 · 실착석 15</span></div>
+    <svg viewBox="0 0 124 110" role="img" aria-label="동측 공용부 현황 — 대기 실효 15석" xmlns="http://www.w3.org/2000/svg"><style>
+.wall{stroke:var(--pl-wall);stroke-width:1.6;fill:none}
+.cut{stroke:var(--pl-ink3);stroke-width:1;stroke-dasharray:5 2 1 2;fill:none}
+.core{fill:var(--pl-solid)}
+.fix{fill:var(--pl-solid)}
+.col{fill:var(--pl-wall)}
+.arrow{stroke:var(--pl-accent);stroke-width:1;fill:none;marker-end:url(#ah)}
+.room{fill:var(--pl-room);stroke:var(--pl-wall);stroke-width:.8}
+.room2{fill:var(--pl-room2);stroke:var(--pl-wall);stroke-width:.5}
+.counter{fill:var(--pl-counter)}
+.back{fill:var(--pl-room2);stroke:var(--pl-wall);stroke-width:.5;stroke-dasharray:1.6 1.2}
+.bench,.benchc{fill:var(--pl-bench);stroke:var(--pl-benchs);stroke-width:.6}
+.bench-back{stroke:var(--pl-benchs);stroke-width:1.4}
+.occ{fill:var(--pl-occ)}
+.lost{fill:none;stroke:var(--pl-lost);stroke-width:.7;stroke-dasharray:1.1 .9}
+.seat{fill:var(--pl-seat);stroke:var(--pl-seats);stroke-width:.5}
+.seat-back{stroke:var(--pl-seats);stroke-width:1.5;stroke-linecap:round}
+.arm{stroke:var(--pl-arm);stroke-width:.85;stroke-linecap:round}
+.wc{fill:var(--pl-wc);stroke:var(--pl-accent);stroke-width:.6;stroke-dasharray:1.4 1}
+.disp{fill:var(--pl-accent)}
+.zone-now{fill:var(--pl-znow);stroke:var(--pl-lost);stroke-width:.6;stroke-dasharray:2 1.4}
+.zone1{fill:var(--pl-z1);stroke:var(--pl-z1s);stroke-width:.6}
+.zone2{fill:var(--pl-z2);stroke:var(--pl-z2s);stroke-width:.6}
+.zone3{fill:var(--pl-z3);stroke:var(--pl-z3s);stroke-width:.6}
+.void{fill:var(--pl-void);stroke:var(--pl-voids);stroke-width:.5;stroke-dasharray:1.4 1.4}
+.demo{stroke:var(--pl-demo);stroke-width:2;stroke-dasharray:2.4 1.6;stroke-linecap:round}
+.flow{stroke:var(--pl-flow);stroke-width:1.4;stroke-dasharray:3 2;fill:none}
+.north{stroke:var(--pl-ink2);stroke-width:.8;fill:var(--pl-ink2)}
+.scale{stroke:var(--pl-ink2);stroke-width:.7}
+text{font-family:var(--fs);fill:var(--pl-ink)}
+.lbl{font-size:3px;font-weight:700;letter-spacing:.04em}
+.lbl-w{font-size:2.6px;font-weight:700;fill:var(--pl-oncounter)}
+.mini{font-size:2.5px;font-weight:600;fill:var(--pl-ink2)}
+.dim{font-family:var(--fm);font-size:2.3px;fill:var(--pl-ink3)}
+.zt{font-size:2.8px;font-weight:700;fill:var(--pl-lost)}
+.zt1{font-size:2.8px;font-weight:700;fill:var(--pl-z1s)}
+.zt2{font-size:2.8px;font-weight:700;fill:var(--pl-z2s)}
+.zt3{font-size:2.8px;font-weight:700;fill:var(--pl-z3s)}
+.cnt{font-family:var(--fm);font-size:4.4px;font-weight:700;fill:var(--pl-accent)}
+.voidt{font-size:2.5px;font-weight:600;fill:var(--pl-voids)}
+.cutt{font-family:var(--fm);font-size:2.2px;fill:var(--pl-ink3)}
+.demot{font-family:var(--fm);font-size:2.3px;fill:var(--pl-demo)}
+.dispt{font-size:2.4px;font-weight:700;fill:var(--pl-ondisp)}
+.wct{font-size:2.1px;font-weight:700;fill:var(--pl-accent)}
+</style><defs><marker id="ah" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="var(--pl-accent)"/></marker></defs><g><line class="wall" x1="3.0" y1="9.0" x2="102.0" y2="9.0"/><rect class="core" x="41.0" y="2.5" width="30.0" height="6.5" rx="0"/><text class="mini" x="56.0" y="7.2" text-anchor="middle">E/V 홀 · 출입</text><path class="arrow" d="M 56.0 10.5 V 18.5"/><line class="wall" x1="102.0" y1="9.0" x2="114.0" y2="9.0"/><line class="wall" x1="114.0" y1="9.0" x2="114.0" y2="44.0"/><line class="wall" x1="114.0" y1="44.0" x2="107.0" y2="44.0"/><line class="wall" x1="107.0" y1="44.0" x2="107.0" y2="102.5"/><text class="mini" x="117.2" y="25.0" text-anchor="middle" transform="rotate(-90 117.2 25.0)">X-RAY · CT · BMD · 직원휴게실</text><line class="wall" x1="3.0" y1="102.5" x2="107.0" y2="102.5"/><text class="mini" x="35.0" y="101.8" text-anchor="middle">C-ARM실 · 의국 · 조영촬영실 · 진료실</text><path class="cut" d="M 4.0 9.0 V 102.5"/><text class="cutt" x="2.2" y="56.0" text-anchor="middle" transform="rotate(-90 2.2 56.0)">서측 치료동 — 금번 범위 외</text><rect class="fix" x="81.0" y="9.0" width="18.0" height="4.5" rx="0"/><text class="mini" x="90.0" y="18.0" text-anchor="middle">정수기 · 커피</text><rect class="col" x="96.0" y="18.5" width="5.0" height="5.0" rx="0"/><rect class="counter" x="17.0" y="40.5" width="54.0" height="7.0" rx="0"/><text class="lbl-w" x="44.0" y="45.8" text-anchor="middle">접수 / 수납   L = 5,400</text><rect class="back" x="17.0" y="47.5" width="54.0" height="11.5" rx="0"/><text class="mini" x="44.0" y="55.2" text-anchor="middle">원무 백존</text><rect class="room" x="7.0" y="59.0" width="64.0" height="30.0" rx="0"/><rect class="room2" x="7.0" y="59.0" width="16.0" height="30.0" rx="0"/><text class="mini" x="15.0" y="74.0" text-anchor="middle" transform="rotate(-90 15.0 74.0)">간호실</text><text class="lbl" x="47.0" y="73.0" text-anchor="middle">간 호 부</text><text class="dim" x="47.0" y="80.5" text-anchor="middle">6,400 × 3,000 = 19.2 m²</text><rect class="room" x="107.0" y="49.0" width="12.0" height="16.0" rx="0"/><rect class="room" x="107.0" y="67.0" width="12.0" height="15.0" rx="0"/><text class="mini" x="113.0" y="57.0" text-anchor="middle" transform="rotate(-90 113.0 57.0)">탈의실(남)</text><text class="mini" x="113.0" y="74.5" text-anchor="middle" transform="rotate(-90 113.0 74.5)">탈의실(여)</text><path class="flow" d="M 104.0 98.0 V 39.0"/><path class="north" d="M 9.5 19.5 V 13.0 M 7.6 15.6 L 9.5 12.6 L 11.4 15.6 Z"/><text class="mini" x="9.5" y="24.0" text-anchor="middle">N</text><line class="scale" x1="16.0" y1="17.0" x2="36.0" y2="17.0"/><line class="scale" x1="16.0" y1="15.5" x2="16.0" y2="18.5"/><line class="scale" x1="26.0" y1="16.2" x2="26.0" y2="17.8"/><line class="scale" x1="36.0" y1="15.5" x2="36.0" y2="18.5"/><text class="dim" x="26.0" y="21.0" text-anchor="middle">0 ─ 2 m</text><rect class="zone-now" x="72.0" y="35.0" width="35.0" height="67.5" rx="0"/><text class="zt" x="74.0" y="72.0" text-anchor="middle" transform="rotate(-90 74.0 72.0)">메인 대기홀 ≈ 24 m²</text><rect class="bench" x="78.5" y="47.0" width="18.0" height="7.0" rx="0"/><line class="bench-back" x1="78.5" y1="54.0" x2="96.5" y2="54.0"/><circle class="occ" cx="80.75" cy="50.5" r="1.55"/><circle class="occ" cx="85.25" cy="50.5" r="1.55"/><circle class="occ" cx="89.75" cy="50.5" r="1.55"/><circle class="lost" cx="94.25" cy="50.5" r="1.55"/><rect class="bench" x="78.5" y="61.0" width="18.0" height="7.0" rx="0"/><line class="bench-back" x1="78.5" y1="68.0" x2="96.5" y2="68.0"/><circle class="occ" cx="80.75" cy="64.5" r="1.55"/><circle class="occ" cx="85.25" cy="64.5" r="1.55"/><circle class="occ" cx="89.75" cy="64.5" r="1.55"/><circle class="lost" cx="94.25" cy="64.5" r="1.55"/><rect class="bench" x="78.5" y="75.0" width="18.0" height="7.0" rx="0"/><line class="bench-back" x1="78.5" y1="82.0" x2="96.5" y2="82.0"/><circle class="occ" cx="80.75" cy="78.5" r="1.55"/><circle class="occ" cx="85.25" cy="78.5" r="1.55"/><circle class="occ" cx="89.75" cy="78.5" r="1.55"/><circle class="lost" cx="94.25" cy="78.5" r="1.55"/><rect class="bench" x="78.5" y="89.0" width="18.0" height="7.0" rx="0"/><line class="bench-back" x1="78.5" y1="96.0" x2="96.5" y2="96.0"/><circle class="occ" cx="80.75" cy="92.5" r="1.55"/><circle class="occ" cx="85.25" cy="92.5" r="1.55"/><circle class="occ" cx="89.75" cy="92.5" r="1.55"/><circle class="lost" cx="94.25" cy="92.5" r="1.55"/><text class="dim" x="89.0" y="100.5" text-anchor="middle">벤치소파 1,800×700 × 4대 → 실착석 12</text><rect class="bench" x="84.0" y="37.5" width="13.5" height="6.2" rx="0"/><line class="bench-back" x1="84.0" y1="37.5" x2="97.5" y2="37.5"/><circle class="occ" cx="86.3" cy="40.6" r="1.55"/><circle class="occ" cx="90.8" cy="40.6" r="1.55"/><circle class="lost" cx="95.3" cy="40.6" r="1.55"/><circle class="benchc" cx="110.0" cy="26.0" r="3.1"/><circle class="occ" cx="110.0" cy="26.0" r="1.55"/><rect class="void" x="42.0" y="15.0" width="64.0" height="19.0" rx="0"/><text class="voidt" x="74.0" y="25.7" text-anchor="middle">로비 · 전실   약 19 m² 미사용</text><rect class="void" x="8.0" y="90.0" width="62.0" height="10.0" rx="0"/><text class="voidt" x="39.0" y="96.2" text-anchor="middle">간호부 남측 데드코리도  7.7 m²</text><rect class="void" x="97.2" y="49.0" width="9.5" height="45.0" rx="0"/><text class="voidt" x="101.95" y="71.5" text-anchor="middle" transform="rotate(-90 101.95 71.5)">순수 통로</text></g></svg>
+    <div class="keys">
+      <span><i class="k-occ"></i>실제 착석</span>
+      <span><i class="k-lost"></i>비는 자리</span>
+      <span>붉은 파선 = 대기 구역</span>
+      <span>연한 박스 = 미사용·통로</span>
+    </div>
+    <figcaption>벤치 4대가 모두 같은 방향을 보고 1,400 간격으로 늘어서 있어, 열마다 통로가
+      따로 필요합니다. 동측 레인 1,150은 순수 통로이고 로비 19 m²는 거의 비어 있습니다.</figcaption>
+  </figure>
+
+  <figure>
+    <div class="fig-h"><b>FIG. 3 — 개선 B안</b><span>3개 존 · 41석 + 휠체어 2면</span></div>
+    <svg viewBox="0 0 124 110" role="img" aria-label="동측 공용부 개선 B안 — 대기 41석" xmlns="http://www.w3.org/2000/svg"><style>
+.wall{stroke:var(--pl-wall);stroke-width:1.6;fill:none}
+.cut{stroke:var(--pl-ink3);stroke-width:1;stroke-dasharray:5 2 1 2;fill:none}
+.core{fill:var(--pl-solid)}
+.fix{fill:var(--pl-solid)}
+.col{fill:var(--pl-wall)}
+.arrow{stroke:var(--pl-accent);stroke-width:1;fill:none;marker-end:url(#ah)}
+.room{fill:var(--pl-room);stroke:var(--pl-wall);stroke-width:.8}
+.room2{fill:var(--pl-room2);stroke:var(--pl-wall);stroke-width:.5}
+.counter{fill:var(--pl-counter)}
+.back{fill:var(--pl-room2);stroke:var(--pl-wall);stroke-width:.5;stroke-dasharray:1.6 1.2}
+.bench,.benchc{fill:var(--pl-bench);stroke:var(--pl-benchs);stroke-width:.6}
+.bench-back{stroke:var(--pl-benchs);stroke-width:1.4}
+.occ{fill:var(--pl-occ)}
+.lost{fill:none;stroke:var(--pl-lost);stroke-width:.7;stroke-dasharray:1.1 .9}
+.seat{fill:var(--pl-seat);stroke:var(--pl-seats);stroke-width:.5}
+.seat-back{stroke:var(--pl-seats);stroke-width:1.5;stroke-linecap:round}
+.arm{stroke:var(--pl-arm);stroke-width:.85;stroke-linecap:round}
+.wc{fill:var(--pl-wc);stroke:var(--pl-accent);stroke-width:.6;stroke-dasharray:1.4 1}
+.disp{fill:var(--pl-accent)}
+.zone-now{fill:var(--pl-znow);stroke:var(--pl-lost);stroke-width:.6;stroke-dasharray:2 1.4}
+.zone1{fill:var(--pl-z1);stroke:var(--pl-z1s);stroke-width:.6}
+.zone2{fill:var(--pl-z2);stroke:var(--pl-z2s);stroke-width:.6}
+.zone3{fill:var(--pl-z3);stroke:var(--pl-z3s);stroke-width:.6}
+.void{fill:var(--pl-void);stroke:var(--pl-voids);stroke-width:.5;stroke-dasharray:1.4 1.4}
+.demo{stroke:var(--pl-demo);stroke-width:2;stroke-dasharray:2.4 1.6;stroke-linecap:round}
+.flow{stroke:var(--pl-flow);stroke-width:1.4;stroke-dasharray:3 2;fill:none}
+.north{stroke:var(--pl-ink2);stroke-width:.8;fill:var(--pl-ink2)}
+.scale{stroke:var(--pl-ink2);stroke-width:.7}
+text{font-family:var(--fs);fill:var(--pl-ink)}
+.lbl{font-size:3px;font-weight:700;letter-spacing:.04em}
+.lbl-w{font-size:2.6px;font-weight:700;fill:var(--pl-oncounter)}
+.mini{font-size:2.5px;font-weight:600;fill:var(--pl-ink2)}
+.dim{font-family:var(--fm);font-size:2.3px;fill:var(--pl-ink3)}
+.zt{font-size:2.8px;font-weight:700;fill:var(--pl-lost)}
+.zt1{font-size:2.8px;font-weight:700;fill:var(--pl-z1s)}
+.zt2{font-size:2.8px;font-weight:700;fill:var(--pl-z2s)}
+.zt3{font-size:2.8px;font-weight:700;fill:var(--pl-z3s)}
+.cnt{font-family:var(--fm);font-size:4.4px;font-weight:700;fill:var(--pl-accent)}
+.voidt{font-size:2.5px;font-weight:600;fill:var(--pl-voids)}
+.cutt{font-family:var(--fm);font-size:2.2px;fill:var(--pl-ink3)}
+.demot{font-family:var(--fm);font-size:2.3px;fill:var(--pl-demo)}
+.dispt{font-size:2.4px;font-weight:700;fill:var(--pl-ondisp)}
+.wct{font-size:2.1px;font-weight:700;fill:var(--pl-accent)}
+</style><defs><marker id="ah" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="var(--pl-accent)"/></marker></defs><g><line class="wall" x1="3.0" y1="9.0" x2="102.0" y2="9.0"/><rect class="core" x="41.0" y="2.5" width="30.0" height="6.5" rx="0"/><text class="mini" x="56.0" y="7.2" text-anchor="middle">E/V 홀 · 출입</text><path class="arrow" d="M 56.0 10.5 V 18.5"/><line class="wall" x1="102.0" y1="9.0" x2="114.0" y2="9.0"/><line class="wall" x1="114.0" y1="9.0" x2="114.0" y2="44.0"/><line class="wall" x1="114.0" y1="44.0" x2="107.0" y2="44.0"/><line class="wall" x1="107.0" y1="44.0" x2="107.0" y2="102.5"/><text class="mini" x="117.2" y="25.0" text-anchor="middle" transform="rotate(-90 117.2 25.0)">X-RAY · CT · BMD · 직원휴게실</text><line class="wall" x1="3.0" y1="102.5" x2="107.0" y2="102.5"/><text class="mini" x="35.0" y="101.8" text-anchor="middle">C-ARM실 · 의국 · 조영촬영실 · 진료실</text><path class="cut" d="M 4.0 9.0 V 102.5"/><text class="cutt" x="2.2" y="56.0" text-anchor="middle" transform="rotate(-90 2.2 56.0)">서측 치료동 — 금번 범위 외</text><rect class="fix" x="81.0" y="9.0" width="18.0" height="4.5" rx="0"/><text class="mini" x="90.0" y="18.0" text-anchor="middle">정수기 · 커피</text><rect class="col" x="96.0" y="18.5" width="5.0" height="5.0" rx="0"/><rect class="counter" x="17.0" y="40.5" width="54.0" height="7.0" rx="0"/><text class="lbl-w" x="44.0" y="45.8" text-anchor="middle">접수 / 수납   L = 5,400</text><rect class="back" x="17.0" y="47.5" width="54.0" height="11.5" rx="0"/><text class="mini" x="44.0" y="55.2" text-anchor="middle">원무 백존</text><rect class="room" x="107.0" y="49.0" width="12.0" height="16.0" rx="0"/><rect class="room" x="107.0" y="67.0" width="12.0" height="15.0" rx="0"/><text class="mini" x="113.0" y="57.0" text-anchor="middle" transform="rotate(-90 113.0 57.0)">탈의실(남)</text><text class="mini" x="113.0" y="74.5" text-anchor="middle" transform="rotate(-90 113.0 74.5)">탈의실(여)</text><path class="flow" d="M 104.0 98.0 V 39.0"/><path class="north" d="M 9.5 19.5 V 13.0 M 7.6 15.6 L 9.5 12.6 L 11.4 15.6 Z"/><text class="mini" x="9.5" y="24.0" text-anchor="middle">N</text><line class="scale" x1="16.0" y1="17.0" x2="36.0" y2="17.0"/><line class="scale" x1="16.0" y1="15.5" x2="16.0" y2="18.5"/><line class="scale" x1="26.0" y1="16.2" x2="26.0" y2="17.8"/><line class="scale" x1="36.0" y1="15.5" x2="36.0" y2="18.5"/><text class="dim" x="26.0" y="21.0" text-anchor="middle">0 ─ 2 m</text><rect class="room" x="7.0" y="59.0" width="26.0" height="30.0" rx="0"/><text class="mini" x="18.5" y="74.0" text-anchor="middle" transform="rotate(-90 18.5 74.0)">간호 스테이션</text><text class="dim" x="25.0" y="74.0" text-anchor="middle" transform="rotate(-90 25.0 74.0)">7.8 m²</text><line class="demo" x1="33.0" y1="59.0" x2="71.0" y2="59.0"/><line class="demo" x1="71.0" y1="59.0" x2="71.0" y2="89.0"/><line class="demo" x1="33.0" y1="89.0" x2="71.0" y2="89.0"/><text class="demot" x="52.0" y="95.2" text-anchor="middle">철거 (B안)   L ≈ 11.6 m</text><rect class="zone1" x="72.0" y="35.0" width="35.0" height="67.5" rx="0"/><rect class="seat" x="75.25" y="50.5" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="75.25" y1="56.3" x2="79.75" y2="56.3"/><rect class="seat" x="80.25" y="50.5" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="80.25" y1="56.3" x2="84.75" y2="56.3"/><rect class="seat" x="85.25" y="50.5" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="85.25" y1="56.3" x2="89.75" y2="56.3"/><rect class="seat" x="90.25" y="50.5" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="90.25" y1="56.3" x2="94.75" y2="56.3"/><line class="arm" x1="75.0" y1="51.0" x2="75.0" y2="55.8"/><line class="arm" x1="80.0" y1="51.0" x2="80.0" y2="55.8"/><line class="arm" x1="85.0" y1="51.0" x2="85.0" y2="55.8"/><line class="arm" x1="90.0" y1="51.0" x2="90.0" y2="55.8"/><line class="arm" x1="95.0" y1="51.0" x2="95.0" y2="55.8"/><rect class="seat" x="75.25" y="56.3" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="75.25" y1="56.3" x2="79.75" y2="56.3"/><rect class="seat" x="80.25" y="56.3" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="80.25" y1="56.3" x2="84.75" y2="56.3"/><rect class="seat" x="85.25" y="56.3" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="85.25" y1="56.3" x2="89.75" y2="56.3"/><rect class="seat" x="90.25" y="56.3" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="90.25" y1="56.3" x2="94.75" y2="56.3"/><line class="arm" x1="75.0" y1="56.8" x2="75.0" y2="61.6"/><line class="arm" x1="80.0" y1="56.8" x2="80.0" y2="61.6"/><line class="arm" x1="85.0" y1="56.8" x2="85.0" y2="61.6"/><line class="arm" x1="90.0" y1="56.8" x2="90.0" y2="61.6"/><line class="arm" x1="95.0" y1="56.8" x2="95.0" y2="61.6"/><rect class="seat" x="75.25" y="73.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="75.25" y1="79.4" x2="79.75" y2="79.4"/><rect class="seat" x="80.25" y="73.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="80.25" y1="79.4" x2="84.75" y2="79.4"/><rect class="seat" x="85.25" y="73.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="85.25" y1="79.4" x2="89.75" y2="79.4"/><rect class="seat" x="90.25" y="73.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="90.25" y1="79.4" x2="94.75" y2="79.4"/><line class="arm" x1="75.0" y1="74.1" x2="75.0" y2="78.9"/><line class="arm" x1="80.0" y1="74.1" x2="80.0" y2="78.9"/><line class="arm" x1="85.0" y1="74.1" x2="85.0" y2="78.9"/><line class="arm" x1="90.0" y1="74.1" x2="90.0" y2="78.9"/><line class="arm" x1="95.0" y1="74.1" x2="95.0" y2="78.9"/><rect class="seat" x="75.25" y="79.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="75.25" y1="79.4" x2="79.75" y2="79.4"/><rect class="seat" x="80.25" y="79.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="80.25" y1="79.4" x2="84.75" y2="79.4"/><rect class="seat" x="85.25" y="79.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="85.25" y1="79.4" x2="89.75" y2="79.4"/><rect class="seat" x="90.25" y="79.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="90.25" y1="79.4" x2="94.75" y2="79.4"/><line class="arm" x1="75.0" y1="79.9" x2="75.0" y2="84.7"/><line class="arm" x1="80.0" y1="79.9" x2="80.0" y2="84.7"/><line class="arm" x1="85.0" y1="79.9" x2="85.0" y2="84.7"/><line class="arm" x1="90.0" y1="79.9" x2="90.0" y2="84.7"/><line class="arm" x1="95.0" y1="79.9" x2="95.0" y2="84.7"/><rect class="seat" x="75.25" y="96.7" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="75.25" y1="102.5" x2="79.75" y2="102.5"/><rect class="seat" x="80.25" y="96.7" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="80.25" y1="102.5" x2="84.75" y2="102.5"/><rect class="seat" x="85.25" y="96.7" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="85.25" y1="102.5" x2="89.75" y2="102.5"/><rect class="seat" x="90.25" y="96.7" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="90.25" y1="102.5" x2="94.75" y2="102.5"/><line class="arm" x1="75.0" y1="97.2" x2="75.0" y2="102.0"/><line class="arm" x1="80.0" y1="97.2" x2="80.0" y2="102.0"/><line class="arm" x1="85.0" y1="97.2" x2="85.0" y2="102.0"/><line class="arm" x1="90.0" y1="97.2" x2="90.0" y2="102.0"/><line class="arm" x1="95.0" y1="97.2" x2="95.0" y2="102.0"/><rect class="wc" x="75.5" y="36.5" width="9.0" height="12.0" rx="0"/><text class="wct" x="80.0" y="44.7" text-anchor="middle">휠</text><text class="zt1" x="87.2" y="39.5" text-anchor="start">ZONE 1  진료 대기</text><text class="cnt" x="87.2" y="46.5" text-anchor="start">20석</text><rect class="zone2" x="41.0" y="9.5" width="72.5" height="25.5" rx="0"/><rect class="seat" x="75.25" y="21.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="75.25" y1="27.4" x2="79.75" y2="27.4"/><rect class="seat" x="80.25" y="21.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="80.25" y1="27.4" x2="84.75" y2="27.4"/><rect class="seat" x="85.25" y="21.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="85.25" y1="27.4" x2="89.75" y2="27.4"/><rect class="seat" x="90.25" y="21.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="90.25" y1="27.4" x2="94.75" y2="27.4"/><line class="arm" x1="75.0" y1="22.1" x2="75.0" y2="26.9"/><line class="arm" x1="80.0" y1="22.1" x2="80.0" y2="26.9"/><line class="arm" x1="85.0" y1="22.1" x2="85.0" y2="26.9"/><line class="arm" x1="90.0" y1="22.1" x2="90.0" y2="26.9"/><line class="arm" x1="95.0" y1="22.1" x2="95.0" y2="26.9"/><rect class="seat" x="75.25" y="27.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="75.25" y1="27.4" x2="79.75" y2="27.4"/><rect class="seat" x="80.25" y="27.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="80.25" y1="27.4" x2="84.75" y2="27.4"/><rect class="seat" x="85.25" y="27.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="85.25" y1="27.4" x2="89.75" y2="27.4"/><rect class="seat" x="90.25" y="27.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="90.25" y1="27.4" x2="94.75" y2="27.4"/><line class="arm" x1="75.0" y1="27.9" x2="75.0" y2="32.7"/><line class="arm" x1="80.0" y1="27.9" x2="80.0" y2="32.7"/><line class="arm" x1="85.0" y1="27.9" x2="85.0" y2="32.7"/><line class="arm" x1="90.0" y1="27.9" x2="90.0" y2="32.7"/><line class="arm" x1="95.0" y1="27.9" x2="95.0" y2="32.7"/><rect class="seat" x="107.7" y="19.75" width="5.8" height="4.5" rx="0.7"/><line class="seat-back" x1="113.5" y1="19.75" x2="113.5" y2="24.25"/><rect class="seat" x="107.7" y="24.75" width="5.8" height="4.5" rx="0.7"/><line class="seat-back" x1="113.5" y1="24.75" x2="113.5" y2="29.25"/><rect class="seat" x="107.7" y="29.75" width="5.8" height="4.5" rx="0.7"/><line class="seat-back" x1="113.5" y1="29.75" x2="113.5" y2="34.25"/><line class="arm" x1="108.2" y1="19.5" x2="113.0" y2="19.5"/><line class="arm" x1="108.2" y1="24.5" x2="113.0" y2="24.5"/><line class="arm" x1="108.2" y1="29.5" x2="113.0" y2="29.5"/><line class="arm" x1="108.2" y1="34.5" x2="113.0" y2="34.5"/><rect class="wc" x="64.0" y="20.5" width="9.0" height="12.0" rx="0"/><text class="wct" x="68.5" y="28.7" text-anchor="middle">휠</text><text class="zt2" x="43.5" y="26.5" text-anchor="start">ZONE 2  로비 대기</text><text class="cnt" x="43.5" y="33.5" text-anchor="start">11석</text><rect class="zone3" x="33.0" y="59.0" width="38.0" height="30.0" rx="0"/><rect class="seat" x="38.75" y="68.2" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="38.75" y1="74.0" x2="43.25" y2="74.0"/><rect class="seat" x="43.75" y="68.2" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="43.75" y1="74.0" x2="48.25" y2="74.0"/><rect class="seat" x="48.75" y="68.2" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="48.75" y1="74.0" x2="53.25" y2="74.0"/><rect class="seat" x="53.75" y="68.2" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="53.75" y1="74.0" x2="58.25" y2="74.0"/><rect class="seat" x="58.75" y="68.2" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="58.75" y1="74.0" x2="63.25" y2="74.0"/><line class="arm" x1="38.5" y1="68.7" x2="38.5" y2="73.5"/><line class="arm" x1="43.5" y1="68.7" x2="43.5" y2="73.5"/><line class="arm" x1="48.5" y1="68.7" x2="48.5" y2="73.5"/><line class="arm" x1="53.5" y1="68.7" x2="53.5" y2="73.5"/><line class="arm" x1="58.5" y1="68.7" x2="58.5" y2="73.5"/><line class="arm" x1="63.5" y1="68.7" x2="63.5" y2="73.5"/><rect class="seat" x="38.75" y="74.0" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="38.75" y1="74.0" x2="43.25" y2="74.0"/><rect class="seat" x="43.75" y="74.0" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="43.75" y1="74.0" x2="48.25" y2="74.0"/><rect class="seat" x="48.75" y="74.0" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="48.75" y1="74.0" x2="53.25" y2="74.0"/><rect class="seat" x="53.75" y="74.0" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="53.75" y1="74.0" x2="58.25" y2="74.0"/><rect class="seat" x="58.75" y="74.0" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="58.75" y1="74.0" x2="63.25" y2="74.0"/><line class="arm" x1="38.5" y1="74.5" x2="38.5" y2="79.3"/><line class="arm" x1="43.5" y1="74.5" x2="43.5" y2="79.3"/><line class="arm" x1="48.5" y1="74.5" x2="48.5" y2="79.3"/><line class="arm" x1="53.5" y1="74.5" x2="53.5" y2="79.3"/><line class="arm" x1="58.5" y1="74.5" x2="58.5" y2="79.3"/><line class="arm" x1="63.5" y1="74.5" x2="63.5" y2="79.3"/><text class="zt3" x="34.5" y="65.2" text-anchor="start">ZONE 3  간호부 편입</text><text class="cnt" x="34.5" y="86.8" text-anchor="start">10석</text><text class="dim" x="70.0" y="86.5" text-anchor="end">3,800 × 3,000</text><circle class="disp" cx="68.2" cy="44.2" r="2.3"/><text class="dispt" x="68.2" y="46.4" text-anchor="middle">1</text><circle class="disp" cx="74.0" cy="13.5" r="2.3"/><text class="dispt" x="74.0" y="15.7" text-anchor="middle">2</text><circle class="disp" cx="104.0" cy="63.0" r="2.3"/><text class="dispt" x="104.0" y="65.2" text-anchor="middle">3</text></g></svg>
+    <div class="keys">
+      <span><i class="k-seat"></i>연결의자 500 피치</span>
+      <span>굵은 선 = 좌석 사이 팔걸이</span>
+      <span>붉은 점선 = 철거 벽체</span>
+      <span>①②③ = 대기순번 디스플레이</span>
+    </div>
+    <figcaption>대기를 목적별 3개 존으로 분리합니다. 등맞댐(back-to-back) 배치로 통로 수를
+      줄여 같은 깊이에 열을 더 넣고, 비어 있던 로비를 정식 대기존으로 승격합니다.
+      A안은 ZONE 1·2만, B안은 ZONE 3까지 포함합니다.</figcaption>
+  </figure>
+
+  <div class="tw"><table>
+    <caption>존별 좌석 내역</caption>
+    <thead><tr><th>존</th><th>구성</th><th class="n">현황</th><th class="n">A안</th>
+      <th class="n">B안</th><th class="n">C안</th></tr></thead>
+    <tbody>
+      <tr><td class="lab">ZONE 1<br>진료 대기</td>
+        <td>등맞댐 4인 블록 × 2 + 남측 벽부 4인열.<br>통로 1,150 / 동측 레인 1,200 유지</td>
+        <td class="n">12</td><td class="n">20</td><td class="n">20</td><td class="n">20</td></tr>
+      <tr><td class="lab">ZONE 2<br>로비 · 전실</td>
+        <td>등맞댐 4인 블록 × 1 + 동측 벽부 3인열.<br>접수 접근통로 3,400 확보</td>
+        <td class="n">3</td><td class="n">11</td><td class="n">11</td><td class="n">11</td></tr>
+      <tr><td class="lab">ZONE 3<br>간호부 편입</td>
+        <td>간호부 동측 3,800 × 3,000 철거 후 등맞댐 5인 블록.<br>C안은 간호부 전량 이전</td>
+        <td class="n">—</td><td class="n">—</td><td class="n">10</td><td class="n">16</td></tr>
+      <tr><td class="lab">카운터 축소</td>
+        <td>카운터 5,400 → 3,600 + 무인 키오스크 2대 (C안)</td>
+        <td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">3</td></tr>
+      <tr class="tot"><td>계</td><td>휠체어 공간 별도 2면</td>
+        <td class="n">15</td><td class="n">31</td><td class="n">41</td><td class="n">50</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="bars" role="img" aria-label="좌석 수 비교. 현황 15석, A안 31석, B안 41석, C안 50석">
+    <div class="bar-row"><div class="bar-l">현황</div>
+      <div class="bar-t"><div class="bar-f idle" style="width:30%">15</div></div></div>
+    <div class="bar-row"><div class="bar-l">A안</div>
+      <div class="bar-t"><div class="bar-f" style="width:62%">31</div></div></div>
+    <div class="bar-row"><div class="bar-l">B안</div>
+      <div class="bar-t"><div class="bar-f" style="width:82%">41</div></div></div>
+    <div class="bar-row"><div class="bar-l">C안</div>
+      <div class="bar-t"><div class="bar-f" style="width:100%">50</div></div></div>
+  </div>
+  <div class="legend">
+    <span><i style="background:var(--c-idle)"></i>현황</span>
+    <span><i style="background:var(--c-use)"></i>제안안</span>
+    <span>단위: 석</span>
+  </div>
+
+  <h3>배치가 좌석을 만드는 원리</h3>
+  <ul class="plain">
+    <li><strong>등맞댐(back-to-back)</strong> — 지금은 열마다 통로가 하나씩 필요합니다.
+      두 열의 등을 맞대면 블록 1,160에 통로 하나만 있으면 되므로, 열당 점유 깊이가
+      1,400 → 1,130으로 줄어듭니다.</li>
+    <li><strong>깊이 700 → 580</strong> — 4열이면 480 절약. 통로 폭을 깎지 않고 확보됩니다.</li>
+    <li><strong>로비 승격</strong> — 19 m²가 사실상 놀고 있습니다. 접수 접근통로 3,400만
+      남기면 11석이 들어갑니다.</li>
+    <li><strong>간호부 동측 편입 (B안)</strong> — 공용부 한복판 19.2 m²가 실입니다.
+      동측 11.4 m²만 열어도 10석입니다.</li>
+  </ul>
+</section>
+
+<!-- ══ 04 운영 ══ -->
+<section id="ops">
+  <span class="sec-no">04 · OPERATIONS</span>
+  <h2>공사보다 먼저 — 수요 자체를 줄이는 방법</h2>
+  <p>좌석을 늘리는 것만큼 중요한 게 <strong>동시에 앉아 있어야 하는 사람 수를 줄이는 것</strong>
+  입니다. 아래 항목들은 공사비의 1/10 이하이고, 대부분 A안과 동시에 시행할 수 있습니다.</p>
+
+  <div class="tw"><table>
+    <caption>운영 개선 항목</caption>
+    <thead><tr><th>항목</th><th>효과</th><th class="n">개산 비용</th></tr></thead>
+    <tbody>
+      <tr><td class="lab">모바일 호출<br>(카카오 알림톡)</td>
+        <td>접수 시 예상 대기시간 안내 → 3~5번 전 호출.
+          환자가 차·카페에서 대기. <strong>동시 체류 20~30% 감소</strong> — 사실상 좌석을
+          10석 늘리는 것과 같습니다.</td>
+        <td class="n">100–250만원<br>+ 건당 10–20원</td></tr>
+      <tr><td class="lab">대기순번<br>디스플레이 3면</td>
+        <td>진료 / 검사 / 수납 라인 분리 표시. 이탈의 주원인은 “자리가 없다”보다
+          <strong>“얼마나 걸릴지 모른다”</strong>입니다.</td>
+        <td class="n">450–800만원</td></tr>
+      <tr><td class="lab">물리치료<br>슬롯 예약제</td>
+        <td>도면상 치료 포지션이 20개 이상입니다. 15~20분 슬롯으로 예약을 받으면
+          물리치료 대기가 대기실에서 거의 사라집니다. <strong>가장 큰 무료 좌석 확보.</strong></td>
+        <td class="n">0원 (운영)</td></tr>
+      <tr><td class="lab">보호자 안내</td>
+        <td>CCTV상 좌석의 30~40%가 보호자입니다. “보호자 1인” 안내 + 보호자 전용
+          스탠딩·퍼치 존 지정.</td>
+        <td class="n">사인 20–50만원</td></tr>
+      <tr><td class="lab">시간대 분산</td>
+        <td>오전 9~11시 집중. 물리치료·도수 환자는 시간 유연성이 높으므로 오후 예약 시
+          “대기 없음” 안내.</td>
+        <td class="n">0원 (운영)</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ══ 05 견적 ══ -->
+<section id="cost">
+  <span class="sec-no">05 · COST</span>
+  <h2>개산 공사비</h2>
+  <p>실측·견적 전 개략치입니다. 의료 인테리어는 일반 상업공간보다 단가가 높고,
+  소방·공조 이설이 붙으면 변동폭이 큽니다.</p>
+
+  <div class="tw"><table>
+    <caption>A안 · 무공사 — 2~3주 · 휴진 0일</caption>
+    <thead><tr><th>항목</th><th>내용</th><th class="n">금액</th></tr></thead>
+    <tbody>
+      <tr><td class="lab">연결의자</td><td>31석 × 12~25만원 (팔걸이·광폭석 포함)</td><td class="n">450–750만</td></tr>
+      <tr><td class="lab">기존 가구 철거</td><td>벤치소파 4대 외 처분·이설</td><td class="n">50–90만</td></tr>
+      <tr><td class="lab">벽부·전기</td><td>벽부 고정 보강, 콘센트·USB 충전구 신설</td><td class="n">200–320만</td></tr>
+      <tr><td class="lab">사인·바닥동선</td><td>존 사인, 바닥 유도선 재시공</td><td class="n">200–300만</td></tr>
+      <tr><td class="lab">비품 이설</td><td>정수기·신발장·배너·에그체어</td><td class="n">60–120만</td></tr>
+      <tr><td class="lab">대기순번 시스템</td><td>디스플레이 3면 + SW + 알림톡 연동</td><td class="n">550–1,050만</td></tr>
+      <tr class="tot"><td>소계</td><td>예비비 10% 포함</td><td class="n">1,800–2,600만</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="tw"><table>
+    <caption>B안 추가분 · 부분공사 — 4~6주 · 야간공사 시 휴진 0~2일</caption>
+    <thead><tr><th>항목</th><th>내용</th><th class="n">금액</th></tr></thead>
+    <tbody>
+      <tr><td class="lab">벽체 철거</td><td>간호부 2개 면 L≈11.6 m + 폐기물</td><td class="n">280–420만</td></tr>
+      <tr><td class="lab">간호 스테이션</td><td>7.8 m² 재조성 — 붙박이·전기·데이터</td><td class="n">850–1,300만</td></tr>
+      <tr><td class="lab">천장·조명·바닥</td><td>편입부 11.4 m² + 접합부 마감</td><td class="n">650–1,000만</td></tr>
+      <tr><td class="lab">소방·공조</td><td>스프링클러·감지기·디퓨저 이설 + 완공검사</td><td class="n">350–600만</td></tr>
+      <tr><td class="lab">추가 좌석</td><td>10석</td><td class="n">150–250만</td></tr>
+      <tr class="tot"><td>A안 포함 합계</td><td>예비비 10% 포함</td><td class="n">4,300–6,000만</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="tw"><table>
+    <caption>C안 · 전면 재구성 — 8~10주 · 휴진 1~2주 또는 단계별 야간공사</caption>
+    <thead><tr><th>항목</th><th>내용</th><th class="n">금액</th></tr></thead>
+    <tbody>
+      <tr><td class="lab">공용부 전면</td><td>약 85 m² (25.7평) × 평당 260~360만원</td><td class="n">6,700–9,300만</td></tr>
+      <tr><td class="lab">접수 카운터</td><td>신설 3,600 + 무인 키오스크 2대</td><td class="n">1,200–1,800만</td></tr>
+      <tr><td class="lab">가구·시스템</td><td>좌석 50석 + 대기순번 + 사인</td><td class="n">1,000–1,400만</td></tr>
+      <tr class="tot"><td>합계</td><td>예비비 10% 포함</td><td class="n">1.0–1.4억</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ══ 06 로드맵 ══ -->
+<section id="roadmap">
+  <span class="sec-no">06 · ROADMAP</span>
+  <h2>실행 순서</h2>
+  <div class="road">
+    <div class="step">
+      <div class="step-k">0단계<b>0–2주 · 0원</b></div>
+      <div>
+        <h3>측정</h3>
+        <p>시간대별 대기 인원(CCTV 정시 캡처), 접수 후 미진료 이탈 건수, 벤치별 실착석 수,
+        보호자 비율. 실측(줄자 + 천장고 + 기둥·덕트 위치)도 이때 같이. 이 숫자 없이 큰돈을
+        쓰면 나중에 효과를 증명할 수 없습니다.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-k">1단계<b>3–6주 · 1,800–2,600만</b></div>
+      <div>
+        <h3>A안 + 운영 개선</h3>
+        <p>의자 전량 교체, 등맞댐 재배치, 로비 대기존 신설, 대기순번 디스플레이,
+        알림톡 호출, 물리치료 슬롯 예약제. 휴진 없이 주말 2회로 가능합니다.
+        15석 → 31석 + 수요 20~30% 감소.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-k">2단계<b>재측정 후 판단</b></div>
+      <div>
+        <h3>B안 — 간호부 재편</h3>
+        <p>A안 후 2주 재측정에서 여전히 입석·이탈이 남으면 진행. 선행 확인 사항은
+        간호부의 실제 용도입니다 — 단순 사무면 축소, 처치·주사 기능이 있으면 축소가 아니라
+        남측 코리도 또는 의국 인접으로 <strong>이전</strong>해야 합니다.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-k">3단계<b>조건부</b></div>
+      <div>
+        <h3>C안 — 전면 재구성</h3>
+        <p>임대차 잔여기간이 충분하고, 영상장비 교체 주기나 카운터 노후 교체 시점과
+        맞물릴 때만 권합니다. 대기 좌석만을 위해 1억을 쓰는 것은 B안 결과를 보기 전에는
+        권하지 않습니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 07 확인사항 ══ -->
+<section id="checks">
+  <span class="sec-no">07 · VERIFY</span>
+  <h2>발주 전 반드시 확인할 것</h2>
+
+  <h4>법규 · 설비</h4>
+  <ul class="plain">
+    <li><strong>피난통로 유효폭</strong> — 좌석 배치 후 1,200 이상 확보. 도면상 동측 레인
+      1,200, ZONE 2 접근통로 3,400으로 계획했으나 실측 검증 필요</li>
+    <li><strong>소방</strong> — 벽체 철거 시 스프링클러 헤드·감지기 재배치 + 소방 완공검사.
+      B안 일정의 최대 변수입니다</li>
+    <li><strong>공조</strong> — 편입부 디퓨저·리턴 재계획. 대기 인원이 두 배가 되면
+      냉방 부하도 재검토해야 합니다</li>
+    <li><strong>조도</strong> — 대기실 300~500 lx. 근거 도면이 조명평면도이므로 좌석
+      재배치 시 조도 재검토가 쉬운 편입니다</li>
+    <li><strong>BF·휠체어</strong> — 900 × 1,300 휠체어 공간 2개소, 회전반경 1,500 1개소</li>
+    <li><strong>임대차</strong> — 벽체 철거 시 원상복구 조건 확인</li>
+  </ul>
+
+  <h4>현장 실측</h4>
+  <ul class="plain">
+    <li>간호부 실제 용도 — 사무 전용인지, 처치·주사가 이루어지는지</li>
+    <li>간호부 동측 해칭부(약 700) — 덕트·샤프트면 철거 불가</li>
+    <li>기둥 위치 — 도면상 로비 동측에 500 각주 1본</li>
+    <li>천장고, 바닥 마감 레벨, 기존 좌석의 실제 대수·치수</li>
+    <li>정수기·신발장·배너·에그체어의 실제 위치 (도면 미반영)</li>
+  </ul>
+
+  <div class="callout warn">
+    <p><strong>이 검토서의 한계.</strong> 근거는 <span class="mono">조명평면도 1장 · 현장사진 5장 ·
+    CCTV 3프레임</span>입니다. 특히 근거 도면은 <strong>조명 계획도</strong>여서 표기된 가구가
+    실제 설치물과 다릅니다 — 도면에는 대기 17석이 계획돼 있으나 실제로는 벤치소파 4대가
+    놓여 있습니다. 모든 치수는 도면 축척 환산값(±5%)이며, 좌석 수는 실측 후
+    ±2~3석 변동될 수 있습니다. 발주 전 현장 실측이 반드시 선행돼야 합니다.</p>
+  </div>
+</section>
+
+<footer>
+  상록탑정형외과 · 동측 공용부 대기 수용력 확장 기획 검토<br>
+  2026-07-26 · 기획 단계 · 실시설계 아님<br>
+  도면 축척 1:100 환산 · 좌표 원점 건물 북서 외벽 코너
+</footer>
+
+</div>
