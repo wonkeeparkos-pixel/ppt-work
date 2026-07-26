@@ -1,0 +1,71 @@
+# 04_술기_MBB_Technique
+
+**주제**: Exact technique for fluoroscopy-guided and ultrasound-guided lumbar medial branch block (LMBB), including L5 dorsal ramus block, CT-guided technique, contrast/intravascular uptake, injectate volume, and sources of diagnostic error
+
+문헌 50편 · 근거항목 44개
+
+| # | 문헌 | 근거항목 | 파일 |
+|---|---|---|---|
+| 1 | Bogduk N et al., The Lumbar Mamillo-Accessory Ligament: Its Anatomical and Neurosurgical Significance, Spine 1 | 1 | [01_Bogduk_N_et_al.md](01_Bogduk_N_et_al.md) |
+| 2 | Maldjian/relationship study, PMID 1828493 (1991) | 1 | [02_Maldjianrelationship_study_PMID_1828493_1991.md](02_Maldjianrelationship_study_PMID_1828493_1991.md) |
+| 3 | Amrhein TJ et al., Technique for CT Fluoroscopy-Guided Lumbar Medial Branch Blocks and Radiofrequency Ablation | 7 | [03_Amrhein_TJ_et_al.md](03_Amrhein_TJ_et_al.md) |
+| 4 | Anatomical Observation and Clinical Significance of the Medial Branch of the Lumbar Dorsal Rami, PMID 38420729 | 1 | [04_Anatomical_Observation_and_Clinical_Significance_of_the_Medial_Branch.md](04_Anatomical_Observation_and_Clinical_Significance_of_the_Medial_Branch.md) |
+| 5 | Wheeless' Textbook of Orthopaedics, Section 12 Ch 3 | 2 | [05_Wheeless_Textbook_of_Orthopaedics_Section_12_Ch_3.md](05_Wheeless_Textbook_of_Orthopaedics_Section_12_Ch_3.md) |
+| 6 | The Procedure Guide, Lumbar Spine Fluoroscopic Anatomy for the Pain Management Interventionalist | 5 | [06_The_Procedure_Guide_Lumbar_Spine_Fluoroscopic_Anatomy_for_the_Pain_Man.md](06_The_Procedure_Guide_Lumbar_Spine_Fluoroscopic_Anatomy_for_the_Pain_Man.md) |
+| 7 | Musculoskeletal Key / Radiology Key, Lumbar Zygapophysial Joint Nerve (Medial Branch) Injection—Oblique Approa | 6 | [07_Musculoskeletal_Key_Radiology_Key_Lumbar_Zygapophysial_Joint_Nerve_Med.md](07_Musculoskeletal_Key_Radiology_Key_Lumbar_Zygapophysial_Joint_Nerve_Med.md) |
+| 8 | WikiMSK Lumbar Medial Branch Blocks (~40° inflexion point) | 3 | [08_WikiMSK_Lumbar_Medial_Branch_Blocks_40_inflexion_point.md](08_WikiMSK_Lumbar_Medial_Branch_Blocks_40_inflexion_point.md) |
+| 9 | Technique descriptions synthesized in WikiMSK, Lumbar Medial Branch Blocks | 1 | [09_Technique_descriptions_synthesized_in_WikiMSK_Lumbar_Medial_Branch_Blo.md](09_Technique_descriptions_synthesized_in_WikiMSK_Lumbar_Medial_Branch_Blo.md) |
+| 10 | Evaluation of fluoroscopic-guided lumbar medial branch block: A cadaveric study, Interventional Pain Medicine  | 1 | [10_Evaluation_of_fluoroscopic-guided_lumbar_medial_branch_block_A_cadaver.md](10_Evaluation_of_fluoroscopic-guided_lumbar_medial_branch_block_A_cadaver.md) |
+| 11 | ASRA Pain Medicine blog, Ultrasound-Guided Lumbar Medial Branch and Intra-Articular Facet Injections (2019) | 4 | [11_ASRA_Pain_Medicine_blog_Ultrasound-Guided_Lumbar_Medial_Branch_and_Int.md](11_ASRA_Pain_Medicine_blog_Ultrasound-Guided_Lumbar_Medial_Branch_and_Int.md) |
+| 12 | Lee CJ et al., Intravascular injection in lumbar medial branch block: a prospective evaluation of 1433 injecti | 4 | [12_Lee_CJ_et_al.md](12_Lee_CJ_et_al.md) |
+| 13 | Detection of Intravascular Injection During Lumbar Medial Branch Blocks: A Comparison of Aspiration, Live Fluo | 1 | [13_Detection_of_Intravascular_Injection_During_Lumbar_Medial_Branch_Block.md](13_Detection_of_Intravascular_Injection_During_Lumbar_Medial_Branch_Block.md) |
+| 14 | Pain Medicine 2016;17(6):1031 | 1 | [14_Pain_Medicine_20161761031.md](14_Pain_Medicine_20161761031.md) |
+| 15 | Comparison of Intravascular Uptake and Technical Ease Between Anteroposterior and Oblique Views During Lumbar  | 2 | [15_Comparison_of_Intravascular_Uptake_and_Technical_Ease_Between_Anteropo.md](15_Comparison_of_Intravascular_Uptake_and_Technical_Ease_Between_Anteropo.md) |
+| 16 | Comparison of Radiation Doses for Different Techniques in Fluoroscopy-Guided Lumbar Facet Medial Branch Blocks | 1 | [16_Comparison_of_Radiation_Doses_for_Different_Techniques_in_Fluoroscopy.md](16_Comparison_of_Radiation_Doses_for_Different_Techniques_in_Fluoroscopy.md) |
+| 17 | 2024 Consensus Guidelines on Lumbar Facet Interventions Among Practicing Pain Physicians in China and the Unit | 2 | [17_2024_Consensus_Guidelines_on_Lumbar_Facet_Interventions_Among_Practici.md](17_2024_Consensus_Guidelines_on_Lumbar_Facet_Interventions_Among_Practici.md) |
+| 18 | Wahezi SE et al., PM R 2018, PMID 29174073; corroborated in Evaluation of fluoroscopic-guided lumbar medial br | 4 | [18_Wahezi_SE_et_al.md](18_Wahezi_SE_et_al.md) |
+| 19 | Dreyfuss P, Schwarzer AC, Lau P, Bogduk N. Specificity of lumbar medial branch and L5 dorsal ramus blocks: a c | 2 | [19_Dreyfuss_P_Schwarzer_AC_Lau_P_Bogduk_N.md](19_Dreyfuss_P_Schwarzer_AC_Lau_P_Bogduk_N.md) |
+| 20 | ASIPP 2020 facet guidelines (Manchikanti L et al., Pain Physician 2020) | 1 | [20_ASIPP_2020_facet_guidelines_Manchikanti_L_et_al.md](20_ASIPP_2020_facet_guidelines_Manchikanti_L_et_al.md) |
+| 21 | Patient-perceived duration of effect of lidocaine and bupivacaine following diagnostic medial branch blocks; a | 1 | [21_Patient-perceived_duration_of_effect_of_lidocaine_and_bupivacaine_foll.md](21_Patient-perceived_duration_of_effect_of_lidocaine_and_bupivacaine_foll.md) |
+| 22 | Schwarzer AC, Aprill CN, Derby R, Fortin J, Kine G, Bogduk N. The false-positive rate of uncontrolled diagnost | 2 | [22_Schwarzer_AC_Aprill_CN_Derby_R_Fortin_J_Kine_G_Bogduk_N.md](22_Schwarzer_AC_Aprill_CN_Derby_R_Fortin_J_Kine_G_Bogduk_N.md) |
+| 23 | 2024 Consensus Guidelines (China/US) and US payer policy documents (CMS LCDs L34892/L38773/L33930 | 1 | [23_2024_Consensus_Guidelines_ChinaUS_and_US_payer_policy_documents_CMS_LC.md](23_2024_Consensus_Guidelines_ChinaUS_and_US_payer_policy_documents_CMS_LC.md) |
+| 24 | UnitedHealthcare/Oxford facet policies) | 1 | [24_UnitedHealthcareOxford_facet_policies.md](24_UnitedHealthcareOxford_facet_policies.md) |
+| 25 | NYSORA, Sonography of the Lumbar Paravertebral Space | 1 | [25_NYSORA_Sonography_of_the_Lumbar_Paravertebral_Space.md](25_NYSORA_Sonography_of_the_Lumbar_Paravertebral_Space.md) |
+| 26 | Karmakar MK et al., sonoanatomy for paramedian neuraxial blocks, PMID 22010025 | 1 | [26_Karmakar_MK_et_al.md](26_Karmakar_MK_et_al.md) |
+| 27 | Greher M et al., Ultrasound-guided lumbar facet nerve block: a sonoanatomic study of a new methodologic approa | 3 | [27_Greher_M_et_al.md](27_Greher_M_et_al.md) |
+| 28 | Greher M et al., Ultrasound-guided lumbar facet nerve block: accuracy of a new technique confirmed by computed | 1 | [28_Greher_M_et_al.md](28_Greher_M_et_al.md) |
+| 29 | Shim JK et al., Ultrasound-guided lumbar medial-branch block: a clinical study with fluoroscopy control, Reg A | 2 | [29_Shim_JK_et_al.md](29_Shim_JK_et_al.md) |
+| 30 | The Validation of Ultrasound-Guided Lumbar Facet Nerve Blocks as Confirmed by Fluoroscopy, Asian Spine J 2012; | 1 | [30_The_Validation_of_Ultrasound-Guided_Lumbar_Facet_Nerve_Blocks_as_Confi.md](30_The_Validation_of_Ultrasound-Guided_Lumbar_Facet_Nerve_Blocks_as_Confi.md) |
+| 31 | Ashmore Z et al., Ultrasound-guided lumbar medial branch blocks and intra-articular facet joint injections: a  | 1 | [31_Ashmore_Z_et_al.md](31_Ashmore_Z_et_al.md) |
+| 32 | Ultrasound-guided axial facet joint interventions for chronic spinal pain: A narrative review, Can J Pain 2023 | 2 | [32_Ultrasound-guided_axial_facet_joint_interventions_for_chronic_spinal_p.md](32_Ultrasound-guided_axial_facet_joint_interventions_for_chronic_spinal_p.md) |
+| 33 | Neal JM et al., The ASRA evidence-based medicine assessment of ultrasound-guided regional anesthesia and pain  | 1 | [33_Neal_JM_et_al.md](33_Neal_JM_et_al.md) |
+| 34 | Comparison of the effectiveness of ultrasound-guided versus fluoroscopy-guided medial lumbar bundle branch blo | 2 | [34_Comparison_of_the_effectiveness_of_ultrasound-guided_versus_fluoroscop.md](34_Comparison_of_the_effectiveness_of_ultrasound-guided_versus_fluoroscop.md) |
+| 35 | Rauch S et al., Ultrasound-Guided Lumbar Medial Branch Block in Obese Patients: A Fluoroscopically Confirmed C | 1 | [35_Rauch_S_et_al.md](35_Rauch_S_et_al.md) |
+| 36 | Ashmore Z et al., Pain Reports 2022, PMC9113209 | 1 | [36_Ashmore_Z_et_al.md](36_Ashmore_Z_et_al.md) |
+| 37 | Greher M, Moriggl B, Peng PWH, Minella CE, Zacchino M, Eichenberger U. Ultrasound-Guided Approach for L5 Dorsa | 2 | [37_Greher_M_Moriggl_B_Peng_PWH_Minella_CE_Zacchino_M_Eichenberger_U.md](37_Greher_M_Moriggl_B_Peng_PWH_Minella_CE_Zacchino_M_Eichenberger_U.md) |
+| 38 | Ultrasound Block of the Medial Branch: Learning the Technique Using CUSUM Curves, PMC9004262 | 1 | [38_Ultrasound_Block_of_the_Medial_Branch_Learning_the_Technique_Using_CUS.md](38_Ultrasound_Block_of_the_Medial_Branch_Learning_the_Technique_Using_CUS.md) |
+| 39 | Value of CT fluoroscopy for lumbar facet blocks, PMID 15891151 | 1 | [39_Value_of_CT_fluoroscopy_for_lumbar_facet_blocks_PMID_15891151.md](39_Value_of_CT_fluoroscopy_for_lumbar_facet_blocks_PMID_15891151.md) |
+| 40 | Manchikanti L et al., Low Back Pain and Diagnostic Lumbar Facet Joint Nerve Blocks: Assessment of Prevalence,  | 3 | [40_Manchikanti_L_et_al.md](40_Manchikanti_L_et_al.md) |
+| 41 | Manchikanti L et al., The effect of sedation on diagnostic validity of facet joint nerve blocks, Pain Physicia | 1 | [41_Manchikanti_L_et_al.md](41_Manchikanti_L_et_al.md) |
+| 42 | The Effect of Sedation on Diagnostic Lumbar Medial Branch Blocks for Facetogenic Low Back Pain: An Observation | 1 | [42_The_Effect_of_Sedation_on_Diagnostic_Lumbar_Medial_Branch_Blocks_for_F.md](42_The_Effect_of_Sedation_on_Diagnostic_Lumbar_Medial_Branch_Blocks_for_F.md) |
+| 43 | Cohen SP et al., PMID 24524866 | 1 | [43_Cohen_SP_et_al.md](43_Cohen_SP_et_al.md) |
+| 44 | The Validation of Ultrasound-Guided Lumbar Facet Nerve Blocks as Confirmed by Fluoroscopy, Asian Spine J 2012; | 1 | [44_The_Validation_of_Ultrasound-Guided_Lumbar_Facet_Nerve_Blocks_as_Confi.md](44_The_Validation_of_Ultrasound-Guided_Lumbar_Facet_Nerve_Blocks_as_Confi.md) |
+| 45 | Kaplan M, Dreyfuss P, Halbrook B, Bogduk N. The ability of lumbar medial branch blocks to anesthetize the zyga | 1 | [45_Kaplan_M_Dreyfuss_P_Halbrook_B_Bogduk_N.md](45_Kaplan_M_Dreyfuss_P_Halbrook_B_Bogduk_N.md) |
+| 46 | Manchikanti L et al., ASIPP facet joint intervention guidelines, Pain Physician 2020 (released 8 June 2020) | 1 | [46_Manchikanti_L_et_al.md](46_Manchikanti_L_et_al.md) |
+| 47 | Cohen SP, Bhaskar A, Bhatia A, et al. Consensus practice guidelines on interventions for lumbar facet joint pa | 1 | [47_Cohen_SP_Bhaskar_A_Bhatia_A_et_al.md](47_Cohen_SP_Bhaskar_A_Bhatia_A_et_al.md) |
+| 48 | Comparison of Intravascular Uptake Using Touhy or Quincke Needle During Lumbar Medial Branch Block, PMID 35652 | 1 | [48_Comparison_of_Intravascular_Uptake_Using_Touhy_or_Quincke_Needle_Durin.md](48_Comparison_of_Intravascular_Uptake_Using_Touhy_or_Quincke_Needle_Durin.md) |
+| 49 | Composite: Musculoskeletal Key/Radiology Key oblique-approach chapter | 1 | [49_Composite_Musculoskeletal_KeyRadiology_Key_oblique-approach_chapter.md](49_Composite_Musculoskeletal_KeyRadiology_Key_oblique-approach_chapter.md) |
+| 50 | Composite: ASRA Pain Medicine blog (2019) | 1 | [50_Composite_ASRA_Pain_Medicine_blog_2019.md](50_Composite_ASRA_Pain_Medicine_blog_2019.md) |
+
+## 확인하지 못한 항목 (gaps)
+
+- TOOLING CONSTRAINT: the session's egress policy returned 403 CONNECT denials for pubmed.ncbi.nlm.nih.gov, pmc.ncbi.nlm.nih.gov, europepmc.org, journals.lww.com, academic.oup.com, sciencedirect.com, asra.com, wikimsk.org, painphysicianjournal.com and others, for both WebFetch and curl. All findings therefore derive from search-engine-surfaced abstract/full-text excerpts, not from reading primary PDFs. Numbers were cross-checked across queries where possible, but page numbers, full author lists, and some journal names could not be verified.
+- Could NOT verify the Spine Intervention Society (SIS/ISIS) Practice Guidelines 2nd ed. primary text — so the SIS-specified oblique angle, needle gauge, contrast volume, and injectate volume are not directly cited here. Several secondary sources say technique is 'consistent with SIS guidelines' without reproducing the numbers. Obtain the SIS manual before finalizing any slide that attributes a specific number to SIS.
+- No primary source found stating a LEVEL-SPECIFIC oblique rotation prescription (i.e., explicit degrees for L1 vs L2 vs L3 vs L4 vs L5). Reported values (10-20°, 15°, 20°, 25-35°, ~40°) come from technique texts and are patient-specific rather than level-specific. The only level-specific statement I could verify is the L5/S1 rule: reduce obliquity 5-10° back toward AP and/or tilt cephalad because of the iliac crest.
+- The rationale and target degree of cranio-caudal tilt for 'squaring the endplates' in AP could not be sourced to a citable primary reference — treat as accepted practice, not as a cited fact.
+- Dreyfuss 1997's specific '16% epidural/foraminal spread with 0.5 mL' figure was surfaced by search summary but I could not read the primary abstract to confirm the exact denominator and definition. Verify before putting the number on a slide.
+- Could not retrieve results of the Tuohy vs Quincke needle intravascular-uptake comparison (PMID 35652770) — no direction of effect should be claimed.
+- No complication-rate data retrieved for lumbar MBB (inadvertent spinal nerve block with transient motor weakness, infection, bleeding, LAST). The searches ran out of budget before this query executed.
+- Could not verify total per-session volume ceilings beyond the '<0.5 mL per nerve' consensus, nor a per-session maximum number of nerves under society (as opposed to payer) guidance.
+- Conflict left unresolved: Manchikanti's own reviews report lumbar single-block false-positive rates as both 21-33% and 49.8% (95% CI 42.7-56.8%). The reconciling variable is most likely the relief threshold (>=50% vs >=80% plus functional restoration), but I could not read the source to confirm.
+- The 'comparative blocks: specificity 88%, sensitivity 54%' figure is attributed within review literature; the primary placebo-controlled validation study was not identified. Marked low confidence.

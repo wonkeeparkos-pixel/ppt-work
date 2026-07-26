@@ -1,0 +1,27 @@
+# Comparison of Intravascular Uptake and Technical Ease Between Anteroposterior and Oblique Views During Lumbar Medial Branch Block, PMID 36288582 (2022)
+
+> 이 파일은 원문 PDF가 아니다. 컨테이너 네트워크 정책이 PubMed/PMC/출판사
+> 접속을 차단해(프록시 403) 원문을 내려받을 수 없었다. 아래 내용은 문헌검색으로
+> 수집한 근거를 문헌 단위로 재조립한 것이며, 초록 원문 전재가 아니다.
+> 원문은 아래 링크에서 직접 확인할 것.
+
+## 원문 링크
+- [PubMed](https://pubmed.ncbi.nlm.nih.gov/36288582/)
+
+## 이 문헌에서 인용된 근거 (2건)
+
+### [확실] Reported intravascular uptake incidence for lumbar MBB ranges 6.1% to ~20% depending on detection method; a 2022 trial found ~20% with no difference between AP and oblique approach.
+
+Numbers to quote side by side: 6.1% per nerve (live fluoro, Lee 2008, n=1433); 11% by live fluoro and ~19% by DSA (Pain Med 2016, n=344); and 'the overall incidence rate of intravascular injection during lumbar MBB showed nearly 20% in both approach method groups' in a randomized comparison of AP vs oblique views. That same 2022 study found the oblique approach and LEFT-sided blocks were associated with longer total procedure time and higher radiation dose, with SIMILAR intravascular uptake rates between AP and oblique.
+
+*원 출처 표기*: `Lee CJ et al., Anesth Analg 2008, PMID 18349205; Pain Medicine 2016;17(6):1031; Comparison of Intravascular Uptake and Technical Ease Between Anteroposterior and Oblique Views During Lumbar Medial Branch Block, PMID 36288582 (2022)`
+
+### [확실] AP technique delivers roughly HALF the radiation of the oblique technique (66 vs 109 mGy) with shorter fluoro time (28 vs 46 s).
+
+Retrospective cohort, 180 patients: 90 oblique technique (Group O) vs 90 AP technique (Group A). AP: mean radiation dose 66 mGy, mean fluoroscopy time 28 s. Oblique: mean 109 mGy, mean 46 s. p < 0.001 for both. Physician experience independently reduced dose. Combined with the finding that intravascular uptake is equivalent between AP and oblique, this is an argument for an AP-predominant workflow with oblique/lateral used selectively for confirmation.
+
+*원 출처 표기*: `Comparison of Radiation Doses for Different Techniques in Fluoroscopy-Guided Lumbar Facet Medial Branch Blocks: A Retrospective Cohort Study, 2024, PMC11433151; PMID 36288582 for uptake equivalence`
+
+## 함께 표기된 다른 서지 문자열
+- Comparison of Intravascular Uptake and Technical Ease Between Anteroposterior and Oblique Views During Lumbar Medial Branch Block, PMID 36288582 (2022)
+- PMID 36288582 for uptake equivalence
