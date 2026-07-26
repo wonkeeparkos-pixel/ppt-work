@@ -61,7 +61,7 @@ def wheel(x, y, w=0.9, h=1.2):
     return rect(x, y, w, h, "wc") + text(x + w/2, y + h/2 + .22, "휠", "wct", "middle")
 
 # ── 공통 골격 ───────────────────────────────────────────────────────────────
-def shell(nurse_full=True):
+def shell(nurse_full=True, EX=19.0):
     s = []
     # 북측 벽 / E-V 홀
     s.append(line(12.2, 6.0, 22.1, 6.0, "wall"))
@@ -76,7 +76,7 @@ def shell(nurse_full=True):
     s.append(rot(23.62, 7.6, "X-RAY · CT · BMD · 직원휴게실", "mini"))
     # 남측 벽
     s.append(line(12.2, 15.35, 22.6, 15.35, "wall"))
-    s.append(text(15.4, 15.28, "C-ARM실 · 의국 · 조영촬영실 · 진료실", "mini", "middle"))
+    s.append(text(15.0, 15.28, "C-ARM실 · 의국 · 진료실", "mini", "middle"))
     # 서측 범위 경계 (파단선)
     s.append(f'<path class="cut" d="M {X(12.3)} {Y(6.0)} V {Y(15.35)}"/>')
     s.append(rot(12.12, 10.7, "서측 치료동 — 금번 범위 외", "cutt"))
@@ -86,17 +86,18 @@ def shell(nurse_full=True):
     # 기둥
     s.append(rect(21.5, 6.95, 0.5, 0.5, "col"))
     # 접수 / 수납
-    s.append(rect(13.6, 9.15, 5.4, 0.7, "counter"))
-    s.append(text(16.3, 9.68, "접수 / 수납   L = 5,400", "lbl-w", "middle"))
-    s.append(rect(13.6, 9.85, 5.4, 1.15, "back"))
-    s.append(text(16.3, 10.62, "원무 백존", "mini", "middle"))
+    s.append(rect(13.6, 9.15, EX - 13.6, 0.7, "counter"))
+    s.append(text((13.6 + EX)/2, 9.68, f"접수 / 수납   L = {int((EX-13.6)*1000):,}", "lbl-w", "middle"))
+    s.append(rect(13.6, 9.85, EX - 13.6, 1.15, "back"))
+    s.append(text((13.6 + EX)/2, 10.62, "원무 백존", "mini", "middle"))
     # 간호부
     if nurse_full:
-        s.append(rect(12.6, 11.0, 6.4, 3.0, "room"))
+        s.append(rect(12.6, 11.0, EX - 12.6, 3.0, "room"))
         s.append(rect(12.6, 11.0, 1.6, 3.0, "room2"))
         s.append(rot(13.4, 12.5, "간호실"))
-        s.append(text(16.6, 12.4, "간 호 부", "lbl", "middle"))
-        s.append(text(16.6, 13.15, "6,400 × 3,000 = 19.2 m²", "dim", "middle"))
+        w = int((EX - 12.6) * 1000)
+        s.append(text((14.2 + EX)/2, 12.4, "간 호 부", "lbl", "middle"))
+        s.append(text((14.2 + EX)/2, 13.15, f"{w:,} × 3,000 = {(EX-12.6)*3:.1f} m²", "dim", "middle"))
     # 탈의실
     s.append(rect(22.6, 10.0, 1.2, 1.6, "room"))
     s.append(rect(22.6, 11.8, 1.2, 1.5, "room"))
@@ -124,7 +125,6 @@ def before():
         s.append(line(19.75, cy + 0.35, 21.55, cy + 0.35, "bench-back"))
         for j in range(4):
             s.append(dot(19.975 + 0.45 * j, cy, j < 3))
-    s.append(text(20.8, 15.15, "벤치소파 1,800×700 × 4대 → 실착석 12", "dim", "middle"))
     s.append(rect(20.3, 8.85, 1.35, 0.62, "bench"))
     s.append(line(20.3, 8.85, 21.65, 8.85, "bench-back"))
     for j in range(3):
@@ -176,6 +176,40 @@ def after():
     s.append(text(18.9, 13.75, "3,800 × 3,000", "dim", "end"))
 
     for dx, dy, lab in [(18.72, 9.52, "1"), (19.3, 6.45, "2"), (22.3, 11.4, "3")]:
+        s.append(f'<circle class="disp" cx="{X(dx)}" cy="{Y(dy)}" r="2.3"/>')
+        s.append(text(dx, dy + 0.22, lab, "dispt", "middle"))
+    return "".join(s) + '</g>'
+
+# ═══ A+안 : 가운데벽 1,000 후퇴 ═════════════════════════════════════════════
+def aplus():
+    EX = 18.0
+    s = ['<g>', shell(True, EX)]
+    # 기존 벽선 + 후퇴 표기
+    s.append(line(19.0, 9.15, 19.0, 14.0, "demo"))
+    s.append(line(18.0, 9.15, 19.0, 9.15, "demo"))
+    s.append(line(18.0, 14.0, 19.0, 14.0, "demo"))
+    s.append(text(12.95, 14.75, "가운데벽 1,000 후퇴 · 카운터 5,400 → 4,400", "demot"))
+
+    # ZONE 1 — 폭 3,500 → 4,600
+    s.append(rect(19.1, 8.6, 3.5, 0.55, "zone1"))
+    s.append(rect(18.0, 9.15, 4.6, 6.2, "zone1"))
+    s.append(bank(18.35, 10.19, 6, 'n') + bank(18.35, 10.77, 6, 's'))
+    s.append(bank(18.35, 12.45, 6, 'n') + bank(18.35, 13.03, 6, 's'))
+    s.append(bank(18.35, 15.06, 3, 'n'))
+    s.append(wheel(19.85, 14.05)) 
+    s.append(wheel(20.85, 14.05))
+    s.append(text(18.15, 9.62, "ZONE 1  진료 대기", "zt1"))
+    s.append(text(22.3, 9.68, "27석", "cnt", "end"))
+
+    # ZONE 2 — A안과 동일
+    s.append(rect(16.0, 6.05, 7.25, 2.55, "zone2"))
+    s.append(bank(19.65, 7.55, 4, 'n') + bank(19.65, 8.13, 4, 's'))
+    s.append(bank(22.96, 7.30, 3, 'w'))
+    s.append(wheel(18.3, 7.15))
+    s.append(text(16.25, 7.75, "ZONE 2  로비 대기", "zt2"))
+    s.append(text(16.25, 8.45, "11석", "cnt"))
+
+    for dx, dy, lab in [(17.72, 9.52, "1"), (19.3, 6.45, "2"), (22.3, 11.4, "3")]:
         s.append(f'<circle class="disp" cx="{X(dx)}" cy="{Y(dy)}" r="2.3"/>')
         s.append(text(dx, dy + 0.22, lab, "dispt", "middle"))
     return "".join(s) + '</g>'
@@ -296,6 +330,8 @@ if __name__ == "__main__":
             ("plan_before.svg", before(), "동측 공용부 현황 — 대기 실효 15석"),
             ("plan_after.svg", after(), "동측 공용부 개선 B안 — 대기 41석")]:
         open(os.path.join(d, fn), "w").write(svg(body, lab))
+    open(os.path.join(d, "plan_aplus.svg"), "w").write(
+        svg(aplus(), "A+안 — 가운데벽 1,000 후퇴 · 대기 38석"))
     open(os.path.join(d, "chairs.svg"), "w").write(
         svg(chairs(), "의자 비교 — 동일 벽면 3,600 실착석", "0 0 226 138", CSS_CHAIR, ""))
-    print("written 3 svg")
+    print("written 4 svg")

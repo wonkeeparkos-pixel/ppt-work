@@ -118,19 +118,19 @@ strong{font-weight:700}
 .hl{background:var(--accent-soft);padding:.06em .3em;border-radius:2px;font-weight:600}
 
 /* ── 요약 카드 ─────────────────────────────────── */
-.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
-  gap:1px;background:var(--rule);border:1px solid var(--rule);margin:26px 0}
-.opt{background:var(--surface);padding:18px 17px 17px}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));
+  gap:10px;margin:26px 0}
+.opt{background:var(--surface);border:1px solid var(--rule2);padding:16px 15px 15px}
 .opt.now{background:var(--sunk)}
-.opt.pick{background:var(--accent-soft)}
+.opt.pick{background:var(--accent-soft);border-color:var(--accent);border-width:1.5px}
 .opt-k{font-family:var(--fm);font-size:11px;letter-spacing:.13em;color:var(--ink3);
   text-transform:uppercase;margin-bottom:9px}
 .opt.pick .opt-k{color:var(--accent);font-weight:700}
-.opt-n{font-family:var(--fm);font-size:34px;font-weight:700;line-height:1;
+.opt-n{font-family:var(--fm);font-size:31px;font-weight:700;line-height:1;
   letter-spacing:-.03em;font-variant-numeric:tabular-nums}
 .opt-n span{font-size:14px;font-weight:500;margin-left:3px;letter-spacing:0}
-.opt-d{font-size:12.5px;color:var(--ink2);margin-top:11px;line-height:1.55}
-.opt-c{font-family:var(--fm);font-size:12px;color:var(--ink);margin-top:9px;
+.opt-d{font-size:12px;color:var(--ink2);margin-top:11px;line-height:1.55}
+.opt-c{font-family:var(--fm);font-size:11.5px;color:var(--ink);margin-top:9px;
   padding-top:9px;border-top:1px solid var(--rule2);font-variant-numeric:tabular-nums}
 
 .callout{border-left:3px solid var(--accent);background:var(--surface);
@@ -244,14 +244,14 @@ a{color:var(--accent)}
   <p class="lede">동측 공용부는 약 85 m²인데 실제로 앉을 수 있는 구역은 24 m²의 메인 대기홀
   하나뿐입니다. 로비·전실 19 m², 간호부 19 m², 데드코리도 8 m²는 대기에 전혀 쓰이지
   않습니다. 여기에 팔걸이 없는 벤치소파가 공칭 좌석의 35%를 스스로 깎아먹고 있습니다.
-  <strong>공사를 하지 않고 가구 교체와 재배치만으로 15석 → 31석</strong>, 간호부 동측을
-  편입하면 41석까지 갑니다.</p>
+  <strong>공사 없이 가구 교체와 재배치만으로 15석 → 31석</strong>,
+  공용부 가운데벽을 1,000 후퇴시키면 <strong>38석</strong>까지 갑니다.</p>
 </header>
 
 <!-- ══ 요약 ══ -->
 <section id="summary">
   <span class="sec-no">SUMMARY</span>
-  <h2>세 가지 안과 권고</h2>
+  <h2>네 가지 안과 권고</h2>
 
   <div class="opts">
     <div class="opt now">
@@ -260,11 +260,17 @@ a{color:var(--accent)}
       <div class="opt-d">벤치소파 4대 + 산재 좌석.<br>공칭 19석이나 실착석 15석.</div>
       <div class="opt-c">—</div>
     </div>
-    <div class="opt pick">
-      <div class="opt-k">A안 · 권고</div>
+    <div class="opt">
+      <div class="opt-k">A안</div>
       <div class="opt-n">31<span>석</span></div>
       <div class="opt-d">무공사. 의자 전량 교체 + 등맞댐 재배치 + 로비 대기존 신설.</div>
       <div class="opt-c">1,800–2,600만원<br>2–3주 · 휴진 0일</div>
+    </div>
+    <div class="opt pick">
+      <div class="opt-k">A+안 · 권고</div>
+      <div class="opt-n">38<span>석</span></div>
+      <div class="opt-d">A안 + 가운데벽(x=19.0 라인) 1,000 후퇴. 대기홀 폭 3,500 → 4,600.</div>
+      <div class="opt-c">3,700–5,900만원<br>3–4주 · 휴진 0–1일</div>
     </div>
     <div class="opt">
       <div class="opt-k">B안</div>
@@ -281,13 +287,14 @@ a{color:var(--accent)}
   </div>
 
   <div class="callout">
-    <p><strong>권고 — A안부터, C안은 아직 하지 마세요.</strong> 돈을 쓰실 의향이 있다는 건
-    알겠습니다. 다만 지금 확보된 근거로 보면 <span class="hl">A안 1,800~2,600만원이면
-    피크 수요가 거의 해결</span>됩니다. 여기에 아래 <a href="#ops">운영 개선</a>(모바일 호출·
-    물리치료 슬롯 예약)을 얹으면 동시 체류 인원 자체가 20~30% 줄어듭니다. 31석 + 수요 감소면
-    추정 피크 25~35명을 감당합니다.</p>
-    <p>C안(1억+)은 지금 쓰면 <strong>효과를 측정할 기준선이 없는 상태</strong>에서 쓰는 돈이
-    됩니다. A안 시행 → 2주 재측정 → 그래도 부족하면 B안, 이 순서를 권합니다.</p>
+    <p><strong>권고 — A+안.</strong> 가운데벽을 1 m 잘라내자는 판단이 맞습니다.
+    <span class="hl">같은 돈으로 제가 처음 낸 B안보다 손해가 적고 좌석 효율이 좋습니다.</span>
+    이유는 <a href="#aplus">04장</a>에 계산해 두었습니다. 다만 <strong>x=19.0 라인에 덕트·샤프트가
+    없어야</strong> 성립하므로 이것부터 확인하셔야 합니다.</p>
+    <p>예산을 더 줄이셔야 하면 A안(무공사 31석)으로 시작해도 됩니다. 어느 쪽이든
+    <a href="#ops">운영 개선</a>(모바일 호출·물리치료 슬롯 예약)을 얹으면 동시 체류 인원이
+    20~30% 줄어 추정 피크 25~35명을 감당합니다. C안(1억+)은 A+안 결과를 보기 전에는
+    권하지 않습니다.</p>
   </div>
 </section>
 
@@ -471,14 +478,14 @@ text{font-family:var(--fs);fill:var(--pl-ink)}
 .demot{font-family:var(--fm);font-size:2.3px;fill:var(--pl-demo)}
 .dispt{font-size:2.4px;font-weight:700;fill:var(--pl-ondisp)}
 .wct{font-size:2.1px;font-weight:700;fill:var(--pl-accent)}
-</style><defs><marker id="ah" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="var(--pl-accent)"/></marker></defs><g><line class="wall" x1="3.0" y1="9.0" x2="102.0" y2="9.0"/><rect class="core" x="41.0" y="2.5" width="30.0" height="6.5" rx="0"/><text class="mini" x="56.0" y="7.2" text-anchor="middle">E/V 홀 · 출입</text><path class="arrow" d="M 56.0 10.5 V 18.5"/><line class="wall" x1="102.0" y1="9.0" x2="114.0" y2="9.0"/><line class="wall" x1="114.0" y1="9.0" x2="114.0" y2="44.0"/><line class="wall" x1="114.0" y1="44.0" x2="107.0" y2="44.0"/><line class="wall" x1="107.0" y1="44.0" x2="107.0" y2="102.5"/><text class="mini" x="117.2" y="25.0" text-anchor="middle" transform="rotate(-90 117.2 25.0)">X-RAY · CT · BMD · 직원휴게실</text><line class="wall" x1="3.0" y1="102.5" x2="107.0" y2="102.5"/><text class="mini" x="35.0" y="101.8" text-anchor="middle">C-ARM실 · 의국 · 조영촬영실 · 진료실</text><path class="cut" d="M 4.0 9.0 V 102.5"/><text class="cutt" x="2.2" y="56.0" text-anchor="middle" transform="rotate(-90 2.2 56.0)">서측 치료동 — 금번 범위 외</text><rect class="fix" x="81.0" y="9.0" width="18.0" height="4.5" rx="0"/><text class="mini" x="90.0" y="18.0" text-anchor="middle">정수기 · 커피</text><rect class="col" x="96.0" y="18.5" width="5.0" height="5.0" rx="0"/><rect class="counter" x="17.0" y="40.5" width="54.0" height="7.0" rx="0"/><text class="lbl-w" x="44.0" y="45.8" text-anchor="middle">접수 / 수납   L = 5,400</text><rect class="back" x="17.0" y="47.5" width="54.0" height="11.5" rx="0"/><text class="mini" x="44.0" y="55.2" text-anchor="middle">원무 백존</text><rect class="room" x="7.0" y="59.0" width="64.0" height="30.0" rx="0"/><rect class="room2" x="7.0" y="59.0" width="16.0" height="30.0" rx="0"/><text class="mini" x="15.0" y="74.0" text-anchor="middle" transform="rotate(-90 15.0 74.0)">간호실</text><text class="lbl" x="47.0" y="73.0" text-anchor="middle">간 호 부</text><text class="dim" x="47.0" y="80.5" text-anchor="middle">6,400 × 3,000 = 19.2 m²</text><rect class="room" x="107.0" y="49.0" width="12.0" height="16.0" rx="0"/><rect class="room" x="107.0" y="67.0" width="12.0" height="15.0" rx="0"/><text class="mini" x="113.0" y="57.0" text-anchor="middle" transform="rotate(-90 113.0 57.0)">탈의실(남)</text><text class="mini" x="113.0" y="74.5" text-anchor="middle" transform="rotate(-90 113.0 74.5)">탈의실(여)</text><path class="flow" d="M 104.0 98.0 V 39.0"/><path class="north" d="M 9.5 19.5 V 13.0 M 7.6 15.6 L 9.5 12.6 L 11.4 15.6 Z"/><text class="mini" x="9.5" y="24.0" text-anchor="middle">N</text><line class="scale" x1="16.0" y1="17.0" x2="36.0" y2="17.0"/><line class="scale" x1="16.0" y1="15.5" x2="16.0" y2="18.5"/><line class="scale" x1="26.0" y1="16.2" x2="26.0" y2="17.8"/><line class="scale" x1="36.0" y1="15.5" x2="36.0" y2="18.5"/><text class="dim" x="26.0" y="21.0" text-anchor="middle">0 ─ 2 m</text><rect class="zone-now" x="72.0" y="35.0" width="35.0" height="67.5" rx="0"/><text class="zt" x="74.0" y="72.0" text-anchor="middle" transform="rotate(-90 74.0 72.0)">메인 대기홀 ≈ 24 m²</text><rect class="bench" x="78.5" y="47.0" width="18.0" height="7.0" rx="0"/><line class="bench-back" x1="78.5" y1="54.0" x2="96.5" y2="54.0"/><circle class="occ" cx="80.75" cy="50.5" r="1.55"/><circle class="occ" cx="85.25" cy="50.5" r="1.55"/><circle class="occ" cx="89.75" cy="50.5" r="1.55"/><circle class="lost" cx="94.25" cy="50.5" r="1.55"/><rect class="bench" x="78.5" y="61.0" width="18.0" height="7.0" rx="0"/><line class="bench-back" x1="78.5" y1="68.0" x2="96.5" y2="68.0"/><circle class="occ" cx="80.75" cy="64.5" r="1.55"/><circle class="occ" cx="85.25" cy="64.5" r="1.55"/><circle class="occ" cx="89.75" cy="64.5" r="1.55"/><circle class="lost" cx="94.25" cy="64.5" r="1.55"/><rect class="bench" x="78.5" y="75.0" width="18.0" height="7.0" rx="0"/><line class="bench-back" x1="78.5" y1="82.0" x2="96.5" y2="82.0"/><circle class="occ" cx="80.75" cy="78.5" r="1.55"/><circle class="occ" cx="85.25" cy="78.5" r="1.55"/><circle class="occ" cx="89.75" cy="78.5" r="1.55"/><circle class="lost" cx="94.25" cy="78.5" r="1.55"/><rect class="bench" x="78.5" y="89.0" width="18.0" height="7.0" rx="0"/><line class="bench-back" x1="78.5" y1="96.0" x2="96.5" y2="96.0"/><circle class="occ" cx="80.75" cy="92.5" r="1.55"/><circle class="occ" cx="85.25" cy="92.5" r="1.55"/><circle class="occ" cx="89.75" cy="92.5" r="1.55"/><circle class="lost" cx="94.25" cy="92.5" r="1.55"/><text class="dim" x="89.0" y="100.5" text-anchor="middle">벤치소파 1,800×700 × 4대 → 실착석 12</text><rect class="bench" x="84.0" y="37.5" width="13.5" height="6.2" rx="0"/><line class="bench-back" x1="84.0" y1="37.5" x2="97.5" y2="37.5"/><circle class="occ" cx="86.3" cy="40.6" r="1.55"/><circle class="occ" cx="90.8" cy="40.6" r="1.55"/><circle class="lost" cx="95.3" cy="40.6" r="1.55"/><circle class="benchc" cx="110.0" cy="26.0" r="3.1"/><circle class="occ" cx="110.0" cy="26.0" r="1.55"/><rect class="void" x="42.0" y="15.0" width="64.0" height="19.0" rx="0"/><text class="voidt" x="74.0" y="25.7" text-anchor="middle">로비 · 전실   약 19 m² 미사용</text><rect class="void" x="8.0" y="90.0" width="62.0" height="10.0" rx="0"/><text class="voidt" x="39.0" y="96.2" text-anchor="middle">간호부 남측 데드코리도  7.7 m²</text><rect class="void" x="97.2" y="49.0" width="9.5" height="45.0" rx="0"/><text class="voidt" x="101.95" y="71.5" text-anchor="middle" transform="rotate(-90 101.95 71.5)">순수 통로</text></g></svg>
+</style><defs><marker id="ah" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="var(--pl-accent)"/></marker></defs><g><line class="wall" x1="3.0" y1="9.0" x2="102.0" y2="9.0"/><rect class="core" x="41.0" y="2.5" width="30.0" height="6.5" rx="0"/><text class="mini" x="56.0" y="7.2" text-anchor="middle">E/V 홀 · 출입</text><path class="arrow" d="M 56.0 10.5 V 18.5"/><line class="wall" x1="102.0" y1="9.0" x2="114.0" y2="9.0"/><line class="wall" x1="114.0" y1="9.0" x2="114.0" y2="44.0"/><line class="wall" x1="114.0" y1="44.0" x2="107.0" y2="44.0"/><line class="wall" x1="107.0" y1="44.0" x2="107.0" y2="102.5"/><text class="mini" x="117.2" y="25.0" text-anchor="middle" transform="rotate(-90 117.2 25.0)">X-RAY · CT · BMD · 직원휴게실</text><line class="wall" x1="3.0" y1="102.5" x2="107.0" y2="102.5"/><text class="mini" x="31.0" y="101.8" text-anchor="middle">C-ARM실 · 의국 · 진료실</text><path class="cut" d="M 4.0 9.0 V 102.5"/><text class="cutt" x="2.2" y="56.0" text-anchor="middle" transform="rotate(-90 2.2 56.0)">서측 치료동 — 금번 범위 외</text><rect class="fix" x="81.0" y="9.0" width="18.0" height="4.5" rx="0"/><text class="mini" x="90.0" y="18.0" text-anchor="middle">정수기 · 커피</text><rect class="col" x="96.0" y="18.5" width="5.0" height="5.0" rx="0"/><rect class="counter" x="17.0" y="40.5" width="54.0" height="7.0" rx="0"/><text class="lbl-w" x="44.0" y="45.8" text-anchor="middle">접수 / 수납   L = 5,400</text><rect class="back" x="17.0" y="47.5" width="54.0" height="11.5" rx="0"/><text class="mini" x="44.0" y="55.2" text-anchor="middle">원무 백존</text><rect class="room" x="7.0" y="59.0" width="64.0" height="30.0" rx="0"/><rect class="room2" x="7.0" y="59.0" width="16.0" height="30.0" rx="0"/><text class="mini" x="15.0" y="74.0" text-anchor="middle" transform="rotate(-90 15.0 74.0)">간호실</text><text class="lbl" x="47.0" y="73.0" text-anchor="middle">간 호 부</text><text class="dim" x="47.0" y="80.5" text-anchor="middle">6,400 × 3,000 = 19.2 m²</text><rect class="room" x="107.0" y="49.0" width="12.0" height="16.0" rx="0"/><rect class="room" x="107.0" y="67.0" width="12.0" height="15.0" rx="0"/><text class="mini" x="113.0" y="57.0" text-anchor="middle" transform="rotate(-90 113.0 57.0)">탈의실(남)</text><text class="mini" x="113.0" y="74.5" text-anchor="middle" transform="rotate(-90 113.0 74.5)">탈의실(여)</text><path class="flow" d="M 104.0 98.0 V 39.0"/><path class="north" d="M 9.5 19.5 V 13.0 M 7.6 15.6 L 9.5 12.6 L 11.4 15.6 Z"/><text class="mini" x="9.5" y="24.0" text-anchor="middle">N</text><line class="scale" x1="16.0" y1="17.0" x2="36.0" y2="17.0"/><line class="scale" x1="16.0" y1="15.5" x2="16.0" y2="18.5"/><line class="scale" x1="26.0" y1="16.2" x2="26.0" y2="17.8"/><line class="scale" x1="36.0" y1="15.5" x2="36.0" y2="18.5"/><text class="dim" x="26.0" y="21.0" text-anchor="middle">0 ─ 2 m</text><rect class="zone-now" x="72.0" y="35.0" width="35.0" height="67.5" rx="0"/><text class="zt" x="74.0" y="72.0" text-anchor="middle" transform="rotate(-90 74.0 72.0)">메인 대기홀 ≈ 24 m²</text><rect class="bench" x="78.5" y="47.0" width="18.0" height="7.0" rx="0"/><line class="bench-back" x1="78.5" y1="54.0" x2="96.5" y2="54.0"/><circle class="occ" cx="80.75" cy="50.5" r="1.55"/><circle class="occ" cx="85.25" cy="50.5" r="1.55"/><circle class="occ" cx="89.75" cy="50.5" r="1.55"/><circle class="lost" cx="94.25" cy="50.5" r="1.55"/><rect class="bench" x="78.5" y="61.0" width="18.0" height="7.0" rx="0"/><line class="bench-back" x1="78.5" y1="68.0" x2="96.5" y2="68.0"/><circle class="occ" cx="80.75" cy="64.5" r="1.55"/><circle class="occ" cx="85.25" cy="64.5" r="1.55"/><circle class="occ" cx="89.75" cy="64.5" r="1.55"/><circle class="lost" cx="94.25" cy="64.5" r="1.55"/><rect class="bench" x="78.5" y="75.0" width="18.0" height="7.0" rx="0"/><line class="bench-back" x1="78.5" y1="82.0" x2="96.5" y2="82.0"/><circle class="occ" cx="80.75" cy="78.5" r="1.55"/><circle class="occ" cx="85.25" cy="78.5" r="1.55"/><circle class="occ" cx="89.75" cy="78.5" r="1.55"/><circle class="lost" cx="94.25" cy="78.5" r="1.55"/><rect class="bench" x="78.5" y="89.0" width="18.0" height="7.0" rx="0"/><line class="bench-back" x1="78.5" y1="96.0" x2="96.5" y2="96.0"/><circle class="occ" cx="80.75" cy="92.5" r="1.55"/><circle class="occ" cx="85.25" cy="92.5" r="1.55"/><circle class="occ" cx="89.75" cy="92.5" r="1.55"/><circle class="lost" cx="94.25" cy="92.5" r="1.55"/><rect class="bench" x="84.0" y="37.5" width="13.5" height="6.2" rx="0"/><line class="bench-back" x1="84.0" y1="37.5" x2="97.5" y2="37.5"/><circle class="occ" cx="86.3" cy="40.6" r="1.55"/><circle class="occ" cx="90.8" cy="40.6" r="1.55"/><circle class="lost" cx="95.3" cy="40.6" r="1.55"/><circle class="benchc" cx="110.0" cy="26.0" r="3.1"/><circle class="occ" cx="110.0" cy="26.0" r="1.55"/><rect class="void" x="42.0" y="15.0" width="64.0" height="19.0" rx="0"/><text class="voidt" x="74.0" y="25.7" text-anchor="middle">로비 · 전실   약 19 m² 미사용</text><rect class="void" x="8.0" y="90.0" width="62.0" height="10.0" rx="0"/><text class="voidt" x="39.0" y="96.2" text-anchor="middle">간호부 남측 데드코리도  7.7 m²</text><rect class="void" x="97.2" y="49.0" width="9.5" height="45.0" rx="0"/><text class="voidt" x="101.95" y="71.5" text-anchor="middle" transform="rotate(-90 101.95 71.5)">순수 통로</text></g></svg>
     <div class="keys">
       <span><i class="k-occ"></i>실제 착석</span>
       <span><i class="k-lost"></i>비는 자리</span>
       <span>붉은 파선 = 대기 구역</span>
       <span>연한 박스 = 미사용·통로</span>
     </div>
-    <figcaption>벤치 4대가 모두 같은 방향을 보고 1,400 간격으로 늘어서 있어, 열마다 통로가
+    <figcaption>무팔걸이 벤치소파(1,800 × 700) 4대가 모두 같은 방향을 보고 1,400 간격으로 늘어서 있어, 열마다 통로가
       따로 필요합니다. 동측 레인 1,150은 순수 통로이고 로비 19 m²는 거의 비어 있습니다.</figcaption>
   </figure>
 
@@ -528,7 +535,7 @@ text{font-family:var(--fs);fill:var(--pl-ink)}
 .demot{font-family:var(--fm);font-size:2.3px;fill:var(--pl-demo)}
 .dispt{font-size:2.4px;font-weight:700;fill:var(--pl-ondisp)}
 .wct{font-size:2.1px;font-weight:700;fill:var(--pl-accent)}
-</style><defs><marker id="ah" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="var(--pl-accent)"/></marker></defs><g><line class="wall" x1="3.0" y1="9.0" x2="102.0" y2="9.0"/><rect class="core" x="41.0" y="2.5" width="30.0" height="6.5" rx="0"/><text class="mini" x="56.0" y="7.2" text-anchor="middle">E/V 홀 · 출입</text><path class="arrow" d="M 56.0 10.5 V 18.5"/><line class="wall" x1="102.0" y1="9.0" x2="114.0" y2="9.0"/><line class="wall" x1="114.0" y1="9.0" x2="114.0" y2="44.0"/><line class="wall" x1="114.0" y1="44.0" x2="107.0" y2="44.0"/><line class="wall" x1="107.0" y1="44.0" x2="107.0" y2="102.5"/><text class="mini" x="117.2" y="25.0" text-anchor="middle" transform="rotate(-90 117.2 25.0)">X-RAY · CT · BMD · 직원휴게실</text><line class="wall" x1="3.0" y1="102.5" x2="107.0" y2="102.5"/><text class="mini" x="35.0" y="101.8" text-anchor="middle">C-ARM실 · 의국 · 조영촬영실 · 진료실</text><path class="cut" d="M 4.0 9.0 V 102.5"/><text class="cutt" x="2.2" y="56.0" text-anchor="middle" transform="rotate(-90 2.2 56.0)">서측 치료동 — 금번 범위 외</text><rect class="fix" x="81.0" y="9.0" width="18.0" height="4.5" rx="0"/><text class="mini" x="90.0" y="18.0" text-anchor="middle">정수기 · 커피</text><rect class="col" x="96.0" y="18.5" width="5.0" height="5.0" rx="0"/><rect class="counter" x="17.0" y="40.5" width="54.0" height="7.0" rx="0"/><text class="lbl-w" x="44.0" y="45.8" text-anchor="middle">접수 / 수납   L = 5,400</text><rect class="back" x="17.0" y="47.5" width="54.0" height="11.5" rx="0"/><text class="mini" x="44.0" y="55.2" text-anchor="middle">원무 백존</text><rect class="room" x="107.0" y="49.0" width="12.0" height="16.0" rx="0"/><rect class="room" x="107.0" y="67.0" width="12.0" height="15.0" rx="0"/><text class="mini" x="113.0" y="57.0" text-anchor="middle" transform="rotate(-90 113.0 57.0)">탈의실(남)</text><text class="mini" x="113.0" y="74.5" text-anchor="middle" transform="rotate(-90 113.0 74.5)">탈의실(여)</text><path class="flow" d="M 104.0 98.0 V 39.0"/><path class="north" d="M 9.5 19.5 V 13.0 M 7.6 15.6 L 9.5 12.6 L 11.4 15.6 Z"/><text class="mini" x="9.5" y="24.0" text-anchor="middle">N</text><line class="scale" x1="16.0" y1="17.0" x2="36.0" y2="17.0"/><line class="scale" x1="16.0" y1="15.5" x2="16.0" y2="18.5"/><line class="scale" x1="26.0" y1="16.2" x2="26.0" y2="17.8"/><line class="scale" x1="36.0" y1="15.5" x2="36.0" y2="18.5"/><text class="dim" x="26.0" y="21.0" text-anchor="middle">0 ─ 2 m</text><rect class="room" x="7.0" y="59.0" width="26.0" height="30.0" rx="0"/><text class="mini" x="18.5" y="74.0" text-anchor="middle" transform="rotate(-90 18.5 74.0)">간호 스테이션</text><text class="dim" x="25.0" y="74.0" text-anchor="middle" transform="rotate(-90 25.0 74.0)">7.8 m²</text><line class="demo" x1="33.0" y1="59.0" x2="71.0" y2="59.0"/><line class="demo" x1="71.0" y1="59.0" x2="71.0" y2="89.0"/><line class="demo" x1="33.0" y1="89.0" x2="71.0" y2="89.0"/><text class="demot" x="52.0" y="95.2" text-anchor="middle">철거 (B안)   L ≈ 11.6 m</text><rect class="zone1" x="72.0" y="35.0" width="35.0" height="67.5" rx="0"/><rect class="seat" x="75.25" y="50.5" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="75.25" y1="56.3" x2="79.75" y2="56.3"/><rect class="seat" x="80.25" y="50.5" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="80.25" y1="56.3" x2="84.75" y2="56.3"/><rect class="seat" x="85.25" y="50.5" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="85.25" y1="56.3" x2="89.75" y2="56.3"/><rect class="seat" x="90.25" y="50.5" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="90.25" y1="56.3" x2="94.75" y2="56.3"/><line class="arm" x1="75.0" y1="51.0" x2="75.0" y2="55.8"/><line class="arm" x1="80.0" y1="51.0" x2="80.0" y2="55.8"/><line class="arm" x1="85.0" y1="51.0" x2="85.0" y2="55.8"/><line class="arm" x1="90.0" y1="51.0" x2="90.0" y2="55.8"/><line class="arm" x1="95.0" y1="51.0" x2="95.0" y2="55.8"/><rect class="seat" x="75.25" y="56.3" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="75.25" y1="56.3" x2="79.75" y2="56.3"/><rect class="seat" x="80.25" y="56.3" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="80.25" y1="56.3" x2="84.75" y2="56.3"/><rect class="seat" x="85.25" y="56.3" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="85.25" y1="56.3" x2="89.75" y2="56.3"/><rect class="seat" x="90.25" y="56.3" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="90.25" y1="56.3" x2="94.75" y2="56.3"/><line class="arm" x1="75.0" y1="56.8" x2="75.0" y2="61.6"/><line class="arm" x1="80.0" y1="56.8" x2="80.0" y2="61.6"/><line class="arm" x1="85.0" y1="56.8" x2="85.0" y2="61.6"/><line class="arm" x1="90.0" y1="56.8" x2="90.0" y2="61.6"/><line class="arm" x1="95.0" y1="56.8" x2="95.0" y2="61.6"/><rect class="seat" x="75.25" y="73.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="75.25" y1="79.4" x2="79.75" y2="79.4"/><rect class="seat" x="80.25" y="73.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="80.25" y1="79.4" x2="84.75" y2="79.4"/><rect class="seat" x="85.25" y="73.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="85.25" y1="79.4" x2="89.75" y2="79.4"/><rect class="seat" x="90.25" y="73.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="90.25" y1="79.4" x2="94.75" y2="79.4"/><line class="arm" x1="75.0" y1="74.1" x2="75.0" y2="78.9"/><line class="arm" x1="80.0" y1="74.1" x2="80.0" y2="78.9"/><line class="arm" x1="85.0" y1="74.1" x2="85.0" y2="78.9"/><line class="arm" x1="90.0" y1="74.1" x2="90.0" y2="78.9"/><line class="arm" x1="95.0" y1="74.1" x2="95.0" y2="78.9"/><rect class="seat" x="75.25" y="79.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="75.25" y1="79.4" x2="79.75" y2="79.4"/><rect class="seat" x="80.25" y="79.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="80.25" y1="79.4" x2="84.75" y2="79.4"/><rect class="seat" x="85.25" y="79.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="85.25" y1="79.4" x2="89.75" y2="79.4"/><rect class="seat" x="90.25" y="79.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="90.25" y1="79.4" x2="94.75" y2="79.4"/><line class="arm" x1="75.0" y1="79.9" x2="75.0" y2="84.7"/><line class="arm" x1="80.0" y1="79.9" x2="80.0" y2="84.7"/><line class="arm" x1="85.0" y1="79.9" x2="85.0" y2="84.7"/><line class="arm" x1="90.0" y1="79.9" x2="90.0" y2="84.7"/><line class="arm" x1="95.0" y1="79.9" x2="95.0" y2="84.7"/><rect class="seat" x="75.25" y="96.7" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="75.25" y1="102.5" x2="79.75" y2="102.5"/><rect class="seat" x="80.25" y="96.7" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="80.25" y1="102.5" x2="84.75" y2="102.5"/><rect class="seat" x="85.25" y="96.7" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="85.25" y1="102.5" x2="89.75" y2="102.5"/><rect class="seat" x="90.25" y="96.7" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="90.25" y1="102.5" x2="94.75" y2="102.5"/><line class="arm" x1="75.0" y1="97.2" x2="75.0" y2="102.0"/><line class="arm" x1="80.0" y1="97.2" x2="80.0" y2="102.0"/><line class="arm" x1="85.0" y1="97.2" x2="85.0" y2="102.0"/><line class="arm" x1="90.0" y1="97.2" x2="90.0" y2="102.0"/><line class="arm" x1="95.0" y1="97.2" x2="95.0" y2="102.0"/><rect class="wc" x="75.5" y="36.5" width="9.0" height="12.0" rx="0"/><text class="wct" x="80.0" y="44.7" text-anchor="middle">휠</text><text class="zt1" x="87.2" y="39.5" text-anchor="start">ZONE 1  진료 대기</text><text class="cnt" x="87.2" y="46.5" text-anchor="start">20석</text><rect class="zone2" x="41.0" y="9.5" width="72.5" height="25.5" rx="0"/><rect class="seat" x="75.25" y="21.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="75.25" y1="27.4" x2="79.75" y2="27.4"/><rect class="seat" x="80.25" y="21.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="80.25" y1="27.4" x2="84.75" y2="27.4"/><rect class="seat" x="85.25" y="21.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="85.25" y1="27.4" x2="89.75" y2="27.4"/><rect class="seat" x="90.25" y="21.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="90.25" y1="27.4" x2="94.75" y2="27.4"/><line class="arm" x1="75.0" y1="22.1" x2="75.0" y2="26.9"/><line class="arm" x1="80.0" y1="22.1" x2="80.0" y2="26.9"/><line class="arm" x1="85.0" y1="22.1" x2="85.0" y2="26.9"/><line class="arm" x1="90.0" y1="22.1" x2="90.0" y2="26.9"/><line class="arm" x1="95.0" y1="22.1" x2="95.0" y2="26.9"/><rect class="seat" x="75.25" y="27.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="75.25" y1="27.4" x2="79.75" y2="27.4"/><rect class="seat" x="80.25" y="27.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="80.25" y1="27.4" x2="84.75" y2="27.4"/><rect class="seat" x="85.25" y="27.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="85.25" y1="27.4" x2="89.75" y2="27.4"/><rect class="seat" x="90.25" y="27.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="90.25" y1="27.4" x2="94.75" y2="27.4"/><line class="arm" x1="75.0" y1="27.9" x2="75.0" y2="32.7"/><line class="arm" x1="80.0" y1="27.9" x2="80.0" y2="32.7"/><line class="arm" x1="85.0" y1="27.9" x2="85.0" y2="32.7"/><line class="arm" x1="90.0" y1="27.9" x2="90.0" y2="32.7"/><line class="arm" x1="95.0" y1="27.9" x2="95.0" y2="32.7"/><rect class="seat" x="107.7" y="19.75" width="5.8" height="4.5" rx="0.7"/><line class="seat-back" x1="113.5" y1="19.75" x2="113.5" y2="24.25"/><rect class="seat" x="107.7" y="24.75" width="5.8" height="4.5" rx="0.7"/><line class="seat-back" x1="113.5" y1="24.75" x2="113.5" y2="29.25"/><rect class="seat" x="107.7" y="29.75" width="5.8" height="4.5" rx="0.7"/><line class="seat-back" x1="113.5" y1="29.75" x2="113.5" y2="34.25"/><line class="arm" x1="108.2" y1="19.5" x2="113.0" y2="19.5"/><line class="arm" x1="108.2" y1="24.5" x2="113.0" y2="24.5"/><line class="arm" x1="108.2" y1="29.5" x2="113.0" y2="29.5"/><line class="arm" x1="108.2" y1="34.5" x2="113.0" y2="34.5"/><rect class="wc" x="64.0" y="20.5" width="9.0" height="12.0" rx="0"/><text class="wct" x="68.5" y="28.7" text-anchor="middle">휠</text><text class="zt2" x="43.5" y="26.5" text-anchor="start">ZONE 2  로비 대기</text><text class="cnt" x="43.5" y="33.5" text-anchor="start">11석</text><rect class="zone3" x="33.0" y="59.0" width="38.0" height="30.0" rx="0"/><rect class="seat" x="38.75" y="68.2" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="38.75" y1="74.0" x2="43.25" y2="74.0"/><rect class="seat" x="43.75" y="68.2" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="43.75" y1="74.0" x2="48.25" y2="74.0"/><rect class="seat" x="48.75" y="68.2" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="48.75" y1="74.0" x2="53.25" y2="74.0"/><rect class="seat" x="53.75" y="68.2" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="53.75" y1="74.0" x2="58.25" y2="74.0"/><rect class="seat" x="58.75" y="68.2" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="58.75" y1="74.0" x2="63.25" y2="74.0"/><line class="arm" x1="38.5" y1="68.7" x2="38.5" y2="73.5"/><line class="arm" x1="43.5" y1="68.7" x2="43.5" y2="73.5"/><line class="arm" x1="48.5" y1="68.7" x2="48.5" y2="73.5"/><line class="arm" x1="53.5" y1="68.7" x2="53.5" y2="73.5"/><line class="arm" x1="58.5" y1="68.7" x2="58.5" y2="73.5"/><line class="arm" x1="63.5" y1="68.7" x2="63.5" y2="73.5"/><rect class="seat" x="38.75" y="74.0" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="38.75" y1="74.0" x2="43.25" y2="74.0"/><rect class="seat" x="43.75" y="74.0" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="43.75" y1="74.0" x2="48.25" y2="74.0"/><rect class="seat" x="48.75" y="74.0" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="48.75" y1="74.0" x2="53.25" y2="74.0"/><rect class="seat" x="53.75" y="74.0" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="53.75" y1="74.0" x2="58.25" y2="74.0"/><rect class="seat" x="58.75" y="74.0" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="58.75" y1="74.0" x2="63.25" y2="74.0"/><line class="arm" x1="38.5" y1="74.5" x2="38.5" y2="79.3"/><line class="arm" x1="43.5" y1="74.5" x2="43.5" y2="79.3"/><line class="arm" x1="48.5" y1="74.5" x2="48.5" y2="79.3"/><line class="arm" x1="53.5" y1="74.5" x2="53.5" y2="79.3"/><line class="arm" x1="58.5" y1="74.5" x2="58.5" y2="79.3"/><line class="arm" x1="63.5" y1="74.5" x2="63.5" y2="79.3"/><text class="zt3" x="34.5" y="65.2" text-anchor="start">ZONE 3  간호부 편입</text><text class="cnt" x="34.5" y="86.8" text-anchor="start">10석</text><text class="dim" x="70.0" y="86.5" text-anchor="end">3,800 × 3,000</text><circle class="disp" cx="68.2" cy="44.2" r="2.3"/><text class="dispt" x="68.2" y="46.4" text-anchor="middle">1</text><circle class="disp" cx="74.0" cy="13.5" r="2.3"/><text class="dispt" x="74.0" y="15.7" text-anchor="middle">2</text><circle class="disp" cx="104.0" cy="63.0" r="2.3"/><text class="dispt" x="104.0" y="65.2" text-anchor="middle">3</text></g></svg>
+</style><defs><marker id="ah" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="var(--pl-accent)"/></marker></defs><g><line class="wall" x1="3.0" y1="9.0" x2="102.0" y2="9.0"/><rect class="core" x="41.0" y="2.5" width="30.0" height="6.5" rx="0"/><text class="mini" x="56.0" y="7.2" text-anchor="middle">E/V 홀 · 출입</text><path class="arrow" d="M 56.0 10.5 V 18.5"/><line class="wall" x1="102.0" y1="9.0" x2="114.0" y2="9.0"/><line class="wall" x1="114.0" y1="9.0" x2="114.0" y2="44.0"/><line class="wall" x1="114.0" y1="44.0" x2="107.0" y2="44.0"/><line class="wall" x1="107.0" y1="44.0" x2="107.0" y2="102.5"/><text class="mini" x="117.2" y="25.0" text-anchor="middle" transform="rotate(-90 117.2 25.0)">X-RAY · CT · BMD · 직원휴게실</text><line class="wall" x1="3.0" y1="102.5" x2="107.0" y2="102.5"/><text class="mini" x="31.0" y="101.8" text-anchor="middle">C-ARM실 · 의국 · 진료실</text><path class="cut" d="M 4.0 9.0 V 102.5"/><text class="cutt" x="2.2" y="56.0" text-anchor="middle" transform="rotate(-90 2.2 56.0)">서측 치료동 — 금번 범위 외</text><rect class="fix" x="81.0" y="9.0" width="18.0" height="4.5" rx="0"/><text class="mini" x="90.0" y="18.0" text-anchor="middle">정수기 · 커피</text><rect class="col" x="96.0" y="18.5" width="5.0" height="5.0" rx="0"/><rect class="counter" x="17.0" y="40.5" width="54.0" height="7.0" rx="0"/><text class="lbl-w" x="44.0" y="45.8" text-anchor="middle">접수 / 수납   L = 5,400</text><rect class="back" x="17.0" y="47.5" width="54.0" height="11.5" rx="0"/><text class="mini" x="44.0" y="55.2" text-anchor="middle">원무 백존</text><rect class="room" x="107.0" y="49.0" width="12.0" height="16.0" rx="0"/><rect class="room" x="107.0" y="67.0" width="12.0" height="15.0" rx="0"/><text class="mini" x="113.0" y="57.0" text-anchor="middle" transform="rotate(-90 113.0 57.0)">탈의실(남)</text><text class="mini" x="113.0" y="74.5" text-anchor="middle" transform="rotate(-90 113.0 74.5)">탈의실(여)</text><path class="flow" d="M 104.0 98.0 V 39.0"/><path class="north" d="M 9.5 19.5 V 13.0 M 7.6 15.6 L 9.5 12.6 L 11.4 15.6 Z"/><text class="mini" x="9.5" y="24.0" text-anchor="middle">N</text><line class="scale" x1="16.0" y1="17.0" x2="36.0" y2="17.0"/><line class="scale" x1="16.0" y1="15.5" x2="16.0" y2="18.5"/><line class="scale" x1="26.0" y1="16.2" x2="26.0" y2="17.8"/><line class="scale" x1="36.0" y1="15.5" x2="36.0" y2="18.5"/><text class="dim" x="26.0" y="21.0" text-anchor="middle">0 ─ 2 m</text><rect class="room" x="7.0" y="59.0" width="26.0" height="30.0" rx="0"/><text class="mini" x="18.5" y="74.0" text-anchor="middle" transform="rotate(-90 18.5 74.0)">간호 스테이션</text><text class="dim" x="25.0" y="74.0" text-anchor="middle" transform="rotate(-90 25.0 74.0)">7.8 m²</text><line class="demo" x1="33.0" y1="59.0" x2="71.0" y2="59.0"/><line class="demo" x1="71.0" y1="59.0" x2="71.0" y2="89.0"/><line class="demo" x1="33.0" y1="89.0" x2="71.0" y2="89.0"/><text class="demot" x="52.0" y="95.2" text-anchor="middle">철거 (B안)   L ≈ 11.6 m</text><rect class="zone1" x="72.0" y="35.0" width="35.0" height="67.5" rx="0"/><rect class="seat" x="75.25" y="50.5" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="75.25" y1="56.3" x2="79.75" y2="56.3"/><rect class="seat" x="80.25" y="50.5" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="80.25" y1="56.3" x2="84.75" y2="56.3"/><rect class="seat" x="85.25" y="50.5" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="85.25" y1="56.3" x2="89.75" y2="56.3"/><rect class="seat" x="90.25" y="50.5" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="90.25" y1="56.3" x2="94.75" y2="56.3"/><line class="arm" x1="75.0" y1="51.0" x2="75.0" y2="55.8"/><line class="arm" x1="80.0" y1="51.0" x2="80.0" y2="55.8"/><line class="arm" x1="85.0" y1="51.0" x2="85.0" y2="55.8"/><line class="arm" x1="90.0" y1="51.0" x2="90.0" y2="55.8"/><line class="arm" x1="95.0" y1="51.0" x2="95.0" y2="55.8"/><rect class="seat" x="75.25" y="56.3" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="75.25" y1="56.3" x2="79.75" y2="56.3"/><rect class="seat" x="80.25" y="56.3" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="80.25" y1="56.3" x2="84.75" y2="56.3"/><rect class="seat" x="85.25" y="56.3" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="85.25" y1="56.3" x2="89.75" y2="56.3"/><rect class="seat" x="90.25" y="56.3" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="90.25" y1="56.3" x2="94.75" y2="56.3"/><line class="arm" x1="75.0" y1="56.8" x2="75.0" y2="61.6"/><line class="arm" x1="80.0" y1="56.8" x2="80.0" y2="61.6"/><line class="arm" x1="85.0" y1="56.8" x2="85.0" y2="61.6"/><line class="arm" x1="90.0" y1="56.8" x2="90.0" y2="61.6"/><line class="arm" x1="95.0" y1="56.8" x2="95.0" y2="61.6"/><rect class="seat" x="75.25" y="73.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="75.25" y1="79.4" x2="79.75" y2="79.4"/><rect class="seat" x="80.25" y="73.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="80.25" y1="79.4" x2="84.75" y2="79.4"/><rect class="seat" x="85.25" y="73.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="85.25" y1="79.4" x2="89.75" y2="79.4"/><rect class="seat" x="90.25" y="73.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="90.25" y1="79.4" x2="94.75" y2="79.4"/><line class="arm" x1="75.0" y1="74.1" x2="75.0" y2="78.9"/><line class="arm" x1="80.0" y1="74.1" x2="80.0" y2="78.9"/><line class="arm" x1="85.0" y1="74.1" x2="85.0" y2="78.9"/><line class="arm" x1="90.0" y1="74.1" x2="90.0" y2="78.9"/><line class="arm" x1="95.0" y1="74.1" x2="95.0" y2="78.9"/><rect class="seat" x="75.25" y="79.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="75.25" y1="79.4" x2="79.75" y2="79.4"/><rect class="seat" x="80.25" y="79.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="80.25" y1="79.4" x2="84.75" y2="79.4"/><rect class="seat" x="85.25" y="79.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="85.25" y1="79.4" x2="89.75" y2="79.4"/><rect class="seat" x="90.25" y="79.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="90.25" y1="79.4" x2="94.75" y2="79.4"/><line class="arm" x1="75.0" y1="79.9" x2="75.0" y2="84.7"/><line class="arm" x1="80.0" y1="79.9" x2="80.0" y2="84.7"/><line class="arm" x1="85.0" y1="79.9" x2="85.0" y2="84.7"/><line class="arm" x1="90.0" y1="79.9" x2="90.0" y2="84.7"/><line class="arm" x1="95.0" y1="79.9" x2="95.0" y2="84.7"/><rect class="seat" x="75.25" y="96.7" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="75.25" y1="102.5" x2="79.75" y2="102.5"/><rect class="seat" x="80.25" y="96.7" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="80.25" y1="102.5" x2="84.75" y2="102.5"/><rect class="seat" x="85.25" y="96.7" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="85.25" y1="102.5" x2="89.75" y2="102.5"/><rect class="seat" x="90.25" y="96.7" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="90.25" y1="102.5" x2="94.75" y2="102.5"/><line class="arm" x1="75.0" y1="97.2" x2="75.0" y2="102.0"/><line class="arm" x1="80.0" y1="97.2" x2="80.0" y2="102.0"/><line class="arm" x1="85.0" y1="97.2" x2="85.0" y2="102.0"/><line class="arm" x1="90.0" y1="97.2" x2="90.0" y2="102.0"/><line class="arm" x1="95.0" y1="97.2" x2="95.0" y2="102.0"/><rect class="wc" x="75.5" y="36.5" width="9.0" height="12.0" rx="0"/><text class="wct" x="80.0" y="44.7" text-anchor="middle">휠</text><text class="zt1" x="87.2" y="39.5" text-anchor="start">ZONE 1  진료 대기</text><text class="cnt" x="87.2" y="46.5" text-anchor="start">20석</text><rect class="zone2" x="41.0" y="9.5" width="72.5" height="25.5" rx="0"/><rect class="seat" x="75.25" y="21.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="75.25" y1="27.4" x2="79.75" y2="27.4"/><rect class="seat" x="80.25" y="21.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="80.25" y1="27.4" x2="84.75" y2="27.4"/><rect class="seat" x="85.25" y="21.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="85.25" y1="27.4" x2="89.75" y2="27.4"/><rect class="seat" x="90.25" y="21.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="90.25" y1="27.4" x2="94.75" y2="27.4"/><line class="arm" x1="75.0" y1="22.1" x2="75.0" y2="26.9"/><line class="arm" x1="80.0" y1="22.1" x2="80.0" y2="26.9"/><line class="arm" x1="85.0" y1="22.1" x2="85.0" y2="26.9"/><line class="arm" x1="90.0" y1="22.1" x2="90.0" y2="26.9"/><line class="arm" x1="95.0" y1="22.1" x2="95.0" y2="26.9"/><rect class="seat" x="75.25" y="27.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="75.25" y1="27.4" x2="79.75" y2="27.4"/><rect class="seat" x="80.25" y="27.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="80.25" y1="27.4" x2="84.75" y2="27.4"/><rect class="seat" x="85.25" y="27.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="85.25" y1="27.4" x2="89.75" y2="27.4"/><rect class="seat" x="90.25" y="27.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="90.25" y1="27.4" x2="94.75" y2="27.4"/><line class="arm" x1="75.0" y1="27.9" x2="75.0" y2="32.7"/><line class="arm" x1="80.0" y1="27.9" x2="80.0" y2="32.7"/><line class="arm" x1="85.0" y1="27.9" x2="85.0" y2="32.7"/><line class="arm" x1="90.0" y1="27.9" x2="90.0" y2="32.7"/><line class="arm" x1="95.0" y1="27.9" x2="95.0" y2="32.7"/><rect class="seat" x="107.7" y="19.75" width="5.8" height="4.5" rx="0.7"/><line class="seat-back" x1="113.5" y1="19.75" x2="113.5" y2="24.25"/><rect class="seat" x="107.7" y="24.75" width="5.8" height="4.5" rx="0.7"/><line class="seat-back" x1="113.5" y1="24.75" x2="113.5" y2="29.25"/><rect class="seat" x="107.7" y="29.75" width="5.8" height="4.5" rx="0.7"/><line class="seat-back" x1="113.5" y1="29.75" x2="113.5" y2="34.25"/><line class="arm" x1="108.2" y1="19.5" x2="113.0" y2="19.5"/><line class="arm" x1="108.2" y1="24.5" x2="113.0" y2="24.5"/><line class="arm" x1="108.2" y1="29.5" x2="113.0" y2="29.5"/><line class="arm" x1="108.2" y1="34.5" x2="113.0" y2="34.5"/><rect class="wc" x="64.0" y="20.5" width="9.0" height="12.0" rx="0"/><text class="wct" x="68.5" y="28.7" text-anchor="middle">휠</text><text class="zt2" x="43.5" y="26.5" text-anchor="start">ZONE 2  로비 대기</text><text class="cnt" x="43.5" y="33.5" text-anchor="start">11석</text><rect class="zone3" x="33.0" y="59.0" width="38.0" height="30.0" rx="0"/><rect class="seat" x="38.75" y="68.2" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="38.75" y1="74.0" x2="43.25" y2="74.0"/><rect class="seat" x="43.75" y="68.2" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="43.75" y1="74.0" x2="48.25" y2="74.0"/><rect class="seat" x="48.75" y="68.2" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="48.75" y1="74.0" x2="53.25" y2="74.0"/><rect class="seat" x="53.75" y="68.2" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="53.75" y1="74.0" x2="58.25" y2="74.0"/><rect class="seat" x="58.75" y="68.2" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="58.75" y1="74.0" x2="63.25" y2="74.0"/><line class="arm" x1="38.5" y1="68.7" x2="38.5" y2="73.5"/><line class="arm" x1="43.5" y1="68.7" x2="43.5" y2="73.5"/><line class="arm" x1="48.5" y1="68.7" x2="48.5" y2="73.5"/><line class="arm" x1="53.5" y1="68.7" x2="53.5" y2="73.5"/><line class="arm" x1="58.5" y1="68.7" x2="58.5" y2="73.5"/><line class="arm" x1="63.5" y1="68.7" x2="63.5" y2="73.5"/><rect class="seat" x="38.75" y="74.0" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="38.75" y1="74.0" x2="43.25" y2="74.0"/><rect class="seat" x="43.75" y="74.0" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="43.75" y1="74.0" x2="48.25" y2="74.0"/><rect class="seat" x="48.75" y="74.0" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="48.75" y1="74.0" x2="53.25" y2="74.0"/><rect class="seat" x="53.75" y="74.0" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="53.75" y1="74.0" x2="58.25" y2="74.0"/><rect class="seat" x="58.75" y="74.0" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="58.75" y1="74.0" x2="63.25" y2="74.0"/><line class="arm" x1="38.5" y1="74.5" x2="38.5" y2="79.3"/><line class="arm" x1="43.5" y1="74.5" x2="43.5" y2="79.3"/><line class="arm" x1="48.5" y1="74.5" x2="48.5" y2="79.3"/><line class="arm" x1="53.5" y1="74.5" x2="53.5" y2="79.3"/><line class="arm" x1="58.5" y1="74.5" x2="58.5" y2="79.3"/><line class="arm" x1="63.5" y1="74.5" x2="63.5" y2="79.3"/><text class="zt3" x="34.5" y="65.2" text-anchor="start">ZONE 3  간호부 편입</text><text class="cnt" x="34.5" y="86.8" text-anchor="start">10석</text><text class="dim" x="70.0" y="86.5" text-anchor="end">3,800 × 3,000</text><circle class="disp" cx="68.2" cy="44.2" r="2.3"/><text class="dispt" x="68.2" y="46.4" text-anchor="middle">1</text><circle class="disp" cx="74.0" cy="13.5" r="2.3"/><text class="dispt" x="74.0" y="15.7" text-anchor="middle">2</text><circle class="disp" cx="104.0" cy="63.0" r="2.3"/><text class="dispt" x="104.0" y="65.2" text-anchor="middle">3</text></g></svg>
     <div class="keys">
       <span><i class="k-seat"></i>연결의자 500 피치</span>
       <span>굵은 선 = 좌석 사이 팔걸이</span>
@@ -543,30 +550,32 @@ text{font-family:var(--fs);fill:var(--pl-ink)}
   <div class="tw"><table>
     <caption>존별 좌석 내역</caption>
     <thead><tr><th>존</th><th>구성</th><th class="n">현황</th><th class="n">A안</th>
-      <th class="n">B안</th><th class="n">C안</th></tr></thead>
+      <th class="n">A+안</th><th class="n">B안</th><th class="n">C안</th></tr></thead>
     <tbody>
       <tr><td class="lab">ZONE 1<br>진료 대기</td>
-        <td>등맞댐 4인 블록 × 2 + 남측 벽부 4인열.<br>통로 1,150 / 동측 레인 1,200 유지</td>
-        <td class="n">12</td><td class="n">20</td><td class="n">20</td><td class="n">20</td></tr>
+        <td>등맞댐 블록 × 2 + 남측 벽부열.<br>A+안은 열당 4석 → 6석, 레인 1,530</td>
+        <td class="n">12</td><td class="n">20</td><td class="n">27</td><td class="n">20</td><td class="n">20</td></tr>
       <tr><td class="lab">ZONE 2<br>로비 · 전실</td>
         <td>등맞댐 4인 블록 × 1 + 동측 벽부 3인열.<br>접수 접근통로 3,400 확보</td>
-        <td class="n">3</td><td class="n">11</td><td class="n">11</td><td class="n">11</td></tr>
+        <td class="n">3</td><td class="n">11</td><td class="n">11</td><td class="n">11</td><td class="n">11</td></tr>
       <tr><td class="lab">ZONE 3<br>간호부 편입</td>
         <td>간호부 동측 3,800 × 3,000 철거 후 등맞댐 5인 블록.<br>C안은 간호부 전량 이전</td>
-        <td class="n">—</td><td class="n">—</td><td class="n">10</td><td class="n">16</td></tr>
+        <td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">10</td><td class="n">16</td></tr>
       <tr><td class="lab">카운터 축소</td>
         <td>카운터 5,400 → 3,600 + 무인 키오스크 2대 (C안)</td>
-        <td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">3</td></tr>
+        <td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td class="n">3</td></tr>
       <tr class="tot"><td>계</td><td>휠체어 공간 별도 2면</td>
-        <td class="n">15</td><td class="n">31</td><td class="n">41</td><td class="n">50</td></tr>
+        <td class="n">15</td><td class="n">31</td><td class="n">38</td><td class="n">41</td><td class="n">50</td></tr>
     </tbody>
   </table></div>
 
-  <div class="bars" role="img" aria-label="좌석 수 비교. 현황 15석, A안 31석, B안 41석, C안 50석">
+  <div class="bars" role="img" aria-label="좌석 수 비교. 현황 15석, A안 31석, A+안 38석, B안 41석, C안 50석">
     <div class="bar-row"><div class="bar-l">현황</div>
       <div class="bar-t"><div class="bar-f idle" style="width:30%">15</div></div></div>
     <div class="bar-row"><div class="bar-l">A안</div>
       <div class="bar-t"><div class="bar-f" style="width:62%">31</div></div></div>
+    <div class="bar-row"><div class="bar-l">A+안</div>
+      <div class="bar-t"><div class="bar-f" style="width:76%">38</div></div></div>
     <div class="bar-row"><div class="bar-l">B안</div>
       <div class="bar-t"><div class="bar-f" style="width:82%">41</div></div></div>
     <div class="bar-row"><div class="bar-l">C안</div>
@@ -591,9 +600,140 @@ text{font-family:var(--fs);fill:var(--pl-ink)}
   </ul>
 </section>
 
-<!-- ══ 04 운영 ══ -->
+<!-- ══ 04 A+안 ══ -->
+<section id="aplus">
+  <span class="sec-no">04 · OPTION A+</span>
+  <h2>검토 — 가운데벽 1,000 후퇴 + 의자 교체</h2>
+
+  <p>도면상 <span class="mono">x = 19.0</span> 라인은 접수 카운터 동측 끝과 간호부 동측 벽이
+  한 줄로 이어진 <strong>공용부 한가운데의 벽선</strong>입니다. 이 선을 통째로
+  1,000 서쪽(<span class="mono">x = 18.0</span>)으로 물리면 카운터는 5,400 → 4,400,
+  간호부는 19.2 → 16.2 m²가 되고, <strong>메인 대기홀 폭이 3,500 → 4,600</strong>이 됩니다.</p>
+
+  <div class="callout">
+    <p><strong>이게 왜 효율이 좋은가 — 넓힌 1 m가 거의 100% 좌석이 됩니다.</strong>
+    별도 포켓을 만들면 그 안에 통로를 새로 깔아야 합니다. B안의 간호부 동측 편입은
+    깊이 3,000 중 1,800이 통로라 좌석에 쓰이는 건 39%뿐입니다. 반면 <strong>홀을 옆으로
+    넓히면 통로는 이미 있으므로, 늘어난 1,000이 열마다 좌석 2석씩</strong>으로 바뀝니다.
+    5개 열이면 +10석입니다.</p>
+  </div>
+
+  <figure>
+    <div class="fig-h"><b>FIG. 4 — A+안</b><span>가운데벽 1,000 후퇴 · 38석 + 휠체어 3면</span></div>
+    <svg viewBox="0 0 124 110" role="img" aria-label="A+안 — 가운데벽 1,000 후퇴 · 대기 38석" xmlns="http://www.w3.org/2000/svg"><style>
+.wall{stroke:var(--pl-wall);stroke-width:1.6;fill:none}
+.cut{stroke:var(--pl-ink3);stroke-width:1;stroke-dasharray:5 2 1 2;fill:none}
+.core{fill:var(--pl-solid)}
+.fix{fill:var(--pl-solid)}
+.col{fill:var(--pl-wall)}
+.arrow{stroke:var(--pl-accent);stroke-width:1;fill:none;marker-end:url(#ah)}
+.room{fill:var(--pl-room);stroke:var(--pl-wall);stroke-width:.8}
+.room2{fill:var(--pl-room2);stroke:var(--pl-wall);stroke-width:.5}
+.counter{fill:var(--pl-counter)}
+.back{fill:var(--pl-room2);stroke:var(--pl-wall);stroke-width:.5;stroke-dasharray:1.6 1.2}
+.bench,.benchc{fill:var(--pl-bench);stroke:var(--pl-benchs);stroke-width:.6}
+.bench-back{stroke:var(--pl-benchs);stroke-width:1.4}
+.occ{fill:var(--pl-occ)}
+.lost{fill:none;stroke:var(--pl-lost);stroke-width:.7;stroke-dasharray:1.1 .9}
+.seat{fill:var(--pl-seat);stroke:var(--pl-seats);stroke-width:.5}
+.seat-back{stroke:var(--pl-seats);stroke-width:1.5;stroke-linecap:round}
+.arm{stroke:var(--pl-arm);stroke-width:.85;stroke-linecap:round}
+.wc{fill:var(--pl-wc);stroke:var(--pl-accent);stroke-width:.6;stroke-dasharray:1.4 1}
+.disp{fill:var(--pl-accent)}
+.zone-now{fill:var(--pl-znow);stroke:var(--pl-lost);stroke-width:.6;stroke-dasharray:2 1.4}
+.zone1{fill:var(--pl-z1);stroke:var(--pl-z1s);stroke-width:.6}
+.zone2{fill:var(--pl-z2);stroke:var(--pl-z2s);stroke-width:.6}
+.zone3{fill:var(--pl-z3);stroke:var(--pl-z3s);stroke-width:.6}
+.void{fill:var(--pl-void);stroke:var(--pl-voids);stroke-width:.5;stroke-dasharray:1.4 1.4}
+.demo{stroke:var(--pl-demo);stroke-width:2;stroke-dasharray:2.4 1.6;stroke-linecap:round}
+.flow{stroke:var(--pl-flow);stroke-width:1.4;stroke-dasharray:3 2;fill:none}
+.north{stroke:var(--pl-ink2);stroke-width:.8;fill:var(--pl-ink2)}
+.scale{stroke:var(--pl-ink2);stroke-width:.7}
+text{font-family:var(--fs);fill:var(--pl-ink)}
+.lbl{font-size:3px;font-weight:700;letter-spacing:.04em}
+.lbl-w{font-size:2.6px;font-weight:700;fill:var(--pl-oncounter)}
+.mini{font-size:2.5px;font-weight:600;fill:var(--pl-ink2)}
+.dim{font-family:var(--fm);font-size:2.3px;fill:var(--pl-ink3)}
+.zt{font-size:2.8px;font-weight:700;fill:var(--pl-lost)}
+.zt1{font-size:2.8px;font-weight:700;fill:var(--pl-z1s)}
+.zt2{font-size:2.8px;font-weight:700;fill:var(--pl-z2s)}
+.zt3{font-size:2.8px;font-weight:700;fill:var(--pl-z3s)}
+.cnt{font-family:var(--fm);font-size:4.4px;font-weight:700;fill:var(--pl-accent)}
+.voidt{font-size:2.5px;font-weight:600;fill:var(--pl-voids)}
+.cutt{font-family:var(--fm);font-size:2.2px;fill:var(--pl-ink3)}
+.demot{font-family:var(--fm);font-size:2.3px;fill:var(--pl-demo)}
+.dispt{font-size:2.4px;font-weight:700;fill:var(--pl-ondisp)}
+.wct{font-size:2.1px;font-weight:700;fill:var(--pl-accent)}
+</style><defs><marker id="ah" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="4" markerHeight="4" orient="auto"><path d="M0 0 L6 3 L0 6 z" fill="var(--pl-accent)"/></marker></defs><g><line class="wall" x1="3.0" y1="9.0" x2="102.0" y2="9.0"/><rect class="core" x="41.0" y="2.5" width="30.0" height="6.5" rx="0"/><text class="mini" x="56.0" y="7.2" text-anchor="middle">E/V 홀 · 출입</text><path class="arrow" d="M 56.0 10.5 V 18.5"/><line class="wall" x1="102.0" y1="9.0" x2="114.0" y2="9.0"/><line class="wall" x1="114.0" y1="9.0" x2="114.0" y2="44.0"/><line class="wall" x1="114.0" y1="44.0" x2="107.0" y2="44.0"/><line class="wall" x1="107.0" y1="44.0" x2="107.0" y2="102.5"/><text class="mini" x="117.2" y="25.0" text-anchor="middle" transform="rotate(-90 117.2 25.0)">X-RAY · CT · BMD · 직원휴게실</text><line class="wall" x1="3.0" y1="102.5" x2="107.0" y2="102.5"/><text class="mini" x="31.0" y="101.8" text-anchor="middle">C-ARM실 · 의국 · 진료실</text><path class="cut" d="M 4.0 9.0 V 102.5"/><text class="cutt" x="2.2" y="56.0" text-anchor="middle" transform="rotate(-90 2.2 56.0)">서측 치료동 — 금번 범위 외</text><rect class="fix" x="81.0" y="9.0" width="18.0" height="4.5" rx="0"/><text class="mini" x="90.0" y="18.0" text-anchor="middle">정수기 · 커피</text><rect class="col" x="96.0" y="18.5" width="5.0" height="5.0" rx="0"/><rect class="counter" x="17.0" y="40.5" width="44.0" height="7.0" rx="0"/><text class="lbl-w" x="39.0" y="45.8" text-anchor="middle">접수 / 수납   L = 4,400</text><rect class="back" x="17.0" y="47.5" width="44.0" height="11.5" rx="0"/><text class="mini" x="39.0" y="55.2" text-anchor="middle">원무 백존</text><rect class="room" x="7.0" y="59.0" width="54.0" height="30.0" rx="0"/><rect class="room2" x="7.0" y="59.0" width="16.0" height="30.0" rx="0"/><text class="mini" x="15.0" y="74.0" text-anchor="middle" transform="rotate(-90 15.0 74.0)">간호실</text><text class="lbl" x="42.0" y="73.0" text-anchor="middle">간 호 부</text><text class="dim" x="42.0" y="80.5" text-anchor="middle">5,400 × 3,000 = 16.2 m²</text><rect class="room" x="107.0" y="49.0" width="12.0" height="16.0" rx="0"/><rect class="room" x="107.0" y="67.0" width="12.0" height="15.0" rx="0"/><text class="mini" x="113.0" y="57.0" text-anchor="middle" transform="rotate(-90 113.0 57.0)">탈의실(남)</text><text class="mini" x="113.0" y="74.5" text-anchor="middle" transform="rotate(-90 113.0 74.5)">탈의실(여)</text><path class="flow" d="M 104.0 98.0 V 39.0"/><path class="north" d="M 9.5 19.5 V 13.0 M 7.6 15.6 L 9.5 12.6 L 11.4 15.6 Z"/><text class="mini" x="9.5" y="24.0" text-anchor="middle">N</text><line class="scale" x1="16.0" y1="17.0" x2="36.0" y2="17.0"/><line class="scale" x1="16.0" y1="15.5" x2="16.0" y2="18.5"/><line class="scale" x1="26.0" y1="16.2" x2="26.0" y2="17.8"/><line class="scale" x1="36.0" y1="15.5" x2="36.0" y2="18.5"/><text class="dim" x="26.0" y="21.0" text-anchor="middle">0 ─ 2 m</text><line class="demo" x1="71.0" y1="40.5" x2="71.0" y2="89.0"/><line class="demo" x1="61.0" y1="40.5" x2="71.0" y2="40.5"/><line class="demo" x1="61.0" y1="89.0" x2="71.0" y2="89.0"/><text class="demot" x="10.5" y="96.5" text-anchor="start">가운데벽 1,000 후퇴 · 카운터 5,400 → 4,400</text><rect class="zone1" x="72.0" y="35.0" width="35.0" height="5.5" rx="0"/><rect class="zone1" x="61.0" y="40.5" width="46.0" height="62.0" rx="0"/><rect class="seat" x="62.25" y="48.0" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="62.25" y1="53.8" x2="66.75" y2="53.8"/><rect class="seat" x="67.25" y="48.0" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="67.25" y1="53.8" x2="71.75" y2="53.8"/><rect class="seat" x="72.25" y="48.0" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="72.25" y1="53.8" x2="76.75" y2="53.8"/><rect class="seat" x="77.25" y="48.0" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="77.25" y1="53.8" x2="81.75" y2="53.8"/><rect class="seat" x="82.25" y="48.0" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="82.25" y1="53.8" x2="86.75" y2="53.8"/><rect class="seat" x="87.25" y="48.0" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="87.25" y1="53.8" x2="91.75" y2="53.8"/><line class="arm" x1="62.0" y1="48.5" x2="62.0" y2="53.3"/><line class="arm" x1="67.0" y1="48.5" x2="67.0" y2="53.3"/><line class="arm" x1="72.0" y1="48.5" x2="72.0" y2="53.3"/><line class="arm" x1="77.0" y1="48.5" x2="77.0" y2="53.3"/><line class="arm" x1="82.0" y1="48.5" x2="82.0" y2="53.3"/><line class="arm" x1="87.0" y1="48.5" x2="87.0" y2="53.3"/><line class="arm" x1="92.0" y1="48.5" x2="92.0" y2="53.3"/><rect class="seat" x="62.25" y="53.8" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="62.25" y1="53.8" x2="66.75" y2="53.8"/><rect class="seat" x="67.25" y="53.8" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="67.25" y1="53.8" x2="71.75" y2="53.8"/><rect class="seat" x="72.25" y="53.8" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="72.25" y1="53.8" x2="76.75" y2="53.8"/><rect class="seat" x="77.25" y="53.8" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="77.25" y1="53.8" x2="81.75" y2="53.8"/><rect class="seat" x="82.25" y="53.8" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="82.25" y1="53.8" x2="86.75" y2="53.8"/><rect class="seat" x="87.25" y="53.8" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="87.25" y1="53.8" x2="91.75" y2="53.8"/><line class="arm" x1="62.0" y1="54.3" x2="62.0" y2="59.1"/><line class="arm" x1="67.0" y1="54.3" x2="67.0" y2="59.1"/><line class="arm" x1="72.0" y1="54.3" x2="72.0" y2="59.1"/><line class="arm" x1="77.0" y1="54.3" x2="77.0" y2="59.1"/><line class="arm" x1="82.0" y1="54.3" x2="82.0" y2="59.1"/><line class="arm" x1="87.0" y1="54.3" x2="87.0" y2="59.1"/><line class="arm" x1="92.0" y1="54.3" x2="92.0" y2="59.1"/><rect class="seat" x="62.25" y="70.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="62.25" y1="76.4" x2="66.75" y2="76.4"/><rect class="seat" x="67.25" y="70.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="67.25" y1="76.4" x2="71.75" y2="76.4"/><rect class="seat" x="72.25" y="70.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="72.25" y1="76.4" x2="76.75" y2="76.4"/><rect class="seat" x="77.25" y="70.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="77.25" y1="76.4" x2="81.75" y2="76.4"/><rect class="seat" x="82.25" y="70.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="82.25" y1="76.4" x2="86.75" y2="76.4"/><rect class="seat" x="87.25" y="70.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="87.25" y1="76.4" x2="91.75" y2="76.4"/><line class="arm" x1="62.0" y1="71.1" x2="62.0" y2="75.9"/><line class="arm" x1="67.0" y1="71.1" x2="67.0" y2="75.9"/><line class="arm" x1="72.0" y1="71.1" x2="72.0" y2="75.9"/><line class="arm" x1="77.0" y1="71.1" x2="77.0" y2="75.9"/><line class="arm" x1="82.0" y1="71.1" x2="82.0" y2="75.9"/><line class="arm" x1="87.0" y1="71.1" x2="87.0" y2="75.9"/><line class="arm" x1="92.0" y1="71.1" x2="92.0" y2="75.9"/><rect class="seat" x="62.25" y="76.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="62.25" y1="76.4" x2="66.75" y2="76.4"/><rect class="seat" x="67.25" y="76.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="67.25" y1="76.4" x2="71.75" y2="76.4"/><rect class="seat" x="72.25" y="76.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="72.25" y1="76.4" x2="76.75" y2="76.4"/><rect class="seat" x="77.25" y="76.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="77.25" y1="76.4" x2="81.75" y2="76.4"/><rect class="seat" x="82.25" y="76.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="82.25" y1="76.4" x2="86.75" y2="76.4"/><rect class="seat" x="87.25" y="76.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="87.25" y1="76.4" x2="91.75" y2="76.4"/><line class="arm" x1="62.0" y1="76.9" x2="62.0" y2="81.7"/><line class="arm" x1="67.0" y1="76.9" x2="67.0" y2="81.7"/><line class="arm" x1="72.0" y1="76.9" x2="72.0" y2="81.7"/><line class="arm" x1="77.0" y1="76.9" x2="77.0" y2="81.7"/><line class="arm" x1="82.0" y1="76.9" x2="82.0" y2="81.7"/><line class="arm" x1="87.0" y1="76.9" x2="87.0" y2="81.7"/><line class="arm" x1="92.0" y1="76.9" x2="92.0" y2="81.7"/><rect class="seat" x="62.25" y="96.7" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="62.25" y1="102.5" x2="66.75" y2="102.5"/><rect class="seat" x="67.25" y="96.7" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="67.25" y1="102.5" x2="71.75" y2="102.5"/><rect class="seat" x="72.25" y="96.7" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="72.25" y1="102.5" x2="76.75" y2="102.5"/><line class="arm" x1="62.0" y1="97.2" x2="62.0" y2="102.0"/><line class="arm" x1="67.0" y1="97.2" x2="67.0" y2="102.0"/><line class="arm" x1="72.0" y1="97.2" x2="72.0" y2="102.0"/><line class="arm" x1="77.0" y1="97.2" x2="77.0" y2="102.0"/><rect class="wc" x="79.5" y="89.5" width="9.0" height="12.0" rx="0"/><text class="wct" x="84.0" y="97.7" text-anchor="middle">휠</text><rect class="wc" x="89.5" y="89.5" width="9.0" height="12.0" rx="0"/><text class="wct" x="94.0" y="97.7" text-anchor="middle">휠</text><text class="zt1" x="62.5" y="45.2" text-anchor="start">ZONE 1  진료 대기</text><text class="cnt" x="104.0" y="45.8" text-anchor="end">27석</text><rect class="zone2" x="41.0" y="9.5" width="72.5" height="25.5" rx="0"/><rect class="seat" x="75.25" y="21.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="75.25" y1="27.4" x2="79.75" y2="27.4"/><rect class="seat" x="80.25" y="21.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="80.25" y1="27.4" x2="84.75" y2="27.4"/><rect class="seat" x="85.25" y="21.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="85.25" y1="27.4" x2="89.75" y2="27.4"/><rect class="seat" x="90.25" y="21.6" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="90.25" y1="27.4" x2="94.75" y2="27.4"/><line class="arm" x1="75.0" y1="22.1" x2="75.0" y2="26.9"/><line class="arm" x1="80.0" y1="22.1" x2="80.0" y2="26.9"/><line class="arm" x1="85.0" y1="22.1" x2="85.0" y2="26.9"/><line class="arm" x1="90.0" y1="22.1" x2="90.0" y2="26.9"/><line class="arm" x1="95.0" y1="22.1" x2="95.0" y2="26.9"/><rect class="seat" x="75.25" y="27.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="75.25" y1="27.4" x2="79.75" y2="27.4"/><rect class="seat" x="80.25" y="27.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="80.25" y1="27.4" x2="84.75" y2="27.4"/><rect class="seat" x="85.25" y="27.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="85.25" y1="27.4" x2="89.75" y2="27.4"/><rect class="seat" x="90.25" y="27.4" width="4.5" height="5.8" rx="0.7"/><line class="seat-back" x1="90.25" y1="27.4" x2="94.75" y2="27.4"/><line class="arm" x1="75.0" y1="27.9" x2="75.0" y2="32.7"/><line class="arm" x1="80.0" y1="27.9" x2="80.0" y2="32.7"/><line class="arm" x1="85.0" y1="27.9" x2="85.0" y2="32.7"/><line class="arm" x1="90.0" y1="27.9" x2="90.0" y2="32.7"/><line class="arm" x1="95.0" y1="27.9" x2="95.0" y2="32.7"/><rect class="seat" x="107.7" y="19.75" width="5.8" height="4.5" rx="0.7"/><line class="seat-back" x1="113.5" y1="19.75" x2="113.5" y2="24.25"/><rect class="seat" x="107.7" y="24.75" width="5.8" height="4.5" rx="0.7"/><line class="seat-back" x1="113.5" y1="24.75" x2="113.5" y2="29.25"/><rect class="seat" x="107.7" y="29.75" width="5.8" height="4.5" rx="0.7"/><line class="seat-back" x1="113.5" y1="29.75" x2="113.5" y2="34.25"/><line class="arm" x1="108.2" y1="19.5" x2="113.0" y2="19.5"/><line class="arm" x1="108.2" y1="24.5" x2="113.0" y2="24.5"/><line class="arm" x1="108.2" y1="29.5" x2="113.0" y2="29.5"/><line class="arm" x1="108.2" y1="34.5" x2="113.0" y2="34.5"/><rect class="wc" x="64.0" y="20.5" width="9.0" height="12.0" rx="0"/><text class="wct" x="68.5" y="28.7" text-anchor="middle">휠</text><text class="zt2" x="43.5" y="26.5" text-anchor="start">ZONE 2  로비 대기</text><text class="cnt" x="43.5" y="33.5" text-anchor="start">11석</text><circle class="disp" cx="58.2" cy="44.2" r="2.3"/><text class="dispt" x="58.2" y="46.4" text-anchor="middle">1</text><circle class="disp" cx="74.0" cy="13.5" r="2.3"/><text class="dispt" x="74.0" y="15.7" text-anchor="middle">2</text><circle class="disp" cx="104.0" cy="63.0" r="2.3"/><text class="dispt" x="104.0" y="65.2" text-anchor="middle">3</text></g></svg>
+    <div class="keys">
+      <span><i class="k-seat"></i>연결의자 500 피치</span>
+      <span>붉은 점선 = 철거되는 기존 벽선</span>
+      <span>①②③ = 대기순번 디스플레이</span>
+    </div>
+    <figcaption>좌석열이 4석 → 6석으로 늘고, 동측 레인은 오히려 1,200 → 1,530으로 넓어집니다.
+      휠체어·목발·유모차 통행이 실질적으로 개선되는 게 좌석 증가만큼 중요합니다.
+      간호부는 16.2 m²로 유지되어 워크스테이션 2석 + 간호실을 그대로 씁니다.</figcaption>
+  </figure>
+
+  <h3>B안과 정면 비교</h3>
+  <div class="tw"><table>
+    <caption>같은 예산대 · 두 가지 벽 공사</caption>
+    <thead><tr><th>항목</th><th>A+안 · 가운데벽 1 m 후퇴</th><th>B안 · 간호부 동측 편입</th></tr></thead>
+    <tbody>
+      <tr><td class="lab">좌석</td><td class="mono">38석</td><td class="mono">41석</td></tr>
+      <tr><td class="lab">철거·재시공 물량</td><td class="mono">벽 4.85 m + 카운터 1 m</td><td class="mono">벽 11.6 m + 간호 스테이션 전면</td></tr>
+      <tr><td class="lab">간호부 잔여</td><td><strong class="mono">16.2 m²</strong> — 현행 기능 유지</td><td class="mono">7.8 m² — 사실상 재편</td></tr>
+      <tr><td class="lab">대기홀 폭</td><td><strong class="mono">4,600</strong> — 동측 레인 1,530</td><td class="mono">3,500 — 동측 레인 1,200</td></tr>
+      <tr><td class="lab">좌석 시인성</td><td>전 좌석이 한 홀에. 호명·디스플레이 1면으로 커버</td><td>ZONE 3가 카운터 뒤 별도 포켓 — 디스플레이 추가 필요</td></tr>
+      <tr><td class="lab">접수 카운터</td><td>1 m 절단 + 측면·간접조명·사인 재시공 <strong>필요</strong></td><td>손대지 않음</td></tr>
+      <tr><td class="lab">공기</td><td class="mono">3–4주</td><td class="mono">4–6주</td></tr>
+      <tr class="tot"><td>개산 공사비</td><td class="mono">3,700–5,900만</td><td class="mono">4,300–6,000만</td></tr>
+    </tbody>
+  </table></div>
+
+  <p><strong>결론 — A+안이 낫습니다.</strong> 좌석은 3석 적지만 간호부를 그대로 살리고,
+  대기홀 폭이 넓어져 정형외과에서 실제로 문제가 되는 <strong>목발·휠체어 통행</strong>이
+  같이 해결됩니다. 좌석이 한 홀에 모이는 것도 운영상 큰 차이입니다.</p>
+
+  <h3>개산 공사비 — A+안 추가분</h3>
+  <div class="tw"><table>
+    <caption>A안(1,800–2,600만) 대비 추가</caption>
+    <thead><tr><th>항목</th><th>내용</th><th class="n">금액</th></tr></thead>
+    <tbody>
+      <tr><td class="lab">벽체</td><td>x=19.0 라인 4.85 m 철거 + x=18.0 신설</td><td class="n">350–550만</td></tr>
+      <tr><td class="lab">접수 카운터</td><td>동측 1 m 절단, 측면·간접조명·사인 재시공<br>
+        <span class="mono">통짜 인조대리석이면 신규 제작이 나을 수 있음</span></td><td class="n">400–900만</td></tr>
+      <tr><td class="lab">천장·조명·바닥</td><td>후퇴 구간 약 5 m² + 접합 라인</td><td class="n">500–800만</td></tr>
+      <tr><td class="lab">소방·공조</td><td>헤드·디퓨저 이설 + 완공검사</td><td class="n">250–450만</td></tr>
+      <tr><td class="lab">간호부·원무</td><td>동측 가구·전기·데이터 이설</td><td class="n">250–450만</td></tr>
+      <tr><td class="lab">좌석 증분</td><td>31석 → 38석</td><td class="n">100–200만</td></tr>
+      <tr class="tot"><td>A안 포함 합계</td><td>예비비 10%</td><td class="n">3,700–5,900만</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="callout warn">
+    <p><strong>성립 조건 두 가지.</strong></p>
+    <p><strong>① x=19.0 라인에 덕트·샤프트가 없을 것.</strong> 근거 도면의 간호부 동측 끝에
+    폭 700 내외의 해칭부가 보입니다. 이게 배관 샤프트나 구조체면 후퇴 자체가 불가하고,
+    이때는 B안으로 돌아가야 합니다. <strong>실측에서 가장 먼저 확인할 항목입니다.</strong></p>
+    <p><strong>② 카운터 절단면을 제대로 마감할 수 있을 것.</strong> 사진상 카운터 상판이
+    통짜 인조대리석에 전면 간접조명과 로고 사인이 붙어 있습니다. 어설프게 자르면 이음매가
+    남아 병원 얼굴이 상합니다. 시공사에 <strong>절단 재마감과 신규 제작 두 가지로 견적</strong>을
+    받아보시고, 차액이 크지 않으면 신규 제작을 권합니다.</p>
+  </div>
+
+  <h3>덧붙여 — 둘 다 하면</h3>
+  <p>가운데벽 1 m 후퇴와 간호부 동측 편입은 배타적이지 않습니다. 같이 하면
+  <strong>48석</strong>이 되고, 간호 스테이션은 7.8 m²로 축소됩니다.
+  벽을 여는 <strong>고정비(소방 신고·야간공사 셋업·먼지막이·폐기물·감리)는 1 m를 자르든
+  11.6 m를 자르든 거의 같습니다.</strong> 그러니 어차피 벽을 건드리기로 하셨다면
+  한 번 열 때 어디까지 갈지를 먼저 정하시는 게 낫습니다 — 나눠서 두 번 하면
+  그 고정비를 두 번 냅니다.</p>
+</section>
+
+<!-- ══ 05 운영 ══ -->
 <section id="ops">
-  <span class="sec-no">04 · OPERATIONS</span>
+  <span class="sec-no">05 · OPERATIONS</span>
   <h2>공사보다 먼저 — 수요 자체를 줄이는 방법</h2>
   <p>좌석을 늘리는 것만큼 중요한 게 <strong>동시에 앉아 있어야 하는 사람 수를 줄이는 것</strong>
   입니다. 아래 항목들은 공사비의 1/10 이하이고, 대부분 A안과 동시에 시행할 수 있습니다.</p>
@@ -627,9 +767,9 @@ text{font-family:var(--fs);fill:var(--pl-ink)}
   </table></div>
 </section>
 
-<!-- ══ 05 견적 ══ -->
+<!-- ══ 06 견적 ══ -->
 <section id="cost">
-  <span class="sec-no">05 · COST</span>
+  <span class="sec-no">06 · COST</span>
   <h2>개산 공사비</h2>
   <p>실측·견적 전 개략치입니다. 의료 인테리어는 일반 상업공간보다 단가가 높고,
   소방·공조 이설이 붙으면 변동폭이 큽니다.</p>
@@ -673,9 +813,9 @@ text{font-family:var(--fs);fill:var(--pl-ink)}
   </table></div>
 </section>
 
-<!-- ══ 06 로드맵 ══ -->
+<!-- ══ 07 로드맵 ══ -->
 <section id="roadmap">
-  <span class="sec-no">06 · ROADMAP</span>
+  <span class="sec-no">07 · ROADMAP</span>
   <h2>실행 순서</h2>
   <div class="road">
     <div class="step">
@@ -688,21 +828,22 @@ text{font-family:var(--fs);fill:var(--pl-ink)}
       </div>
     </div>
     <div class="step">
-      <div class="step-k">1단계<b>3–6주 · 1,800–2,600만</b></div>
+      <div class="step-k">1단계<b>3–6주 · 3,700–5,900만</b></div>
       <div>
-        <h3>A안 + 운영 개선</h3>
-        <p>의자 전량 교체, 등맞댐 재배치, 로비 대기존 신설, 대기순번 디스플레이,
-        알림톡 호출, 물리치료 슬롯 예약제. 휴진 없이 주말 2회로 가능합니다.
-        15석 → 31석 + 수요 20~30% 감소.</p>
+        <h3>A+안 + 운영 개선</h3>
+        <p>가운데벽 1,000 후퇴, 의자 전량 교체, 등맞댐 재배치, 로비 대기존 신설,
+        대기순번 디스플레이, 알림톡 호출, 물리치료 슬롯 예약제.
+        15석 → 38석 + 수요 20~30% 감소. 벽 공사가 불가로 판명되면 A안(31석, 무공사)으로
+        축소 시행합니다.</p>
       </div>
     </div>
     <div class="step">
       <div class="step-k">2단계<b>재측정 후 판단</b></div>
       <div>
-        <h3>B안 — 간호부 재편</h3>
-        <p>A안 후 2주 재측정에서 여전히 입석·이탈이 남으면 진행. 선행 확인 사항은
+        <h3>B안 — 간호부 동측 추가 편입</h3>
+        <p>A+안 후 2주 재측정에서 여전히 입석·이탈이 남으면 진행. 선행 확인 사항은
         간호부의 실제 용도입니다 — 단순 사무면 축소, 처치·주사 기능이 있으면 축소가 아니라
-        남측 코리도 또는 의국 인접으로 <strong>이전</strong>해야 합니다.</p>
+        남측 코리도 또는 의국 인접으로 <strong>이전</strong>해야 합니다. A+안과 병행하면 48석입니다.</p>
       </div>
     </div>
     <div class="step">
@@ -717,9 +858,9 @@ text{font-family:var(--fs);fill:var(--pl-ink)}
   </div>
 </section>
 
-<!-- ══ 07 확인사항 ══ -->
+<!-- ══ 08 확인사항 ══ -->
 <section id="checks">
-  <span class="sec-no">07 · VERIFY</span>
+  <span class="sec-no">08 · VERIFY</span>
   <h2>발주 전 반드시 확인할 것</h2>
 
   <h4>법규 · 설비</h4>
@@ -739,7 +880,7 @@ text{font-family:var(--fs);fill:var(--pl-ink)}
   <h4>현장 실측</h4>
   <ul class="plain">
     <li>간호부 실제 용도 — 사무 전용인지, 처치·주사가 이루어지는지</li>
-    <li>간호부 동측 해칭부(약 700) — 덕트·샤프트면 철거 불가</li>
+    <li><strong>간호부 동측 해칭부(약 700) — 덕트·샤프트면 A+안 성립 불가.</strong> 최우선 확인</li>
     <li>기둥 위치 — 도면상 로비 동측에 500 각주 1본</li>
     <li>천장고, 바닥 마감 레벨, 기존 좌석의 실제 대수·치수</li>
     <li>정수기·신발장·배너·에그체어의 실제 위치 (도면 미반영)</li>
