@@ -61,7 +61,8 @@ def wheel(x, y, w=0.9, h=1.2):
     return rect(x, y, w, h, "wc") + text(x + w/2, y + h/2 + .22, "휠", "wct", "middle")
 
 # ── 공통 골격 ───────────────────────────────────────────────────────────────
-def shell(nurse_full=True, EX=19.0):
+def shell(nurse_full=True, EX=19.0, NX=None, stations=4):
+    if NX is None: NX = EX
     s = []
     # 북측 벽 / E-V 홀
     s.append(line(12.2, 6.0, 22.1, 6.0, "wall"))
@@ -87,17 +88,21 @@ def shell(nurse_full=True, EX=19.0):
     s.append(rect(21.5, 6.95, 0.5, 0.5, "col"))
     # 접수 / 수납
     s.append(rect(13.6, 9.15, EX - 13.6, 0.7, "counter"))
-    s.append(text((13.6 + EX)/2, 9.68, f"접수 / 수납   L = {int((EX-13.6)*1000):,}", "lbl-w", "middle"))
+    s.append(text((13.6 + EX)/2, 9.68, f"접수 / 수납   L = {round((EX-13.6)*1000):,}", "lbl-w", "middle"))
+    for i in range(stations):                       # 원무 스테이션 표기
+        cx = 13.6 + (EX - 13.6) * (i + 0.5) / stations
+        s.append(rect(cx - 0.16, 9.30, 0.32, 0.16, "stn"))
+        s.append(f'<circle class="stn2" cx="{X(cx)}" cy="{Y(10.4)}" r="1.9"/>')
     s.append(rect(13.6, 9.85, EX - 13.6, 1.15, "back"))
-    s.append(text((13.6 + EX)/2, 10.62, "원무 백존", "mini", "middle"))
+    s.append(text((13.6 + EX)/2, 10.78, "원무 백존", "mini", "middle"))
     # 간호부
     if nurse_full:
-        s.append(rect(12.6, 11.0, EX - 12.6, 3.0, "room"))
+        s.append(rect(12.6, 11.0, NX - 12.6, 3.0, "room"))
         s.append(rect(12.6, 11.0, 1.6, 3.0, "room2"))
         s.append(rot(13.4, 12.5, "간호실"))
-        w = int((EX - 12.6) * 1000)
-        s.append(text((14.2 + EX)/2, 12.4, "간 호 부", "lbl", "middle"))
-        s.append(text((14.2 + EX)/2, 13.15, f"{w:,} × 3,000 = {(EX-12.6)*3:.1f} m²", "dim", "middle"))
+        w = int((NX - 12.6) * 1000)
+        s.append(text((14.2 + NX)/2, 12.4, "간 호 부", "lbl", "middle"))
+        s.append(text((14.2 + NX)/2, 13.15, f"{w:,} × 3,000 = {(NX-12.6)*3:.1f} m²", "dim", "middle"))
     # 탈의실
     s.append(rect(22.6, 10.0, 1.2, 1.6, "room"))
     s.append(rect(22.6, 11.8, 1.2, 1.5, "room"))
@@ -214,6 +219,43 @@ def aplus():
         s.append(text(dx, dy + 0.22, lab, "dispt", "middle"))
     return "".join(s) + '</g>'
 
+# ═══ A+1안 : 간호부 존치 · 원무 1자리 축소 ═══════════════════════════════════
+def aplus1():
+    EX, NX = 17.65, 19.0
+    s = ['<g>', shell(True, EX, NX, stations=3)]
+    # 철거되는 원무 1자리
+    s.append(rect(EX, 9.15, 19.0 - EX, 1.85, "demofill"))
+    for a, b, c, d in [(EX, 9.15, 19.0, 9.15), (19.0, 9.15, 19.0, 11.0)]:
+        s.append(line(a, b, c, d, "demo"))
+    s.append(line(EX, 9.15, EX, 11.0, "wall"))
+    s.append(text(12.95, 14.52, "원무 4자리 → 3자리 · 카운터 5,400 → 4,050", "demot"))
+    s.append(text(12.95, 14.90, "간호부 19.2 m² 전량 존치", "demot"))
+
+    # ZONE 1 — 메인홀 (변경 없음) + 편입 포켓
+    s.append(rect(19.1, 8.6, 3.5, 6.75, "zone1"))
+    s.append(rect(17.65, 8.6, 1.45, 2.4, "zone1"))
+    s.append(bank(19.65, 10.44, 4, 'n') + bank(19.65, 11.02, 4, 's'))
+    s.append(bank(19.65, 12.75, 4, 'n') + bank(19.65, 13.33, 4, 's'))
+    s.append(bank(19.65, 15.06, 4, 'n'))
+    s.append(bank(17.94, 8.95, 4, 'e'))
+    s.append(wheel(19.45, 8.75))
+    s.append(text(20.62, 9.05, "ZONE 1  진료 대기", "zt1"))
+    s.append(text(20.62, 9.75, "24석", "cnt"))
+    s.append(rot(18.72, 10.1, "편입 4석", "cnt2"))
+
+    # ZONE 2 — 변경 없음
+    s.append(rect(16.0, 6.05, 7.25, 2.55, "zone2"))
+    s.append(bank(19.65, 7.55, 4, 'n') + bank(19.65, 8.13, 4, 's'))
+    s.append(bank(22.96, 7.30, 3, 'w'))
+    s.append(wheel(18.3, 7.15))
+    s.append(text(16.25, 7.75, "ZONE 2  로비 대기", "zt2"))
+    s.append(text(16.25, 8.45, "11석", "cnt"))
+
+    for dx, dy, lab in [(17.35, 9.52, "1"), (19.3, 6.45, "2"), (22.3, 11.4, "3")]:
+        s.append(f'<circle class="disp" cx="{X(dx)}" cy="{Y(dy)}" r="2.3"/>')
+        s.append(text(dx, dy + 0.22, lab, "dispt", "middle"))
+    return "".join(s) + '</g>'
+
 # ═══ 의자 비교 ═════════════════════════════════════════════════════════════
 def chairs():
     U = 0.05
@@ -274,6 +316,10 @@ CSS = """
 .arm{stroke:var(--pl-arm);stroke-width:.85;stroke-linecap:round}
 .wc{fill:var(--pl-wc);stroke:var(--pl-accent);stroke-width:.6;stroke-dasharray:1.4 1}
 .disp{fill:var(--pl-accent)}
+.stn{fill:none;stroke:var(--pl-oncounter);stroke-width:.55;opacity:.85}
+.stn2{fill:none;stroke:var(--pl-ink3);stroke-width:.5}
+.demofill{fill:var(--pl-void)}
+.cnt2{font-family:var(--fm);font-size:2.6px;font-weight:700;fill:var(--pl-accent)}
 .zone-now{fill:var(--pl-znow);stroke:var(--pl-lost);stroke-width:.6;stroke-dasharray:2 1.4}
 .zone1{fill:var(--pl-z1);stroke:var(--pl-z1s);stroke-width:.6}
 .zone2{fill:var(--pl-z2);stroke:var(--pl-z2s);stroke-width:.6}
@@ -332,6 +378,8 @@ if __name__ == "__main__":
         open(os.path.join(d, fn), "w").write(svg(body, lab))
     open(os.path.join(d, "plan_aplus.svg"), "w").write(
         svg(aplus(), "A+안 — 가운데벽 1,000 후퇴 · 대기 38석"))
+    open(os.path.join(d, "plan_aplus1.svg"), "w").write(
+        svg(aplus1(), "A+1안 — 간호부 존치 · 원무 1자리 축소 · 대기 35석"))
     open(os.path.join(d, "chairs.svg"), "w").write(
         svg(chairs(), "의자 비교 — 동일 벽면 3,600 실착석", "0 0 226 138", CSS_CHAIR, ""))
-    print("written 4 svg")
+    print("written 5 svg")
