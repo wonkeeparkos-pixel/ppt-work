@@ -73,6 +73,29 @@ table.t tr.hl td:first-child{border-left:2px solid var(--red)}
 table.t tr.hl td:last-child{border-right:2px solid var(--red)}
 table.t tr.hl td:first-child{color:var(--red)}
 .note{font-weight:700;font-size:1.92cqw;color:var(--tealD);margin-top:1.8cqw;line-height:1.28}
+/* dense: 내용이 많은 슬라이드에서 각주(출처)까지 잘리지 않도록 한 단계 축소 */
+.dense h2.ct{font-size:3.62cqw}
+.dense .hr{margin:1.2cqw 0 1.6cqw}
+.dense ul.b{gap:1.12cqw}
+.dense ul.b li{font-size:2.22cqw}
+.dense ul.b li::before{top:.8cqw;width:1.1cqw;height:1.1cqw}
+.dense ul.b li.sub2{font-size:2.06cqw}
+/* figsplit·aside는 원래 더 작은 값을 쓰므로 dense가 덮어써서 커지지 않도록 명시 */
+.dense.figsplit ul.b{gap:1.0cqw}
+.dense.figsplit ul.b li{font-size:1.96cqw}
+.dense .aside ul.b li{font-size:2.0cqw}
+.dense .note{font-size:1.78cqw;margin-top:1.3cqw}
+.dense table.t{margin-top:.6cqw}
+.dense table.t th{font-size:1.88cqw;padding:1.0cqw 1.4cqw}
+.dense table.t td{font-size:1.8cqw;padding:.82cqw 1.4cqw}
+.dense.tableS .note{margin-top:1.05cqw}
+.dense .foot{padding-top:1.0cqw}
+.dense.content .foot,.dense.split .foot,.dense.tableS .foot{margin-top:1.0cqw}
+.dense .foot .src{font-size:1.8cqw}
+.key.dense h2.kh{font-size:4.5cqw;margin:1.3cqw 0 2.1cqw}
+.key.dense .msg{padding:1.05cqw 0}
+.key.dense .msg .ml{font-size:2.32cqw}
+.key.dense .msg .md{font-size:2.06cqw}
 .foot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;color:#7A868C;
   border-top:1.5px solid var(--line);padding-top:2.2cqw}
 .content .foot,.split .foot,.tableS .foot{margin-top:1.6cqw}
@@ -194,6 +217,9 @@ def _tag(tag):
     t,c=tag if isinstance(tag,tuple) else (tag,"")
     return f'<span class="tag {c}">{esc(t)}</span>'
 
+def _dense(s):
+    return ' dense' if s.get('dense') else ''
+
 def slide(s, pg):
     T=s['t']
     if T=='title':
@@ -204,7 +230,7 @@ def slide(s, pg):
     if T=='bullets':
         stat=_stat(s['stat']) if s.get('stat') else ''
         note=f'<div class="note">{s["note"]}</div>' if s.get('note') else ''
-        return f'''<section class="snap content"><div class="stage"><div class="pad">
+        return f'''<section class="snap content{_dense(s)}"><div class="stage"><div class="pad">
 <div class="topbar"><div class="eb">{esc(s['eyebrow'])}</div>{_tag(s.get('tag'))}</div>
 <h2 class="ct">{s['title']}</h2><div class="hr"></div>{_items(s['items'])}{note}{stat}
 {_foot(s['foot'],pg)}</div></div></section>'''
@@ -212,14 +238,14 @@ def slide(s, pg):
         a=s['aside']
         inner=_astat(a['stat']) if a.get('stat') else _items(a['items'])
         dark=' dark' if a.get('dark') else ''
-        return f'''<section class="snap split"><div class="stage"><div class="pad">
+        return f'''<section class="snap split{_dense(s)}"><div class="stage"><div class="pad">
 <div class="topbar"><div class="eb">{esc(s['eyebrow'])}</div>{_tag(s.get('tag'))}</div>
 <h2 class="ct">{s['title']}</h2><div class="hr"></div>
 <div class="row"><div class="col">{_items(s['items'])}</div>
 <div class="aside{dark}"><div class="at">{esc(a['title'])}</div>{inner}</div></div>
 {_foot(s['foot'],pg)}</div></div></section>'''
     if T=='figsplit':
-        return f'''<section class="snap split figsplit"><div class="stage"><div class="pad">
+        return f'''<section class="snap split figsplit{_dense(s)}"><div class="stage"><div class="pad">
 <div class="topbar"><div class="eb">{esc(s['eyebrow'])}</div>{_tag(s.get('tag'))}</div>
 <h2 class="ct">{s['title']}</h2><div class="hr"></div>
 <div class="row"><div class="col">{_items(s['items'])}</div>
@@ -233,7 +259,7 @@ def slide(s, pg):
             cls=' class="hl"' if ri in hl else ''
             body+=f'<tr{cls}>'+''.join(f'<td>{c}</td>' for c in r)+'</tr>'
         note=f'<div class="note">{s["note"]}</div>' if s.get('note') else ''
-        return f'''<section class="snap tableS"><div class="stage"><div class="pad">
+        return f'''<section class="snap tableS{_dense(s)}"><div class="stage"><div class="pad">
 <div class="topbar"><div class="eb">{esc(s['eyebrow'])}</div>{_tag(s.get('tag'))}</div>
 <h2 class="ct">{s['title']}</h2><table class="t">{head}{body}</table>{note}
 {_foot(s['foot'],pg)}</div></div></section>'''
@@ -245,14 +271,14 @@ def slide(s, pg):
 <div class="figbox">{s['svg']}</div>{cap}
 {_foot(s['foot'],pg)}</div></div></section>'''
     if T=='bigfig':
-        return f'''<section class="snap bigfig"><div class="stage"><div class="pad">
+        return f'''<section class="snap bigfig{_dense(s)}"><div class="stage"><div class="pad">
 <div class="topbar"><div class="eb">{esc(s['eyebrow'])}</div>{_tag(s.get('tag'))}</div>
 <h2 class="ct">{s['title']}</h2>
 <div class="bigimg">{s['svg']}</div>
 {_foot(s['foot'],pg)}</div></div></section>'''
     if T=='key':
         msgs=''.join(f'<div class="msg"><div class="ml">{esc(l)}</div><div class="md">{d}</div></div>' for l,d in s['msgs'])
-        return f'''<section class="snap key"><div class="stage"><div class="pad">
+        return f'''<section class="snap key{_dense(s)}"><div class="stage"><div class="pad">
 <div class="keb">{esc(s['eyebrow'])}</div><h2 class="kh">{s['headline']}</h2>{msgs}</div></div></section>'''
     if T=='refs':
         n=len(s['refs']); half=(n+1)//2

@@ -12,6 +12,15 @@ from fontTools.ttLib import TTFont
 SERIES = "고령 하지증상 문헌고찰 시리즈 · 2026"
 def PM(pmid): return f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/"
 def PMC(x): return f"https://www.ncbi.nlm.nih.gov/pmc/articles/{x}/"
+def CDSR(x): return f"https://www.cochranelibrary.com/cdsr/doi/10.1002/14651858.{x}/full"
+
+ASSETS = "/home/user/ppt-work/문헌고찰_NLC_RLS_LSB/03_LSB/assets"
+
+def IMG(name, alt=""):
+    """assets/의 래스터 그림을 data URI <img>로 임베드(덱 단일 파일 유지)."""
+    with open(os.path.join(ASSETS, name), "rb") as fh:
+        b64 = base64.b64encode(fh.read()).decode()
+    return f'<img src="data:image/png;base64,{b64}" alt="{alt}">'
 
 LSB = [
  {'t':'title','eyebrow':'Lumbar Sympathetic Block · 문헌고찰','title':'요추교감신경차단',
@@ -39,10 +48,34 @@ LSB = [
   'items':[
    (0,'<b>표준: 방척추 접근 + 투시</b> (CT·초음파도 가능)',''),
    (0,"바늘: 정중선 <b>~7 cm 외측</b> → 척추체 접촉 후 전내측 'walk'",''),
+   (0,'<b>바늘·용량:</b> 22G 7인치 Quincke(<b>끝을 굽혀</b> 사용) · 레벨당 총 10–20 mL(예: 0.25% 부피바카인 10 mL)',''),
    (0,'조영제로 <b>두미측 종방향 확산</b> 확인',''),
    (0,'<b>성공 지표: 피부온도 ≥2°C↑</b>',''),
    (-1,'약제: 국소마취제 / 신경파괴(무수알코올·phenol·RFA)는 진단차단 양성 시에만','accent'),
   ]},
+ # ---------- 실제 투시 술기 3-view 순서 (술기 영상 기반) ----------
+ {'t':'bullets','eyebrow':'방법 · 실제 술기','tag':('투시 3-view','green'),
+  'title':'실제 투시 술기 — 사위 → 측면 → 정면 순서',
+  'foot':'술기 영상(TheProcedureGuide.com) 정리 · StatPearls NBK431107과 교차확인 · 교육용',
+  'items':[
+   (0,'<b>① 사위상(Scotty dog)</b>을 L2에서 얻고, 진입로가 열릴 때까지 <b>더 사위로</b> 회전.',''),
+   (0,'<b>② 진입점: L2 하외측연</b> 바로 외측 — 긴 주사기를 <b>지시자(pointer)</b>로 체표에 표시.',''),
+   (0,'<b>③ 척추체 접촉</b> 후 <b>외측으로 walk</b> — 척추체 전외측으로 미끄러뜨린다.','green'),
+   (0,'<b>④ 측면상 전환</b> → <b>내측·전방</b>을 겨냥, 끝이 <b>척추체 바로 앞</b>에 오도록 진행.','green'),
+   (0,'<b>⑤ 조영제 실시간 주입</b> — <b>두미측 확산</b> 확인, <b>혈관 조영 배제.</b>','red'),
+   (0,'<b>⑥ L3 반복</b> → <b>흡인 음성</b> 확인 후 주입 · 정면상에서 최종 위치 확인.',''),
+   (-1,'L2·L3 바늘을 모두 거치한 뒤 측면상으로 전환하면 빠르다 — 숙련 시 약 5분.','accent'),
+  ]},
+ # ---------- 투시 영상 스틸 ----------
+ {'t':'bigfig','eyebrow':'방법 · 영상으로','tag':('실제 투시상',''),
+  'title':'투시 영상으로 본 술기 — 바늘은 이렇게 들어간다',
+  'foot':'실제 시술 영상 스틸(TheProcedureGuide.com) · 사위 → 측면 → 정면 3-view · 교육용 인용',
+  'svg':IMG('lsb_fluoro_steps.png','LSB 투시 술기 4단계')},
+ # ---------- 3D 애니메이션 스틸 ----------
+ {'t':'bigfig','eyebrow':'방법 · 그림으로','tag':('3D 애니메이션',''),
+  'title':'약물은 어디로 퍼지나 — 표적과 확산',
+  'foot':'3D 의학 애니메이션 스틸 · 분홍=교감신경간(척추체 전외측), 파랑·보라=약물 확산 · 실제 확산 범위는 반드시 조영제로 확인 · 교육용 인용',
+  'svg':IMG('lsb_anim_steps.png','LSB 3D 애니메이션 4단계')},
  # ---------- L2·L3 조감도 (오리지널 도해) ----------
  {'t':'bigfig','eyebrow':'방법 · 그림으로','tag':('축상면 axial',''),'title':'L2·L3 조감도 — 표적과 위험 구조',
   'foot':'표적=척추체 전외측 교감신경절 · 방척추(정중선 ~7cm) 접근 · 대동맥·IVC·요관·신장·생식대퇴신경·추간공 회피 · 오리지널 도해','svg':AXIAL_SVG},
@@ -50,10 +83,16 @@ LSB = [
  {'t':'bigfig','eyebrow':'해부 · 레벨','tag':('요추 레벨',''),'title':'복부 교감신경간과 요추 레벨 — 어디를 겨냥하나',
   'foot':'교감신경간은 척추체 전외측을 좌우로 주행 · 복강(T12–L1)·상장간막·하장간막 신경절은 대동맥 전면 · LSB 표적은 L2–L3',
   'svg':CORONAL_SVG},
+ # ---------- 실제 해부도 (교과서 도판) ----------
+ {'t':'bigfig','eyebrow':'해부 · 실제 도판','tag':('해부도',''),
+  'title':'실제 해부도로 본 요추 교감신경간 — 대동맥 바로 옆',
+  'foot':'교감신경간(노랑)은 척추체 전외측에서 대동맥에 바짝 붙어 종주 — 그래서 혈관 손상·혈관내 주입이 핵심 위험이고, 조영제로 확산을 반드시 확인한다 · 해부학 교과서 도판 인용(교육용)',
+  'svg':IMG('lsb_symp_trunk.png','요추·골반부 교감신경간 해부도')},
  # ---------- L2·L3 시술 주의점 ----------
  {'t':'bullets','eyebrow':'방법 · 안전','tag':('시술 주의',''),'title':'L2·L3 시술 — 전·중 주의할 점','foot':'StatPearls NBK431107 · NBK557637 · Feigl 1998(PMID 9425975)','items':[
    (0,'<b>영상 유도 필수:</b> 투시(또는 CT). <b>조영제</b>로 두미측 종방향 확산 확인 — 후방(추간공)·혈관 확산 시 즉시 재위치.',''),
    (0,'<b>바늘 끝은 척추체 전외측</b>에 — <b>psoas·추간공 진입 금지.</b>',''),
+   (0,'<b>요추신경총차단과 혼동 금지</b> — 그쪽 표적은 <b>psoas 구획(체성신경)</b>, LSB에선 <b>피해야 할 구조.</b>','red'),
    (0,'<b>레벨은 L2 하1/3~L3 상1/3</b>, <b>L4로 내려가지 말 것</b>(생식대퇴신경통 급증).',''),
    (0,'<b>흡인 후 분할·점진 주입</b>(혈관내·경막외 조기 발견) · 소량 시험주입.',''),
    (0,'<b>항응고·항혈소판제 중단</b>(심부·후복막 차단 — 출혈 위험) · 무균술.',''),
@@ -149,11 +188,14 @@ LSB = [
    (0,'한계: 중추 감작이 진행되면 시간이 지날수록 효과 감소 가능.','muted'),
    (-1,'기전: 교감차단 → 측부순환 혈관확장 → 조직 산소화↑ → 통증↓ + 교감매개통 차단 + 신경파괴 직접효과.','accent'),
  ]},
- {'t':'bullets','eyebrow':'안전성 · 결론','tag':('결론','red'),'title':'근거수준 · 결론','foot':'StatPearls; 문헌고찰 종합','items':[
-   (0,'<b>합병증·회피는 앞의 조감도·회피표 참고</b> — 대부분 영상유도·정확한 바늘 위치로 예방 가능.','red'),
-   (0,'근거수준: 대부분 관찰·증례군·소규모 전향연구로 <b>대규모 RCT는 부족</b>(허혈·CRPS Lv III~IV). 단, 난치성 당뇨병성 신경병증엔 RCT 존재.',''),
-   (0,'시행 원칙: 원인 감별 → 진단적 국소마취제 차단(<b>온도 ≥2°C</b> 확인) → 반응 양호 시 신경파괴/RFA.',''),
-   (-1,'그럼에도 조기 CRPS·재건 불가능한 중증 하지허혈(안정통)·난치성 신경병증에서 임상적으로 유용.','accent'),
+ {'t':'bullets','eyebrow':'안전성 · 결론','tag':('결론','red'),'title':'근거수준 · 결론','foot':'Cochrane 2013 (CD002918); Manjunath 2008 (PMID 18227328); StatPearls; 문헌고찰 종합',
+  'items':[
+   (0,'<b>Cochrane 2013(CD002918):</b> 신경병증통·CRPS 교감신경<b>절제</b> 무작위연구는 <b>단 1편(n=20)</b>, <b>위약 대조 0편.</b>','red'),
+   (1,'Manjunath 2008: 하지 CRPS-1에서 <b>고주파 vs 7% phenol</b> — 통증 8–9/10 → 3–5/10(4개월). <b>두 군 차이 없음.</b>',''),
+   (1,'결론: “근거가 매우 빈약 — <b>신중히, 선별된 환자에서, 대개 다른 치료 실패 후</b> 사용”.','muted'),
+   (1,'단, 이 평가의 대상은 <b>신경파괴·절제</b> — 진단적·치료적 국소마취제 차단은 여기에 포함되지 않는다.','muted'),
+   (0,'그 외 허혈·CRPS는 관찰·증례군 중심(Lv III~IV) · 난치성 당뇨병성 신경병증엔 별도 RCT 존재.',''),
+   (-1,'근거는 약하지만 조기 CRPS·비재건성 중증 하지허혈·난치성 신경병증에서 <b>대안이 없을 때</b> 유용.','accent'),
  ]},
  # ---------- 나의 프로토콜 · 실제 적용 (NLC 스타일 단계적 접근) ----------
  {'t':'bullets','eyebrow':'나의 프로토콜 · 실제 적용','tag':('실전 순서','ink'),
@@ -170,7 +212,7 @@ LSB = [
    ('약제','진단/치료는 국소마취제, 신경파괴는 무수알코올/phenol·RFA — 진단차단 양성 시에만.'),
    ('적응증','조기 CRPS·PAD/CLI 안정통·신경병증·다한증 등. 특발성 NLC·정맥질환(정맥류)은 적응 아님.'),
    ('효과','관류 실측 개선(Dickey), 허혈통 최대 75%↓, CRPS 통증완화(SSR로 예측).'),
-   ('근거','대규모 RCT 부족(관찰·증례 중심). 조기 CRPS·비재건성 CLI에서 유용.'),
+   ('근거','신경파괴 RCT는 <b>Cochrane상 1편(n=20)</b>뿐 — 다른 치료 실패 후 신중히.'),
  ]},
  {'t':'refs','title':'참고문헌 — LSB','refs':[
    ('<b>Dua & Varacallo.</b> Lumbar sympathetic block. StatPearls. 2026.','https://www.ncbi.nlm.nih.gov/books/NBK431107/'),
@@ -182,6 +224,8 @@ LSB = [
    ('<b>Gungor.</b> Sympathetic blocks for CRPS: case series. Medicine. 2018.',PM(29742728)),
    ('LSB on pain, Fontaine, perfusion in PAD. Medicina (Kaunas). 2024.','https://doi.org/10.3390/medicina60050682'),
    ('LSB efficacy in CRPS-1 by sympathetic skin response. Pain Ther. 2023.',PMC('PMC10199976')),
+   ('<b>Straube (Cochrane).</b> Cervico-thoracic or lumbar sympathectomy for neuropathic pain and CRPS. 2013.',CDSR('CD002918.pub3')),
+   ('<b>Manjunath.</b> RF thermal lumbar sympathectomy vs phenol neurolysis, lower-limb CRPS-1 (RCT n=20). Anesth Analg. 2008.',PM(18227328)),
    ('<b>Continuous LSB + sympatholysis for refractory painful diabetic neuropathy — RCT.</b> 2020.',PM(32915421)),
    ('Sympathetic blocks: sustained relief in refractory painful diabetic neuropathy (case). 2012.',PM(22606406)),
    ('Lumbar sympathectomy for ischaemia·vasculitis·diabetic neuropathy·hyperhidrosis — series. 2018.',PM(29516399)),
@@ -214,9 +258,10 @@ LSB.append({'t':'key','eyebrow':'전체 흐름 · Roadmap',
 
 # ---------- 강의 흐름에 맞춘 슬라이드 순서 재배열 ----------
 _ORDER = ['요추교감신경차단', '전체 흐름', '밤·하지 증상 감별', '개요 · 해부 · 원리',
-          '복부 교감신경간과 요추 레벨', '적응증 (Indications)', '증상·호소 ①', '증상·호소 ②',
+          '복부 교감신경간과 요추 레벨', '실제 해부도로 본', '적응증 (Indications)', '증상·호소 ①', '증상·호소 ②',
           '신경병증은 당뇨병성만이', '밤에 저리고 화끈거리는 다리', '효과 ① 관류', '효과 ② CRPS',
-          '방법 (Technique)', 'L2·L3 조감도', '조영제 확산 읽기', 'L2·L3 시술',
+          '방법 (Technique)', '약물은 어디로 퍼지나', '실제 투시 술기', '투시 영상으로 본',
+          'L2·L3 조감도', '조영제 확산 읽기', 'L2·L3 시술',
           '합병증 & 회피법', '생식대퇴신경통', '혈관·LAST·신경 손상', '합병증 대비',
           '근거수준 · 결론', '실제 진료 순서', '표준은 투시 유도', '참고문헌']
 
@@ -231,6 +276,17 @@ def _rank(s):
     return 999
 
 LSB = sorted(LSB, key=_rank)
+
+# ---------- 내용이 많아 각주(출처)가 잘리는 슬라이드는 dense로 한 단계 축소 ----------
+_DENSE = ['전체 흐름', '밤·하지 증상 감별', '개요 · 해부 · 원리', '적응증 (Indications)',
+          '증상·호소 ①', '증상·호소 ②', '신경병증은 당뇨병성만이',
+          '밤에 저리고 화끈거리는 다리', '효과 ② CRPS',
+          '방법 (Technique)', '실제 투시 술기', 'L2·L3 시술', '합병증 & 회피법',
+          '근거수준 · 결론', '실제 진료 순서', '표준은 투시 유도']
+for _s in LSB:
+    _t = _skey(_s) + ' ' + (_s.get('eyebrow') or '')
+    if any(f in _t for f in _DENSE):
+        _s['dense'] = True
 
 BASE = "/home/user/ppt-work/문헌고찰_NLC_RLS_LSB"
 TITLE = "요추교감신경차단 · 문헌고찰 발표"
