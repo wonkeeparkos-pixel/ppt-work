@@ -50,19 +50,17 @@ python scripts/build_nlc_v27.py      # NLC 발표자료 최신 버전
 
 의존 패키지: `pip install python-docx python-pptx fonttools`
 
-## 알려진 문제 — 폰트 경로가 저장소 규칙을 어기고 있다
+## 폰트
 
-`build_nlc_v*.py`와 `build_web_decks.py`는 Pretendard 폰트 4종(Black · ExtraBold ·
-Bold · Light)을 아래처럼 **세션 업로드 경로에 하드코딩**해 두었다.
+`assets/fonts/`에 Pretendard 4종(Black · ExtraBold · Bold · Light)이 들어 있다.
+`build_nlc_v*.py`와 `build_web_decks.py`가 이 폰트를 서브셋해 woff2로 HTML에 심는다.
+스크립트는 `__file__` 기준 상대경로로 찾으므로 어느 디렉터리에서 실행해도 된다.
 
-```python
-UP = "/root/.claude/uploads/bb19d1cb-d1ba-542e-8235-38fcac774773/"
-```
+폰트도 빌드 **입력물**이므로 GitHub에 두고, 지우지 않는다.
+Pretendard는 SIL Open Font License 1.1이라 재배포에 문제가 없다
+(`assets/fonts/LICENSE.txt`).
 
-이 디렉터리는 업로드했던 세션이 끝나면 사라진다. 실제로 지금은 존재하지 않아
-웹 덱·PPTX 빌드가 `FileNotFoundError`로 실패한다. 폰트는 빌드 **입력물**인데
-GitHub에도 구글 드라이브에도 없어서, 어디에서도 복원할 수 없는 상태다.
-
-고칠 때는 폰트 파일을 저장소 안(예: `assets/fonts/`)에 두고 상대경로로 참조한다.
-Pretendard는 SIL Open Font License라 재배포에 문제가 없다.
-`build_all.py`(docx 생성)는 폰트를 쓰지 않으므로 이 문제와 무관하게 정상 동작한다.
+이전에는 이 경로가 `/root/.claude/uploads/<세션 UUID>/`로 하드코딩되어 있었다.
+그 디렉터리는 세션이 끝나면 사라지므로 다른 세션에서는 빌드가 전부 실패했다.
+**빌드 입력물을 세션 임시 경로에서 참조하지 않는다** — 저장소 안에 두거나
+구글 드라이브에서 받아온다.

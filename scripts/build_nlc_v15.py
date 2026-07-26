@@ -383,9 +383,9 @@ chars = set(vis)
 chars |= set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .,:;!?()[]{}<>/'\"%+-=~·•—–…→←↑↓≥≤±×°#&*@")
 text=''.join(sorted(chars)); print("glyphs:",len(chars))
 
-UP="/root/.claude/uploads/bb19d1cb-d1ba-542e-8235-38fcac774773/"
-FONTS={"__F900__":UP+"c71b728f-PretendardBlack.otf","__F800__":UP+"3a19e05c-PretendardExtraBold.otf",
-       "__F700__":UP+"1121d3ff-PretendardBold.otf","__F300__":UP+"82c21b19-PretendardLight.otf"}
+UP=os.path.join(os.path.dirname(os.path.abspath(__file__)),"..","assets","fonts")+"/"
+FONTS={"__F900__":UP+"PretendardBlack.otf","__F800__":UP+"PretendardExtraBold.otf",
+       "__F700__":UP+"PretendardBold.otf","__F300__":UP+"PretendardLight.otf"}
 for ph,path in FONTS.items():
     o=Options(); o.flavor='woff2'; o.desubroutinize=True; o.name_IDs=[]; o.name_legacy=False; o.name_languages=[]
     f=TTFont(path); s=Subsetter(options=o); s.populate(text=text); s.subset(f)
