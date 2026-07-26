@@ -1,40 +1,51 @@
 # -*- coding: utf-8 -*-
-"""힉스필드 CLI로 LSB 덱 그림을 생성·내려받아 assets/에 넣는다.
+"""LSB 덱 그림 4종의 힉스필드 프롬프트 원본 + 회수 경로 기록.
 
-전제
-  npm i -g @higgsfield/cli
-  higgsfield auth login          # 브라우저 OAuth (PKCE)
-  higgsfield workspace set <id>
+■ 그림 4종
+    hf_anatomy   6쪽   관상면+축상면 통합 해부도        16:9
+    hf_axial    21쪽   L2 축상면 해부도                 3:2
+    hf_avoid    22쪽   대혈관·신장 회피(위험구조 강조)  3:2
+    hf_contrast 24쪽   조영제 종방향 확산(투시상)       3:2
+  모델 nano_banana_pro(= nano_banana_2), resolution 2k.
+  한글 라벨은 모델이 깨뜨리므로 '문자 없이 그림만' 생성하고 라벨은 덱에서 얹는다.
 
-네트워크
-  이 스크립트는 아래 호스트에 직접 나간다. 환경 네트워크 정책에 모두 열려 있어야 한다.
-    fnf-api-gw.higgsfield.ai   API 게이트웨이
-    clerk.higgsfield.ai        OAuth
-    higgsfield.ai / cloud.higgsfield.ai
-    *.cloudfront.net           생성물 CDN
-  정책은 컨테이너 부팅 시점에 적용되므로, 정책을 바꿨으면 새 세션에서 실행할 것.
+■ 이 컨테이너의 네트워크 실측 (2026-07-26)
+  차단(에이전트 프록시가 CONNECT를 403으로 거부 = 조직 egress 정책):
+      higgsfield.ai / fnf-api-gw.higgsfield.ai / clerk.higgsfield.ai
+      cloud.higgsfield.ai / upload.higgsfield.ai
+      d8j0ntlcm91z4.cloudfront.net  ← 생성물 CDN
+  허용:
+      github.com / raw.githubusercontent.com / pypi.org / registry.npmjs.org
+      s3.amazonaws.com / www.googleapis.com
 
-사용
-  python3 scripts/hf_figures.py --list            # 정의된 그림 목록
-  python3 scripts/hf_figures.py --check           # 네트워크·인증만 점검
-  python3 scripts/hf_figures.py --only hf_axial   # 하나만 생성
-  python3 scripts/hf_figures.py                   # 전부 생성
+■ 힉스필드 CLI로는 안 된다 — 두 가지 이유 모두 실측 확인
+  1) 인증·API 호출 자체가 막힌다.
+       higgsfield workspace list -> "request failed (no response received)"
+       higgsfield auth login      -> clerk.higgsfield.ai 도달 불가로 행
+  2) CLI에 로컬 저장 기능이 아예 없다. v1.1.19 바이너리의 플래그를 전수
+     조사했으나 --output-dir / --download / --save / --out 이 존재하지 않는다.
+     `generate create --help`도 "print the result URL(s)"라고만 적혀 있다.
+     즉 CLI를 쓰더라도 결국 CDN을 curl 해야 하는데, 그 CDN이 막혀 있다.
 
-생성이 끝나면 assets/<이름>.png 가 놓이고, build_lsb_web.py 의 FIG()가
-자동으로 SVG 대신 이 파일을 쓴다. 덱 재생성:
-  python3 scripts/build_lsb_web.py
+■ 그래서 실제로 쓴 경로 (MCP)
+  힉스필드 MCP 서버는 세션에 연결돼 있고 정상 동작한다(컨테이너 egress와 무관).
+    1. mcp__Higgsfield__generate_image 로 4장 생성 (2크레딧/장)
+    2. mcp__Higgsfield__sandbox_exec (힉스필드 클라우드 샌드박스, 인터넷 가능)
+       에서 CDN PNG를 받아 가로 1400px WebP q80으로 축소·인코딩
+    3. base64로 쪼개 MCP 툴 결과를 통해 회수 → sha256으로 무결성 검증
+  결과물은 assets/hf_*.webp 로 저장되고 build_lsb_web.py의 FIG()가 자동으로 집는다.
+
+■ 이 파일을 다시 자동화하려면 (권장)
+  환경 네트워크 정책에 아래 호스트를 허용하면 CLI/직접 다운로드가 살아난다.
+      fnf-api-gw.higgsfield.ai   API
+      clerk.higgsfield.ai        OAuth
+      d8j0ntlcm91z4.cloudfront.net (또는 *.cloudfront.net)  생성물 CDN
+      upload.higgsfield.ai       업로드
+  정책은 컨테이너 부팅 시 적용되므로 바꾼 뒤에는 새 세션에서 실행할 것.
 """
-import argparse
-import json
-import os
-import subprocess
-import sys
-import urllib.request
 
-ASSETS = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                      "문헌고찰_NLC_RLS_LSB", "03_LSB", "assets")
-MODEL = "nano_banana_pro"          # 도해·텍스트에 가장 강한 모델
-HOSTS = ["fnf-api-gw.higgsfield.ai", "clerk.higgsfield.ai", "higgsfield.ai"]
+MODEL = "nano_banana_pro"
+RESOLUTION = "2k"
 
 # 라벨은 모델에게 맡기지 않는다 — 한글이 깨지므로 그림만 받고 라벨은 우리가 얹는다.
 NO_TEXT = ("절대 금지: 어떤 문자·숫자·라벨·화살표·워터마크도 넣지 말 것. "
@@ -99,87 +110,11 @@ FIGURES = {
         "and NOT entering the disc space or the spinal canal. " + NO_TEXT)),
 }
 
-
-def run(*args, timeout=180):
-    p = subprocess.run(["higgsfield", *args], capture_output=True, text=True, timeout=timeout)
-    return p.returncode, p.stdout.strip(), p.stderr.strip()
-
-
-def check():
-    """네트워크·인증을 먼저 점검한다 — 실패 원인을 분명히 갈라 보여준다."""
-    ok = True
-    for h in HOSTS:
-        rc = subprocess.run(["curl", "-sS", "-o", "/dev/null", "--max-time", "12",
-                             f"https://{h}/"], capture_output=True).returncode
-        state = "열림" if rc == 0 else "차단"
-        if rc != 0:
-            ok = False
-        print(f"  {h:<30} {state}")
-    if not ok:
-        print("\n→ 네트워크 정책이 막고 있다. 정책을 바꿨다면 '새 세션'에서 실행할 것"
-              "(정책은 컨테이너 부팅 시 적용된다).")
-        return False
-    rc, out, err = run("auth", "token")
-    if rc != 0:
-        print("\n→ 인증이 없다. 실행: higgsfield auth login")
-        return False
-    print("  인증 상태                        정상")
-    return True
-
-
-def generate(name, spec):
-    print(f"[{name}] 생성 요청 …")
-    rc, out, err = run("generate", "create", MODEL, "--prompt", spec["prompt"],
-                       "--aspect-ratio", spec["aspect"], "--json")
-    if rc != 0:
-        print(f"[{name}] 실패: {err or out}")
-        return False
-    job = json.loads(out)
-    jid = job.get("id") or (job.get("results") or [{}])[0].get("id")
-    print(f"[{name}] job {jid} — 대기 중 …")
-    rc, out, err = run("generate", "wait", jid, "--json", timeout=900)
-    if rc != 0:
-        print(f"[{name}] 대기 실패: {err or out}")
-        return False
-    res = json.loads(out)
-    url = (res.get("results") or {}).get("rawUrl") if isinstance(res.get("results"), dict) else None
-    if not url:  # 응답 형태가 배열인 경우
-        items = res if isinstance(res, list) else res.get("results") or []
-        for it in items:
-            url = (it.get("results") or {}).get("rawUrl")
-            if url:
-                break
-    if not url:
-        print(f"[{name}] 결과 URL을 찾지 못했다: {out[:300]}")
-        return False
-    dest = os.path.join(ASSETS, f"{name}.png")
-    urllib.request.urlretrieve(url, dest)
-    print(f"[{name}] 저장 → {dest} ({os.path.getsize(dest)/1024:.0f}KB)")
-    return True
-
-
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--list", action="store_true")
-    ap.add_argument("--check", action="store_true")
-    ap.add_argument("--only", action="append", default=[])
-    a = ap.parse_args()
-
-    if a.list:
-        for k, v in FIGURES.items():
-            have = "있음" if os.path.exists(os.path.join(ASSETS, f"{k}.png")) else "없음"
-            print(f"  {k:<14} {v['aspect']:<6} assets/{k}.png: {have}")
-        return
-    if a.check:
-        sys.exit(0 if check() else 1)
-    if not check():
-        sys.exit(1)
-
-    targets = a.only or list(FIGURES)
-    fails = [n for n in targets if not generate(n, FIGURES[n])]
-    print("\n완료." if not fails else f"\n실패: {', '.join(fails)}")
-    print("이제 실행: python3 scripts/build_lsb_web.py")
-
-
 if __name__ == "__main__":
-    main()
+    import os
+    ASSETS = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                          "문헌고찰_NLC_RLS_LSB", "03_LSB", "assets")
+    for k, v in FIGURES.items():
+        have = next((e for e in ("webp", "jpg", "png")
+                     if os.path.exists(os.path.join(ASSETS, f"{k}.{e}"))), None)
+        print(f"  {k:<14} {v['aspect']:<6} {'assets/%s.%s' % (k, have) if have else '없음(SVG 폴백)'}")

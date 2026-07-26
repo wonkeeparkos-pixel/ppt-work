@@ -35,12 +35,23 @@ def IMG(name, alt="", jpeg=False, q=90):
     return f'<img src="data:image/{mime};base64,{b64}" alt="{esc_attr(alt)}">'
 
 
-def FIG(name, fallback, alt="", q=88):
-    """assets/<name>.png 가 있으면 그 그림을, 없으면 기존 SVG 도해를 쓴다.
+def RAW(name, mime, alt=""):
+    """이미 덱 크기에 맞춰 압축된 파일을 재인코딩 없이 그대로 임베드한다."""
+    data = open(os.path.join(ASSETS, name), "rb").read()
+    b64 = base64.b64encode(data).decode()
+    return f'<img src="data:image/{mime};base64,{b64}" alt="{esc_attr(alt)}">'
 
-    힉스필드로 생성한 그림(scripts/hf_figures.py)이 들어오는 즉시
-    덱이 자동으로 교체되도록 하기 위한 해석기.
+
+def FIG(name, fallback, alt="", q=88):
+    """assets/<name>.{webp,png,jpg} 가 있으면 그 그림을, 없으면 기존 SVG 도해를 쓴다.
+
+    힉스필드로 생성한 그림이 들어오는 즉시 덱이 자동으로 교체된다.
+    webp/jpg는 이미 덱 표시 크기(가로 1400px)에 맞춰 인코딩해 두었으므로
+    재압축하지 않고 그대로 넣는다(이중 손실 방지). png만 JPEG로 줄인다.
     """
+    for ext, mime in (("webp", "webp"), ("jpg", "jpeg")):
+        if os.path.exists(os.path.join(ASSETS, f"{name}.{ext}")):
+            return RAW(f"{name}.{ext}", mime, alt or name)
     if os.path.exists(os.path.join(ASSETS, name + ".png")):
         return IMG(name + ".png", alt or name, jpeg=True, q=q)
     return fallback
