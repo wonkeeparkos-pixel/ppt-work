@@ -72,6 +72,9 @@ table.t tr.hl td{background:#FBEAE6;border-top:2px solid var(--red);border-botto
 table.t tr.hl td:first-child{border-left:2px solid var(--red)}
 table.t tr.hl td:last-child{border-right:2px solid var(--red)}
 table.t tr.hl td:first-child{color:var(--red)}
+table.t tr.dim td{color:#93A0A6;font-weight:300}
+table.t tr.dim td:first-child{color:#93A0A6;font-weight:600}
+table.t tr.dim td b{color:#93A0A6;font-weight:700}
 .note{font-weight:700;font-size:1.92cqw;color:var(--tealD);margin-top:1.8cqw;line-height:1.28}
 /* dense: 내용이 많은 슬라이드에서 각주(출처)까지 잘리지 않도록 한 단계 축소 */
 .dense h2.ct{font-size:3.62cqw}
@@ -267,9 +270,10 @@ def slide(s, pg):
     if T=='table':
         head='<tr>'+''.join(f'<th>{esc(h)}</th>' for h in s['headers'])+'</tr>'
         hl=set(s.get('hlrows',[]))
+        dim=set(s.get('dimrows',[]))   # 관심 밖 항목을 지우지 않고 옅게만 남긴다
         body=''
         for ri,r in enumerate(s['rows']):
-            cls=' class="hl"' if ri in hl else ''
+            cls=' class="hl"' if ri in hl else (' class="dim"' if ri in dim else '')
             body+=f'<tr{cls}>'+''.join(f'<td>{c}</td>' for c in r)+'</tr>'
         note=f'<div class="note">{s["note"]}</div>' if s.get('note') else ''
         return f'''<section class="snap tableS{_dense(s)}"><div class="stage"><div class="pad">
