@@ -1,7 +1,16 @@
 # -*- coding: utf-8 -*-
 """LSB(요추교감신경차단) 웹 발표 덱 전용 빌더 — Pretendard 서브셋 임베드.
 build_web_decks.py의 LSB 정의를 기반으로 하되, LSB 한 덱만 재생성한다(NLC/RLS 불변).
-폰트는 /tmp/pretendard 우선, 없으면 기존 업로드 경로 폴백."""
+
+경로는 모두 저장소 기준(상대)이라 어느 컴퓨터에서도 그대로 돈다.
+Pretendard 폰트는 아래 순서로 찾는다:
+  1) 환경변수 PRETENDARD_DIR
+  2) <저장소>/fonts
+  3) /tmp/pretendard
+없으면 받는 법을 안내하고 멈춘다:
+  mkdir -p fonts && cd fonts && npm pack pretendard \
+    && tar xzf pretendard-*.tgz --strip-components=4 package/dist/public/static
+"""
 import os, sys, re, base64, io
 sys.path.insert(0, os.path.dirname(__file__))
 from deck_html import render_deck
@@ -14,7 +23,8 @@ def PM(pmid): return f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/"
 def PMC(x): return f"https://www.ncbi.nlm.nih.gov/pmc/articles/{x}/"
 def CDSR(x): return f"https://www.cochranelibrary.com/cdsr/doi/10.1002/14651858.{x}/full"
 
-ASSETS = "/home/user/ppt-work/문헌고찰_NLC_RLS_LSB/03_LSB/assets"
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ASSETS = os.path.join(REPO, "문헌고찰_NLC_RLS_LSB", "03_LSB", "assets")
 
 def IMG(name, alt="", jpeg=False, q=90):
     """assets/의 래스터 그림을 data URI <img>로 임베드(덱 단일 파일 유지).
@@ -415,21 +425,30 @@ for _s in LSB:
     if any(f in _t for f in _DENSE):
         _s['dense'] = True
 
-BASE = "/home/user/ppt-work/문헌고찰_NLC_RLS_LSB"
+BASE = os.path.join(REPO, "문헌고찰_NLC_RLS_LSB")
 TITLE = "요추교감신경차단 · 문헌고찰 발표"
 FNAME = "LSB_발표_웹"
 
-# ---- font sources: /tmp/pretendard 우선, 없으면 업로드 경로 폴백 ----
-TMP = "/tmp/pretendard"
-UP = "/root/.claude/uploads/bb19d1cb-d1ba-542e-8235-38fcac774773/"
-def pick(tmp_name, up_name):
-    p = os.path.join(TMP, tmp_name)
-    return p if os.path.exists(p) else (UP + up_name)
+# ---- Pretendard 위치 탐색 (환경변수 → 저장소/fonts → /tmp) ----
+def _font_dir():
+    cands = [os.environ.get("PRETENDARD_DIR"),
+             os.path.join(REPO, "fonts"),
+             "/tmp/pretendard"]
+    for d in cands:
+        if d and os.path.exists(os.path.join(d, "Pretendard-Bold.otf")):
+            return d
+    sys.exit(
+        "Pretendard 폰트를 찾지 못했습니다. 아래로 받으세요:\n"
+        "  mkdir -p fonts && cd fonts && npm pack pretendard \\\n"
+        "    && tar xzf pretendard-*.tgz --strip-components=4 package/dist/public/static\n"
+        "또는 PRETENDARD_DIR 환경변수로 경로를 지정하세요.")
+
+FDIR = _font_dir()
 FONTS = {
-  "__F900__": pick("Pretendard-Black.otf",     "c71b728f-PretendardBlack.otf"),
-  "__F800__": pick("Pretendard-ExtraBold.otf", "3a19e05c-PretendardExtraBold.otf"),
-  "__F700__": pick("Pretendard-Bold.otf",      "1121d3ff-PretendardBold.otf"),
-  "__F300__": pick("Pretendard-Light.otf",     "82c21b19-PretendardLight.otf"),
+  "__F900__": os.path.join(FDIR, "Pretendard-Black.otf"),
+  "__F800__": os.path.join(FDIR, "Pretendard-ExtraBold.otf"),
+  "__F700__": os.path.join(FDIR, "Pretendard-Bold.otf"),
+  "__F300__": os.path.join(FDIR, "Pretendard-Light.otf"),
 }
 
 htmlc = render_deck(TITLE, LSB)

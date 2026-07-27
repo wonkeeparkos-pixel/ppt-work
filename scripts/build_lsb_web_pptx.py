@@ -10,10 +10,10 @@ import os, sys, glob
 from pptx import Presentation
 from pptx.util import Inches
 
-IMG_DIR = sys.argv[1] if len(sys.argv) > 1 else \
-    "/tmp/claude-0/-home-user-ppt-work/8fa213e7-7d74-59a9-896a-f2d9cc1371a4/scratchpad/hires"
-OUT = sys.argv[2] if len(sys.argv) > 2 else \
-    "/home/user/ppt-work/문헌고찰_NLC_RLS_LSB/03_LSB/LSB_발표_웹.pptx"
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+IMG_DIR = sys.argv[1] if len(sys.argv) > 1 else os.path.join(REPO, "build", "hires")
+OUT = sys.argv[2] if len(sys.argv) > 2 else os.path.join(
+    REPO, "문헌고찰_NLC_RLS_LSB", "03_LSB", "LSB_발표_웹.pptx")
 
 imgs = sorted(glob.glob(os.path.join(IMG_DIR, "hs-*.png")))
 if not imgs:
