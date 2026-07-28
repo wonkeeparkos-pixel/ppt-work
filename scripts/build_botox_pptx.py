@@ -11,10 +11,9 @@ from pptx import Presentation
 from pptx.util import Inches
 from PIL import Image
 
-BASE = "/home/user/ppt-work/문헌고찰_보툴리눔_정형외과통증"
-PNG_DIR = sys.argv[1] if len(sys.argv) > 1 else (
-    "/tmp/claude-0/-home-user-ppt-work/4a16da38-a82b-5d5e-a9c9-97ae114e4ff2/scratchpad/png_botox"
-)
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE = os.path.join(REPO, "문헌고찰_보툴리눔_정형외과통증")
+PNG_DIR = sys.argv[1] if len(sys.argv) > 1 else os.path.join(REPO, "build", "png_botox")
 PPTX = os.path.join(BASE, "보툴리눔_정형외과통증_발표.pptx")
 PDF = os.path.join(BASE, "보툴리눔_정형외과통증_발표_미리보기.pdf")
 

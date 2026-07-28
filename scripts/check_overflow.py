@@ -2,19 +2,20 @@
 """각 슬라이드의 내용이 16:9 스테이지를 넘치는지 검사."""
 import os
 import sys
+import glob
 import asyncio
 from playwright.async_api import async_playwright
 
-HTML = sys.argv[1] if len(sys.argv) > 1 else (
-    "/home/user/ppt-work/문헌고찰_보툴리눔_정형외과통증/보툴리눔_정형외과통증_발표_웹.html"
-)
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+HTML = sys.argv[1] if len(sys.argv) > 1 else os.path.join(
+    REPO, "문헌고찰_보툴리눔_정형외과통증", "보툴리눔_정형외과통증_발표_웹.html")
 
 
 async def main():
     async with async_playwright() as p:
-        exe = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
+        pre = glob.glob("/opt/pw-browsers/chromium-*/chrome-linux/chrome")
         b = await p.chromium.launch(
-            executable_path=exe if os.path.exists(exe) else None, args=["--no-sandbox"]
+            executable_path=pre[0] if pre else None, args=["--no-sandbox"]
         )
         page = await b.new_page(viewport={"width": 1280, "height": 720})
         await page.goto("file://" + HTML)

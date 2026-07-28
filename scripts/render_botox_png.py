@@ -2,16 +2,22 @@
 """웹 덱의 각 슬라이드(.stage)를 16:9 PNG로 래스터화. PPTX/PDF 재료."""
 import os
 import sys
+import glob
 import asyncio
 from playwright.async_api import async_playwright
 
-HTML = sys.argv[1] if len(sys.argv) > 1 else (
-    "/home/user/ppt-work/문헌고찰_보툴리눔_정형외과통증/보툴리눔_정형외과통증_발표_웹.html"
-)
-PNG_DIR = sys.argv[2] if len(sys.argv) > 2 else (
-    "/tmp/claude-0/-home-user-ppt-work/4a16da38-a82b-5d5e-a9c9-97ae114e4ff2/scratchpad/png_botox"
-)
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+HTML = sys.argv[1] if len(sys.argv) > 1 else os.path.join(
+    REPO, "문헌고찰_보툴리눔_정형외과통증", "보툴리눔_정형외과통증_발표_웹.html")
+PNG_DIR = sys.argv[2] if len(sys.argv) > 2 else os.path.join(REPO, "build", "png_botox")
 W, H, SCALE = 1280, 720, 2
+
+
+def _chromium():
+    """설치된 playwright 크로미움을 쓰되, 리모트 환경의 사전설치본도 허용."""
+    for c in glob.glob("/opt/pw-browsers/chromium-*/chrome-linux/chrome"):
+        return c
+    return None  # playwright 기본 경로 사용
 
 
 async def main():
@@ -19,9 +25,8 @@ async def main():
     for f in os.listdir(PNG_DIR):
         os.remove(os.path.join(PNG_DIR, f))
     async with async_playwright() as p:
-        exe = "/opt/pw-browsers/chromium-1194/chrome-linux/chrome"
         browser = await p.chromium.launch(
-            executable_path=exe if os.path.exists(exe) else None,
+            executable_path=_chromium(),
             args=["--force-color-profile=srgb", "--no-sandbox"],
         )
         page = await browser.new_page(

@@ -16,12 +16,10 @@ from fontTools.subset import Subsetter, Options        # noqa: E402
 from fontTools.ttLib import TTFont                      # noqa: E402
 
 TITLE = "정형외과 통증과 보툴리눔 톡신 · 문헌고찰 · v1.0"
-REPO = "/home/user/ppt-work"
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_DIR = os.path.join(REPO, "문헌고찰_보툴리눔_정형외과통증")
-FONT_DIR = os.environ.get(
-    "PRETENDARD_DIR",
-    "/tmp/claude-0/-home-user-ppt-work/4a16da38-a82b-5d5e-a9c9-97ae114e4ff2/scratchpad/fonts",
-)
+# 폰트는 저장소에 동봉(assets/fonts, SIL OFL 1.1). PRETENDARD_DIR로 덮어쓸 수 있다.
+FONT_DIR = os.environ.get("PRETENDARD_DIR", os.path.join(REPO, "assets", "fonts"))
 FONTS = {
     "__F900__": "Pretendard-Black.otf",
     "__F800__": "Pretendard-ExtraBold.otf",
