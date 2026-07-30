@@ -18,17 +18,17 @@ def PM(pmid):
 SKIN, SKINL = "#C9A98C", "#F3E7DC"
 MUS, MUSL = "#A8352A", "#EFCDC5"
 BONE, BONEL = "#B08D6A", "#EADFCF"
-NRV, NRVD = "#0E7C7B", "#0B5F5E"
-INK, MUTED = "#17232C", "#6B7680"
+NRV, NRVD = "#5548B0", "#332876"
+INK, MUTED = "#181A2E", "#6E6E88"
 
 
 def needle(x1, y1, x2, y2, w=3):
     """바늘 + 주사기 몸통. (x1,y1)=바늘 끝(표적), (x2,y2)=손잡이 쪽."""
     import math
     ang = math.degrees(math.atan2(y2 - y1, x2 - x1))
-    return (f'<g><line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="#33403B" stroke-width="{w}"/>'
+    return (f'<g><line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="#33355A" stroke-width="{w}"/>'
             f'<rect x="{x2}" y="{y2-11}" width="62" height="22" rx="4" '
-            f'transform="rotate({ang:.1f} {x2} {y2})" fill="#DDE6E4" stroke="#55615B" stroke-width="2"/></g>')
+            f'transform="rotate({ang:.1f} {x2} {y2})" fill="#DAD6EA" stroke="#585976" stroke-width="2"/></g>')
 
 
 def target(cx, cy, r=9, halo=18):
@@ -42,7 +42,7 @@ SVG_MECH_A = f'''<div class="figpanel good"><div class="pt">① 근육을 풀어
 <svg viewBox="0 0 320 220" role="img">
  <text x="160" y="18" text-anchor="middle" font-size="12.5" font-weight="700" fill="{NRVD}">운동신경 종말 · 신경근접합부</text>
  <path d="M8 52 Q70 52 110 66" fill="none" stroke="{NRVD}" stroke-width="7" stroke-linecap="round"/>
- <path d="M110 60 q22 -4 30 12 q-14 18 -32 12 Z" fill="#CFE3D2" stroke="{NRVD}" stroke-width="2.5"/>
+ <path d="M110 60 q22 -4 30 12 q-14 18 -32 12 Z" fill="#CFE0D3" stroke="{NRVD}" stroke-width="2.5"/>
  <circle cx="122" cy="70" r="4.5" fill="{NRVD}"/><circle cx="132" cy="78" r="4.5" fill="{NRVD}"/>
  <circle cx="128" cy="63" r="4" fill="{NRVD}"/>
  <text x="52" y="44" font-size="12" font-weight="700" fill="{NRVD}">운동신경</text>
@@ -54,7 +54,7 @@ SVG_MECH_A = f'''<div class="figpanel good"><div class="pt">① 근육을 풀어
  <rect x="20" y="132" width="280" height="34" rx="9" fill="{MUSL}" stroke="{MUS}" stroke-width="2.5"/>
  <text x="160" y="154" text-anchor="middle" font-size="13" font-weight="800" fill="#7a221a">근육 이완 · 긴장띠(taut band) 완화</text>
  <text x="160" y="190" text-anchor="middle" font-size="12" font-weight="700" fill="{MUTED}">과수축 → 국소 허혈 → 통증 → 다시 과수축</text>
- <text x="160" y="208" text-anchor="middle" font-size="12.5" font-weight="800" fill="#2E7D32">이 &quot;통증–연축 악순환&quot;을 끊는다</text>
+ <text x="160" y="208" text-anchor="middle" font-size="12.5" font-weight="800" fill="#2E6B3E">이 &quot;통증–연축 악순환&quot;을 끊는다</text>
 </svg>
 <div class="pl">근이완은 <b>수단</b>이지 전부가 아니다 — 근력약화 없이도 진통이 나타난다</div></div>'''
 
@@ -71,7 +71,7 @@ SVG_MECH_B = f'''<div class="figpanel"><div class="pt">② 통증 신호 자체�
     <line x1="176" y1="80" x2="160" y2="100" stroke="{MUS}" stroke-width="5"/></g>
  <text x="196" y="94" font-size="12" font-weight="800" fill="{MUS}">방출 차단</text>
  <text x="16" y="126" font-size="12" font-weight="700" fill="{NRVD}">TRPV1 막이동 감소 → 말초 감작 ↓</text>
- <rect x="228" y="128" width="76" height="66" rx="9" fill="#EAF1EF" stroke="{NRV}" stroke-width="2"/>
+ <rect x="228" y="128" width="76" height="66" rx="9" fill="#ECEAF5" stroke="{NRV}" stroke-width="2"/>
  <text x="266" y="150" text-anchor="middle" font-size="11.5" font-weight="800" fill="{NRVD}">후근신경절</text>
  <text x="266" y="166" text-anchor="middle" font-size="11.5" font-weight="800" fill="{NRVD}">· 척수후각</text>
  <text x="266" y="184" text-anchor="middle" font-size="11.5" font-weight="700" fill="{MUTED}">중추 감작 ↓</text>
@@ -97,14 +97,14 @@ SVG_TRAP_A = f'''<div class="figpanel"><div class="pt">상부 승모근 · 5점 
  {target(74,70,7,13)}{target(112,61,7,13)}{target(150,57,7,13)}{target(188,61,7,13)}{target(226,70,7,13)}
  <text x="150" y="168" text-anchor="middle" font-size="12.5" font-weight="800" fill="{MUS}">가장 두꺼운 지점 1점 + 주위 4점</text>
  <text x="150" y="190" text-anchor="middle" font-size="12.5" font-weight="700" fill="{NRVD}">각 10–20 U · 한쪽 총 50–100 U</text>
- <line x1="40" y1="204" x2="260" y2="204" stroke="#E4E9E8" stroke-width="1.5"/>
+ <line x1="40" y1="204" x2="260" y2="204" stroke="#E0DEEC" stroke-width="1.5"/>
  <text x="150" y="222" text-anchor="middle" font-size="11.5" font-weight="700" fill="{MUTED}">＊두께는 초음파로 확인 — 촉진은 깊이를 알려주지 않는다</text>
 </svg>
 <div class="pl">Jiang 2021 초음파 유도 <b>5점법</b> · 한쪽 <b>100 U 초과 금지</b></div></div>'''
 
 SVG_TRAP_B = f'''<div class="figpanel warn"><div class="pt">기흉을 피하는 진입 — 단면</div>
 <svg viewBox="0 0 300 230" role="img">
- <text x="150" y="16" text-anchor="middle" font-size="12" font-weight="800" fill="#2E7D32">✓ 접선(tangential) 진입 · 13 mm 바늘</text>
+ <text x="150" y="16" text-anchor="middle" font-size="12" font-weight="800" fill="#2E6B3E">✓ 접선(tangential) 진입 · 13 mm 바늘</text>
  <path d="M62 96 q44 -46 88 -46 q44 0 88 46 q-44 22 -88 22 q-44 0 -88 -22 Z"
        fill="{MUSL}" stroke="{MUS}" stroke-width="2.5"/>
  <path d="M58 94 q-13 -13 -3 -26" fill="none" stroke="{INK}" stroke-width="5" stroke-linecap="round"/>
@@ -125,30 +125,30 @@ SVG_TRAP_B = f'''<div class="figpanel warn"><div class="pt">기흉을 피하는 
 
 # ── 사각근 / 흉곽출구 ───────────────────────────────────
 SVG_SCALENE = f'''<svg viewBox="0 0 760 300" preserveAspectRatio="xMidYMid meet" style="width:100%;height:100%" role="img">
- <rect x="20" y="18" width="500" height="264" rx="14" fill="#1a2228"/>
- <text x="270" y="44" text-anchor="middle" font-size="14" font-weight="800" fill="#9FB0AD">목 횡단면 · 초음파 시야 (쇄골 상부)</text>
- <ellipse cx="150" cy="150" rx="70" ry="46" fill="#7d8b91" stroke="#cfd8d6" stroke-width="2"/>
- <text x="150" y="128" text-anchor="middle" font-size="13" font-weight="800" fill="#1a2228">전사각근</text>
- <ellipse cx="330" cy="162" rx="74" ry="48" fill="#6f7d83" stroke="#cfd8d6" stroke-width="2"/>
- <text x="330" y="168" text-anchor="middle" font-size="13" font-weight="800" fill="#1a2228">중사각근</text>
- <circle cx="238" cy="140" r="12" fill="#2b3a42" stroke="#5FD6CC" stroke-width="2.5"/>
- <circle cx="244" cy="166" r="11" fill="#2b3a42" stroke="#5FD6CC" stroke-width="2.5"/>
- <circle cx="232" cy="190" r="10" fill="#2b3a42" stroke="#5FD6CC" stroke-width="2.5"/>
- <text x="252" y="222" font-size="12.5" font-weight="800" fill="#5FD6CC">상완신경총 (C5–T1)</text>
+ <rect x="20" y="18" width="500" height="264" rx="14" fill="#181A2E"/>
+ <text x="270" y="44" text-anchor="middle" font-size="14" font-weight="800" fill="#9C9CBC">목 횡단면 · 초음파 시야 (쇄골 상부)</text>
+ <ellipse cx="150" cy="150" rx="70" ry="46" fill="#7d8b91" stroke="#CFCEE4" stroke-width="2"/>
+ <text x="150" y="128" text-anchor="middle" font-size="13" font-weight="800" fill="#181A2E">전사각근</text>
+ <ellipse cx="330" cy="162" rx="74" ry="48" fill="#6f7d83" stroke="#CFCEE4" stroke-width="2"/>
+ <text x="330" y="168" text-anchor="middle" font-size="13" font-weight="800" fill="#181A2E">중사각근</text>
+ <circle cx="238" cy="140" r="12" fill="#2A2C52" stroke="#9B8CF0" stroke-width="2.5"/>
+ <circle cx="244" cy="166" r="11" fill="#2A2C52" stroke="#9B8CF0" stroke-width="2.5"/>
+ <circle cx="232" cy="190" r="10" fill="#2A2C52" stroke="#9B8CF0" stroke-width="2.5"/>
+ <text x="252" y="222" font-size="12.5" font-weight="800" fill="#9B8CF0">상완신경총 (C5–T1)</text>
  <circle cx="112" cy="208" r="15" fill="#7a2a2a" stroke="#e8a79f" stroke-width="2.5"/>
  <text x="60" y="242" font-size="12" font-weight="800" fill="#e8a79f">쇄골하동맥</text>
  <path d="M46 244 Q240 268 494 250" fill="none" stroke="#8FA5B0" stroke-width="5"/>
  <text x="400" y="272" font-size="12.5" font-weight="800" fill="#8FA5B0">흉막 돔 · 폐첨</text>
- <line x1="34" y1="70" x2="140" y2="164" stroke="#F4F7F5" stroke-width="3.5"/>
- <text x="40" y="62" font-size="12.5" font-weight="800" fill="#F4F7F5">평면내(in-plane) 진입</text>
+ <line x1="34" y1="70" x2="140" y2="164" stroke="#F6F5FB" stroke-width="3.5"/>
+ <text x="40" y="62" font-size="12.5" font-weight="800" fill="#F6F5FB">평면내(in-plane) 진입</text>
  <circle class="a-spark" cx="148" cy="170" r="10" fill="#A8352A"/>
- <rect x="546" y="30" width="196" height="240" rx="12" fill="#F0F4F3" stroke="#DDE6E4" stroke-width="1.5"/>
+ <rect x="546" y="30" width="196" height="240" rx="12" fill="#EBE9F4" stroke="#DAD6EA" stroke-width="1.5"/>
  <text x="562" y="58" font-size="14" font-weight="800" fill="{NRVD}">사각근 주사 원칙</text>
- <text x="562" y="86" font-size="12.5" fill="#33403B">· 전사각근 <tspan font-weight="800">25–50 U</tspan></text>
- <text x="562" y="108" font-size="12.5" fill="#33403B">· 중사각근 병행 시 총 <tspan font-weight="800">≤75 U</tspan></text>
- <text x="562" y="130" font-size="12.5" fill="#33403B">· <tspan font-weight="800">초음파 필수</tspan> (맹목 금지)</text>
- <text x="562" y="152" font-size="12.5" fill="#33403B">· 근복 <tspan font-weight="800">중앙</tspan>, 신경총에서 이격</text>
- <text x="562" y="174" font-size="12.5" fill="#33403B">· 흡인 후 서서히 주입</text>
+ <text x="562" y="86" font-size="12.5" fill="#33355A">· 전사각근 <tspan font-weight="800">25–50 U</tspan></text>
+ <text x="562" y="108" font-size="12.5" fill="#33355A">· 중사각근 병행 시 총 <tspan font-weight="800">≤75 U</tspan></text>
+ <text x="562" y="130" font-size="12.5" fill="#33355A">· <tspan font-weight="800">초음파 필수</tspan> (맹목 금지)</text>
+ <text x="562" y="152" font-size="12.5" fill="#33355A">· 근복 <tspan font-weight="800">중앙</tspan>, 신경총에서 이격</text>
+ <text x="562" y="174" font-size="12.5" fill="#33355A">· 흡인 후 서서히 주입</text>
  <text x="562" y="200" font-size="12.5" font-weight="800" fill="{MUS}">피해야 할 것</text>
  <text x="562" y="222" font-size="12.5" fill="{MUS}">· 흉막 돔(폐첨) 아래로 진행</text>
  <text x="562" y="244" font-size="12.5" fill="{MUS}">· 고용량·고용적 → 연하곤란</text>
@@ -170,12 +170,12 @@ SVG_ELBOW = f'''<svg viewBox="0 0 720 280" preserveAspectRatio="xMidYMid meet" s
  <line x1="126" y1="128" x2="236" y2="118" stroke="{NRVD}" stroke-width="2" stroke-dasharray="6 5"/>
  <text x="182" y="158" text-anchor="middle" font-size="12" font-weight="800" fill="{NRVD}">외상과에서 원위 4–5 cm</text>
  {needle(236, 118, 344, 44)}
- <rect x="470" y="26" width="230" height="118" rx="12" fill="#F0F4F3" stroke="#DDE6E4" stroke-width="1.5"/>
+ <rect x="470" y="26" width="230" height="118" rx="12" fill="#EBE9F4" stroke="#DAD6EA" stroke-width="1.5"/>
  <text x="486" y="52" font-size="13.5" font-weight="800" fill="{NRVD}">용량 · 근거</text>
- <text x="486" y="76" font-size="12.5" fill="#33403B">· Botox <tspan font-weight="800">50–60 U</tspan> 1–2점</text>
- <text x="486" y="98" font-size="12.5" fill="#33403B">· 메타분석: 위약 &gt; <tspan font-weight="800">최대 16주</tspan></text>
- <text x="486" y="120" font-size="12.5" fill="#33403B">· 스테로이드와 12주 후 대등</text>
- <rect x="470" y="158" width="230" height="104" rx="12" fill="#FCF4F2" stroke="#E7CFC9" stroke-width="1.5"/>
+ <text x="486" y="76" font-size="12.5" fill="#33355A">· Botox <tspan font-weight="800">50–60 U</tspan> 1–2점</text>
+ <text x="486" y="98" font-size="12.5" fill="#33355A">· 메타분석: 위약 &gt; <tspan font-weight="800">최대 16주</tspan></text>
+ <text x="486" y="120" font-size="12.5" fill="#33355A">· 스테로이드와 12주 후 대등</text>
+ <rect x="470" y="158" width="230" height="104" rx="12" fill="#FBF1EF" stroke="#EBD2CC" stroke-width="1.5"/>
  <text x="486" y="184" font-size="13.5" font-weight="800" fill="{MUS}">대가 — 반드시 설명</text>
  <text x="486" y="208" font-size="12.5" fill="{MUS}">· 3–4번째 손가락 신전 약화</text>
  <text x="486" y="230" font-size="12.5" fill="{MUS}">· 악력 저하 2–4주(고용량 8–12주)</text>
@@ -199,12 +199,12 @@ SVG_CALF = f'''<svg viewBox="0 0 720 300" preserveAspectRatio="xMidYMid meet" st
  <line x1="328" y1="240" x2="256" y2="240" stroke="{NRVD}" stroke-width="1.5" stroke-dasharray="3 3"/>
  <text x="248" y="236" text-anchor="end" font-size="12.5" font-weight="800" fill="{NRVD}">경골신경 — 깊이</text>
  <text x="248" y="258" text-anchor="end" font-size="12" font-weight="700" fill="{MUTED}">총비골신경 — 외측(족하수)</text>
- <rect x="446" y="30" width="256" height="112" rx="12" fill="#F0F4F3" stroke="#DDE6E4" stroke-width="1.5"/>
+ <rect x="446" y="30" width="256" height="112" rx="12" fill="#EBE9F4" stroke="#DAD6EA" stroke-width="1.5"/>
  <text x="462" y="56" font-size="13.5" font-weight="800" fill="{NRVD}">종아리 경련 · 근거 기반 용량</text>
- <text x="462" y="80" font-size="12.5" fill="#33403B">· 비복근 <tspan font-weight="800">한쪽 100 U</tspan> 분할 (Restivo)</text>
- <text x="462" y="102" font-size="12.5" fill="#33403B">· 발 소근육 <tspan font-weight="800">한쪽 30 U</tspan></text>
- <text x="462" y="124" font-size="12.5" fill="#33403B">· 내·외측두 각 2–3점, 근복 중앙</text>
- <rect x="446" y="156" width="256" height="112" rx="12" fill="#FCF4F2" stroke="#E7CFC9" stroke-width="1.5"/>
+ <text x="462" y="80" font-size="12.5" fill="#33355A">· 비복근 <tspan font-weight="800">한쪽 100 U</tspan> 분할 (Restivo)</text>
+ <text x="462" y="102" font-size="12.5" fill="#33355A">· 발 소근육 <tspan font-weight="800">한쪽 30 U</tspan></text>
+ <text x="462" y="124" font-size="12.5" fill="#33355A">· 내·외측두 각 2–3점, 근복 중앙</text>
+ <rect x="446" y="156" width="256" height="112" rx="12" fill="#FBF1EF" stroke="#EBD2CC" stroke-width="1.5"/>
  <text x="462" y="182" font-size="13.5" font-weight="800" fill="{MUS}">고령에서 특히 조심</text>
  <text x="462" y="206" font-size="12.5" fill="{MUS}">· 족저굴곡 약화 → 계단·경사 불안</text>
  <text x="462" y="228" font-size="12.5" fill="{MUS}">· 총비골신경 확산 → 족하수·낙상</text>
@@ -226,16 +226,16 @@ SVG_PLANTAR = f'''<svg viewBox="0 0 720 290" preserveAspectRatio="xMidYMid meet"
  <text x="286" y="238" text-anchor="middle" font-size="12.5" font-weight="800" fill="{MUS}">② 족궁 최대 압통점</text>
  <text x="286" y="262" text-anchor="middle" font-size="14" font-weight="900" fill="{NRVD}">30 U</text>
  {needle(122, 180, 214, 66)}
- <rect x="470" y="26" width="234" height="108" rx="12" fill="#F0F4F3" stroke="#DDE6E4" stroke-width="1.5"/>
+ <rect x="470" y="26" width="234" height="108" rx="12" fill="#EBE9F4" stroke="#DAD6EA" stroke-width="1.5"/>
  <text x="486" y="52" font-size="13.5" font-weight="800" fill="{NRVD}">Babcock 2005 · 2점법</text>
- <text x="486" y="76" font-size="12.5" fill="#33403B">· 한 발 총 <tspan font-weight="800">70 U</tspan> (40 + 30)</text>
- <text x="486" y="98" font-size="12.5" fill="#33403B">· 근막 <tspan font-weight="800">내부</tspan>로 · 지방패드 아님</text>
- <text x="486" y="120" font-size="12.5" fill="#33403B">· 3주·8주 통증·기능 유의 개선</text>
- <rect x="470" y="150" width="234" height="118" rx="12" fill="#EFF6F0" stroke="#CFE3D2" stroke-width="1.5"/>
- <text x="486" y="176" font-size="13.5" font-weight="800" fill="#2E7D32">대안 표적</text>
- <text x="486" y="200" font-size="12.5" fill="#33403B">비복근 <tspan font-weight="800">내측두 70 U</tspan></text>
- <text x="486" y="222" font-size="12.5" fill="#33403B">— 종아리 단축이 근막을 당기는</text>
- <text x="486" y="242" font-size="12.5" fill="#33403B">　 기전을 겨냥 (족부 근력 보존)</text>
+ <text x="486" y="76" font-size="12.5" fill="#33355A">· 한 발 총 <tspan font-weight="800">70 U</tspan> (40 + 30)</text>
+ <text x="486" y="98" font-size="12.5" fill="#33355A">· 근막 <tspan font-weight="800">내부</tspan>로 · 지방패드 아님</text>
+ <text x="486" y="120" font-size="12.5" fill="#33355A">· 3주·8주 통증·기능 유의 개선</text>
+ <rect x="470" y="150" width="234" height="118" rx="12" fill="#EEF4EF" stroke="#CFE0D3" stroke-width="1.5"/>
+ <text x="486" y="176" font-size="13.5" font-weight="800" fill="#2E6B3E">대안 표적</text>
+ <text x="486" y="200" font-size="12.5" fill="#33355A">비복근 <tspan font-weight="800">내측두 70 U</tspan></text>
+ <text x="486" y="222" font-size="12.5" fill="#33355A">— 종아리 단축이 근막을 당기는</text>
+ <text x="486" y="242" font-size="12.5" fill="#33355A">　 기전을 겨냥 (족부 근력 보존)</text>
  <text x="486" y="262" font-size="11.5" fill="{MUTED}">＊200 U 고용량은 오히려 효과 소실</text>
 </svg>'''
 
@@ -258,12 +258,12 @@ SVG_LUMBAR = f'''<svg viewBox="0 0 720 300" preserveAspectRatio="xMidYMid meet" 
  <text x="140" y="154" text-anchor="end" font-size="12.5" font-weight="800" fill="{MUS}">40 U</text>
  <text x="140" y="174" text-anchor="end" font-size="12.5" font-weight="800" fill="{MUS}">× 5레벨</text>
  {needle(276, 106, 396, 44)}
- <rect x="480" y="34" width="222" height="106" rx="12" fill="#F0F4F3" stroke="#DDE6E4" stroke-width="1.5"/>
+ <rect x="480" y="34" width="222" height="106" rx="12" fill="#EBE9F4" stroke="#DAD6EA" stroke-width="1.5"/>
  <text x="496" y="60" font-size="13.5" font-weight="800" fill="{NRVD}">Foster 2001 프로토콜</text>
- <text x="496" y="84" font-size="12.5" fill="#33403B">· Botox <tspan font-weight="800">총 200 U</tspan></text>
- <text x="496" y="106" font-size="12.5" fill="#33403B">· 통증 <tspan font-weight="800">심한 쪽</tspan> 방척추 5레벨</text>
- <text x="496" y="128" font-size="12.5" fill="#33403B">· 극돌기에서 외측 2–3 cm</text>
- <rect x="480" y="156" width="222" height="112" rx="12" fill="#FCF4F2" stroke="#E7CFC9" stroke-width="1.5"/>
+ <text x="496" y="84" font-size="12.5" fill="#33355A">· Botox <tspan font-weight="800">총 200 U</tspan></text>
+ <text x="496" y="106" font-size="12.5" fill="#33355A">· 통증 <tspan font-weight="800">심한 쪽</tspan> 방척추 5레벨</text>
+ <text x="496" y="128" font-size="12.5" fill="#33355A">· 극돌기에서 외측 2–3 cm</text>
+ <rect x="480" y="156" width="222" height="112" rx="12" fill="#FBF1EF" stroke="#EBD2CC" stroke-width="1.5"/>
  <text x="496" y="182" font-size="13.5" font-weight="800" fill="{MUS}">안전</text>
  <text x="496" y="206" font-size="12.5" fill="{MUS}">· 정중선 가까이 깊게 = 위험</text>
  <text x="496" y="228" font-size="12.5" fill="{MUS}">· 흉추로 올라가면 기흉 위험</text>
@@ -284,12 +284,12 @@ SVG_PIRI = f'''<svg viewBox="0 0 720 290" preserveAspectRatio="xMidYMid meet" st
  <text x="104" y="34" font-size="11.5" font-weight="700" fill="{MUTED}">대둔근(표층) — 이 아래가 이상근</text>
  {target(268, 138, 10, 21)}
  {needle(268, 138, 160, 232)}
- <rect x="452" y="26" width="252" height="110" rx="12" fill="#F0F4F3" stroke="#DDE6E4" stroke-width="1.5"/>
+ <rect x="452" y="26" width="252" height="110" rx="12" fill="#EBE9F4" stroke="#DAD6EA" stroke-width="1.5"/>
  <text x="468" y="52" font-size="13.5" font-weight="800" fill="{NRVD}">용량 · 근거</text>
- <text x="468" y="76" font-size="12.5" fill="#33403B">· <tspan font-weight="800">100–200 U</tspan> (문헌 100–300)</text>
- <text x="468" y="98" font-size="12.5" fill="#33403B">· Fishman: ≥50% 개선 <tspan font-weight="800">65% vs 32%</tspan></text>
- <text x="468" y="120" font-size="12.5" fill="#33403B">· SR 7편 152명 · 근거 fair · Level B</text>
- <rect x="452" y="152" width="252" height="118" rx="12" fill="#FCF4F2" stroke="#E7CFC9" stroke-width="1.5"/>
+ <text x="468" y="76" font-size="12.5" fill="#33355A">· <tspan font-weight="800">100–200 U</tspan> (문헌 100–300)</text>
+ <text x="468" y="98" font-size="12.5" fill="#33355A">· Fishman: ≥50% 개선 <tspan font-weight="800">65% vs 32%</tspan></text>
+ <text x="468" y="120" font-size="12.5" fill="#33355A">· SR 7편 152명 · 근거 fair · Level B</text>
+ <rect x="452" y="152" width="252" height="118" rx="12" fill="#FBF1EF" stroke="#EBD2CC" stroke-width="1.5"/>
  <text x="468" y="178" font-size="13.5" font-weight="800" fill="{MUS}">유도가 곧 안전</text>
  <text x="468" y="202" font-size="12.5" fill="{MUS}">· 초음파/투시·EMG 없이는 하지 말 것</text>
  <text x="468" y="224" font-size="12.5" fill="{MUS}">· 좌골신경 먼저 찾고 → 멀리서 진입</text>
@@ -300,11 +300,11 @@ SVG_PIRI = f'''<svg viewBox="0 0 720 290" preserveAspectRatio="xMidYMid meet" st
 # ── 안전 3원칙 ──────────────────────────────────────────
 SVG_SAFE_A = f'''<div class="figpanel good"><div class="pt">① 고농도 · 소용적</div>
 <svg viewBox="0 0 300 200" role="img">
- <text x="76" y="26" text-anchor="middle" font-size="12" font-weight="800" fill="#2E7D32">100 U / 1–2 mL</text>
- <circle cx="76" cy="100" r="42" fill="none" stroke="#2E7D32" stroke-width="2" stroke-dasharray="5 4"/>
- <circle cx="76" cy="100" r="30" fill="#CFE3D2" stroke="#2E7D32" stroke-width="3"/>
- <text x="76" y="105" text-anchor="middle" font-size="12" font-weight="800" fill="#1c4a22">표적근</text>
- <text x="76" y="180" text-anchor="middle" font-size="12.5" font-weight="800" fill="#2E7D32">확산 좁음</text>
+ <text x="76" y="26" text-anchor="middle" font-size="12" font-weight="800" fill="#2E6B3E">100 U / 1–2 mL</text>
+ <circle cx="76" cy="100" r="42" fill="none" stroke="#2E6B3E" stroke-width="2" stroke-dasharray="5 4"/>
+ <circle cx="76" cy="100" r="30" fill="#CFE0D3" stroke="#2E6B3E" stroke-width="3"/>
+ <text x="76" y="105" text-anchor="middle" font-size="12" font-weight="800" fill="#20502F">표적근</text>
+ <text x="76" y="180" text-anchor="middle" font-size="12.5" font-weight="800" fill="#2E6B3E">확산 좁음</text>
  <text x="224" y="26" text-anchor="middle" font-size="12" font-weight="800" fill="{MUS}">100 U / 4–8 mL</text>
  <circle class="a-brk" cx="224" cy="100" r="60" fill="none" stroke="{MUS}" stroke-width="2" stroke-dasharray="5 4"/>
  <circle cx="224" cy="100" r="30" fill="#F2C9C1" stroke="{MUS}" stroke-width="3"/>
@@ -315,17 +315,17 @@ SVG_SAFE_A = f'''<div class="figpanel good"><div class="pt">① 고농도 · 소
 
 SVG_SAFE_B = f'''<div class="figpanel good"><div class="pt">② 신경은 &quot;찾고 나서&quot; 피한다</div>
 <svg viewBox="0 0 300 200" role="img">
- <rect x="10" y="10" width="280" height="180" rx="10" fill="#1a2228"/>
- <circle cx="196" cy="112" r="30" fill="#8f9aa0" stroke="#5FD6CC" stroke-width="3"/>
+ <rect x="10" y="10" width="280" height="180" rx="10" fill="#181A2E"/>
+ <circle cx="196" cy="112" r="30" fill="#8f9aa0" stroke="#9B8CF0" stroke-width="3"/>
  <circle cx="186" cy="102" r="6" fill="#3a4750"/><circle cx="206" cy="104" r="6" fill="#3a4750"/>
  <circle cx="190" cy="122" r="6" fill="#3a4750"/><circle cx="208" cy="122" r="6" fill="#3a4750"/>
- <text x="196" y="164" text-anchor="middle" font-size="12" font-weight="700" fill="#cfd8d6">신경 (벌집 모양)</text>
- <ellipse cx="96" cy="104" rx="52" ry="40" fill="#6f7d83" stroke="#cfd8d6" stroke-width="2"/>
- <text x="96" y="110" text-anchor="middle" font-size="12.5" font-weight="800" fill="#1a2228">표적근</text>
- <line x1="20" y1="46" x2="88" y2="92" stroke="#F4F7F5" stroke-width="3"/>
+ <text x="196" y="164" text-anchor="middle" font-size="12" font-weight="700" fill="#CFCEE4">신경 (벌집 모양)</text>
+ <ellipse cx="96" cy="104" rx="52" ry="40" fill="#6f7d83" stroke="#CFCEE4" stroke-width="2"/>
+ <text x="96" y="110" text-anchor="middle" font-size="12.5" font-weight="800" fill="#181A2E">표적근</text>
+ <line x1="20" y1="46" x2="88" y2="92" stroke="#F6F5FB" stroke-width="3"/>
  <circle class="a-spark" cx="92" cy="96" r="8" fill="#A8352A"/>
- <path d="M150 60 q26 20 30 44" fill="none" stroke="#5FD6CC" stroke-width="2.5" stroke-dasharray="4 4"/>
- <text x="150" y="52" font-size="12" font-weight="800" fill="#5FD6CC">이 거리를 확보</text>
+ <path d="M150 60 q26 20 30 44" fill="none" stroke="#9B8CF0" stroke-width="2.5" stroke-dasharray="4 4"/>
+ <text x="150" y="52" font-size="12" font-weight="800" fill="#9B8CF0">이 거리를 확보</text>
 </svg>
 <div class="pl">이상근·사각근·전완 — <b>신경을 먼저 화면에 띄운 뒤</b> 반대편에서 진입</div></div>'''
 
@@ -334,8 +334,8 @@ SVG_SAFE_C = f'''<div class="figpanel good"><div class="pt">③ 흉벽 위에서
  <text x="150" y="22" text-anchor="middle" font-size="11.5" font-weight="700" fill="{MUTED}">승모근 · 능형근 · 견갑하근 · 사각근</text>
  <path d="M44 100 q40 -42 80 -42 q40 0 80 42 q-40 20 -80 20 q-40 0 -80 -20 Z"
        fill="{MUSL}" stroke="{MUS}" stroke-width="2.5"/>
- <line x1="62" y1="98" x2="174" y2="64" stroke="#2E7D32" stroke-width="3.5"/>
- <text x="188" y="60" font-size="15" font-weight="900" fill="#2E7D32">✓</text>
+ <line x1="62" y1="98" x2="174" y2="64" stroke="#2E6B3E" stroke-width="3.5"/>
+ <text x="188" y="60" font-size="15" font-weight="900" fill="#2E6B3E">✓</text>
  <text x="124" y="136" text-anchor="middle" font-size="12" font-weight="800" fill="#7a221a">근육을 들어올림</text>
  <line x1="244" y1="52" x2="252" y2="150" stroke="{MUS}" stroke-width="3" stroke-dasharray="5 4"/>
  <text x="262" y="50" font-size="15" font-weight="900" fill="{MUS}">✗</text>
@@ -836,7 +836,7 @@ BOTOX = [
    ('가장 강한 곳', '정형외과 영역에서 근거가 가장 단단한 곳은 <b>신경통(A)</b>, 그다음 <b>족저근막염·이상근·요통·경련·무릎(B)</b>.'),
    ('가장 약한 곳', '가장 흔히 요청받는 <b>승모근 근막통</b>은 메타분석에서 <b>임상적 유의성에 미달</b>했다 — 기대치를 정직하게 낮춰 설명한다.'),
    ('용량', '음성 연구는 대개 <b>용량이 모자랐고</b>, 부작용 연구는 대개 <b>용량이 과했다</b>. 정답은 문헌 용량의 하한에서 시작하는 것.'),
-   ('부작용', '합병증의 대부분은 약제가 아니라 <b>농도·거리·각도</b>에서 온다. 초음파는 정확도이자 곧 안전이다.'),
+   ('부작용', '합병증의 대부분은 약제가 아니라 <b>농도·거리·각도</b>에서 온다.'),
  ]},
 
 # 38 ────────────────────────────────────────────────────

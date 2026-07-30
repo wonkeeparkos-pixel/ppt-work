@@ -10,7 +10,7 @@ import io
 import base64
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from deck_html import render_deck                      # noqa: E402
+from deck_botox_html import render_deck                # noqa: E402
 from content_botox import BOTOX                        # noqa: E402
 from fontTools.subset import Subsetter, Options        # noqa: E402
 from fontTools.ttLib import TTFont                      # noqa: E402
@@ -26,6 +26,8 @@ FONTS = {
     "__F700__": "Pretendard-Bold.otf",
     "__F300__": "Pretendard-Light.otf",
 }
+# 용량·단위·라벨 전용 모노 (이미 woff2 서브셋 — 그대로 임베드)
+MONO = {"__M400__": "JetBrainsMono-400.woff2", "__M700__": "JetBrainsMono-700.woff2"}
 
 os.makedirs(OUT_DIR, exist_ok=True)
 html = render_deck(TITLE, BOTOX)
@@ -33,9 +35,6 @@ html = html.replace(
     f'<div class="deckttl">{TITLE}</div>',
     '<div class="deckttl">정형외과 통증과 보툴리눔 톡신 · 문헌고찰 · <b>v1.0</b></div>',
 )
-# 이 덱은 항목 수가 많다 → 덱 전체에 compact 타입 스케일 적용(일관성 유지)
-for k in ("content", "split", "key", "refs"):
-    html = html.replace(f'class="snap {k}"', f'class="snap {k} cp"')
 
 # ── 폰트 서브셋: 실제로 쓰인 글자만 ─────────────────────
 vis = re.sub(r"<style.*?</style>", "", html, flags=re.S)
@@ -66,6 +65,12 @@ for ph, fname in FONTS.items():
     uri = "data:font/woff2;base64," + base64.b64encode(buf.getvalue()).decode()
     html = html.replace(ph, uri)
     print(f"  {ph} {len(buf.getvalue())/1024:.0f} KB")
+
+for ph, fname in MONO.items():
+    with open(os.path.join(FONT_DIR, fname), "rb") as f:
+        blob = f.read()
+    html = html.replace(ph, "data:font/woff2;base64," + base64.b64encode(blob).decode())
+    print(f"  {ph} {len(blob)/1024:.0f} KB (mono)")
 
 out = os.path.join(OUT_DIR, "보툴리눔_정형외과통증_발표_웹.html")
 with open(out, "w", encoding="utf-8") as f:

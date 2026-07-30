@@ -51,7 +51,10 @@ python3 scripts/build_botox_pptx.py   # PNG → PPTX + 미리보기 PDF
 
 ### 4. 슬라이드 종류
 
-`scripts/deck_html.py`가 렌더러다. `content_botox.py`에서 쓰는 타입:
+`scripts/deck_botox_html.py`가 이 덱 전용 렌더러다(테마 **차단 / Blockade**).
+NLC·RLS·LSB 덱은 그대로 `scripts/deck_html.py`(Clinical Ledger)를 쓴다 — 두 테마는 서로 독립이다.
+
+`content_botox.py`에서 쓰는 타입:
 
 | `'t'` | 모양 |
 |---|---|
@@ -65,6 +68,21 @@ python3 scripts/build_botox_pptx.py   # PNG → PPTX + 미리보기 PDF
 | `refs` | 참고문헌 2단 (PubMed 링크) |
 
 일러스트는 전부 `content_botox.py` 상단의 인라인 SVG다. 외부 이미지가 하나도 없어서 HTML 한 파일만 옮겨도 그대로 보인다.
+
+### 5. 테마 규칙 — "차단 / Blockade"
+
+| 요소 | 값 | 뜻 |
+|---|---|---|
+| 구조색 | 인디고 `#463A96` | 신경계 |
+| 바탕 | `#F4F3F8` | 100 U 바이알 유리 |
+| 벽돌 `#A8352A` | 독소·차단·경고 | 기흉, 근력약화, 박스경고 |
+| 모스 `#2E6B3E` | 검증된 근거 | Level A·B |
+| 앰버 `#B0701A` | 근거 상충 | Level C |
+| 슬레이트 `#6B7280` | 근거 없음 | Level U |
+
+- **슬라이드 최상단 2px 라인 = 그 쪽 태그의 색.** 즉 색이 곧 근거등급이다. `'tag': ('Level B · RCT', 'green')` 처럼 태그에 색을 주면 상단 라인이 자동으로 따라간다.
+- **용량·단위·라벨은 JetBrains Mono**, 본문은 Pretendard. 숫자가 열을 맞춰야 하는 곳은 `tabular-nums`.
+- 표지의 **100칸 격자 = 한 바이알 100 U**. 장식이 아니라 이 발표의 기준 단위를 뜻한다.
 
 ---
 
