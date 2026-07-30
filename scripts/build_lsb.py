@@ -72,11 +72,11 @@ d.bullets_slide("개요 · 해부 · 원리", "개요", "배경", [
 ], "StatPearls NBK431107; Zhang 2022(Ibrain)")
 
 figsplit_slide(d, "방법 (Technique)", "방법", "기법", [
-    (0,"표준: 방척추(paravertebral) 접근 + 투시 (CT·초음파도 가능)",INK,True),
-    (0,"바늘: 정중선 ~7 cm 외측 → 척추체 접촉 후 전내측 'walk'",INK),
-    (0,"조영제로 두미측 종방향 확산 확인",INK),
-    (0,"성공 지표: 피부온도 ≥2°C 상승",INK,True),
-    (-1,"약제: 국소마취제 / 신경파괴(무수알코올·phenol·RFA)는 진단차단 양성 시에만",TEALD,True),
+    (0,"복와위 · 방척추(paravertebral) 접근 + 투시 (CT·초음파 가능)",INK,True),
+    (0,"자입점: 정중선 ~7 cm 외측 · 내측 경사 30–45°",INK,True),
+    (0,"바늘 22 G 15 cm → 척추체 외측면 접촉 → 전내측 'walk' → 전외측면",INK),
+    (0,"조영제 두미측 종방향 확산 · 성공지표 온도 ≥2°C↑",INK,True),
+    (-1,"약제: 국소마취제 / 신경파괴는 진단차단 양성 시에만",TEALD,True),
 ], SAG_IMG, "StatPearls NBK431107 · NBK560514 · 측면 모식도")
 
 # ---------- L2·L3 조감도 (오리지널 도해 이미지) ----------

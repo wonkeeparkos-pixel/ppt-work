@@ -56,8 +56,8 @@ AXIAL_SVG = r'''<svg viewBox="0 0 960 600" width="100%" height="100%" preserveAs
   <polyline points="852,64 726,214 660,318 604,408" fill="none" stroke="#3E4A55" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/>
   <rect x="838" y="44" width="40" height="20" rx="3" transform="rotate(50 858 54)" fill="#5A6B7B" stroke="#3E4A55" stroke-width="1.5"/>
   <circle cx="604" cy="408" r="4.5" fill="#A8352A"/>
-  <text x="742" y="150" font-size="14.5" fill="#3E4A55" font-weight="700">방척추 접근</text>
-  <text x="742" y="168" font-size="12.5" fill="#6B7680">척추체 접촉 후 전외측 walk</text>
+  <text x="742" y="150" font-size="14.5" fill="#3E4A55" font-weight="700">방척추 접근 · 내측 경사 30–45°</text>
+  <text x="742" y="168" font-size="12.5" fill="#6B7680">척추체 외측면 접촉 → 전내측 walk</text>
   <!-- 7cm 브래킷 -->
   <line x1="480" y1="96" x2="852" y2="96" stroke="#8A96A0" stroke-width="1.3"/>
   <line x1="480" y1="90" x2="480" y2="102" stroke="#8A96A0" stroke-width="1.3"/>
