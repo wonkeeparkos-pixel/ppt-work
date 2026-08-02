@@ -31,7 +31,7 @@ h2.ct{margin:1cqw 0 0;font-weight:800;font-size:3.95cqw;line-height:1.12;letter-
 .hr{height:1.5px;background:var(--line);margin:1.5cqw 0 2.1cqw}
 .sub{font-weight:300;font-size:3.1cqw;color:#3A4750}
 .order{font-weight:700;font-size:2.3cqw;color:var(--teal);margin-top:1.4cqw;letter-spacing:.01em}
-ul.b{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1.5cqw}
+ul.b{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1.5cqw;flex:0 0 auto}
 ul.b li{font-weight:300;font-size:2.46cqw;line-height:1.26;color:#33403B;padding-left:3.2cqw;position:relative}
 ul.b li::before{content:"";position:absolute;left:0;top:.95cqw;width:1.25cqw;height:1.25cqw;border-radius:50%;background:var(--teal)}
 ul.b li.sub2{padding-left:6cqw;font-size:2.28cqw;color:#55615B}
@@ -43,23 +43,26 @@ li.accent,li.accent b{color:var(--tealD)!important}
 li.green,li.green b{color:var(--green)!important}
 li.red,li.red b{color:var(--red)!important}
 li.muted{color:var(--muted)!important}
-.row{display:flex;gap:4cqw;flex:1;min-height:0}
+.row{display:flex;gap:4cqw;flex:1 0 auto;min-height:0}
 .col{flex:1;min-width:0}
-.aside{width:33cqw;flex:none;background:#F0F4F3;border:1.5px solid #DDE6E4;border-radius:2.4cqw;padding:2.6cqw 2.9cqw;display:flex;flex-direction:column}
+.aside{--as:1;width:33cqw;flex:none;background:#F0F4F3;border:1.5px solid #DDE6E4;border-radius:2.4cqw;padding:2.6cqw 2.9cqw;display:flex;flex-direction:column}
 .aside.dark{background:var(--ink);border-color:var(--ink)}
-.aside .at{font-weight:800;font-size:2.3cqw;color:var(--tealD);margin-bottom:1.5cqw}
+.aside .at{font-weight:800;font-size:calc(2.3cqw * var(--as));color:var(--tealD);margin-bottom:calc(1.5cqw * var(--as))}
 .aside.dark .at{color:#7FD8CF}
-.aside ul.b li{font-size:2.18cqw;color:#33403B;line-height:1.24}
+.aside ul.b{gap:calc(1.5cqw * var(--as))}
+.aside ul.b li{font-size:calc(2.18cqw * var(--as));color:#33403B;line-height:1.24}
+.aside ul.b li::before{width:calc(1.25cqw * var(--as));height:calc(1.25cqw * var(--as));top:calc(.95cqw * var(--as))}
+.aside ul.b li.sub2{font-size:calc(2.0cqw * var(--as))}
 .aside.dark ul.b li{color:#D6E0DE}
 .aside.dark ul.b li b{color:#EAF3F1}
 .stat{display:flex;gap:2.8cqw;border-top:1.5px solid var(--line);padding-top:2.1cqw;margin-top:auto}
 .stat .it{display:flex;flex-direction:column;gap:.5cqw}
 .stat .it b{font-weight:900;font-size:4.2cqw;letter-spacing:-.03em;color:var(--teal);line-height:1;font-variant-numeric:tabular-nums}
 .stat .it span{font-weight:700;font-size:1.78cqw;color:var(--muted)}
-.astat{display:flex;flex-direction:column;gap:1.7cqw;margin-top:.6cqw}
-.astat .it b{font-weight:900;font-size:3.35cqw;color:var(--tealD);letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums}
+.astat{display:flex;flex-direction:column;gap:calc(1.7cqw * var(--as,1));margin-top:.6cqw}
+.astat .it b{font-weight:900;font-size:calc(3.35cqw * var(--as,1));color:var(--tealD);letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums}
 .aside.dark .astat .it b{color:#7FE3D9}
-.astat .it span{font-weight:700;font-size:1.8cqw;color:var(--muted)}
+.astat .it span{font-weight:700;font-size:calc(1.8cqw * var(--as,1));color:var(--muted)}
 .aside.dark .astat .it span{color:#9FB0AD}
 table.t{width:100%;border-collapse:collapse;margin-top:1cqw;font-variant-numeric:tabular-nums}
 table.t th{background:var(--ink);color:#fff;font-weight:800;font-size:2.05cqw;text-align:left;padding:1.4cqw 1.7cqw;letter-spacing:-.01em}
@@ -112,6 +115,38 @@ table.t tr.hl td:first-child{color:var(--red)}
 .bigfig .bigimg{flex:1;display:flex;align-items:center;justify-content:center;min-height:0;margin:1.3cqw 0 .5cqw}
 .bigfig .bigimg img{max-height:100%;max-width:100%;object-fit:contain;border-radius:1.4cqw;border:1.5px solid var(--line)}
 .bigfig .foot{margin-top:.4cqw}
+/* real-photo slots — 실제 임상 사진 전용. 모식도/AI 이미지 금지 */
+.photoS .prow{display:flex;gap:2.4cqw;flex:1;min-height:0;margin:1.5cqw 0 1cqw}
+.photoS .pcol{flex:1;display:flex;flex-direction:column;gap:1.6cqw;min-width:0}
+.photoS .pcol.two{flex-direction:row}
+.pslot{flex:1;display:flex;flex-direction:column;border-radius:2cqw;overflow:hidden;min-height:0;
+  border:1.5px solid var(--line);background:#0C1013}
+.pslot img{width:100%;flex:1;object-fit:contain;min-height:0;display:block}
+.pslot .pcap{font-weight:700;font-size:1.6cqw;line-height:1.26;color:#C9D4D0;background:#161D22;padding:1cqw 1.4cqw}
+.pslot .pcap b{color:#7FE3D9;font-weight:800}
+.pslot.empty{background:#F4F7F5;border:2px dashed #BCCAC5;justify-content:center;align-items:stretch}
+.pslot.empty .eh{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:.9cqw;padding:1.8cqw 2.2cqw;text-align:center;min-height:0}
+.pslot.empty .elbl{font-weight:800;font-size:1.5cqw;letter-spacing:.13em;text-transform:uppercase;color:#8A9A94}
+.pslot.empty .ewhat{font-weight:800;font-size:1.95cqw;line-height:1.2;color:var(--ink);text-wrap:balance}
+.pslot.empty .ewhat b{color:var(--red);font-weight:900}
+.pslot.empty .esrc{font-weight:700;font-size:1.36cqw;line-height:1.28;color:#6B7680}
+.pslot.empty .esrc a{color:var(--tealD);text-decoration:none;border-bottom:1px solid #B6CFCB}
+.pslot.empty .efile{font-weight:700;font-size:1.3cqw;color:#8A9A94;font-variant-numeric:tabular-nums}
+.pcol.two .pslot.empty .ewhat{font-size:1.78cqw}
+.pcol.two .pslot.empty .esrc{font-size:1.24cqw}
+.photoS .paside{--as:1;width:31cqw;flex:none;background:#F0F4F3;border:1.5px solid #DDE6E4;border-radius:2.2cqw;
+  padding:2.2cqw 2.5cqw;display:flex;flex-direction:column;min-height:0}
+.photoS .paside.warn{background:#FCF4F2;border-color:#E7CFC9}
+.photoS .paside .at{font-weight:800;font-size:calc(1.98cqw * var(--as));color:var(--tealD);margin-bottom:calc(1.1cqw * var(--as))}
+.photoS .paside.warn .at{color:var(--red)}
+.photoS .paside ul.b{gap:calc(.85cqw * var(--as))}
+.photoS .paside ul.b li{font-size:calc(1.62cqw * var(--as));line-height:1.2;color:#33403B;padding-left:calc(2.5cqw * var(--as))}
+.photoS .paside ul.b li::before{width:calc(.85cqw * var(--as));height:calc(.85cqw * var(--as));top:calc(.68cqw * var(--as))}
+.photoS .paside ul.b li.sub2{padding-left:calc(4.4cqw * var(--as));font-size:calc(1.54cqw * var(--as))}
+.photoS .paside ul.b li.sub2::before{left:calc(2.3cqw * var(--as));width:calc(1cqw * var(--as));height:.2cqw;top:calc(1.05cqw * var(--as))}
+.photoS .paside.warn ul.b li::before{background:var(--red)}
+.photoS .foot{margin-top:.6cqw}
 svg text{font-family:Pretendard,sans-serif}
 @keyframes cramp{0%,100%{transform:scale(1)}50%{transform:scale(.93)}}
 @keyframes spark{0%,100%{opacity:.35;transform:scale(.9)}50%{opacity:1;transform:scale(1.15)}}
@@ -159,6 +194,55 @@ addEventListener('keydown',e=>{
 });
 const hint=document.querySelector('.hint');
 if(hint){setTimeout(()=>{hint.style.transition='opacity .6s';hint.style.opacity='0';},4200);}
+
+/* 자동 맞춤.
+   주의: .pad / .aside 는 flex 컨테이너라 자식이 눌려도(flex-shrink) scrollHeight 가 늘지 않는다.
+   따라서 넘침 판정은 scrollHeight 가 아니라 '자손들의 실제 아래끝'으로 한다. */
+function contentBottom(box){
+  let m=0;
+  const els=box.querySelectorAll('*');
+  for(let i=0;i<els.length;i++){
+    const r=els[i].getBoundingClientRect();
+    if(r.height>0 && r.bottom>m) m=r.bottom;
+  }
+  return m;
+}
+/* 슬라이드 본문: 박스를 1/k 로 키워 여유를 만든 뒤 scale(k) 로 되돌린다.
+   폰트가 cqw(=.stage 폭 기준)라 박스를 키워도 글자 크기는 그대로 → 줄바꿈이 늘지 않는다. */
+function fitPad(pad){
+  pad.style.transform='';pad.style.width='';pad.style.height='';
+  pad.style.right='';pad.style.bottom='';
+  const stage=pad.parentElement;
+  const padBot=parseFloat(getComputedStyle(pad).paddingBottom)||0;
+  let k=1;
+  for(let i=0;i<40;i++){
+    const limit=stage.getBoundingClientRect().bottom-padBot*k;
+    if(contentBottom(pad)<=limit+0.5) break;
+    k*=0.97;
+    pad.style.right='auto';pad.style.bottom='auto';
+    pad.style.width=(100/k)+'%';pad.style.height=(100/k)+'%';
+    pad.style.transformOrigin='top left';
+    pad.style.transform='scale('+k+')';
+  }
+}
+/* 사이드바는 폭이 고정이라 축소 대신 글자 배율(--as)을 줄인다. */
+function fitAside(box){
+  box.style.setProperty('--as',1);
+  const pb=parseFloat(getComputedStyle(box).paddingBottom)||0;
+  let a=1;
+  for(let i=0;i<40;i++){
+    if(contentBottom(box)<=box.getBoundingClientRect().bottom-pb+0.5) break;
+    a*=0.97; box.style.setProperty('--as',a);
+  }
+}
+function fitAll(){
+  document.querySelectorAll('.aside,.paside').forEach(fitAside);
+  document.querySelectorAll('.pad').forEach(fitPad);
+}
+if(document.fonts&&document.fonts.ready){document.fonts.ready.then(fitAll);}
+addEventListener('load',fitAll);
+let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(fitAll,120);});
+fitAll();
 upd();
 """
 
@@ -234,6 +318,30 @@ def slide(s, pg):
 <div class="topbar"><div class="eb">{esc(s['eyebrow'])}</div>{_tag(s.get('tag'))}</div>
 <h2 class="ct">{s['title']}</h2>
 <div class="bigimg">{s['svg']}</div>
+{_foot(s['foot'],pg)}</div></div></section>'''
+    if T=='photo':
+        # 실제 임상 사진 슬롯. 사진이 있으면 삽입, 없으면 출처가 적힌 빈 플레이트.
+        cells=''
+        for p in s['photos']:
+            if p.get('src'):
+                cells+=(f'<div class="pslot"><img src="{p["src"]}" alt="{esc(p["what"])}">'
+                        f'<div class="pcap">{p["caption"]}</div></div>')
+            else:
+                link=f'<a href="{p["url"]}" target="_blank" rel="noopener">{esc(p["ref"])}</a>' if p.get('url') else esc(p.get('ref',''))
+                cells+=(f'<div class="pslot empty"><div class="eh">'
+                        f'<div class="elbl">실제 임상 사진 자리</div>'
+                        f'<div class="ewhat">{p["what"]}</div>'
+                        f'<div class="esrc">출처 후보 · {link}</div>'
+                        f'<div class="efile">{esc(p["file"])}</div>'
+                        f'</div></div>')
+        aw=' warn' if s.get('warn') else ''
+        two=' two' if len(s['photos'])>1 else ''
+        a=s['aside']
+        return f'''<section class="snap photoS"><div class="stage"><div class="pad">
+<div class="topbar"><div class="eb">{esc(s['eyebrow'])}</div>{_tag(s.get('tag'))}</div>
+<h2 class="ct">{s['title']}</h2>
+<div class="prow"><div class="pcol{two}">{cells}</div>
+<div class="paside{aw}"><div class="at">{esc(a['title'])}</div>{_items(a['items'])}</div></div>
 {_foot(s['foot'],pg)}</div></div></section>'''
     if T=='key':
         msgs=''.join(f'<div class="msg"><div class="ml">{esc(l)}</div><div class="md">{d}</div></div>' for l,d in s['msgs'])
