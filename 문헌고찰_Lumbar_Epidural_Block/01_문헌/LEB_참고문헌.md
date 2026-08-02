@@ -6,6 +6,22 @@
 
 ---
 
+## 0. 적응증 · 효과 ★ (임상 파트)
+
+| # | 문헌 | 출처 |
+|---|---|---|
+| Z1 | Chou R 등. **Epidural Corticosteroid Injections for Radiculopathy and Spinal Stenosis: A Systematic Review and Meta-analysis.** *Ann Intern Med* 2015;163(5) | https://www.acpjournals.org/doi/10.7326/M15-0934 |
+| Z2 | **Epidural Steroids for Cervical and Lumbar Radicular Pain and Spinal Stenosis: Systematic Review Summary — Report of the AAN Guidelines Subcommittee.** (단기 통증 SRD −24.0%, NNT 4 / 기능 −16.0%, NNT 6) | https://pubmed.ncbi.nlm.nih.gov/39938000/ |
+| Z3 | Friedly JL 등. **A Randomized Trial of Epidural Glucocorticoid Injections for Spinal Stenosis (LESS).** *N Engl J Med* 2014;371:11–21 (400명, 6주 시점 차이 없음) | https://www.nejm.org/doi/full/10.1056/NEJMoa1313265 |
+| Z4 | **Lumbar Spinal Stenosis Severity by CT or MRI Does Not Predict Response to Epidural Corticosteroid versus Lidocaine Injections.** (LESS 추가분석) | https://pmc.ncbi.nlm.nih.gov/articles/PMC7053900/ |
+| Z5 | **Factors associated with improved outcomes after lumbar transforaminal ESI for radicular pain: A systematic review.** 2025 (MRI 소견이 최대 예측인자) | https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11891702/ |
+| Z6 | **Efficacy of epidural steroid injection in the treatment of sciatica secondary to lumbar disc herniation: systematic review and meta-analysis.** 2024 | https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11150834/ |
+| Z7 | **Lumbar Epidural Steroid Injections for Chronic Spinal Pain: A Clinical Review of Efficacy and Evidence.** | https://www.ncbi.nlm.nih.gov/pmc/articles/PMC12757653/ |
+| Z8 | **The clinical impact of lumbar epidural steroid injections prior to spine surgery for lumbar spinal stenosis.** 2024 | https://pmc.ncbi.nlm.nih.gov/articles/PMC11373000/ |
+| Z9 | **The Effectiveness of Transforaminal Versus Caudal Routes for ESI in Managing Lumbosacral Radicular Pain: Systematic Review and Meta-Analysis.** | https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4863760/ |
+| Z10 | **Epidural Steroid Injections** — StatPearls (적응증 · 절대/상대 금기 · 환자 선택 기준) | https://www.ncbi.nlm.nih.gov/books/NBK470189/ |
+| Z11 | CMS. **LCD — Epidural Steroid Injections for Pain Management (L39036)** (적응증·환자 선택 커버리지 기준) | https://www.cms.gov/medicare-coverage-database/view/lcd.aspx?lcdid=39036 |
+
 ## A. 가이드라인 · 합의문
 
 | # | 문헌 | 출처 |

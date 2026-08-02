@@ -154,15 +154,16 @@ def tagof(spec):
     return t, TEAL
 
 
-COLW = {
-    5:  [Inches(2.6), Inches(3.4), Inches(5.85)],
-    7:  [Inches(3.0), Inches(2.4), Inches(2.6), Inches(3.85)],
-    9:  [Inches(3.0), Inches(5.4), Inches(3.45)],
-    12: [Inches(3.0), Inches(5.2), Inches(3.65)],
-    14: [Inches(3.1), Inches(4.9), Inches(3.85)],
-    22: [Inches(4.6), Inches(3.3), Inches(3.95)],
-    29: [Inches(2.5), Inches(3.3), Inches(3.5), Inches(2.55)],
-    30: [Inches(2.9), Inches(4.4), Inches(4.55)],
+COLW = {  # 슬라이드 번호(1-based) → 열 너비
+    4:  [Inches(3.6), Inches(3.0), Inches(5.25)],   # 진단별 근거 수준
+    8:  [Inches(3.0), Inches(2.4), Inches(2.6), Inches(3.85)],  # 접근법별 효과
+    13: [Inches(2.6), Inches(3.4), Inches(5.85)],   # 황색인대 결손
+    16: [Inches(3.0), Inches(5.4), Inches(3.45)],   # LOR A계열
+    19: [Inches(3.0), Inches(5.2), Inches(3.65)],   # LOR C계열
+    21: [Inches(3.1), Inches(4.9), Inches(3.85)],   # LOR D계열
+    29: [Inches(4.6), Inches(3.3), Inches(3.95)],   # 혈관내 검출력
+    36: [Inches(2.5), Inches(3.3), Inches(3.5), Inches(2.55)],  # 감별표
+    37: [Inches(2.9), Inches(4.4), Inches(4.55)],   # 합병증
 }
 
 
