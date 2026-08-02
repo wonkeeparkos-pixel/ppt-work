@@ -189,6 +189,15 @@ table.t tr.hl td:last-child{border-right:2px solid var(--brick)}
 .figpanel.warn{background:#FBF1EF;border-color:#EBD2CC}.figpanel.warn .pt{color:var(--brick)}
 .figpanel.good{background:#EEF4EF;border-color:#CFE0D3}.figpanel.good .pt{color:var(--moss)}
 .figpanel svg{width:auto;height:auto;max-width:100%;max-height:30cqw;flex:1}
+/* 생성 일러스트 패널 — 그림은 글자 없이, 한글 라벨은 좌표로 얹는다 */
+.figimg{position:relative;width:100%;aspect-ratio:4/3;border-radius:.5cqw;overflow:hidden}
+.figimg img{width:100%;height:100%;display:block}
+.figimg .lb{position:absolute;transform:translate(-50%,-50%);white-space:nowrap;
+  font-weight:800;font-size:1.42cqw;line-height:1.15;color:var(--ink);
+  background:rgba(246,245,250,.9);border:1px solid var(--bandLine);
+  border-radius:.3cqw;padding:.2cqw .6cqw}
+.figimg .lb.red{color:var(--brick);border-color:#E7CFC9;background:rgba(252,243,241,.92)}
+.figimg .lb.ind{color:var(--indigoD);border-color:#CFC9E8}
 .figpanel .pl{font-weight:700;font-size:1.66cqw;color:#585976;text-align:center;line-height:1.28}
 .figpanel .pl b{color:var(--ink);font-weight:800}
 .figcap{font-weight:700;font-size:1.82cqw;color:var(--indigoD);text-align:center;line-height:1.32}

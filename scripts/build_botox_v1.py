@@ -28,6 +28,8 @@ FONTS = {
 }
 # 용량·단위·라벨 전용 모노 (이미 woff2 서브셋 — 그대로 임베드)
 MONO = {"__M400__": "JetBrainsMono-400.woff2", "__M700__": "JetBrainsMono-700.woff2"}
+# 03쪽 기전 일러스트 (Higgsfield 생성, 글자 없음 — 한글 라벨은 덱에서 얹는다)
+FIGS = {"__FIG_NMJ__": "mech_nmj.webp", "__FIG_NOCI__": "mech_nociceptor.webp"}
 
 os.makedirs(OUT_DIR, exist_ok=True)
 html = render_deck(TITLE, BOTOX)
@@ -71,6 +73,13 @@ for ph, fname in MONO.items():
         blob = f.read()
     html = html.replace(ph, "data:font/woff2;base64," + base64.b64encode(blob).decode())
     print(f"  {ph} {len(blob)/1024:.0f} KB (mono)")
+
+FIG_DIR = os.path.join(REPO, "assets", "fig")
+for ph, fname in FIGS.items():
+    with open(os.path.join(FIG_DIR, fname), "rb") as f:
+        blob = f.read()
+    html = html.replace(ph, "data:image/webp;base64," + base64.b64encode(blob).decode())
+    print(f"  {ph} {len(blob)/1024:.0f} KB (figure)")
 
 out = os.path.join(OUT_DIR, "보툴리눔_정형외과통증_발표_웹.html")
 with open(out, "w", encoding="utf-8") as f:
