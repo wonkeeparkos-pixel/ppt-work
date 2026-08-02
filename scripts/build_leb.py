@@ -25,9 +25,10 @@ def photo(file, what, ref, url):
     if os.path.isfile(p):
         mime = mimetypes.guess_type(p)[0] or "image/jpeg"
         b64 = base64.b64encode(open(p, "rb").read()).decode()
-        return {"src": f"data:{mime};base64,{b64}", "what": re.sub("<[^>]+>", "", what),
+        return {"src": f"data:{mime};base64,{b64}", "path": p, "what": what, "ref": ref,
+                "url": url, "file": file,
                 "caption": f"<b>{re.sub('<[^>]+>', '', what)}</b> — 출처 {ref}"}
-    return {"src": None, "what": what, "ref": ref, "url": url, "file": file}
+    return {"src": None, "path": None, "what": what, "ref": ref, "url": url, "file": file}
 
 
 S = []
