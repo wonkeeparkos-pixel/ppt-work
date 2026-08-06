@@ -1,16 +1,19 @@
-# 정형외과 통증과 보툴리눔 톡신 — 문헌고찰 발표 (40슬라이드)
+# 정형외과 통증과 보툴리눔 톡신 — 문헌고찰 발표 (41슬라이드)
 
 ## 이 폴더에 뭐가 있나
 
 | 파일 | 용도 |
 |---|---|
 | `보툴리눔_정형외과통증_발표_웹.html` | **웹 덱** — 브라우저로 열면 바로 발표. 폰트까지 전부 파일 안에 들어 있어 인터넷 없이도 열린다 |
-| `보툴리눔_정형외과통증_발표.pptx` | **PowerPoint** — 40쪽, 각 쪽이 16:9 이미지. 어느 PC에서든 열리고 저장된다 |
+| `보툴리눔_정형외과통증_발표.pptx` | **PowerPoint** — 41쪽, 각 쪽이 16:9 이미지. 어느 PC에서든 열리고 저장된다 |
 | `보툴리눔_정형외과통증_발표_미리보기.pdf` | 인쇄·공유용 |
 | `참고문헌.md` | 문헌 표 + 부위별 용량 요약 (한 파일로 훑어볼 때) |
+| `보툴리눔_정형외과통증_슬라이드편집본.pptx` | **경량 편집본** — 41쪽을 글자·도형으로만. 구글 드라이브에 올리면 구글 슬라이드로 바뀌어 브라우저에서 바로 고칠 수 있다. 그림은 빠져 있다 |
 | `논문/` | **질환·부위별 논문 폴더** — 폴더마다 체크리스트와 `PDF/` 자리. 하나씩 대조할 때 |
 
 **그냥 발표만 할 거면 위 파일들만 있으면 된다.** 아래는 내용을 고쳐서 다시 뽑을 때 이야기.
+
+구글 드라이브에도 같은 구조로 올려 뒀다 — `논문/구글드라이브.md` 참조.
 
 ---
 
@@ -43,12 +46,13 @@ playwright install chromium
 
 ```bash
 python3 scripts/build_botox_v1.py     # 내용 → 웹 덱 HTML (폰트 서브셋 임베드)
-python3 scripts/check_overflow.py     # 40쪽 중 글자가 넘치는 쪽이 있는지 검사
+python3 scripts/check_overflow.py     # 41쪽 중 글자가 넘치는 쪽이 있는지 검사
 python3 scripts/render_botox_png.py   # 각 쪽을 2560×1440 PNG로
 python3 scripts/build_botox_pptx.py   # PNG → PPTX + 미리보기 PDF
+python3 scripts/build_botox_slides.py # 경량 편집본(구글 슬라이드용)
 ```
 
-`check_overflow.py`가 `0 / 40 slides overflow`라고 나와야 정상이다. 넘치면 해당 쪽 문장을 줄이거나 표에 `'dense': True`를 준다.
+`check_overflow.py`가 `0 / 41 slides overflow`라고 나와야 정상이다. 넘치면 해당 쪽 문장을 줄이거나 표에 `'dense': True`를 준다.
 
 ### 4. 슬라이드 종류
 
