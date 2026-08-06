@@ -90,11 +90,15 @@ endlocal
 exit /b
 
 :both
-if "%~1"=="" (
+rem  !LINE! 은 파싱이 끝난 뒤 치환되므로 값 안의 > < & | 가 연산자로 오인되지 않는다.
+rem  %~1 을 그대로 echo 하면 "-> 있음" 의 > 가 리다이렉트로 해석되어 줄이 통째로 사라진다.
+set "LINE=%~1"
+if not defined LINE (
     echo.
     >>"%REPORT%" echo.
 ) else (
-    echo %~1
-    >>"%REPORT%" echo %~1
+    echo(!LINE!
+    >>"%REPORT%" echo(!LINE!
 )
+set "LINE="
 exit /b
