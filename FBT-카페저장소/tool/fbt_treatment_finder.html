@@ -1,0 +1,832 @@
+<title>FBT 치료 찾기</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: chart-style intake card on the left (sticky on wide screens), findings column on the right; one column on phones. */
+:root {
+  --paper: #eef2f0;
+  --sheet: #ffffff;
+  --ink: #16242d;
+  --ink-2: #4d5d66;
+  --rule: #d3ddd9;
+  --scrub: #1d6a56;
+  --scrub-ink: #ffffff;
+  --scrub-soft: #e1efe9;
+  --amber: #8a5300;
+  --amber-soft: #fbefd9;
+  --danger: #a12f29;
+  --danger-soft: #fbe7e5;
+  --focus: #2f7fd0;
+  --font-display: "Hahmlet", "Noto Serif KR", "Apple SD Gothic Neo", serif;
+  --font-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+  --r: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0e1618; --sheet: #152024; --ink: #e3ebe8; --ink-2: #9db0aa; --rule: #283a3e;
+    --scrub: #5bc3a2; --scrub-ink: #072018; --scrub-soft: #163a30; --amber: #f2b45c; --amber-soft: #3a2b11;
+    --danger: #f2877e; --danger-soft: #3d1a17; --focus: #78b6f0; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0e1618; --sheet: #152024; --ink: #e3ebe8; --ink-2: #9db0aa; --rule: #283a3e;
+  --scrub: #5bc3a2; --scrub-ink: #072018; --scrub-soft: #163a30; --amber: #f2b45c; --amber-soft: #3a2b11;
+  --danger: #f2877e; --danger-soft: #3d1a17; --focus: #78b6f0; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--paper); color: var(--ink);
+  font: 15px/1.6 var(--font-body);
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 56px;
+}
+.wrap { max-width: 1180px; margin: 0 auto; }
+a { color: var(--scrub); }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+.top { display: grid; gap: 6px; margin-bottom: 24px; }
+.eyebrow { margin: 0; font: 500 12px/1.4 var(--font-data); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); }
+h1 { margin: 0; font: 700 clamp(28px, 4vw, 38px)/1.15 var(--font-display); letter-spacing: -.01em; text-wrap: balance; }
+.lede { margin: 0; max-width: 62ch; color: var(--ink-2); }
+
+.grid { display: grid; grid-template-columns: minmax(0, 380px) minmax(0, 1fr); gap: 24px; align-items: start; }
+@media (max-width: 880px) { .grid { grid-template-columns: minmax(0, 1fr); } }
+@media (min-width: 881px) and (min-height: 780px) { .chart { position: sticky; top: calc(16px + env(safe-area-inset-top, 0px)); } }
+
+/* intake card */
+.chart { background: var(--sheet); border: 1px solid var(--rule); border-radius: var(--r); padding: 20px; display: grid; gap: 14px; }
+.chart-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.chart-head h2 { margin: 0; font: 600 17px/1.3 var(--font-body); }
+.badge { font: 500 12px/1 var(--font-data); padding: 5px 8px; border-radius: 999px; background: var(--amber-soft); color: var(--amber); }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.field { display: grid; gap: 6px; min-width: 0; }
+.field > label, .field > .lbl { font-size: 13px; font-weight: 600; color: var(--ink-2); }
+.opt { font-weight: 400; }
+input[type="text"], input[type="number"], textarea {
+  width: 100%; font: inherit; color: var(--ink); background: var(--paper);
+  border: 1px solid var(--rule); border-radius: 8px; padding: 9px 11px;
+}
+textarea { resize: vertical; min-height: 92px; line-height: 1.55; }
+input::placeholder, textarea::placeholder { color: var(--ink-2); opacity: .75; }
+.sex { display: flex; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; }
+.sex input { position: absolute; opacity: 0; pointer-events: none; }
+.sex label { flex: 1; text-align: center; padding: 9px 0; cursor: pointer; font-size: 14px; color: var(--ink-2); background: var(--paper); }
+.sex label + input + label, .sex input + label + input + label { border-left: 1px solid var(--rule); }
+.sex input:checked + label { background: var(--scrub-soft); color: var(--scrub); font-weight: 600; }
+.sex input:focus-visible + label { outline: 2px solid var(--focus); outline-offset: -2px; }
+.vas { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; }
+.vas input { width: 100%; accent-color: var(--scrub); }
+.vas output { font: 500 15px/1 var(--font-data); font-variant-numeric: tabular-nums; min-width: 4.2em; text-align: right; }
+.check { display: flex; gap: 8px; align-items: flex-start; font-size: 14px; color: var(--ink-2); }
+.check input { margin-top: 4px; accent-color: var(--scrub); }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; }
+button { font: 600 15px/1 var(--font-body); border-radius: 8px; padding: 12px 16px; cursor: pointer; border: 1px solid var(--rule); background: var(--sheet); color: var(--ink); }
+button.primary { background: var(--scrub); border-color: var(--scrub); color: var(--scrub-ink); flex: 1 1 auto; }
+button:disabled { opacity: .55; cursor: default; }
+.fine { margin: 0; font-size: 12.5px; line-height: 1.55; color: var(--ink-2); }
+
+/* findings */
+.findings { display: grid; gap: 16px; min-width: 0; }
+.panel { background: var(--sheet); border: 1px solid var(--rule); border-radius: var(--r); padding: 20px; min-width: 0; }
+.panel h2 { margin: 0 0 10px; font: 600 17px/1.3 var(--font-body); }
+.how { margin: 0; padding-left: 1.3em; display: grid; gap: 8px; }
+.how li::marker { font-family: var(--font-data); color: var(--scrub); }
+.banner { border-radius: var(--r); padding: 14px 16px; font-size: 14px; }
+.banner.err { background: var(--danger-soft); color: var(--danger); }
+.banner.warn { background: var(--amber-soft); color: var(--amber); }
+.banner strong { display: block; margin-bottom: 2px; }
+.banner button { margin-top: 10px; padding: 9px 12px; font-size: 14px; }
+
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.steps li { display: grid; grid-template-columns: 18px 1fr; gap: 10px; align-items: start; }
+.dot { width: 12px; height: 12px; margin-top: 6px; border-radius: 50%; border: 2px solid var(--rule); }
+.steps li[data-s="run"] .dot { border-color: var(--scrub); border-right-color: transparent; animation: spin .9s linear infinite; }
+.steps li[data-s="done"] .dot { background: var(--scrub); border-color: var(--scrub); }
+.steps li[data-s="fail"] .dot { background: var(--danger); border-color: var(--danger); }
+.steps .name { font-weight: 600; }
+.steps .detail { display: block; font-size: 13px; color: var(--ink-2); overflow-wrap: anywhere; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .steps li[data-s="run"] .dot { animation: none; border-right-color: var(--scrub); } }
+
+.ptline { display: flex; flex-wrap: wrap; gap: 6px 8px; align-items: center; margin-bottom: 12px; }
+.pt { font: 500 14px/1.3 var(--font-data); color: var(--ink); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-size: 12.5px; padding: 4px 9px; border-radius: 999px; background: var(--scrub-soft); color: var(--scrub); }
+
+.answer { max-width: 72ch; }
+.answer h3 { margin: 18px 0 6px; font: 600 16px/1.35 var(--font-body); }
+.answer h3:first-child { margin-top: 0; }
+.answer h3.alert { color: var(--danger); }
+.answer p { margin: 6px 0; }
+.answer ol, .answer ul { margin: 6px 0; padding-left: 1.35em; display: grid; gap: 6px; }
+.answer li ul, .answer li ol { margin-top: 4px; gap: 3px; }
+.answer li::marker { color: var(--ink-2); }
+.cite { display: inline-block; min-width: 1.5em; padding: 0 .35em; margin: 0 1px; border-radius: 5px; background: var(--scrub-soft); color: var(--scrub); font: 500 12px/1.6 var(--font-data); text-align: center; text-decoration: none; vertical-align: 1px; }
+.cite:hover { text-decoration: underline; }
+.thinking { color: var(--ink-2); }
+.note { margin-top: 12px; font-size: 13px; color: var(--amber); }
+.answer-tools { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--rule); }
+.answer-tools button { padding: 9px 12px; font-size: 14px; }
+
+.sources { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.src { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 12px; padding: 12px 0; border-top: 1px solid var(--rule); scroll-margin-top: 24px; }
+.src:first-child { border-top: 0; padding-top: 2px; }
+.src:target { background: var(--scrub-soft); border-radius: 8px; padding-inline: 8px; }
+.src .n { font: 500 13px/1.6 var(--font-data); color: var(--scrub); }
+.src .t { font-weight: 600; overflow-wrap: anywhere; }
+.src .m { grid-column: 2; font: 400 12.5px/1.5 var(--font-data); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.src .links { grid-column: 2; display: flex; gap: 14px; flex-wrap: wrap; font-size: 13.5px; }
+.empty { color: var(--ink-2); margin: 0; }
+</style>
+
+<header class="wrap top">
+  <p class="eyebrow">functionalbt 카페 · 13개 게시판 · 구글 드라이브</p>
+  <h1>FBT 치료 찾기</h1>
+  <p class="lede">환자 정보를 적으면 모아둔 카페 글에서 비슷한 사례를 찾아, 치료 후보를 근거 글과 함께 정리합니다.</p>
+</header>
+
+<main class="wrap grid">
+  <form id="intake" class="chart" autocomplete="off" novalidate>
+    <div class="chart-head">
+      <h2>환자</h2>
+      <span class="badge" id="exampleBadge">예시 환자 · 고쳐서 쓰세요</span>
+    </div>
+    <div class="row">
+      <div class="field">
+        <label for="age">나이</label>
+        <input type="number" id="age" min="0" max="120" inputmode="numeric" value="58">
+      </div>
+      <div class="field">
+        <span class="lbl" id="sexLbl">성별</span>
+        <div class="sex" role="radiogroup" aria-labelledby="sexLbl">
+          <input type="radio" name="sex" id="sexM" value="M"><label for="sexM">남 (M)</label>
+          <input type="radio" name="sex" id="sexF" value="F" checked><label for="sexF">여 (F)</label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="field">
+        <label for="site">부위</label>
+        <input type="text" id="site" value="우측 무릎 앞쪽" placeholder="예: 좌측 어깨 외측">
+      </div>
+      <div class="field">
+        <label for="dur">기간</label>
+        <input type="text" id="dur" value="3개월" placeholder="예: 2주, 급성">
+      </div>
+    </div>
+    <div class="field">
+      <label for="vas">통증 강도 (VAS)</label>
+      <div class="vas">
+        <input type="range" id="vas" min="0" max="10" step="1" value="6">
+        <output id="vasOut" for="vas">6 / 10</output>
+      </div>
+    </div>
+    <div class="field">
+      <label for="findings">증상 · 검사 소견</label>
+      <textarea id="findings" rows="4" placeholder="악화·완화 동작, 압통 부위, PAT/SAT, end-feel, 신경 증상 등">계단 내려갈 때와 쪼그려 앉을 때 악화. 슬개골 아래쪽 압통, 아침 강직 10분 정도. 무릎 굽힘 끝에서 당김.</textarea>
+    </div>
+    <div class="field">
+      <label for="history">영상 · 기존 치료 <span class="opt">(선택)</span></label>
+      <textarea id="history" rows="2" placeholder="예: X-ray K-L 2, 소염제 2주 효과 적음">X-ray 경도 관절염 (K-L 2). 소염진통제 2주 복용, 효과 적음.</textarea>
+    </div>
+    <div class="field">
+      <label for="question">궁금한 점 <span class="opt">(선택)</span></label>
+      <input type="text" id="question" value="치료점과 주사 간격" placeholder="예: 주사 위치, 치료 간격, 감별">
+    </div>
+    <label class="check" for="deep"><input type="checkbox" id="deep"> <span>꼼꼼히 정리 (사례 12건, 1~2분 더 걸려요)</span></label>
+    <div class="actions">
+      <button type="submit" class="primary" id="go">비슷한 사례 찾기</button>
+      <button type="button" id="stop" hidden>멈추기</button>
+      <button type="button" id="reset">새 환자</button>
+    </div>
+    <p class="fine">이름·등록번호 같은 개인정보는 적지 마세요. 적은 내용은 이 화면에 저장되지 않고, 정리를 위해 Claude에게만 보내져요. 구글 드라이브 검색에는 검색어만 쓰입니다.</p>
+  </form>
+
+  <section class="findings" aria-live="polite">
+    <div id="env" class="banner warn" hidden></div>
+    <div id="error" class="banner err" hidden></div>
+
+    <div id="intro" class="panel">
+      <h2>이렇게 찾아요</h2>
+      <ol class="how">
+        <li>환자 정보에서 검색어를 뽑아요. 부위·증상·검사 소견과 카페에서 쓰는 한/영 약어(PAT, SAT, FGA, HD…)까지 넣어요.</li>
+        <li>구글 드라이브에 모아둔 카페 글(본문 + 댓글)에서 비슷한 사례를 찾아 가장 가까운 8건을 읽어요.</li>
+        <li>Claude가 그 사례만 근거로 치료 후보와 주의할 점을 정리해요. 문장마다 근거 글 번호가 붙고, 번호를 누르면 원문으로 갑니다.</li>
+      </ol>
+      <p class="fine" style="margin-top:12px">처음 한 번은 Google Drive와 Claude 사용을 허용하는 창이 떠요. 한 번 찾는 데 1분 안팎 걸려요.</p>
+    </div>
+
+    <div id="progress" class="panel" hidden>
+      <h2 id="progTitle">찾는 중</h2>
+      <ol class="steps" id="steps">
+        <li data-k="kw"><span class="dot"></span><span><span class="name">검색어 만들기</span><span class="detail"></span></span></li>
+        <li data-k="search"><span class="dot"></span><span><span class="name">카페 글 검색</span><span class="detail"></span></span></li>
+        <li data-k="read"><span class="dot"></span><span><span class="name">사례 읽기</span><span class="detail"></span></span></li>
+        <li data-k="think"><span class="dot"></span><span><span class="name">치료 후보 정리</span><span class="detail"></span></span></li>
+      </ol>
+    </div>
+
+    <div id="result" class="panel" hidden>
+      <div class="ptline"><span class="pt" id="ptSummary"></span></div>
+      <div class="chips" id="chips" aria-label="쓴 검색어"></div>
+      <div class="answer" id="answer" style="margin-top:16px"></div>
+      <p class="note" id="truncNote" hidden>답이 길어서 중간에 끊겼어요. 궁금한 점을 좁혀서 다시 찾아보세요.</p>
+      <div class="answer-tools" id="answerTools" hidden>
+        <button type="button" id="copy">결과 복사</button>
+        <span class="fine" id="copyMsg"></span>
+      </div>
+      <p class="fine" style="margin-top:12px">카페 회원들의 사례와 의견을 모은 참고 자료예요. 치료 결정은 진료의 판단으로 하세요.</p>
+    </div>
+
+    <div id="srcPanel" class="panel" hidden>
+      <h2 id="srcTitle">근거 글</h2>
+      <ol class="sources" id="sources"></ol>
+    </div>
+  </section>
+</main>
+
+<script>
+(function () {
+  "use strict";
+  var DRIVE = "Google Drive";
+  var CASES = 8, CASES_DEEP = 12;
+  var FATAL = { server_not_connected: 1, needs_reauth: 1, selection_required: 1, server_not_found: 1,
+    not_in_manifest: 1, blocked_by_policy: 1, approval_required: 1, not_granted: 1, capability_disabled: 1,
+    capability_removed: 1, consent_required: 1, user_changed: 1, cancelled: 1, sampling_disabled: 1,
+    not_declared: 1, session_expired: 1 };
+
+  var $ = function (s) { return document.querySelector(s); };
+  var caps = { mcp: null, sample: null, checked: false };
+  var current = null;          // AbortController of the running search
+  var lastAnswer = "", lastCases = [];
+
+  // ---------------------------------------------------------------- setup
+  var vas = $("#vas");
+  vas.addEventListener("input", function () { $("#vasOut").textContent = vas.value + " / 10"; });
+  $("#intake").addEventListener("input", function () { $("#exampleBadge").hidden = true; });
+  $("#reset").addEventListener("click", function () {
+    ["#age", "#site", "#dur", "#findings", "#history", "#question"].forEach(function (s) { $(s).value = ""; });
+    $("#sexM").checked = false; $("#sexF").checked = false;
+    vas.value = 5; $("#vasOut").textContent = "5 / 10";
+    $("#exampleBadge").hidden = true;
+    $("#findings").focus();
+  });
+  $("#findings").addEventListener("keydown", function (e) {
+    if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) { e.preventDefault(); $("#go").click(); }
+  });
+  $("#intake").addEventListener("submit", onSubmit);
+  $("#stop").addEventListener("click", function () { if (current) current.abort(); });
+  $("#copy").addEventListener("click", copyResult);
+
+  if (!window.claude || typeof window.claude.use !== "function") {
+    caps.checked = true;
+    showEnv("이 도구는 claude.ai 안에서 열어야 드라이브 검색과 정리가 돼요.");
+  } else {
+    Promise.all([window.claude.use("mcp"), window.claude.use("sample")]).then(function (r) {
+      caps.mcp = r[0]; caps.sample = r[1]; caps.checked = true;
+      if (!caps.mcp) showEnv("이 화면에서는 구글 드라이브 연결을 쓸 수 없어요. claude.ai에서 이 도구를 열어주세요.");
+      else if (!caps.sample) showEnv("이 화면에서는 Claude 정리 기능을 쓸 수 없어요. claude.ai에서 이 도구를 열어주세요.");
+    }, function () {
+      caps.checked = true;
+      showEnv("이 화면에서는 드라이브 검색과 정리를 쓸 수 없어요. claude.ai에서 이 도구를 열어주세요.");
+    });
+  }
+
+  function showEnv(msg) { var el = $("#env"); el.textContent = msg; el.hidden = false; }
+
+  // ------------------------------------------------------------- reading
+  function readForm() {
+    var sex = $("#sexM").checked ? "M" : ($("#sexF").checked ? "F" : "");
+    return {
+      age: $("#age").value.trim(), sex: sex, site: $("#site").value.trim(), dur: $("#dur").value.trim(),
+      vas: vas.value, findings: $("#findings").value.trim(), history: $("#history").value.trim(),
+      question: $("#question").value.trim(), deep: $("#deep").checked
+    };
+  }
+  function chartLabel(p) {
+    var parts = [];
+    if (p.age || p.sex) parts.push((p.age || "?") + "/" + (p.sex || "?"));
+    if (p.site) parts.push(p.site);
+    if (p.dur) parts.push(p.dur);
+    parts.push("VAS " + p.vas);
+    return parts.join(" · ");
+  }
+  function patientText(p) {
+    var lines = [];
+    if (p.age || p.sex) lines.push("나이/성별: " + (p.age || "?") + "/" + (p.sex || "?"));
+    if (p.site) lines.push("부위: " + p.site);
+    if (p.dur) lines.push("기간: " + p.dur);
+    lines.push("통증(VAS): " + p.vas + "/10");
+    if (p.findings) lines.push("증상·검사 소견: " + p.findings);
+    if (p.history) lines.push("영상·기존 치료: " + p.history);
+    return lines.join("\n");
+  }
+
+  // --------------------------------------------------------------- steps
+  function stepsReset() {
+    document.querySelectorAll("#steps li").forEach(function (li) {
+      li.removeAttribute("data-s"); li.querySelector(".detail").textContent = "";
+    });
+  }
+  function step(k, state, detail) {
+    var li = document.querySelector('#steps li[data-k="' + k + '"]');
+    if (!li) return;
+    if (state) li.setAttribute("data-s", state);
+    if (detail !== undefined) li.querySelector(".detail").textContent = detail;
+  }
+
+  // ---------------------------------------------------------------- run
+  function setBusy(on) {
+    $("#go").disabled = on; $("#reset").disabled = on;
+    $("#stop").hidden = !on;
+    $("#go").textContent = on ? "찾는 중…" : "비슷한 사례 찾기";
+  }
+
+  async function onSubmit(e) {
+    e.preventDefault();
+    if (current) return;
+    hideError();
+    if (!caps.checked) { showError("잠시만요", "도구를 준비하는 중이에요. 몇 초 뒤 다시 눌러주세요."); return; }
+    if (!caps.mcp || !caps.sample) { showError("여기서는 쓸 수 없어요", $("#env").textContent || "claude.ai에서 이 도구를 열어주세요."); return; }
+    var p = readForm();
+    if (!p.findings && !p.site) { showError("증상이나 부위를 적어주세요", "부위나 증상·검사 소견 중 하나는 있어야 비슷한 사례를 찾을 수 있어요."); $("#findings").focus(); return; }
+
+    var ctl = new AbortController(); current = ctl;
+    setBusy(true);
+    $("#intro").hidden = true; $("#progress").hidden = false; $("#progTitle").textContent = "찾는 중";
+    if (matchMedia("(max-width: 880px)").matches) $("#progress").scrollIntoView({ block: "start" });
+    $("#result").hidden = true; $("#srcPanel").hidden = true;
+    stepsReset(); lastAnswer = ""; lastCases = [];
+    var nCases = p.deep ? CASES_DEEP : CASES;
+
+    try {
+      step("kw", "run", "환자 정보를 읽는 중");
+      var kw;
+      try { kw = await makeKeywords(p, ctl.signal); }
+      catch (err) {
+        if (err && FATAL[err.code]) throw tagged(err, "claude");
+        kw = { queries: fallbackKeywords(p), summary: "" };
+      }
+      if (!kw.queries.length) kw.queries = fallbackKeywords(p);
+      step("kw", "done", kw.queries.map(function (q) { return q.join(" + "); }).join(" · "));
+
+      step("search", "run", "드라이브에서 찾는 중");
+      var ranked = await searchDrive(kw.queries, ctl.signal, function (n) { step("search", null, n + "건 찾는 중"); });
+      if (!ranked.length) {
+        step("search", "fail", "비슷한 글을 찾지 못했어요");
+        showError("비슷한 사례가 없어요", "부위나 증상을 다른 말로 적어보세요. 예: 무릎 → 슬관절, knee");
+        return;
+      }
+      var picked = ranked.slice(0, nCases);
+      step("search", "done", ranked.length + "건 중 가까운 " + picked.length + "건");
+
+      step("read", "run", "본문과 댓글을 읽는 중");
+      var cases = await readCases(picked, ctl.signal);
+      lastCases = cases;
+      step("read", "done", cases.length + "건 읽음");
+      showResultShell(p, kw.queries);
+      renderSources(cases);
+
+      step("think", "run", "Claude가 정리하는 중 (보통 30초~1분)");
+      $("#answer").innerHTML = '<p class="thinking">사례를 비교하는 중이에요…</p>';
+      var res = await caps.sample(buildPrompt(p, cases), {
+        modelTier: p.deep ? "complex" : "default",
+        signal: ctl.signal,
+        onText: function (u) { renderAnswer(u.text, cases.length); }
+      });
+      lastAnswer = res.text;
+      renderAnswer(res.text, cases.length);
+      $("#truncNote").hidden = !res.truncated;
+      $("#answerTools").hidden = false;
+      step("think", "done", "끝");
+      $("#progTitle").textContent = "찾은 과정";
+    } catch (err) {
+      handleError(err);
+    } finally {
+      current = null;
+      setBusy(false);
+    }
+  }
+
+  function tagged(e, where) {
+    return { where: where, code: (e && e.code) || "upstream_error", message: (e && e.message) || "",
+      text: e && e.text, retryable: e && e.retryable, retryAfterMs: e && e.retryAfterMs };
+  }
+
+  // ------------------------------------------------------- 1. keywords
+  async function makeKeywords(p, signal) {
+    var prompt = [
+      "너는 한국 의사들이 쓰는 FBT(Functional Balance Treatment) 네이버 카페 글을 찾는 검색 보조자다.",
+      "아래 환자 정보로 구글 드라이브 전문 검색에 넣을 검색어 묶음을 만든다.",
+      "",
+      "규칙",
+      "- 이름, 등록번호, 연락처 같은 개인 식별 정보는 넣지 않는다.",
+      "- 한 묶음은 같은 글에 함께 나와야 할 단어 1~2개. 단어는 짧게, 조사 없이.",
+      "- 7~10개 묶음. 부위, 증상 양상, 악화 동작, 검사 소견, 진단명, 치료 질문을 고루 담는다.",
+      "- 카페 글은 한국어와 영어 약어를 섞어 쓴다(무릎/슬관절/knee, 허리/요통/LBP, 어깨/견관절, PAT, SAT, FGA, HD, 주사 등). 동의어와 약어도 넣는다.",
+      "- 가장 중요한 묶음을 먼저 둔다.",
+      "",
+      'JSON 하나로만 답한다: {"queries": [["무릎","계단"],["슬개골"],["knee"]], "summary": "환자 한 줄 요약"}',
+      "",
+      "[환자 정보]",
+      patientText(p),
+      p.question ? "[궁금한 점] " + p.question : ""
+    ].join("\n");
+    var r = await caps.sample.json(prompt, { modelTier: "quick", signal: signal });
+    var out = [];
+    var seen = {};
+    (r && Array.isArray(r.queries) ? r.queries : []).forEach(function (q) {
+      var terms = (Array.isArray(q) ? q : [q]).map(cleanTerm).filter(Boolean).slice(0, 2);
+      var key = terms.join("|");
+      if (terms.length && !seen[key]) { seen[key] = 1; out.push(terms); }
+    });
+    return { queries: out.slice(0, 10), summary: r && typeof r.summary === "string" ? r.summary : "" };
+  }
+  function cleanTerm(t) {
+    return String(t == null ? "" : t).replace(/['"\\]/g, "").replace(/\s+/g, " ").trim().slice(0, 24);
+  }
+  function fallbackKeywords(p) {
+    var text = [p.site, p.findings, p.question].join(" ");
+    var stop = { "때": 1, "정도": 1, "있음": 1, "없음": 1, "효과": 1, "복용": 1, "환자": 1, "통증": 1 };
+    var words = (text.match(/[가-힣A-Za-z]{2,}/g) || []).map(function (w) { return w.replace(/(에서|으로|에게|까지|부터|이고|하고|하며|은|는|이|가|을|를|에|과|와|도|만)$/, ""); });
+    var uniq = [];
+    words.forEach(function (w) { if (w.length >= 2 && !stop[w] && uniq.indexOf(w) < 0) uniq.push(w); });
+    return uniq.slice(0, 6).map(function (w) { return [w]; });
+  }
+
+  // --------------------------------------------------- 2. drive search
+  function driveQuery(terms) {
+    return ["title = 'article.md'"].concat(terms.map(function (t) {
+      return "fullText contains '" + t.replace(/\\/g, "").replace(/'/g, "\\'") + "'";
+    })).join(" and ");
+  }
+  function sleep(ms, signal) {
+    return new Promise(function (res, rej) {
+      var id = setTimeout(res, ms);
+      if (signal) signal.addEventListener("abort", function () { clearTimeout(id); rej({ code: "cancelled" }); }, { once: true });
+    });
+  }
+  async function callDrive(tool, input, signal) {
+    try {
+      return (await caps.mcp.callTool(DRIVE, tool, input, { signal: signal })).payload;
+    } catch (e) {
+      if (e && e.retryable && !signal.aborted) {
+        await sleep(Math.min(e.retryAfterMs || 800 + Math.random() * 1200, 8000), signal);
+        return (await caps.mcp.callTool(DRIVE, tool, input, { signal: signal })).payload;
+      }
+      throw e;
+    }
+  }
+  async function pool(tasks, n) {
+    var i = 0;
+    async function worker() { while (i < tasks.length) { var t = tasks[i++]; await t(); } }
+    var ws = [];
+    for (var k = 0; k < Math.min(n, tasks.length); k++) ws.push(worker());
+    await Promise.all(ws);
+  }
+  function unescapeMd(s) { return String(s || "").replace(/\\([\\`*_{}\[\]()#+\-.!&<>|~])/g, "$1"); }
+  function snippetTitle(snip) {
+    var lines = unescapeMd(snip).split("\n");
+    for (var i = 0; i < lines.length; i++) {
+      var l = lines[i].trim();
+      if (l.indexOf("# ") === 0) return l.slice(2).trim();
+      if (l) return "";
+    }
+    return "";
+  }
+  async function searchDrive(queries, signal, onProgress) {
+    var hits = new Map();
+    var fatal = null;
+    var nq = queries.length;
+    function add(f, terms, qi) {
+      if (!f || !f.id) return;
+      var h = hits.get(f.id);
+      if (!h) { h = { id: f.id, viewUrl: f.viewUrl || "", snippet: f.contentSnippet || "", score: 0, qs: {} }; hits.set(f.id, h); }
+      if (h.qs[qi]) return;
+      h.qs[qi] = 1;
+      h.score += (1 + (nq - qi) / nq) * terms.length;
+      if (!h.snippet && f.contentSnippet) h.snippet = f.contentSnippet;
+    }
+    var tasks = queries.map(function (terms, qi) {
+      return async function () {
+        var token = null, pages = 0;
+        do {
+          if (fatal || signal.aborted) return;
+          var input = { query: driveQuery(terms), pageSize: 40, snippetVerbosity: "BRIEF" };
+          if (token) input.pageToken = token;
+          var payload;
+          try { payload = await callDrive("search_files", input, signal); }
+          catch (e) { if (e && FATAL[e.code]) fatal = fatal || e; return; }
+          var files = payload && Array.isArray(payload.files) ? payload.files : [];
+          files.forEach(function (f) { add(f, terms, qi); });
+          token = payload && payload.nextPageToken;
+          pages++;
+          onProgress(hits.size);
+        } while (token && pages < 2);
+      };
+    });
+    // first query alone: the first Drive call may show the consent prompt
+    if (tasks.length) await tasks[0]();
+    if (!fatal) await pool(tasks.slice(1), 4);
+    if (signal.aborted) throw { where: "drive", code: "cancelled" };
+    if (fatal) throw tagged(fatal, "drive");
+    var list = Array.from(hits.values());
+    list.forEach(function (h) {
+      h.title = snippetTitle(h.snippet);
+      queries.forEach(function (q) { q.forEach(function (t) { if (h.title && h.title.indexOf(t) >= 0) h.score += 1.5; }); });
+    });
+    list.sort(function (a, b) { return b.score - a.score; });
+    return list;
+  }
+
+  // ----------------------------------------------------- 3. read cases
+  function b64ToText(b64) {
+    var bin = atob(String(b64 || "").replace(/\s+/g, ""));
+    var bytes = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return new TextDecoder("utf-8").decode(bytes);
+  }
+  function parseArticle(md) {
+    md = String(md || "").replace(/\r\n/g, "\n").replace(/[\u200b\ufeff]/g, "").replace(/\n{3,}/g, "\n\n");
+    var lines = md.split("\n");
+    function meta(k) {
+      for (var i = 0; i < Math.min(lines.length, 12); i++) {
+        if (lines[i].indexOf("- " + k + ":") === 0) return lines[i].slice(k.length + 3).trim();
+      }
+      return "";
+    }
+    var titleLine = lines.find(function (l) { return l.indexOf("# ") === 0; }) || "";
+    var url = meta("원문");
+    var sep = md.indexOf("\n---\n");
+    var rest = sep >= 0 ? md.slice(sep + 5) : md;
+    var cm = rest.match(/\n## 댓글 \((\d+)개\)\n?/);
+    var body = rest, comments = "";
+    if (cm) { body = rest.slice(0, cm.index); comments = rest.slice(cm.index + cm[0].length); }
+    var im = body.indexOf("\n## 첨부 이미지");
+    if (im >= 0) body = body.slice(0, im);
+    return {
+      title: titleLine.slice(2).trim(), writer: meta("작성자"), date: meta("날짜"), url: url,
+      board: meta("게시판") || ((url.match(/menuid=(\d+)/) || [])[1] || ""),
+      body: body.trim(), comments: comments.trim(), ncom: cm ? +cm[1] : 0
+    };
+  }
+  async function readCases(picked, signal) {
+    var out = new Array(picked.length);
+    var fatal = null;
+    await pool(picked.map(function (h, i) {
+      return async function () {
+        if (fatal || signal.aborted) return;
+        var c = null;
+        try {
+          var payload = await callDrive("download_file_content", { fileId: h.id }, signal);
+          if (payload && payload.content) c = parseArticle(b64ToText(payload.content));
+        } catch (e) {
+          if (e && FATAL[e.code]) { fatal = fatal || e; return; }
+        }
+        if (!c || (!c.title && !c.body)) c = parseArticle(unescapeMd(h.snippet));
+        c.viewUrl = h.viewUrl;
+        if (!c.title) c.title = h.title || "(제목 없음)";
+        out[i] = c;
+      };
+    }), 4);
+    if (signal.aborted) throw { where: "drive", code: "cancelled" };
+    if (fatal) throw tagged(fatal, "drive");
+    return out.filter(Boolean);
+  }
+
+  // -------------------------------------------------- 4. ask Claude
+  function clip(s, n) { s = String(s || "").trim(); return s.length > n ? s.slice(0, n) + " …(생략)" : s; }
+  function buildPrompt(p, cases) {
+    var blocks = cases.map(function (c, i) {
+      var head = "[" + (i + 1) + "] " + c.title + " | 게시판 " + (c.board || "?") + " | " + (c.date || "날짜 모름") + " | 댓글 " + c.ncom + "개";
+      return head + "\n본문:\n" + clip(c.body, 1600) + "\n" + (c.comments ? "댓글:\n" + clip(c.comments, 2200) : "(댓글 없음)");
+    }).join("\n\n----\n\n");
+    return [
+      "너는 FBT(Functional Balance Treatment)를 하는 의사를 돕는 임상 참고 도구다.",
+      "아래 [카페 사례]는 의사들이 모인 FBT 네이버 카페의 글(본문 + 댓글)이다. 이 사례들만 근거로, [환자 정보]의 환자에게 고려할 치료 후보를 정리하라.",
+      "",
+      "규칙",
+      "- 근거는 아래 사례에서만 찾는다. 문장마다 근거 사례 번호를 [1], [2, 5]처럼 붙인다.",
+      "- 사례에 없는 치료법·치료점·약물·용량을 지어내지 않는다. 근거가 약하거나 사례가 이 환자와 잘 맞지 않으면 그렇다고 쓴다.",
+      "- 치료점, 자세, 주사 부위·약물·용량, 간격·횟수 같은 구체적 내용은 사례에 나온 그대로 옮긴다.",
+      "- 댓글에서 경험 많은 회원의 답변은 무게 있게 다루고, 사견이라고 밝힌 의견은 그렇게 표시한다.",
+      "- 환자 정보에 먼저 배제해야 할 위험 신호(외상, 발열, 체중 감소, 진행하는 신경 증상, 안정 시·야간 통증, 암 병력 등)가 보이면 맨 앞 '먼저 확인할 것'에 한두 줄 적는다. 없으면 그 절은 빼라.",
+      "- 한국어로, 진료 중에 빨리 읽을 수 있게 짧게 쓴다.",
+      "",
+      "출력 형식 (마크다운, 이 순서)",
+      "### 먼저 확인할 것   (위험 신호가 있을 때만)",
+      "### 한눈에 보기",
+      "2~3문장: 비슷한 사례들이 이 증상을 어떻게 보고 어디를 치료했는지.",
+      "### 치료 후보",
+      "1. **치료 이름** (근거 n건) — 무엇을, 어디에, 어떻게 [번호]",
+      "   - 비슷한 사례의 경과·결과 [번호]",
+      "   - 간격·횟수 [번호]  (사례에 있을 때만)",
+      "근거 많은 순서로 2~4개.",
+      "### 주의할 점",
+      "- 사례에서 언급된 부작용, 잘 안 된 경우, 감별할 점 [번호]",
+      "### 근거가 된 사례",
+      "- [번호] 한 줄 요약 (이 환자와 닮은 점)",
+      "",
+      "[환자 정보]",
+      patientText(p),
+      p.question ? "\n[궁금한 점]\n" + p.question : "",
+      "",
+      "[카페 사례 " + cases.length + "건]",
+      blocks
+    ].join("\n");
+  }
+
+  // ---------------------------------------------------------- render
+  function showResultShell(p, queries) {
+    $("#ptSummary").textContent = chartLabel(p);
+    var chips = $("#chips");
+    chips.textContent = "";
+    queries.forEach(function (q) {
+      var s = document.createElement("span");
+      s.className = "chip"; s.textContent = q.join(" + ");
+      chips.appendChild(s);
+    });
+    $("#answer").textContent = "";
+    $("#truncNote").hidden = true; $("#answerTools").hidden = true; $("#copyMsg").textContent = "";
+    $("#result").hidden = false;
+  }
+  function safeLink(href, prefixes) {
+    href = String(href || "");
+    for (var i = 0; i < prefixes.length; i++) if (href.indexOf(prefixes[i]) === 0) return href;
+    return "";
+  }
+  function renderSources(cases) {
+    var ol = $("#sources");
+    ol.textContent = "";
+    cases.forEach(function (c, i) {
+      var li = document.createElement("li");
+      li.className = "src"; li.id = "src-" + (i + 1);
+      var n = document.createElement("span"); n.className = "n"; n.textContent = "[" + (i + 1) + "]";
+      var t = document.createElement("span"); t.className = "t"; t.textContent = c.title;
+      var m = document.createElement("span"); m.className = "m";
+      m.textContent = ["게시판 " + (c.board || "?"), c.date || "", "댓글 " + c.ncom].filter(Boolean).join(" · ");
+      var links = document.createElement("span"); links.className = "links";
+      var cafe = safeLink(c.url, ["https://cafe.naver.com/"]);
+      var drv = safeLink(c.viewUrl, ["https://drive.google.com/", "https://docs.google.com/"]);
+      if (cafe) links.appendChild(link(cafe, "카페 원문"));
+      if (drv) links.appendChild(link(drv, "드라이브 사본"));
+      li.append(n, t, m, links);
+      ol.appendChild(li);
+    });
+    $("#srcTitle").textContent = "근거 글 " + cases.length + "건";
+    $("#srcPanel").hidden = false;
+  }
+  function link(href, text) {
+    var a = document.createElement("a");
+    a.href = href; a.textContent = text; a.target = "_blank"; a.rel = "noopener noreferrer";
+    return a;
+  }
+
+  function esc(s) { return s.replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function inline(s, n) {
+    return esc(s)
+      .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+      .replace(/\[(\d{1,2}(?:\s*[,，\-–]\s*\d{1,2})*)\]/g, function (m, inner) {
+        var nums = [];
+        inner.split(/\s*[,，]\s*/).forEach(function (part) {
+          var r = part.split(/\s*[\-–]\s*/).map(Number);
+          if (r.length === 2 && r[0] <= r[1] && r[1] - r[0] < 12) { for (var k = r[0]; k <= r[1]; k++) nums.push(k); }
+          else nums.push(r[0]);
+        });
+        nums = nums.filter(function (x) { return x >= 1 && x <= n; });
+        if (!nums.length) return m;
+        return nums.map(function (x) { return '<a class="cite" href="#src-' + x + '" data-src="' + x + '">' + x + "</a>"; }).join("");
+      });
+  }
+  function md(text, n) {
+    var out = [], stack = [];
+    function closeTo(indent) {
+      while (stack.length && stack[stack.length - 1].indent > indent) {
+        var top = stack.pop(); out.push("</li></" + top.type + ">");
+      }
+    }
+    function closeAll() { closeTo(-1); }
+    String(text || "").replace(/\r\n/g, "\n").split("\n").forEach(function (raw) {
+      var line = raw.replace(/\t/g, "    ");
+      var h = line.match(/^\s*#{1,6}\s+(.*)$/);
+      var o = line.match(/^(\s*)(\d+)[.)]\s+(.*)$/);
+      var u = line.match(/^(\s*)[-*•]\s+(.*)$/);
+      if (h) {
+        closeAll();
+        var title = h[1].replace(/\s*\(.*?\)\s*$/, "").trim();
+        var cls = title.indexOf("먼저 확인") === 0 ? ' class="alert"' : "";
+        out.push("<h3" + cls + ">" + inline(title, n) + "</h3>");
+      } else if (o || u) {
+        var indent = (o ? o[1] : u[1]).length, type = o ? "ol" : "ul", body = o ? o[3] : u[2];
+        closeTo(indent);
+        var top = stack[stack.length - 1];
+        if (top && top.indent === indent) {
+          if (top.type !== type) { stack.pop(); out.push("</li></" + top.type + ">"); top = stack[stack.length - 1]; }
+          else out.push("</li>");
+        }
+        if (!top || top.indent < indent) { stack.push({ type: type, indent: indent }); out.push("<" + type + ">"); }
+        out.push("<li>" + inline(body, n));
+      } else if (!line.trim()) {
+        closeAll();
+      } else {
+        closeAll();
+        out.push("<p>" + inline(line.trim(), n) + "</p>");
+      }
+    });
+    closeAll();
+    return out.join("");
+  }
+  function renderAnswer(text, n) {
+    $("#answer").innerHTML = md(text, n);
+  }
+  $("#answer").addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest("a.cite");
+    if (!a) return;
+    e.preventDefault();
+    var el = document.getElementById("src-" + a.getAttribute("data-src"));
+    if (el) {
+      document.querySelectorAll(".src.on").forEach(function (x) { x.classList.remove("on"); x.style.background = ""; });
+      el.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "center" });
+      el.style.background = "var(--scrub-soft)"; el.classList.add("on");
+      setTimeout(function () { el.style.background = ""; el.classList.remove("on"); }, 2200);
+    }
+  });
+
+  // ---------------------------------------------------------- copy
+  function plainResult() {
+    var srcs = lastCases.map(function (c, i) { return "[" + (i + 1) + "] " + c.title + (c.url ? " — " + c.url : ""); }).join("\n");
+    return chartLabel(readForm()) + "\n\n" + lastAnswer + "\n\n근거 글\n" + srcs;
+  }
+  function copyResult() {
+    var text = plainResult();
+    var done = function () { $("#copyMsg").textContent = "복사했어요"; };
+    try {
+      navigator.clipboard.writeText(text).then(done, fallback);
+    } catch (e) { fallback(); }
+    function fallback() {
+      var ta = document.createElement("textarea");
+      ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      var ok = false;
+      try { ok = document.execCommand("copy"); } catch (e2) { ok = false; }
+      document.body.removeChild(ta);
+      $("#copyMsg").textContent = ok ? "복사했어요" : "복사가 안 돼요. 결과를 길게 눌러 직접 선택해주세요.";
+    }
+  }
+
+  // --------------------------------------------------------- errors
+  function hideError() { $("#error").hidden = true; $("#error").textContent = ""; }
+  function showError(title, msg, retry) {
+    var el = $("#error");
+    el.textContent = "";
+    var s = document.createElement("strong"); s.textContent = title;
+    var t = document.createElement("span"); t.textContent = msg;
+    el.append(s, t);
+    if (retry) {
+      var b = document.createElement("button"); b.type = "button"; b.textContent = "다시 찾기";
+      b.addEventListener("click", function () { $("#go").click(); });
+      el.appendChild(b);
+    }
+    el.hidden = false;
+  }
+  function handleError(err) {
+    var code = err && err.code;
+    if (code === "cancelled") {
+      ["kw", "search", "read", "think"].forEach(function (k) {
+        var li = document.querySelector('#steps li[data-k="' + k + '"]');
+        if (li && li.getAttribute("data-s") === "run") step(k, "fail", "멈췄어요");
+      });
+      if (err && err.text) renderAnswer(err.text, lastCases.length);
+      return;
+    }
+    document.querySelectorAll('#steps li[data-s="run"]').forEach(function (li) { li.setAttribute("data-s", "fail"); });
+    if (err && err.text && lastCases.length) { renderAnswer(err.text, lastCases.length); $("#answerTools").hidden = false; lastAnswer = err.text; }
+    var drive = err && err.where === "drive";
+    var M = {
+      server_not_connected: ["Google Drive가 연결돼 있지 않아요", "claude.ai 설정 → 커넥터에서 Google Drive를 추가한 뒤 다시 찾아주세요."],
+      needs_reauth: ["Google Drive 연결이 만료됐어요", "claude.ai 설정 → 커넥터에서 Google Drive를 다시 연결해주세요."],
+      selection_required: ["Google Drive 연결을 골라주세요", "연결이 여러 개예요. 화면에 뜬 선택 창에서 하나를 고른 뒤 다시 찾아주세요."],
+      not_in_manifest: ["Google Drive 사용이 허용되지 않았어요", "이 도구의 권한 메뉴에서 Google Drive를 허용한 뒤 다시 찾아주세요."],
+      approval_required: ["Google Drive 사용 허용이 필요해요", "다시 찾기를 누르면 허용 창이 떠요."],
+      blocked_by_policy: ["조직 정책으로 막혀 있어요", "이 계정에서는 이 도구가 Google Drive를 쓸 수 없어요."],
+      not_granted: [drive ? "허용되지 않았어요" : "Claude 사용이 허용되지 않았어요", "페이지를 새로 열고 허용 창에서 허용을 눌러주세요."],
+      sampling_disabled: ["이 계정에서는 Claude 정리를 쓸 수 없어요", "조직 설정을 확인해주세요."],
+      rate_limited: ["잠시 쉬었다가 해주세요", "Claude 사용량이 많아요. 조금 뒤 다시 찾아주세요."],
+      session_expired: ["다시 로그인해주세요", "claude.ai 로그인이 풀렸어요."],
+      refused: ["Claude가 이 요청을 정리하지 않았어요", "증상과 궁금한 점을 조금 다르게 적어 다시 찾아주세요."],
+      prompt_too_large: ["사례 글이 너무 길어요", "꼼꼼히 정리를 끄고 다시 찾아주세요."],
+      empty_completion: ["정리 결과가 비었어요", "다시 찾아주세요."],
+      server_unavailable: ["Google Drive가 잠시 응답하지 않아요", "조금 뒤 다시 찾아주세요."],
+      tool_error: ["드라이브 검색이 실패했어요", (err && err.message) || "조금 뒤 다시 찾아주세요."]
+    };
+    var m = M[code] || [drive ? "드라이브를 읽다가 문제가 생겼어요" : "정리하다가 문제가 생겼어요", "조금 뒤 다시 찾아주세요. (" + (code || "알 수 없음") + ")"];
+    var retry = code === "approval_required" || code === "server_unavailable" || code === "upstream_error" || code === "empty_completion" || !M[code];
+    showError(m[0], m[1], retry);
+  }
+})();
+</script>
