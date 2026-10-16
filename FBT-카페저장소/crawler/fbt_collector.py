@@ -368,35 +368,42 @@ def body_text_of(page):
         return ""
 
 
-def list_board(page, menu_id, index=None, early_stop=False):
-    """게시판 목록을 쪽마다 넘기며 글 번호를 모은다."""
-    base = f"https://cafe.naver.com/f-e/cafes/{CAFE_ID}/menus/{menu_id}?viewType=L"
-    ids, seen, prev, idle = [], set(), None, 0
-    for pg in range(1, MAX_PAGES + 1):
-        url = f"{base}&page={pg}"
+def page_article_ids(page, url):
+    """목록 한 쪽을 열어 글 번호들을 돌려준다. 끝내 안 열리면 None."""
+    for attempt in range(2):
         try:
             page.goto(url, wait_until="domcontentloaded", timeout=45000)
-        except Exception:
-            page.wait_for_timeout(5000)
-            try:
-                page.goto(url, wait_until="domcontentloaded", timeout=45000)
-            except Exception as e:
-                log(f"   (게시판 {menu_id} {pg}쪽이 안 열려서 여기까지만 확인: {str(e)[:80]})")
-                break
-        page.wait_for_timeout(2200)
-        page_ids = []
-        for a in page.query_selector_all('a[href*="/articles/"]'):
-            m = re.search(r"/articles/(\d+)", a.get_attribute("href") or "")
-            if m:
-                page_ids.append(m.group(1))
-        page_ids = list(dict.fromkeys(page_ids))
-        if not page_ids:
-            if pg == 1:
-                text = body_text_of(page)
-                if any(w in text for w in BLOCK_WORDS):
-                    raise Blocked(text[:120].replace("\n", " "))
             break
-        if page_ids == prev:
+        except Exception:
+            if attempt:
+                return None
+            page.wait_for_timeout(5000)
+    page.wait_for_timeout(2200)
+    ids = []
+    for a in page.query_selector_all('a[href*="/articles/"]'):
+        m = re.search(r"/articles/(\d+)", a.get_attribute("href") or "")
+        if m:
+            ids.append(m.group(1))
+    return list(dict.fromkeys(ids))
+
+
+def list_board(page, menu_id, index=None, early_stop=False):
+    """게시판 목록을 쪽마다 넘기며 글 번호를 모은다."""
+    root = f"https://cafe.naver.com/f-e/cafes/{CAFE_ID}/menus/{menu_id}"
+    base = root + "?viewType=L&page="
+    ids, seen, prev, idle = [], set(), None, 0
+    for pg in range(1, MAX_PAGES + 1):
+        page_ids = page_article_ids(page, base + str(pg))
+        if page_ids is None:
+            log(f"   (게시판 {menu_id} {pg}쪽이 안 열려서 여기까지만 확인)")
+            break
+        if not page_ids and pg == 1:
+            text = body_text_of(page)
+            if any(w in text for w in BLOCK_WORDS):
+                raise Blocked(text[:120].replace("\n", " "))
+            base = root + "?page="      # 목록형 주소로 안 나오면 기본 주소로 다시
+            page_ids = page_article_ids(page, base + "1") or []
+        if not page_ids or page_ids == prev:
             break
         fresh = [i for i in page_ids if i not in seen]
         for i in fresh:
