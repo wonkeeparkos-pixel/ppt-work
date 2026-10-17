@@ -1,4 +1,5 @@
 <title>FBT 치료점 찾기</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-13 5 80 80' fill='none' stroke='%231d6a56' stroke-width='5'%3E%3Cpath d='M12 67V33a15 15 0 0 1 30 0v34'/%3E%3Ccircle cx='27' cy='67' r='15'/%3E%3Cpath d='M27 7.5v74.5'/%3E%3Cpath d='M5 44h44'/%3E%3C/svg%3E">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -171,12 +172,32 @@ details.panel[open] > summary { margin-bottom: 10px; }
 .src .t { font-weight: 600; overflow-wrap: anywhere; }
 .src .m, .src .p { grid-column: 2; font: 400 12.5px/1.5 var(--font-data); color: var(--ink-2); overflow-wrap: anywhere; }
 .src .links { grid-column: 2; display: flex; gap: 14px; flex-wrap: wrap; font-size: 13.5px; }
+
+/* brand */
+.brand { display: flex; align-items: center; gap: 18px; }
+.logo { height: 58px; width: auto; flex: none; color: var(--ink); }
+.brand-text { display: grid; gap: 4px; min-width: 0; padding-left: 18px; border-left: 1px solid var(--rule); }
+@media (max-width: 520px) { .logo { height: 44px; } .brand { gap: 14px; } .brand-text { padding-left: 14px; } }
+.top .lede { margin-top: 8px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.tag.fail { background: var(--danger-soft); color: var(--danger); }
+details.others { margin-top: 14px; border-top: 1px solid var(--rule); padding-top: 10px; }
+details.others > summary { cursor: pointer; font-size: 14px; color: var(--ink-2); padding: 4px 0; }
+details.others[open] > summary { margin-bottom: 6px; }
 </style>
 
 <header class="wrap top">
-  <p class="eyebrow">functionalbt 카페 · 13개 게시판 · 구글 드라이브</p>
-  <h1>FBT 치료점 찾기</h1>
-  <p class="lede">증상을 적으면 모아둔 카페 글에서 그 증상에 쓰인 치료점을 모두 모아 보여주고, 함께 쓰인 조합으로 치료 후보를 정리합니다.</p>
+  <div class="brand">
+    <svg class="logo" viewBox="2 6 138 80" fill="none" stroke="currentColor" role="img" aria-label="fbt">
+      <g stroke-width="4"><path d="M12 67V33a15 15 0 0 1 30 0v34"/><circle cx="27" cy="67" r="15"/><path d="M27 8v74"/><path d="M5 44h44"/></g>
+      <g stroke-width="5.5"><path d="M62.5 59.5V29.25A11.5 11.5 0 0 1 74 17.75h6"/><path d="M59.75 40H79"/><path d="M87.5 15v31.5"/><circle cx="100.5" cy="46.5" r="12.75"/><path d="M121 15v30a11 11 0 0 0 11 11h6"/><path d="M118.25 34.5H138"/></g>
+    </svg>
+    <div class="brand-text">
+      <p class="eyebrow">functionalbt 카페 · 13개 게시판 · 구글 드라이브</p>
+      <h1>치료점 찾기</h1>
+    </div>
+  </div>
+  <p class="lede">증상을 적으면 모아둔 카페 글 중 관련 글 24개(더 많이 찾기: 48개)를 읽어, 거기에 쓰인 치료점을 많이 쓰인 순서로 보여주고 함께 쓰인 조합으로 치료 후보를 정리합니다.</p>
 </header>
 
 <main class="wrap grid">
@@ -210,7 +231,7 @@ details.panel[open] > summary { margin-bottom: 10px; }
     </div>
     <div class="field">
       <label for="symptoms">증상</label>
-      <textarea id="symptoms" rows="5" placeholder="아픈 동작·자세, 압통 부위, 검사 소견(Patrick 등) 등">계단 내려갈 때와 쪼그려 앉을 때 무릎 앞쪽 통증. 슬개골 아래쪽 압통. 무릎 굽힘 끝에서 당김.</textarea>
+      <textarea id="symptoms" rows="5" placeholder="아픈 동작·자세, 악화·완화 요인, 아픈 곳 등">계단 내려갈 때와 쪼그려 앉을 때 무릎 앞쪽 통증. 슬개골 아래쪽 압통. 무릎 굽힘 끝에서 당김.</textarea>
     </div>
     <label class="check" for="deep"><input type="checkbox" id="deep"> <span>더 많이 찾기 (글 48개, 1~2분 더 걸려요)</span></label>
     <div class="actions">
@@ -221,17 +242,18 @@ details.panel[open] > summary { margin-bottom: 10px; }
     <p class="fine">이름·등록번호 같은 개인정보는 적지 마세요. 적은 내용은 이 화면에 저장되지 않고, 정리를 위해 Claude에게만 보내져요. 구글 드라이브 검색에는 검색어만 쓰입니다.</p>
   </form>
 
-  <section class="findings" aria-live="polite">
+  <section class="findings">
+    <p class="sr-only" id="status" aria-live="polite"></p>
     <div id="env" class="banner warn" hidden></div>
-    <div id="error" class="banner err" hidden></div>
+    <div id="error" class="banner err" role="alert" hidden></div>
 
     <div id="intro" class="panel">
       <h2>이렇게 찾아요</h2>
       <ol class="how">
-        <li>증상에서 검색어를 뽑아요. 부위·악화 동작·검사 소견과 카페에서 쓰는 한/영 약어까지 넣어요.</li>
-        <li>구글 드라이브에 모아둔 카페 글(본문 + 댓글)에서 관련 글 24개를 골라 읽어요.</li>
-        <li>글마다 실제로 치료한 치료점을 뽑아 합치고, 많이 쓰인 순서로 보여줘요. 검사 이름(Patrick 등)은 빼요.</li>
-        <li>함께 쓰인 치료점 조합으로 치료 후보를 정리해요. 번호를 누르면 근거 글로 갑니다.</li>
+        <li>증상에서 검색어를 뽑아요. 부위·악화 동작과 카페에서 쓰는 한/영 약어까지 넣어요.</li>
+        <li>구글 드라이브에 모아둔 카페 글(본문 + 댓글) 중 관련 글 24개를 읽어요. 더 많이 찾기를 고르면 48개예요.</li>
+        <li>글에서 실제로 치료한 치료점과 댓글에서 권한 치료점을 뽑아 합치고, 많이 쓰인 순서로 보여줘요. 검사 이름(Patrick 등)은 빼고, 효과가 없었다고 적힌 치료는 표시해요.</li>
+        <li>같은 글에서 함께 쓰인 치료점 조합으로 치료 후보를 정리해요. 번호를 누르면 근거 글로 가요.</li>
       </ol>
       <p class="fine" style="margin-top:12px">처음 한 번은 Google Drive와 Claude 사용을 허용하는 창이 떠요. 한 번 찾는 데 1~2분 걸려요.</p>
     </div>
@@ -249,24 +271,27 @@ details.panel[open] > summary { margin-bottom: 10px; }
 
     <div id="pointsPanel" class="panel" hidden>
       <p class="ptline" id="ptSummary"></p>
-      <div class="chips" id="chips" aria-label="쓴 검색어"></div>
-      <div class="panel-head" style="margin-top:18px">
+      <div class="panel-head">
         <h2 id="pointsTitle">가능한 치료점</h2>
         <span class="count" id="pointsCount"></span>
       </div>
       <ol class="points" id="points"></ol>
       <button type="button" class="more" id="morePoints" hidden></button>
+      <details class="others" id="otherPoints" hidden>
+        <summary id="otherTitle"></summary>
+        <ol class="points" id="points2"></ol>
+      </details>
       <p class="note" id="pointsNote" hidden></p>
+      <div class="answer-tools">
+        <button type="button" id="copy">결과 복사</button>
+        <span class="fine" id="copyMsg"></span>
+      </div>
+      <p class="fine" style="margin-top:10px">카페 글에서 모은 참고 자료예요. 치료 결정은 진료의 판단으로 하세요.</p>
     </div>
 
     <div id="result" class="panel" hidden>
       <div class="answer" id="answer"></div>
       <p class="note" id="truncNote" hidden>답이 길어서 중간에 끊겼어요. 증상을 좁혀서 다시 찾아보세요.</p>
-      <div class="answer-tools" id="answerTools" hidden>
-        <button type="button" id="copy">결과 복사</button>
-        <span class="fine" id="copyMsg"></span>
-      </div>
-      <p class="fine" style="margin-top:12px">카페 회원들의 사례와 의견을 모은 참고 자료예요. 치료 결정은 진료의 판단으로 하세요.</p>
     </div>
 
     <details id="srcPanel" class="panel" hidden>
@@ -285,11 +310,13 @@ details.panel[open] > summary { margin-bottom: 10px; }
     not_in_manifest: 1, blocked_by_policy: 1, approval_required: 1, not_granted: 1, capability_disabled: 1,
     capability_removed: 1, consent_required: 1, user_changed: 1, cancelled: 1, sampling_disabled: 1,
     not_declared: 1, session_expired: 1 };
+  var REL = ["다른 부위", "같은 부위", "같은 증상"];
 
   var $ = function (s) { return document.querySelector(s); };
   var caps = { mcp: null, sample: null, checked: false };
   var current = null;          // AbortController of the running search
-  var last = { p: null, cases: [], points: [], answer: "" };
+  var last = emptyLast();
+  function emptyLast() { return { p: null, cases: [], ex: null, answer: "" }; }
 
   // ---------------------------------------------------------------- setup
   $("#intake").addEventListener("input", function () { $("#exampleBadge").hidden = true; });
@@ -297,6 +324,8 @@ details.panel[open] > summary { margin-bottom: 10px; }
     ["#age", "#site", "#dur", "#symptoms"].forEach(function (s) { $(s).value = ""; });
     $("#sexM").checked = false; $("#sexF").checked = false;
     $("#exampleBadge").hidden = true;
+    clearResults();
+    $("#intro").hidden = false;
     $("#symptoms").focus();
   });
   $("#symptoms").addEventListener("keydown", function (e) {
@@ -305,6 +334,7 @@ details.panel[open] > summary { margin-bottom: 10px; }
   $("#intake").addEventListener("submit", onSubmit);
   $("#stop").addEventListener("click", function () { if (current) current.abort(); });
   $("#copy").addEventListener("click", copyResult);
+  $("#morePoints").addEventListener("click", function () { togglePoints($("#morePoints").getAttribute("data-all") !== "1"); });
 
   if (!window.claude || typeof window.claude.use !== "function") {
     caps.checked = true;
@@ -321,6 +351,14 @@ details.panel[open] > summary { margin-bottom: 10px; }
   }
 
   function showEnv(msg) { var el = $("#env"); el.textContent = msg; el.hidden = false; }
+  function say(msg) { $("#status").textContent = msg; }
+  function clearResults() {
+    hideError();
+    ["#progress", "#pointsPanel", "#result", "#srcPanel"].forEach(function (s) { $(s).hidden = true; });
+    $("#answer").textContent = ""; $("#points").textContent = ""; $("#points2").textContent = ""; $("#sources").textContent = "";
+    $("#copyMsg").textContent = "";
+    last = emptyLast();
+  }
 
   // ------------------------------------------------------------- reading
   function readForm() {
@@ -347,6 +385,7 @@ details.panel[open] > summary { margin-bottom: 10px; }
   }
 
   // --------------------------------------------------------------- steps
+  var STEP_NAMES = { kw: "검색어 만들기", search: "카페 글 검색", read: "글 읽기", extract: "치료점 모으기", think: "치료 후보 정리" };
   function stepsReset() {
     document.querySelectorAll("#steps li").forEach(function (li) {
       li.removeAttribute("data-s"); li.querySelector(".detail").textContent = "";
@@ -357,6 +396,7 @@ details.panel[open] > summary { margin-bottom: 10px; }
     if (!li) return;
     if (state) li.setAttribute("data-s", state);
     if (detail !== undefined) li.querySelector(".detail").textContent = detail;
+    if (state === "run") say(STEP_NAMES[k] + " 중");
   }
 
   // ---------------------------------------------------------------- run
@@ -377,11 +417,11 @@ details.panel[open] > summary { margin-bottom: 10px; }
 
     var ctl = new AbortController(); current = ctl;
     setBusy(true);
+    clearResults();
+    last.p = p;
     $("#intro").hidden = true; $("#progress").hidden = false; $("#progTitle").textContent = "찾는 중";
     if (matchMedia("(max-width: 880px)").matches) $("#progress").scrollIntoView({ block: "start" });
-    $("#pointsPanel").hidden = true; $("#result").hidden = true; $("#srcPanel").hidden = true;
     stepsReset();
-    last = { p: p, cases: [], points: [], answer: "" };
     var nRead = p.deep ? READ_DEEP : READ;
 
     try {
@@ -399,11 +439,12 @@ details.panel[open] > summary { margin-bottom: 10px; }
       var ranked = await searchDrive(kw.queries, ctl.signal, function (n) { step("search", null, n + "건 찾는 중"); });
       if (!ranked.length) {
         step("search", "fail", "관련 글을 찾지 못했어요");
+        $("#progTitle").textContent = "찾은 과정";
         showError("관련 글이 없어요", "부위나 증상을 다른 말로 적어보세요. 예: 무릎 → 슬관절, knee");
         return;
       }
       var picked = ranked.slice(0, nRead);
-      step("search", "done", ranked.length + "건 중 가까운 " + picked.length + "건");
+      step("search", "done", ranked.length + "건 중 관련 높은 " + picked.length + "건");
 
       step("read", "run", "본문과 댓글을 읽는 중");
       var cases = await readCases(picked, ctl.signal, function (k) { step("read", null, k + " / " + picked.length); });
@@ -413,21 +454,20 @@ details.panel[open] > summary { margin-bottom: 10px; }
       renderSources(cases, {});
 
       step("extract", "run", "글마다 치료점을 뽑는 중");
-      var ex = await extractPoints(p, cases, ctl.signal, function (d, t) { step("extract", null, "묶음 " + d + " / " + t); });
-      last.points = ex.points;
-      showPoints(p, kw.queries, ex, cases.length);
+      var ex = await extractPoints(p, cases, ctl.signal, function (d) { step("extract", null, "글 " + d + " / " + cases.length + " 정리"); });
+      last.ex = ex;
+      showPoints(p, ex);
       renderSources(cases, ex.info);
-      var withPts = Object.keys(ex.info).filter(function (k) { return ex.info[k].points.length; }).length;
-      step("extract", "done", "치료점 " + ex.points.length + "개 (글 " + withPts + "개에서)");
-      if (!ex.points.length) {
-        step("think", "fail", "모은 치료점이 없어 건너뜀");
+      step("extract", "done", "치료점 " + ex.main.length + "개 (관련 글 " + ex.relCases + "개)");
+      if (!ex.main.length) {
+        step("think", "fail", "관련 글에서 모은 치료점이 없어 건너뜀");
         $("#progTitle").textContent = "찾은 과정";
         return;
       }
 
       step("think", "run", "Claude가 정리하는 중 (보통 30초~1분)");
       $("#answer").innerHTML = '<p class="thinking">치료점 조합을 비교하는 중이에요…</p>';
-      $("#truncNote").hidden = true; $("#answerTools").hidden = true; $("#copyMsg").textContent = "";
+      $("#truncNote").hidden = true;
       $("#result").hidden = false;
       var res = await caps.sample(buildPrompt(p, cases, ex), {
         modelTier: p.deep ? "complex" : "default",
@@ -437,9 +477,9 @@ details.panel[open] > summary { margin-bottom: 10px; }
       last.answer = res.text;
       renderAnswer(res.text, cases.length);
       $("#truncNote").hidden = !res.truncated;
-      $("#answerTools").hidden = false;
       step("think", "done", "끝");
       $("#progTitle").textContent = "찾은 과정";
+      say("다 찾았어요. 치료점 " + ex.main.length + "개와 치료 후보를 정리했어요.");
     } catch (err) {
       handleError(err);
     } finally {
@@ -462,9 +502,8 @@ details.panel[open] > summary { margin-bottom: 10px; }
       "규칙",
       "- 이름, 등록번호, 연락처 같은 개인 식별 정보는 넣지 않는다.",
       "- 한 묶음은 같은 글에 함께 나와야 할 단어 1~2개. 단어는 짧게, 조사 없이.",
-      "- 7~10개 묶음. 부위, 증상 양상, 악화 동작, 검사 소견, 진단명을 고루 담는다.",
+      "- 7~10개 묶음. 부위, 증상 양상, 악화 동작, 진단명을 고루 담는다.",
       "- 카페 글은 한국어와 영어 약어를 섞어 쓴다(무릎/슬관절/knee, 허리/요통/LBP, 목/경추통, 어깨/오십견/shoulder, 발뒤꿈치/족저근막염, 손저림/CTS, 두통/headache 등). 동의어와 약어도 넣는다.",
-      "- 검사 이름(Patrick 등)보다 부위·증상·악화 동작 단어가 더 잘 찾힌다.",
       "- 가장 중요한 묶음을 먼저 둔다.",
       "",
       'JSON 하나로만 답한다: {"queries": [["무릎","계단"],["슬개골"],["knee"]]}',
@@ -536,7 +575,7 @@ details.panel[open] > summary { margin-bottom: 10px; }
   }
   async function searchDrive(queries, signal, onProgress) {
     var hits = new Map();
-    var fatal = null;
+    var fatal = null, lastErr = null, okCalls = 0;
     var nq = queries.length;
     function add(f, terms, qi) {
       if (!f || !f.id) return;
@@ -555,8 +594,8 @@ details.panel[open] > summary { margin-bottom: 10px; }
           var input = { query: driveQuery(terms), pageSize: 40, snippetVerbosity: "BRIEF" };
           if (token) input.pageToken = token;
           var payload;
-          try { payload = await callDrive("search_files", input, signal); }
-          catch (e) { if (e && FATAL[e.code]) fatal = fatal || e; return; }
+          try { payload = await callDrive("search_files", input, signal); okCalls++; }
+          catch (e) { if (e && FATAL[e.code]) fatal = fatal || e; else lastErr = e; return; }
           var files = payload && Array.isArray(payload.files) ? payload.files : [];
           files.forEach(function (f) { add(f, terms, qi); });
           token = payload && payload.nextPageToken;
@@ -570,6 +609,7 @@ details.panel[open] > summary { margin-bottom: 10px; }
     if (!fatal) await pool(tasks.slice(1), 4);
     if (signal.aborted) throw { where: "drive", code: "cancelled" };
     if (fatal) throw tagged(fatal, "drive");
+    if (!okCalls && lastErr) throw tagged(lastErr, "drive");   // Drive itself failed: not "no posts"
     var list = Array.from(hits.values());
     list.forEach(function (h) {
       h.title = snippetTitle(h.snippet);
@@ -642,37 +682,41 @@ details.panel[open] > summary { margin-bottom: 10px; }
       return "[" + c.n + "] " + c.title + "\n본문:\n" + clip(c.body, 2600) + "\n" + (c.comments ? "댓글:\n" + clip(c.comments, 2400) : "(댓글 없음)");
     }).join("\n\n----\n\n");
     return [
-      "너는 FBT 네이버 카페 글에서 치료점을 뽑는 도구다. 아래 [글]마다, 실제로 치료한 치료점과 댓글에서 치료하라고 제안한 치료점을 빠짐없이 뽑아라. 글에 실제로 적힌 것만 뽑고, 짐작해서 더하지 않는다.",
+      "너는 FBT 네이버 카페 글에서 치료점을 뽑는 도구다. 아래 [글]마다 실제로 치료한 치료점과, 댓글에서 새로 권한 치료점을 뽑아라. 글에 실제로 적힌 것만 뽑고 짐작해서 더하지 않는다.",
       "",
       "어디서 뽑나",
-      "- 치료 부분: 'Tx', '치료', 'HD :', 'FBT ;', '1차/2차', '1ST/2ND' 아래 목록, 검사 결과 뒤 '=>'나 '->' 다음에 적힌 이름, 'X 후 호전'처럼 문장 속에서 시행한 것. 이전 내원 때 한 치료도 넣는다.",
-      "- 검사(P/E, PEx)와 압통(Td) 줄에 나온 이름은 소견이므로 뽑지 않는다. 예: 'Td: Lt LIC +', 'Both U-C Td+'.",
-      "- 하지 않은 것(안하고, 빼고, 보류), 다음에 할 계획, 고찰에서 이론으로만 말한 것은 뽑지 않는다.",
-      "- 댓글에서 제안했거나 글쓴이가 댓글로 덧붙인 치료점은 from을 \"댓글\"로, 본문에서 시행한 것은 \"본문\"으로.",
+      "- 치료 부분: 'Tx', '치료', 'HD :', 'FBT ;', '1차/2차', '1ST/2ND' 아래 목록, 'X 후 호전'처럼 문장 속에서 시행한 것. 이전 내원 때 한 치료도 넣는다.",
+      "- 화살표(=>, ->): 앞이 검사·압통 소견이고 뒤가 이름이면 뒤를 뽑는다('Calf Td ++ => 좌측 CALF SAT' → CALF). 앞이 이름 목록이고 뒤가 경과면 앞을 뽑는다.",
+      "- 검사(P/E, PEx)와 압통(Td) 줄의 이름, 검사로 만지거나 눌러 본 부위(touch test 등)는 반응이 있든 없든 뽑지 않는다.",
+      "- 하지 않은 것(안하고, 빼고, 보류, 하고 싶었지만, 'X 대신 Y'의 X), 다음에 할 계획, 고찰에서 이론으로만 말한 것, 여러 치료점을 묶어 부른 말(체간 측벽, 전면부 등)은 뽑지 않는다.",
+      "- 댓글: 다른 회원이 이 환자에게 새로 권한 치료점('~해보시면', '~했어도 좋았을 것', '여기에 ~ 추가')만 from \"댓글\"로 뽑는다. 본문 치료를 다시 말한 것, 질문, 일반론은 뽑지 않는다.",
+      "- 글쓴이가 댓글에서 실제로 했다고 밝힌 치료점('기록에 빠졌네요', '이후 추가로 ~ 했습니다')은 from \"본문\".",
       "",
       "치료점이 아닌 것",
-      "- 검사 이름: Patrick, KHE, PGT, Apf·S-Apf, S-Air·S-Aer, S-Fir·S-Fer·P-Fir·P-Fer, P-KFT, GTFT·GTET (GTF는 치료점), N-F/E·Nex·NR·N-LF·N-OE, L-F/E·L-LF·L-OE, TR·ldTR, HAT·PAT·ldPAT·OAT, RST, WFT, FFT, SLR·SLRT, Glu, PST, LRT, Cozen, Tinel, Phalen.",
-      "- 소견·단위·점수: Td(압통), P&R, FB·HB, VAS, K-L, 각도, 영상 소견, 진단명.",
-      "- 기법 이름: HD, SAT, ccHD, V-FBT, KPC. 이름에서 떼어 method에 적는다. 예: 'UTZ HD' → UTZ (method HD), 'LSccHD' → LSCC (method HD).",
-      "- FBT가 아닌 처치: 신경차단술, MBB, ESWT, 트리암·리도카인·스테로이드 주사, 수액, 프롤로 약물 등. 치료점으로 넣지 말고 detail에만 적는다.",
+      "- 검사: Patrick, KHE, PGT, Apf·S-Apf, Air·Aer·S-Air·S-Aer, S-Fir·S-Fer·P-Fir·P-Fer, P-KFT, GTFT·GTET (GTF는 치료점), N-F/E·Nex·N.ext·NR·N-LF·N-OE, L-F/E·L-LF·L-OE, TR·ldTR, HAT·PAT·ldPAT·OAT, RST, WFT, FFT, SLR·SLRT, Glu, PST, LRT, touch test, Drop arm, Painful arc, Cozen, Tinel, Phalen.",
+      "- 소견·단위·점수: Td(압통), P&R, FB·HB, VAS, K-L, 각도, MskUS·영상 소견, 진단명.",
+      "- 기법·층 이름: HD, SAT, ccHD, V-FBT, KPC. 이름에서 뗀다. 'UTZ HD' → UTZ, 'LSccHD' → LSCC, 'CALF SAT' → CALF.",
+      "- FBT가 아닌 처치(신경차단술, MBB, ESWT, 트리암·리도카인·스테로이드 주사, 수액, 프롤로 약물 등)와 그 처치를 한 부위. 예: 'Lt TA, CALF의 ESWT 효과 없슴' → 뽑지 않고 detail에 적는다. PMBB는 FBT 치료점이다.",
       "",
       "이름 쓰는 법",
       "- 글에 쓰인 약어·이름 그대로, 영문은 대문자로, 띄어쓰기 없이. 한글 부위 이름도 치료점으로 쓰였으면 그대로 쓴다.",
-      "- 번호가 여러 개면 나눈다: ABC1,2 / ABC1.2 / ABC1+2 / ABC12 / ABC 1, 2 → ABC1, ABC2. 'ankle. 2.5' → ANKLE2, ANKLE5. A2·A3처럼 A+숫자는 ANKLE2·ANKLE3.",
-      "- 좌우(Rt, Lt, Both, (R), (L), (B), right, left, 우측, 좌측, 양측)는 이름 앞·뒤·괄호 어디에 있든 떼어 side에 적는다. 줄 앞의 좌우는 새 좌우가 나올 때까지 뒤 이름들에도 적용된다.",
-      "- L-C, U-C, M-C, A-S처럼 하이픈이 이름의 일부면 그대로 둔다. PM/LD, VL/BF는 하나로, UA/EOA처럼 따로 쓰이는 치료점은 나눈다.",
-      "- 괄호 속 세부 위치((mid), (distal 추가), (med포함) 등)는 이름에서 뺀다.",
-      "- 마크다운 escape(\\&, \\-, \\=\\>)는 풀어서 읽는다. 같은 글에서 여러 번 나와도 한 번만 적는다.",
+      "- 번호가 여러 개면 나눈다: ABC1,2 / ABC1.2 / ABC1+2 / ABC12 / ABC 1, 2 / ABC1(or 2) → ABC1, ABC2. 'ankle. 2.5' → ANKLE2, ANKLE5. A2·A3처럼 A+숫자는 ANKLE2·ANKLE3.",
+      "- '+'나 'and'로 이어진 이름은 나눈다(I&A의 &는 이름의 일부). 'I&A+A'의 +A는 ADDUCTOR.",
+      "- 좌우(Rt, Lt, Both, (R), (L), (B), right, left, 우측, 좌측, 양측)는 앞·뒤·괄호 어디에 있든 이름에서 뗀다.",
+      "- L-C, U-C, M-C, A-S처럼 하이픈이 이름의 일부면 그대로 둔다. PM/LD, VL/BF처럼 '/'로 묶인 이름은 하나로 두고, UA/EOA처럼 각각 따로 쓰이는 치료점만 나눈다.",
+      "- 위치 수식어((mid), (distal 추가), distal·proximal·주변·부위 등)는 뺀다. medial tibia, lateral thigh처럼 이름을 이루는 말은 둔다.",
+      "- 같은 글에서 여러 번 나와도 한 번만 적는다.",
       "",
       "그 밖의 칸",
-      "- method: 그 치료점에 적힌 기법. \"HD\", \"SAT\", \"V-FBT\" 중 하나, 적혀 있지 않으면 \"\".",
-      "- match: 그 글의 환자가 [환자 정보]와 얼마나 닮았는지. 2 = 부위와 증상이 모두 비슷, 1 = 부위만 비슷, 0 = 다름.",
-      "- finding: 그 치료점을 고른 이유가 된 증상·검사 소견 (40자 이내, 글에 있을 때만).",
+      "- method: 그 치료점에 HD나 V-FBT가 적혀 있으면 \"HD\"나 \"V-FBT\", 아니면 \"\".",
+      "- fail: 그 치료점 바로 뒤에 '효과 없음', '그래도 아프다'처럼 듣지 않았다고 적혔으면 true, 아니면 false.",
+      "- rel: 그 글이 [환자 정보]의 증상과 얼마나 관련 있는지. 2 = 같은 부위에 비슷한 증상, 1 = 같은 부위, 0 = 다른 부위.",
+      "- finding: 그 글 환자의 주요 증상·소견 (40자 이내).",
       "- result: 치료 후 경과 (40자 이내, 있을 때만). caution: 잘 안 됐거나 주의하라는 내용 (40자 이내, 있을 때만).",
       "- detail: 간격·횟수, FBT가 아닌 처치 같은 구체 내용 (60자 이내, 있을 때만).",
       "- 치료점이 없는 글도 cases에 넣고 points는 []로 둔다. n은 글 앞의 번호 그대로.",
       "",
-      'JSON 하나로만 답한다: {"cases":[{"n":1,"match":2,"finding":"","result":"","caution":"","detail":"","points":[{"name":"ABC1","side":"Rt","method":"HD","from":"본문"}]}]}',
+      'JSON 하나로만 답한다: {"cases":[{"n":1,"rel":2,"finding":"","result":"","caution":"","detail":"","points":[{"name":"ABC1","method":"HD","from":"본문","fail":false}]}]}',
       "",
       "[환자 정보]",
       patientText(p),
@@ -684,88 +728,154 @@ details.panel[open] > summary { margin-bottom: 10px; }
   async function extractPoints(p, cases, signal, onBatch) {
     var batches = [];
     for (var i = 0; i < cases.length; i += BATCH) batches.push(cases.slice(i, i + BATCH));
-    var results = new Array(batches.length);
-    var fatal = null, lastErr = null, failed = 0, done = 0;
-    await pool(batches.map(function (b, bi) {
+    var results = [];
+    var fatal = null, lastErr = null, done = 0;
+    await pool(batches.map(function (b) {
       return async function () {
         if (fatal || signal.aborted) return;
-        try {
-          results[bi] = await caps.sample.json(extractPrompt(p, b), { modelTier: "default", signal: signal });
-        } catch (e) {
+        var r = null;
+        try { r = await caps.sample.json(extractPrompt(p, b), { modelTier: "default", signal: signal }); }
+        catch (e) {
           if (e && FATAL[e.code]) { fatal = fatal || e; return; }
-          lastErr = e; failed += b.length;
+          lastErr = e;
         }
-        onBatch(++done, batches.length);
+        results.push({ r: r, ns: b.map(function (c) { return c.n; }) });
+        done += b.length;
+        onBatch(done);
       };
     }), 3);
     if (signal.aborted) throw { where: "claude", code: "cancelled" };
     if (fatal) throw tagged(fatal, "claude");
-    if (failed >= cases.length) throw tagged(lastErr && lastErr.code !== "invalid_json" ? lastErr : { code: "extract_failed" }, "claude");
-    var merged = mergePoints(results, cases.length);
-    merged.failed = failed;
+    var merged = mergePoints(results);
+    if (!Object.keys(merged.info).length) throw tagged(lastErr && lastErr.code !== "invalid_json" ? lastErr : { code: "extract_failed" }, "claude");
     return merged;
   }
 
-  var SIDE_PRE = /^(?:rt|lt|right|left|both|bil|bilat|bilateral|우측|좌측|양측|양쪽|오른쪽|왼쪽)(?:[\s.:)]+|$)/i;
-  var SIDE_POST = /(?:\s+(?:rt|lt|both|right|left)\.?|\s*\((?:r|l|b|rt|lt|both)\))$/i;
+  var SIDE_PRE = /^(?:\((?:r|l|b|rt|lt|both)\)|rt|lt|right|left|both|bil|bilat|bilateral|우측|좌측|양측|양쪽|오른쪽|왼쪽)(?:[\s.:)]+|$)/i;
+  var SIDE_POST = /(?:\s+(?:rt|lt|both|right|left|bil|bilat|bilateral|양측)\.?|\s*\((?:r|l|b|rt|lt|both)\))$/i;
+  // split what the model left joined: "MAA1,2" "ANKLE2.5" "AC1(or 2)" "UTZ + EOA"
+  function expandName(raw) {
+    var s = String(raw == null ? "" : raw).replace(/\\([&\-=>~#])/g, "$1").replace(/[＆]/g, "&");
+    var out = [];
+    s.split(/\s*\+\s*|\s+and\s+/i).forEach(function (part) {
+      var m = part.match(/^(.*?[A-Za-z가-힣])\s*(\d)((?:\s*(?:[,.\/]|\(?\s*or)\s*\d\)?)+)[,.\s]*$/i);
+      if (m) { out.push(m[1] + m[2]); (m[3].match(/\d/g) || []).forEach(function (d) { out.push(m[1] + d); }); }
+      else out.push(part);
+    });
+    return out;
+  }
   function cleanPoint(raw) {
-    var s = String(raw == null ? "" : raw).replace(/\\([&\-=>~#])/g, "$1").replace(/[＆]/g, "&").replace(/\s+/g, " ").trim();
+    var s = String(raw == null ? "" : raw).replace(/\s+/g, " ").trim();
     for (var k = 0; k < 2; k++) s = s.replace(SIDE_PRE, "").replace(SIDE_POST, "").trim();
+    var noParen = s.replace(/\s*\([^)]*\)$/, "").trim();     // "UTZ(lateral)" → UTZ
+    if (noParen) s = noParen;
     return s.replace(/^[#\-*•,.;:]+|[,.;:]+$/g, "").trim().slice(0, 30);
   }
-  // key used to merge spelling variants: case, spaces, dots and hyphens ignored (L-C = LC, G max = GMAX)
+  function squash(s) { return String(s || "").toUpperCase().replace(/[\s.\-·_\/]/g, ""); }
+  // key used to merge spelling variants: case, spaces, dots, hyphens and slashes ignored (L-C = LC, G max = GMAX)
   function normName(s) {
-    var k = String(s || "").toUpperCase().replace(/[\s.\-·_]/g, "");
+    var k = squash(s);
     k = k.replace(/(?:HD|SAT)$/, function (m, i) { return i >= 2 ? "" : m; });   // technique suffix: UTZHD → UTZ
     if (/^A[0-5]$/.test(k)) k = "ANKLE" + k.slice(1);                              // A2 → ANKLE2
-    k = k.replace(/^ANK([0-9])$/, "ANKLE$1").replace(/^GMX/, "GMAX");
-    return k;
+    return k.replace(/^ANK([0-9])$/, "ANKLE$1").replace(/^GMX/, "GMAX");
   }
   function str(v, n) { return typeof v === "string" ? v.trim().slice(0, n) : ""; }
   function methodOf(m) {
     m = String(m || "");
     if (/v-?fbt/i.test(m)) return "V-FBT";
-    if (/sat/i.test(m)) return "SAT";
     if (/hd/i.test(m)) return "HD";
     return "";
   }
-  function mergePoints(results, nCases) {
+  function isFail(v) { return v === true || v === "true" || /효과\s*없/.test(String(v || "")); }
+
+  function mergePoints(results) {
     var map = new Map(), info = {};
-    results.forEach(function (r) {
-      (r && Array.isArray(r.cases) ? r.cases : []).forEach(function (c) {
+    results.forEach(function (res) {
+      var ns = res.ns;
+      (res.r && Array.isArray(res.r.cases) ? res.r.cases : []).forEach(function (c) {
+        if (!c || typeof c !== "object") return;
         var n = Math.round(+c.n);
-        if (!(n >= 1 && n <= nCases) || info[n]) return;
-        var match = Math.max(0, Math.min(2, Math.round(+c.match) || 0));
-        var ci = info[n] = { match: match, finding: str(c.finding, 60), result: str(c.result, 60), caution: str(c.caution, 60), detail: str(c.detail, 90), points: [] };
+        if (ns.indexOf(n) < 0 || info[n]) return;          // only numbers that were in this batch
+        var rel = (c.rel === 0 || c.rel === "0") ? 0 : (+c.rel === 2 ? 2 : 1);
+        var ci = info[n] = { rel: rel, finding: str(c.finding, 60), result: str(c.result, 60), caution: str(c.caution, 60), detail: str(c.detail, 90),
+          body: [], comment: [], failed: [] };
         (Array.isArray(c.points) ? c.points : []).forEach(function (pt) {
-          var name = cleanPoint(typeof pt === "string" ? pt : pt && pt.name);
-          var key = normName(name);
-          if (!key || key.length > 24) return;
-          var e = map.get(key);
-          if (!e) { e = { key: key, name: name, variants: {}, cases: [], methods: {}, body: 0, comment: 0, match2: 0, score: 0 }; map.set(key, e); }
-          var disp = /[가-힣]/.test(name) ? name : name.toUpperCase().replace(/\s+/g, "");
-          e.variants[disp] = (e.variants[disp] || 0) + 1;
-          var m = methodOf(pt && pt.method);
-          if (m) e.methods[m] = (e.methods[m] || 0) + 1;
-          if (e.cases.indexOf(n) >= 0) return;
-          e.cases.push(n);
-          ci.points.push(key);
-          e.score += 1 + match;
-          if (match === 2) e.match2++;
-          if (pt && pt.from === "댓글") e.comment++; else e.body++;
+          var raw = typeof pt === "string" ? pt : pt && pt.name;
+          expandName(raw).forEach(function (one) {
+            var name = cleanPoint(one);
+            var key = normName(name);
+            if (!key || key.length < 2 || key.length > 24 || !/[A-Z가-힣]/.test(key)) return;
+            var e = map.get(key);
+            if (!e) { e = { key: key, variants: {}, cases: [], rel: [], same: 0, fail: 0, body: 0, comment: 0, methods: {} }; map.set(key, e); }
+            if (e.cases.indexOf(n) >= 0) return;            // count each post once
+            var disp = /[가-힣]/.test(name) ? name : name.toUpperCase().replace(/\s+/g, "");
+            e.variants[disp] = (e.variants[disp] || 0) + 1;
+            e.cases.push(n);
+            var m = methodOf(pt && pt.method);
+            if (m) e.methods[m] = (e.methods[m] || 0) + 1;
+            var fromComment = pt && pt.from === "댓글";
+            var failed = pt && isFail(pt.fail);
+            if (rel >= 1) {
+              e.rel.push(n);
+              if (rel === 2) e.same++;
+              if (fromComment) e.comment++; else e.body++;
+              if (failed) e.fail++;
+            }
+            (failed ? ci.failed : fromComment ? ci.comment : ci.body).push(key);
+          });
         });
       });
     });
-    var list = Array.from(map.values());
-    list.forEach(function (e) {
+    var all = Array.from(map.values());
+    all.forEach(function (e) {
       e.cases.sort(function (a, b) { return a - b; });
+      e.rel.sort(function (a, b) { return a - b; });
       // most common spelling that matches the merge key (UTZ over UTZHD, ANKLE2 over A2); else the key itself
-      var plain = Object.keys(e.variants).filter(function (v) { return v.toUpperCase().replace(/[\s.\-·_]/g, "") === e.key; });
+      var plain = Object.keys(e.variants).filter(function (v) { return squash(v) === e.key; });
       e.name = plain.sort(function (a, b) { return e.variants[b] - e.variants[a] || a.length - b.length; })[0] || e.key;
     });
-    Object.keys(info).forEach(function (n) { info[n].points = info[n].points.map(function (k) { return map.get(k).name; }); });
-    list.sort(function (a, b) { return b.score - a.score || b.cases.length - a.cases.length || a.name.localeCompare(b.name); });
-    return { points: list, info: info };
+    Object.keys(info).forEach(function (n) {
+      ["body", "comment", "failed"].forEach(function (f) { info[n][f] = info[n][f].map(function (k) { return map.get(k).name; }); });
+    });
+    var byCount = function (a, b) { return b.rel.length - a.rel.length || b.same - a.same || a.fail - b.fail || a.name.localeCompare(b.name); };
+    var main = all.filter(function (e) { return e.rel.length; }).sort(byCount);
+    var other = all.filter(function (e) { return !e.rel.length; }).sort(function (a, b) { return b.cases.length - a.cases.length || a.name.localeCompare(b.name); });
+    var seen = Object.keys(info).length;
+    var total = results.reduce(function (s, r) { return s + r.ns.length; }, 0);
+    var relCases = Object.keys(info).filter(function (n) { return info[n].rel >= 1; }).length;
+    return { main: main, other: other, info: info, map: map, relCases: relCases, failed: total - seen, combos: combos(info, map) };
+  }
+  // treatment-point sets that were used together in the body of the same related post
+  function combos(info, map) {
+    var counts = new Map();
+    Object.keys(info).forEach(function (n) {
+      var ci = info[n];
+      if (ci.rel < 1) return;
+      var names = ci.body.slice(0, 8).sort();
+      function add(set) {
+        var k = set.join(" + ");
+        var c = counts.get(k) || { names: set, cases: [], same: 0 };
+        c.cases.push(+n); if (ci.rel === 2) c.same++;
+        counts.set(k, c);
+      }
+      for (var i = 0; i < names.length; i++) for (var j = i + 1; j < names.length; j++) {
+        add([names[i], names[j]]);
+        for (var k = j + 1; k < names.length; k++) add([names[i], names[j], names[k]]);
+      }
+    });
+    // sets backed by exactly the same posts collapse into one: the points those posts share
+    var groups = new Map();
+    counts.forEach(function (c) {
+      if (c.cases.length < 2) return;
+      c.cases.sort(function (a, b) { return a - b; });
+      var g = groups.get(c.cases.join());
+      if (!g) groups.set(c.cases.join(), g = { names: [], cases: c.cases, same: c.same });
+      c.names.forEach(function (x) { if (g.names.indexOf(x) < 0) g.names.push(x); });
+    });
+    var list = Array.from(groups.values());
+    list.forEach(function (g) { g.names.sort(); });
+    list.sort(function (a, b) { return b.same - a.same || b.cases.length - a.cases.length || b.names.length - a.names.length; });
+    return list.slice(0, 15);
   }
   function methodsText(e) {
     return Object.keys(e.methods).sort(function (a, b) { return e.methods[b] - e.methods[a]; })
@@ -773,7 +883,7 @@ details.panel[open] > summary { margin-bottom: 10px; }
   }
   function whyOf(e, info) {
     var seen = {}, out = [];
-    e.cases.slice().sort(function (a, b) { return ((info[b] || {}).match || 0) - ((info[a] || {}).match || 0); }).forEach(function (n) {
+    e.rel.slice().sort(function (a, b) { return info[b].rel - info[a].rel; }).forEach(function (n) {
       var f = info[n] && info[n].finding;
       if (f && !seen[f] && out.length < 2) { seen[f] = 1; out.push(f); }
     });
@@ -782,26 +892,31 @@ details.panel[open] > summary { margin-bottom: 10px; }
 
   // -------------------------------------------------- 5. ask Claude
   function buildPrompt(p, cases, ex) {
-    var top = ex.points.slice(0, 40).map(function (e) {
-      return "- " + e.name + " | 글 " + e.cases.length + "개 [" + e.cases.join(", ") + "]" +
-        (methodsText(e) ? " | " + methodsText(e) : "") + " | 닮은 환자 " + e.match2 + (e.comment ? " | 댓글 제안 " + e.comment : "");
+    var points = ex.main.slice(0, 40).map(function (e) {
+      return "- " + e.name + " | 글 " + e.rel.length + "개 [" + e.rel.join(", ") + "]" + (e.same ? " | 같은 증상 " + e.same : "") +
+        (methodsText(e) ? " | " + methodsText(e) : "") + (e.fail ? " | 효과 없음 " + e.fail : "") + (e.comment ? " | 댓글 제안 " + e.comment : "");
     }).join("\n");
+    var combosText = ex.combos.map(function (c) {
+      return "- " + c.names.join(" + ") + " | 글 " + c.cases.length + "개 [" + c.cases.join(", ") + "]" + (c.same ? " | 같은 증상 " + c.same : "");
+    }).join("\n") || "(두 글 이상에서 함께 쓰인 조합 없음)";
     var summaries = cases.map(function (c) {
       var ci = ex.info[c.n];
-      if (!ci || !ci.points.length) return "";
-      return "[" + c.n + "] " + c.title + " | 닮음 " + ci.match +
-        (ci.finding ? " | 소견: " + ci.finding : "") + " | 치료점: " + ci.points.join(", ") +
-        (ci.result ? " | 결과: " + ci.result : "") + (ci.detail ? " | 방법: " + ci.detail : "") +
-        (ci.caution ? " | 주의: " + ci.caution : "");
+      if (!ci || ci.rel < 1 || !(ci.body.length || ci.comment.length || ci.failed.length)) return "";
+      return "[" + c.n + "] " + c.title + " | " + REL[ci.rel] + (ci.finding ? " | 증상: " + ci.finding : "") +
+        (ci.body.length ? " | 치료점: " + ci.body.join(", ") : "") + (ci.comment.length ? " | 댓글 제안: " + ci.comment.join(", ") : "") +
+        (ci.failed.length ? " | 효과 없음: " + ci.failed.join(", ") : "") + (ci.result ? " | 결과: " + ci.result : "") +
+        (ci.detail ? " | 방법: " + ci.detail : "") + (ci.caution ? " | 주의: " + ci.caution : "");
     }).filter(Boolean).join("\n");
     return [
       "너는 FBT 치료점을 고르는 의사를 돕는 임상 참고 도구다.",
-      "아래는 FBT 네이버 카페 글 " + cases.length + "개에서 뽑은 [치료점 목록]과 [글별 요약]이다. 이것만 근거로 [환자 정보]의 환자에게 고려할 치료 후보를 정리하라.",
+      "아래는 FBT 네이버 카페 글 " + cases.length + "개 중 이 증상과 관련된 글에서 뽑은 자료다. 이것만 근거로 [환자 정보]의 환자에게 고려할 치료 후보를 정리하라.",
       "",
       "규칙",
-      "- 근거는 아래 자료에서만 찾는다. 문장마다 글 번호를 [3], [2, 5]처럼 붙인다.",
-      "- 치료점 이름은 [치료점 목록]에 있는 그대로 쓴다. 목록에 없는 치료점·약물·용량을 지어내지 않는다.",
-      "- 치료 후보는 실제 글에서 함께 쓰인 치료점 조합으로 묶는다. 이 환자와 닮은 글(닮음 2)에서 쓰인 조합을 앞에 둔다.",
+      "- 근거는 아래 자료에서만 찾는다. '치료 후보'와 '주의할 점'의 문장마다 글 번호를 [3], [2, 5]처럼 붙인다. '먼저 확인할 것'에는 글 번호를 붙이지 않는다.",
+      "- 치료 후보는 [함께 쓰인 조합]에서 고르고, 글 수와 글 번호를 그대로 옮긴다. 조합이 모자라면 [글별 요약]에서 한 글의 치료점 조합을 '(글 1개)'로 쓴다.",
+      "- 순서: 같은 증상 글에서 쓰인 조합을 먼저, 그 안에서는 글 수가 많은 순서로 2~4개.",
+      "- 치료점 이름은 자료에 있는 그대로 쓴다. 자료에 없는 치료점·약물·용량을 지어내지 않는다.",
+      "- '효과 없음'으로 적힌 치료점은 후보에 넣지 말고 주의할 점에 쓴다. 댓글에서만 권한 치료점은 '댓글 제안'이라고 밝힌다.",
       "- 근거가 약하거나 이 환자와 잘 맞지 않으면 그렇다고 쓴다.",
       "- 환자 정보에 먼저 배제해야 할 위험 신호(외상, 발열, 체중 감소, 진행하는 신경 증상, 안정 시·야간 통증, 암 병력 등)가 보이면 맨 앞 '먼저 확인할 것'에 한두 줄 적는다. 없으면 그 절은 빼라.",
       "- 한국어로, 진료 중에 빨리 읽을 수 있게 짧게 쓴다.",
@@ -812,17 +927,19 @@ details.panel[open] > summary { margin-bottom: 10px; }
       "1. **치료점A + 치료점B** (글 n개) — 어떤 증상·소견일 때 쓰였는지 [번호]",
       "   - 결과 [번호]",
       "   - 방법·간격·횟수 [번호]  (자료에 있을 때만)",
-      "근거 많은 순서로 2~4개.",
       "### 주의할 점",
-      "- 잘 안 된 경우, 부작용, 감별할 점 [번호]  (자료에 있을 때만, 없으면 이 절은 빼라)",
+      "- 효과가 없었던 치료, 잘 안 된 경우, 부작용, 감별할 점 [번호]  (자료에 있을 때만, 없으면 이 절은 빼라)",
       "",
       "[환자 정보]",
       patientText(p),
       "",
-      "[치료점 목록] (많이 쓰인 순)",
-      top,
+      "[치료점 목록] (관련 글에서 많이 쓰인 순)",
+      points,
       "",
-      "[글별 요약]",
+      "[함께 쓰인 조합] (관련 글 본문에서 같은 글에 함께 쓰인 치료점, 글 2개 이상)",
+      combosText,
+      "",
+      "[글별 요약] (관련 글만)",
       summaries
     ].join("\n");
   }
@@ -838,32 +955,29 @@ details.panel[open] > summary { margin-bottom: 10px; }
     if (nums.length > max) frag.appendChild(document.createTextNode(" +" + (nums.length - max)));
     return frag;
   }
-  function showPoints(p, queries, ex, nCases) {
+  function showPoints(p, ex) {
     $("#ptSummary").textContent = [chartLabel(p), p.symptoms ? clip(p.symptoms, 60) : ""].filter(Boolean).join(" · ");
-    var chips = $("#chips");
-    chips.textContent = "";
-    queries.forEach(function (q) {
-      var s = document.createElement("span");
-      s.className = "chip"; s.textContent = q.join(" + ");
-      chips.appendChild(s);
-    });
-    var list = ex.points;
-    $("#pointsTitle").textContent = "가능한 치료점 " + list.length + "개";
-    $("#pointsCount").textContent = "읽은 글 " + nCases + "개 기준 · 많이 쓰인 순";
+    $("#pointsTitle").textContent = "가능한 치료점 " + ex.main.length + "개";
+    $("#pointsCount").textContent = "관련 글 " + ex.relCases + "개 기준 · 많이 쓰인 순";
     var ol = $("#points");
     ol.textContent = "";
-    var max = list.reduce(function (m, e) { return Math.max(m, e.cases.length); }, 1);
-    list.forEach(function (e, i) { ol.appendChild(pointRow(e, i, max, ex.info)); });
-    if (!list.length) {
+    var max = ex.main.reduce(function (m, e) { return Math.max(m, e.rel.length); }, 1);
+    ex.main.forEach(function (e, i) { ol.appendChild(pointRow(e, i, max, ex.info, true)); });
+    if (!ex.main.length) {
       var li = document.createElement("li");
-      li.className = "empty"; li.textContent = "읽은 글에서 치료점을 찾지 못했어요. 증상이나 부위를 다른 말로 적어 다시 찾아보세요.";
+      li.className = "empty"; li.textContent = "이 증상과 관련된 글에서 치료점을 찾지 못했어요. 증상이나 부위를 다른 말로 적어 다시 찾아보세요.";
       ol.appendChild(li);
     }
     togglePoints(false);
-    var notes = [];
-    if (ex.failed) notes.push("글 " + ex.failed + "개는 정리하지 못해 목록에서 빠졌어요.");
-    $("#pointsNote").textContent = notes.join(" ");
-    $("#pointsNote").hidden = !notes.length;
+    var ol2 = $("#points2");
+    ol2.textContent = "";
+    var max2 = ex.other.reduce(function (m, e) { return Math.max(m, e.cases.length); }, 1);
+    ex.other.forEach(function (e, i) { ol2.appendChild(pointRow(e, i, max2, ex.info, false)); });
+    $("#otherTitle").textContent = "다른 부위 글에서만 나온 치료점 " + ex.other.length + "개";
+    $("#otherPoints").hidden = !ex.other.length;
+    $("#otherPoints").open = false;
+    $("#pointsNote").textContent = ex.failed ? "글 " + ex.failed + "개는 정리하지 못해 목록에서 빠졌어요." : "";
+    $("#pointsNote").hidden = !ex.failed;
     $("#pointsPanel").hidden = false;
   }
   function togglePoints(all) {
@@ -871,34 +985,33 @@ details.panel[open] > summary { margin-bottom: 10px; }
     rows.forEach(function (r, i) { r.hidden = !all && i >= SHOW; });
     var btn = $("#morePoints");
     btn.hidden = rows.length <= SHOW;
+    btn.setAttribute("data-all", all ? "1" : "0");
     btn.textContent = all ? "접기" : "나머지 " + (rows.length - SHOW) + "개 더 보기";
-    btn.onclick = function () { togglePoints(!all); };
   }
-  function pointRow(e, i, max, info) {
+  function pointRow(e, i, max, info, related) {
+    var nums = related ? e.rel : e.cases;
     var li = document.createElement("li");
     li.className = "prow";
     var rk = document.createElement("span"); rk.className = "rk"; rk.textContent = i + 1;
     var nm = document.createElement("div"); nm.className = "nm";
     var b = document.createElement("b"); b.textContent = e.name; nm.appendChild(b);
-    Object.keys(e.methods).sort(function (a, c) { return e.methods[c] - e.methods[a]; }).forEach(function (m) {
-      var t = document.createElement("span");
-      t.className = "tag";
-      t.textContent = m;
-      nm.appendChild(t);
+    Object.keys(e.methods).forEach(function (m) {
+      var t = document.createElement("span"); t.className = "tag"; t.textContent = m; nm.appendChild(t);
     });
+    if (related && e.comment && !e.body) { var c = document.createElement("span"); c.className = "tag"; c.textContent = "댓글 제안만"; nm.appendChild(c); }
+    if (related && e.fail) { var f = document.createElement("span"); f.className = "tag fail"; f.textContent = "효과 없음 " + e.fail; nm.appendChild(f); }
     var meter = document.createElement("div"); meter.className = "meter";
-    var cnt = document.createElement("span"); cnt.className = "count";
-    cnt.textContent = "글 " + e.cases.length + "개";
+    var cnt = document.createElement("span"); cnt.className = "count"; cnt.textContent = "글 " + nums.length + "개";
     var bar = document.createElement("span"); bar.className = "bar";
-    var fill = document.createElement("span"); fill.style.width = Math.max(6, Math.round(e.cases.length / max * 100)) + "%";
+    var fill = document.createElement("span"); fill.style.width = Math.max(6, Math.round(nums.length / max * 100)) + "%";
     bar.appendChild(fill); meter.append(cnt, bar);
-    if (e.match2) { var sim = document.createElement("span"); sim.className = "sim"; sim.textContent = "비슷한 환자 " + e.match2; meter.appendChild(sim); }
+    if (related && e.same) { var sim = document.createElement("span"); sim.className = "sim"; sim.textContent = "같은 증상 " + e.same; meter.appendChild(sim); }
     li.append(rk, nm, meter);
-    var why = whyOf(e, info);
-    if (why.length) { var w = document.createElement("div"); w.className = "why"; w.textContent = why.join(" / "); li.appendChild(w); }
+    var why = related ? whyOf(e, info) : [];
+    if (why.length) { var w = document.createElement("div"); w.className = "why"; w.textContent = "쓰인 글: " + why.join(" / "); li.appendChild(w); }
     var refs = document.createElement("div"); refs.className = "refs";
-    refs.appendChild(document.createTextNode(e.comment && !e.body ? "댓글 제안 " : e.comment ? "본문 " + e.body + " · 댓글 " + e.comment + " " : ""));
-    refs.appendChild(citeLinks(e.cases, 10));
+    if (related && e.comment && e.body) refs.appendChild(document.createTextNode("본문 " + e.body + " · 댓글 " + e.comment + " "));
+    refs.appendChild(citeLinks(nums, 10));
     li.appendChild(refs);
     return li;
   }
@@ -915,13 +1028,14 @@ details.panel[open] > summary { margin-bottom: 10px; }
       li.className = "src"; li.id = "src-" + c.n;
       var n = document.createElement("span"); n.className = "n"; n.textContent = "[" + c.n + "]";
       var t = document.createElement("span"); t.className = "t"; t.textContent = c.title;
-      var m = document.createElement("span"); m.className = "m";
-      m.textContent = ["게시판 " + (c.board || "?"), c.date || "", "댓글 " + c.ncom].filter(Boolean).join(" · ");
-      li.append(n, t, m);
       var ci = info[c.n];
-      if (ci && ci.points.length) {
+      var m = document.createElement("span"); m.className = "m";
+      m.textContent = [ci ? REL[ci.rel] : "", "게시판 " + (c.board || "?"), c.date || "", "댓글 " + c.ncom].filter(Boolean).join(" · ");
+      li.append(n, t, m);
+      if (ci && (ci.body.length || ci.comment.length || ci.failed.length)) {
         var pp = document.createElement("span"); pp.className = "p";
-        pp.textContent = "치료점: " + ci.points.join(", ") + (ci.result ? " → " + ci.result : "");
+        pp.textContent = [ci.body.length ? "치료점: " + ci.body.join(", ") : "", ci.comment.length ? "댓글 제안: " + ci.comment.join(", ") : "",
+          ci.failed.length ? "효과 없음: " + ci.failed.join(", ") : "", ci.result ? "→ " + ci.result : ""].filter(Boolean).join(" · ");
         li.appendChild(pp);
       }
       var links = document.createElement("span"); links.className = "links";
@@ -957,8 +1071,9 @@ details.panel[open] > summary { margin-bottom: 10px; }
         return nums.map(function (x) { return '<a class="cite" href="#src-' + x + '" data-src="' + x + '">' + x + "</a>"; }).join("");
       });
   }
+  // small markdown renderer for the model's answer: headings, nested lists (blank lines between items keep the list), paragraphs
   function md(text, n) {
-    var out = [], stack = [];
+    var out = [], stack = [], blank = false;
     function closeTo(indent) {
       while (stack.length && stack[stack.length - 1].indent > indent) {
         var top = stack.pop(); out.push("</li></" + top.type + ">");
@@ -967,6 +1082,7 @@ details.panel[open] > summary { margin-bottom: 10px; }
     function closeAll() { closeTo(-1); }
     String(text || "").replace(/\r\n/g, "\n").split("\n").forEach(function (raw) {
       var line = raw.replace(/\t/g, "    ");
+      if (!line.trim()) { blank = true; return; }
       var h = line.match(/^\s*#{1,6}\s+(.*)$/);
       var o = line.match(/^(\s*)(\d+)[.)]\s+(.*)$/);
       var u = line.match(/^(\s*)[-*•]\s+(.*)$/);
@@ -983,14 +1099,19 @@ details.panel[open] > summary { margin-bottom: 10px; }
           if (top.type !== type) { stack.pop(); out.push("</li></" + top.type + ">"); top = stack[stack.length - 1]; }
           else out.push("</li>");
         }
-        if (!top || top.indent < indent) { stack.push({ type: type, indent: indent }); out.push("<" + type + ">"); }
+        if (!top || top.indent < indent) {
+          stack.push({ type: type, indent: indent });
+          var start = o ? parseInt(o[2], 10) : 1;
+          out.push("<" + type + (o && start > 1 ? ' start="' + start + '"' : "") + ">");
+        }
         out.push("<li>" + inline(body, n));
-      } else if (!line.trim()) {
-        closeAll();
+      } else if (stack.length && (!blank || /^\s/.test(line))) {
+        out.push("<br>" + inline(line.trim(), n));          // continuation of the current list item
       } else {
         closeAll();
         out.push("<p>" + inline(line.trim(), n) + "</p>");
       }
+      blank = false;
     });
     closeAll();
     return out.join("");
@@ -1013,11 +1134,14 @@ details.panel[open] > summary { margin-bottom: 10px; }
 
   // ---------------------------------------------------------- copy
   function plainResult() {
-    var pts = last.points.map(function (e, i) {
-      return (i + 1) + ". " + e.name + " — 글 " + e.cases.length + "개" + (methodsText(e) ? " (" + methodsText(e) + ")" : "") + " [" + e.cases.join(", ") + "]";
-    }).join("\n");
+    var ex = last.ex;
+    var pts = ex ? ex.main.map(function (e, i) {
+      return (i + 1) + ". " + e.name + " — 글 " + e.rel.length + "개" + (e.same ? ", 같은 증상 " + e.same : "") +
+        (methodsText(e) ? ", " + methodsText(e) : "") + (e.fail ? ", 효과 없음 " + e.fail : "") + " [" + e.rel.join(", ") + "]";
+    }).join("\n") : "";
     var srcs = last.cases.map(function (c) { return "[" + c.n + "] " + c.title + (c.url ? " — " + c.url : ""); }).join("\n");
-    return [chartLabel(last.p || readForm()), (last.p && last.p.symptoms) || "", "", "가능한 치료점", pts, "", last.answer, "", "읽은 글", srcs].join("\n");
+    var p = last.p || readForm();
+    return [chartLabel(p), p.symptoms || "", "", "가능한 치료점", pts, "", last.answer, "", "읽은 글", srcs].join("\n").replace(/\n{3,}/g, "\n\n");
   }
   function copyResult() {
     var text = plainResult();
@@ -1051,18 +1175,25 @@ details.panel[open] > summary { margin-bottom: 10px; }
     }
     el.hidden = false;
   }
+  function settleAnswer(err) {
+    // keep a partial answer only when the error hands one back; otherwise drop the placeholder or withdrawn text
+    if ($("#result").hidden) return;
+    if (err && err.text && err.code !== "refused") { renderAnswer(err.text, last.cases.length); last.answer = err.text; }
+    else { $("#answer").textContent = ""; $("#result").hidden = true; last.answer = ""; }
+  }
   function handleError(err) {
     var code = err && err.code;
+    $("#progTitle").textContent = code === "cancelled" ? "멈췄어요" : "찾은 과정";
+    settleAnswer(err);
     if (code === "cancelled") {
       ["kw", "search", "read", "extract", "think"].forEach(function (k) {
         var li = document.querySelector('#steps li[data-k="' + k + '"]');
         if (li && li.getAttribute("data-s") === "run") step(k, "fail", "멈췄어요");
       });
-      if (err && err.text && !$("#result").hidden) renderAnswer(err.text, last.cases.length);
+      say("멈췄어요");
       return;
     }
     document.querySelectorAll('#steps li[data-s="run"]').forEach(function (li) { li.setAttribute("data-s", "fail"); });
-    if (err && err.text && !$("#result").hidden) { renderAnswer(err.text, last.cases.length); $("#answerTools").hidden = false; last.answer = err.text; }
     var drive = err && err.where === "drive";
     var M = {
       server_not_connected: ["Google Drive가 연결돼 있지 않아요", "claude.ai 설정 → 커넥터에서 Google Drive를 추가한 뒤 다시 찾아주세요."],
@@ -1083,8 +1214,9 @@ details.panel[open] > summary { margin-bottom: 10px; }
       tool_error: ["드라이브 검색이 실패했어요", (err && err.message) || "조금 뒤 다시 찾아주세요."]
     };
     var m = M[code] || [drive ? "드라이브를 읽다가 문제가 생겼어요" : "정리하다가 문제가 생겼어요", "조금 뒤 다시 찾아주세요. (" + (code || "알 수 없음") + ")"];
-    var retry = code === "approval_required" || code === "server_unavailable" || code === "upstream_error" || code === "empty_completion" || code === "extract_failed" || !M[code];
+    var retry = code === "approval_required" || code === "server_unavailable" || code === "upstream_error" || code === "empty_completion" || code === "extract_failed" || code === "tool_error" || !M[code];
     showError(m[0], m[1], retry);
+    say(m[0]);
   }
 })();
 </script>
