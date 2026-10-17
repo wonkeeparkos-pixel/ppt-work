@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-13 5 80 80" width="512" height="512" fill="none" stroke="#111111" stroke-width="5" role="img" aria-label="fbt">
+  <path d="M12 67V33a15 15 0 0 1 30 0v34"/>
+  <circle cx="27" cy="67" r="15"/>
+  <path d="M27 7.5v74.5"/>
+  <path d="M5 44h44"/>
+</svg>
