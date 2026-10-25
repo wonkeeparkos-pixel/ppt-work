@@ -1394,7 +1394,7 @@ select { font: inherit; color: var(--ink); background: var(--paper); border: 1px
   var NO_WRITE = "기록을 쓰려면 원장님께 이 도구의 '편집자' 권한을 받아야 해요.";
   var FULL = "이 환자 기록이 너무 길어져 더 저장할 수 없어요. 기록을 내보내 보관한 뒤, 같은 환자를 새 별칭(예: 무릎-1025-1-2)으로 이어서 적어주세요.";
   var rec = { db: null, user: null, uid: null, owner: false, admin: false, readonly: false, subs: {}, docs: {}, patients: {},
-    sel: null, form: null, dirty: false, saving: false, ready: false, off: false };
+    sel: null, form: null, dirty: false, saving: false, stale: false, ready: false, off: false };
 
   function lsGet(k) { try { return localStorage.getItem(k) || ""; } catch (e) { return ""; } }
   function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* storage off */ } }
@@ -1494,7 +1494,10 @@ select { font: inherit; color: var(--ink); background: var(--paper); border: 1px
       if (!gone) { try { gone = !(await rec.db.doc(ptPath(pt)).get()).exists; } catch (x) { /* fall through to the permission message */ } }
       if (gone) { recMsg("이 환자 기록은 그사이 지워졌어요.", "err"); return; }
     }
-    if (code === "invalid_argument" || code === "transform_error") { rec.readonly = true; recMsg("저장하지 못했어요. " + NO_WRITE, "err"); renderList(); }
+    if (code === "invalid_argument" || code === "transform_error") {
+      rec.readonly = true; recMsg("저장하지 못했어요. " + NO_WRITE, "err"); renderList();
+      if (!rec.form && !rec.dirty) renderDetail();
+    }
     else if (code === "quota_exceeded") recMsg("기록 저장 공간이 가득 찼어요. 기록을 내보내 보관한 뒤 오래된 환자를 지워주세요.", "err");
     else if (code === "resource_exhausted") recMsg("짧은 사이에 너무 많이 저장했어요. 조금 뒤 다시 눌러주세요.", "err");
     else if (lifecycle(code)) recMsg("이 화면에서는 기록을 쓸 수 없어요.", "err");
@@ -1556,12 +1559,16 @@ select { font: inherit; color: var(--ink); background: var(--paper); border: 1px
   // renderDetail redraws it on navigation; syncDetail is the live-data path and leaves a half-filled form alone
   function renderDetail() {
     var box = $("#recDetail");
+    rec.stale = false;
     if (rec.form) { renderForm(box); return; }
     var pt = rec.sel && findPatient(rec.sel.key, rec.sel.id);
     if (pt) { renderPatient(box, pt); return; }
     renderSummary(box);                                       // also while a just-saved patient is still on its way back
   }
-  function syncDetail() { if (!rec.form && !rec.saving && !rec.dirty && !$("#recDetail .confirm")) renderDetail(); }
+  function syncDetail() {
+    if (rec.form || rec.saving || rec.dirty || $("#recDetail .confirm")) { rec.stale = true; return; }
+    renderDetail();
+  }
   function showing(pt) { return !rec.form && rec.sel && rec.sel.key === pt.key && rec.sel.id === pt.id; }
   function statLine(s) { return s.np + "명 " + s.n + "회" + (s.resp ? " · 호전 " + s.good + "/" + s.resp : " · 반응 미기록"); }
   function renderSummary(box) {
@@ -1599,9 +1606,16 @@ select { font: inherit; color: var(--ink); background: var(--paper); border: 1px
     wrap.append(el("span", null, text), yes, no);
     btn.replaceWith(wrap);
     no.focus();
-    function restore() { if (wrap.isConnected) { wrap.replaceWith(btn); btn.focus(); } syncDetail(); }
+    function restore() {
+      if (wrap.isConnected) {
+        var here = wrap.contains(document.activeElement) || document.activeElement === document.body;
+        wrap.replaceWith(btn);
+        if (here) btn.focus();
+      }
+      if (rec.stale) syncDetail();
+    }
     no.addEventListener("click", restore);
-    yes.addEventListener("click", function () { yes.disabled = no.disabled = true; onYes(restore); });
+    yes.addEventListener("click", function () { yes.disabled = no.disabled = true; onYes(restore, wrap); });
   }
   function renderPatient(box, pt) {
     box.textContent = "";
@@ -1613,7 +1627,7 @@ select { font: inherit; color: var(--ink); background: var(--paper); border: 1px
       var ed = el("button", "linkbtn", "정보 고치기"); ed.type = "button";
       ed.addEventListener("click", function () { openPatientForm(pt, false); });
       var del = el("button", "linkbtn", "환자 삭제"); del.type = "button";
-      del.addEventListener("click", function () { confirmInline(del, "환자와 치료 기록을 모두 지울까요? 되돌릴 수 없어요.", "", function (restore) { deletePatient(pt, restore); }); });
+      del.addEventListener("click", function () { confirmInline(del, "환자와 치료 기록을 모두 지울까요? 되돌릴 수 없어요.", "", function (restore, wrap) { deletePatient(pt, restore, wrap); }); });
       tools.append(ed, del);
     }
     head.appendChild(tools);
@@ -1714,6 +1728,7 @@ select { font: inherit; color: var(--ink); background: var(--paper); border: 1px
     var act = el("div", "actions"); act.style.marginTop = "12px";
     var save = el("button", "primary", "기록 추가"); save.type = "button";
     save.addEventListener("click", async function () {
+      if (rec.readonly) { recMsg(NO_WRITE, "err"); return; }
       if (f.isEmpty()) { recMsg("치료점이나 반응 중 하나는 적어주세요.", "err"); return; }
       var cur = findPatient(pt.key, pt.id);
       if (!cur) { recMsg("이 환자 기록은 지워졌어요.", "err"); return; }
@@ -1726,7 +1741,8 @@ select { font: inherit; color: var(--ink); background: var(--paper); border: 1px
         rec.saving = false;
         recMsg("치료 기록을 추가했어요.", "ok");
         renderList();
-        if (showing(pt) && save.isConnected) { rec.dirty = false; renderDetail(); } else syncDetail();
+        // the button still on screen means the panel still shows this patient's form
+        if (save.isConnected) { rec.sel = { key: pt.key, id: pt.id }; rec.dirty = false; renderList(); renderDetail(); } else syncDetail();
       } catch (e) { rec.saving = false; save.disabled = false; writeError(e, pt); }
     });
     act.appendChild(save); f.appendChild(act); wrap.appendChild(f);
@@ -1791,7 +1807,8 @@ select { font: inherit; color: var(--ink); background: var(--paper); border: 1px
         // only fields this form changed, so someone else's edit to another field is kept
         Object.keys(FIELDS).forEach(function (k) { if ($(FIELDS[k]).value === shown[k]) delete body[k]; });
         if (body.doctor === cur.d.doctor) delete body.doctor;
-        if (Object.keys(body).length === 1) { rec.form = null; rec.dirty = false; recMsg("바뀐 내용이 없어요.", ""); renderDetail(); return; }
+        var renamed = own && (!rec.docs[key] || rec.docs[key].doctor !== doctor);
+        if (Object.keys(body).length === 1 && !renamed) { rec.form = null; rec.dirty = false; recMsg("바뀐 내용이 없어요.", ""); renderDetail(); return; }
       }
       if (cur && tooBig(Object.assign({}, cur.d, body))) { recMsg(FULL, "err"); return; }
       save.disabled = true; rec.saving = true;
@@ -1799,9 +1816,9 @@ select { font: inherit; color: var(--ink); background: var(--paper); border: 1px
         if (own && (!rec.docs[key] || rec.docs[key].doctor !== doctor)) {
           await write(function () { return rec.db.doc("clinic/" + key).set({ doctor: doctor, updatedAt: now }); });
         }
+        var sel = pt ? { key: pt.key, id: pt.id } : null;
         if (pt) {
-          await write(function () { return rec.db.doc(ptPath(pt)).update(body); });
-          rec.sel = { key: pt.key, id: pt.id };
+          if (Object.keys(body).length > 1) await write(function () { return rec.db.doc(ptPath(pt)).update(body); });
         } else {
           body.createdAt = now;
           body.visits = {};
@@ -1809,17 +1826,18 @@ select { font: inherit; color: var(--ink); background: var(--paper); border: 1px
           var ref = rec.db.collection("clinic/" + key + "/patients").doc();
           await write(function () { return ref.set(body); });
           watchPatients(key);
-          rec.sel = { key: key, id: ref.id };
+          sel = { key: key, id: ref.id };
         }
         rec.saving = false;
         recMsg("저장했어요.", "ok");
-        if (rec.form === form) { rec.form = null; rec.dirty = false; renderList(); renderDetail(); } else { renderList(); syncDetail(); }
+        if (rec.form === form) { rec.form = null; rec.dirty = false; rec.sel = sel; renderList(); renderDetail(); } else { renderList(); syncDetail(); }
       } catch (e) { rec.saving = false; save.disabled = false; writeError(e, pt); }
     });
     act.append(save, cancel);
     box.appendChild(act);
   }
   async function removeVisit(pt, vid, li, restore) {
+    if (rec.readonly) { recMsg(NO_WRITE, "err"); restore(); return; }
     if (!findPatient(pt.key, pt.id)) { recMsg("이 환자 기록은 그사이 지워졌어요.", "err"); restore(); return; }
     var patch = {}; patch[vid] = null;
     rec.saving = true;
@@ -1828,18 +1846,20 @@ select { font: inherit; color: var(--ink); background: var(--paper); border: 1px
       rec.saving = false;
       recMsg("치료 기록을 지웠어요.", "ok");
       li.remove();
-      syncDetail();
-    } catch (e) { rec.saving = false; restore(); writeError(e, pt); }
+      if (rec.stale) syncDetail();
+    } catch (e) { rec.saving = false; await writeError(e, pt); restore(); }
   }
-  async function deletePatient(pt, restore) {
+  async function deletePatient(pt, restore, wrap) {
+    if (rec.readonly) { recMsg(NO_WRITE, "err"); restore(); return; }
     rec.saving = true;
     try {
       await write(function () { return rec.db.doc(ptPath(pt)).delete(); });
       rec.saving = false;
       recMsg("지웠어요.", "ok");
       renderList();
-      if (showing(pt)) { rec.sel = null; rec.dirty = false; renderDetail(); } else syncDetail();
-    } catch (e) { rec.saving = false; restore(); writeError(e, pt); }
+      // the confirm still on screen means the panel still shows this patient
+      if (wrap.isConnected) { rec.sel = null; rec.dirty = false; renderDetail(); } else syncDetail();
+    } catch (e) { rec.saving = false; await writeError(e, pt); restore(); }
   }
 
   // ---- stats used by the treatment-point list
