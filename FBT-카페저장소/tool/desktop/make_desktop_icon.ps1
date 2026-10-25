@@ -8,7 +8,8 @@ $U = { param($s) [regex]::Unescape($s) }
 
 $url  = 'https://claude.ai/artifact/R8VRU9wPpaumAa7CEH7gwf'
 $name = & $U 'FBT \uce58\ub8cc\uc810 \ucc3e\uae30'
-$dir  = Join-Path $env:LOCALAPPDATA 'FBT'
+# icon lives where the path is the same on every PC (a OneDrive-synced desktop shares the .url)
+$dir  = Join-Path $env:ProgramData 'FBT'
 $ico  = Join-Path $dir 'fbt.ico'
 
 function New-FbtIcon([string]$path) {
@@ -72,9 +73,17 @@ function New-FbtIcon([string]$path) {
 }
 
 try {
-  New-Item -ItemType Directory -Force -Path $dir | Out-Null
   $iconOk = $true
-  try { New-FbtIcon $ico } catch { $iconOk = $false; Write-Host (& $U '\ub85c\uace0 \uadf8\ub9bc\uc740 \ub9cc\ub4e4\uc9c0 \ubabb\ud574\uc11c \uae30\ubcf8 \ubaa8\uc591 \uc544\uc774\ucf58\uc73c\ub85c \ub9cc\ub4e4\uc5c8\uc5b4\uc694.'); Write-Host $_.Exception.Message }
+  try {
+    if (-not (Test-Path $ico)) {
+      try { New-Item -ItemType Directory -Force -Path $dir | Out-Null; New-FbtIcon $ico }
+      catch {
+        # ProgramData not writable here: keep the icon in this user's own folder instead
+        $dir = Join-Path $env:LOCALAPPDATA 'FBT'; $ico = Join-Path $dir 'fbt.ico'
+        New-Item -ItemType Directory -Force -Path $dir | Out-Null; New-FbtIcon $ico
+      }
+    }
+  } catch { $iconOk = $false; Write-Host (& $U '\ub85c\uace0 \uadf8\ub9bc\uc740 \ub9cc\ub4e4\uc9c0 \ubabb\ud574\uc11c \uae30\ubcf8 \ubaa8\uc591 \uc544\uc774\ucf58\uc73c\ub85c \ub9cc\ub4e4\uc5c8\uc5b4\uc694.'); Write-Host $_.Exception.Message }
 
   $desk = [Environment]::GetFolderPath('Desktop')
   $file = Join-Path $desk ($name + '.url')
@@ -85,7 +94,7 @@ try {
   # ask Explorer to redraw icons (harmless if it does nothing)
   try { Start-Process -FilePath 'ie4uinit.exe' -ArgumentList '-show' -WindowStyle Hidden } catch { }
   Write-Host ''
-  Write-Host (& $U '\ubc14\ud0d5\ud654\uba74\uc5d0 'FBT \uce58\ub8cc\uc810 \ucc3e\uae30' \uc544\uc774\ucf58\uc744 \ub9cc\ub4e4\uc5c8\uc5b4\uc694. \ub354\ube14\ud074\ub9ad\ud558\uba74 \uc5f4\ub824\uc694.')
+  Write-Host (& $U '\ubc14\ud0d5\ud654\uba74\uc5d0 \u0027FBT \uce58\ub8cc\uc810 \ucc3e\uae30\u0027 \uc544\uc774\ucf58\uc744 \ub9cc\ub4e4\uc5c8\uc5b4\uc694. \ub354\ube14\ud074\ub9ad\ud558\uba74 \uc5f4\ub824\uc694.')
   Write-Host $file
 } catch {
   Write-Host (& $U '\uc544\uc774\ucf58\uc744 \ub9cc\ub4e4\uc9c0 \ubabb\ud588\uc5b4\uc694. \uc544\ub798 \ub0b4\uc6a9\uc744 \ucea1\ucc98\ud574\uc11c \uc54c\ub824\uc8fc\uc138\uc694.')
