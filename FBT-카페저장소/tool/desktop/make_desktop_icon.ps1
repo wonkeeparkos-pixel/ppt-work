@@ -1,13 +1,13 @@
 # FBT desktop icon maker
 # Double-click the .bat next to this file. It creates a desktop shortcut that opens
 # the FBT treatment-point finder (claude.ai) with the FBT logo as its icon.
-# ASCII only on purpose: Korean text is written as \u escapes so any Windows code page works.
+# ASCII only on purpose: Korean text is written as character codes so any Windows code page works.
 
 $ErrorActionPreference = 'Stop'
-$U = { param($s) [regex]::Unescape($s) }
+function K([int[]]$c) { -join ($c | ForEach-Object { [char]$_ }) }   # text from character codes
 
 $url  = 'https://claude.ai/artifact/R8VRU9wPpaumAa7CEH7gwf'
-$name = & $U 'FBT \uce58\ub8cc\uc810 \ucc3e\uae30'
+$name = (K 0x46,0x42,0x54,0x20,0xce58,0xb8cc,0xc810,0x20,0xcc3e,0xae30)
 # icon lives where the path is the same on every PC (a OneDrive-synced desktop shares the .url)
 $dir  = Join-Path $env:ProgramData 'FBT'
 $ico  = Join-Path $dir 'fbt.ico'
@@ -83,7 +83,7 @@ try {
         New-Item -ItemType Directory -Force -Path $dir | Out-Null; New-FbtIcon $ico
       }
     }
-  } catch { $iconOk = $false; Write-Host (& $U '\ub85c\uace0 \uadf8\ub9bc\uc740 \ub9cc\ub4e4\uc9c0 \ubabb\ud574\uc11c \uae30\ubcf8 \ubaa8\uc591 \uc544\uc774\ucf58\uc73c\ub85c \ub9cc\ub4e4\uc5c8\uc5b4\uc694.'); Write-Host $_.Exception.Message }
+  } catch { $iconOk = $false; Write-Host ((K 0xb85c,0xace0,0x20,0xadf8,0xb9bc,0xc740,0x20,0xb9cc,0xb4e4,0xc9c0,0x20,0xbabb,0xd574,0xc11c,0x20,0xae30,0xbcf8,0x20,0xbaa8,0xc591,0x20,0xc544,0xc774,0xcf58,0xc73c,0xb85c,0x20,0xb9cc,0xb4e4,0xc5c8,0xc5b4,0xc694,0x2e)); Write-Host $_.Exception.Message }
 
   $desk = [Environment]::GetFolderPath('Desktop')
   $file = Join-Path $desk ($name + '.url')
@@ -94,10 +94,10 @@ try {
   # ask Explorer to redraw icons (harmless if it does nothing)
   try { Start-Process -FilePath 'ie4uinit.exe' -ArgumentList '-show' -WindowStyle Hidden } catch { }
   Write-Host ''
-  Write-Host (& $U '\ubc14\ud0d5\ud654\uba74\uc5d0 \u0027FBT \uce58\ub8cc\uc810 \ucc3e\uae30\u0027 \uc544\uc774\ucf58\uc744 \ub9cc\ub4e4\uc5c8\uc5b4\uc694. \ub354\ube14\ud074\ub9ad\ud558\uba74 \uc5f4\ub824\uc694.')
+  Write-Host ((K 0xbc14,0xd0d5,0xd654,0xba74,0xc5d0,0x20,0x27,0x46,0x42,0x54,0x20,0xce58,0xb8cc,0xc810,0x20,0xcc3e,0xae30,0x27,0x20,0xc544,0xc774,0xcf58,0xc744,0x20,0xb9cc,0xb4e4,0xc5c8,0xc5b4,0xc694,0x2e,0x20,0xb354,0xbe14,0xd074,0xb9ad,0xd558,0xba74,0x20,0xc5f4,0xb824,0xc694,0x2e))
   Write-Host $file
 } catch {
-  Write-Host (& $U '\uc544\uc774\ucf58\uc744 \ub9cc\ub4e4\uc9c0 \ubabb\ud588\uc5b4\uc694. \uc544\ub798 \ub0b4\uc6a9\uc744 \ucea1\ucc98\ud574\uc11c \uc54c\ub824\uc8fc\uc138\uc694.')
+  Write-Host ((K 0xc544,0xc774,0xcf58,0xc744,0x20,0xb9cc,0xb4e4,0xc9c0,0x20,0xbabb,0xd588,0xc5b4,0xc694,0x2e,0x20,0xc544,0xb798,0x20,0xb0b4,0xc6a9,0xc744,0x20,0xcea1,0xcc98,0xd574,0xc11c,0x20,0xc54c,0xb824,0xc8fc,0xc138,0xc694,0x2e))
   Write-Host $_.Exception.Message
   exit 1
 }
