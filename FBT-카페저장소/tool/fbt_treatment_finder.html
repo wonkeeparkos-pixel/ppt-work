@@ -231,6 +231,8 @@ select { font: inherit; color: var(--ink); background: var(--paper); border: 1px
 .visit .resp { justify-self: start; }
 @media (max-width: 520px) { .visit { grid-template-columns: minmax(0, 1fr) auto auto; } .visit .d { grid-column: 1 / -1; } .visit .x { grid-column: 3; grid-row: 2; } }
 .linkbtn { border: 0; background: none; padding: 2px 4px; font-size: 13px; color: var(--ink-2); text-decoration: underline; cursor: pointer; }
+.linkbtn.danger { color: var(--danger); font-weight: 600; }
+.confirm { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 2px 6px; font-size: 13px; color: var(--danger); }
 .chipset { display: flex; flex-wrap: wrap; gap: 6px; }
 .pick { border: 1px solid var(--rule); border-radius: 999px; padding: 6px 11px; font: 500 13px/1 var(--font-data); background: var(--sheet); color: var(--ink); cursor: pointer; }
 .pick[aria-pressed="true"] { background: var(--scrub); border-color: var(--scrub); color: var(--scrub-ink); }
@@ -1122,7 +1124,7 @@ select { font: inherit; color: var(--ink); background: var(--paper); border: 1px
       "- 치료 후보는 [함께 쓰인 조합]에서 고르고, 글 수와 글 번호를 그대로 옮긴다. 조합이 모자라면 [글별 요약]에서 한 글의 치료점 조합을 '(글 1개)'로 쓴다.",
       "- 순서: 같은 증상 글에서 쓰인 조합을 먼저, 그 안에서는 글 수가 많은 순서로 2~4개.",
       "- '어떤 증상·소견일 때'는 [치료점 목록]의 고려 조건과 [글별 요약]의 증상에서 가져온다.",
-      "- [치료점 목록]의 '우리 기록'은 이 병원 의사들이 직접 치료하고 반응을 적은 기록이다. 카페 근거와 구분해서, 있으면 '우리 기록: n회 중 좋아짐 m'처럼 덧붙인다(글 번호 없이).",
+      "- [치료점 목록]의 '우리 기록'은 이 병원 의사들이 직접 치료하고 반응을 적은 기록이다. 'N명 M회'는 환자 수와 치료 횟수, '호전 a/b'는 반응을 적은 b회 중 좋아짐·조금 좋아짐이 a회라는 뜻이다. 카페 근거와 구분해서, 있으면 '우리 기록: 3명 5회, 호전 4/5'처럼 덧붙인다(글 번호 없이). 환자가 적으면 참고 수준이라고 밝힌다.",
       "- 치료점 이름은 자료에 있는 그대로 쓴다. 자료에 없는 치료점·약물·용량을 지어내지 않는다.",
       "- '효과 없음'으로 적힌 치료점은 후보에 넣지 말고 주의할 점에 쓴다. 댓글에서만 권한 치료점은 '댓글 제안'이라고 밝힌다.",
       "- 근거가 약하거나 이 환자와 잘 맞지 않으면 그렇다고 쓴다.",
@@ -1226,6 +1228,7 @@ select { font: inherit; color: var(--ink); background: var(--paper); border: 1px
     var nums = related ? e.rel : e.cases;
     var li = document.createElement("li");
     li.className = "prow";
+    if (related) li.setAttribute("data-key", e.key);
     var rk = document.createElement("span"); rk.className = "rk"; rk.textContent = i + 1;
     var nm = document.createElement("div"); nm.className = "nm";
     var b = document.createElement("b"); b.textContent = e.name; nm.appendChild(b);
@@ -1382,10 +1385,16 @@ select { font: inherit; color: var(--ink); background: var(--paper); border: 1px
 
 
   // ------------------------------------------------- 7. our patient records
-  // db layout: clinic/<doctor uid> {doctor, updatedAt}; clinic/<uid>/patients/<id> {alias, doctor, age, sex, site, dur, symptoms, visits[]}
-  // rules (declared at publish): everyone at interact+ reads all of clinic/, each doctor writes only clinic/<own uid>/...
+  // db layout: clinic/<doctor key> {doctor, updatedAt}; clinic/<key>/patients/<id> {alias, doctor, age, sex, site, dur, symptoms, visits{<vid>: visit | null}}
+  // rules (declared at publish): clinic/ is read at interact+ and written by editors; each doctor also writes clinic/<own id>/...
+  // doctor key = the viewer's user id; an editor the platform gives no id writes under "n-<code points of their name>"
+  // visits is a map so two doctors adding or removing visits at once never overwrite each other (removed = null)
   var RESP = ["좋아짐", "조금 좋아짐", "그대로", "나빠짐"];
-  var rec = { db: null, user: null, uid: null, owner: false, subs: {}, docs: {}, patients: {}, sel: null, form: null, ready: false, off: false };
+  var MAX_DOC = 240 * 1024;                                  // one document holds 256 KiB; stop a little before
+  var NO_WRITE = "기록을 쓰려면 원장님께 이 도구의 '편집자' 권한을 받아야 해요.";
+  var FULL = "이 환자 기록이 너무 길어져 더 저장할 수 없어요. 기록을 내보내 보관한 뒤, 같은 환자를 새 별칭(예: 무릎-1025-1-2)으로 이어서 적어주세요.";
+  var rec = { db: null, user: null, uid: null, owner: false, admin: false, readonly: false, subs: {}, docs: {}, patients: {},
+    sel: null, form: null, dirty: false, saving: false, pending: false, ready: false, off: false };
 
   function lsGet(k) { try { return localStorage.getItem(k) || ""; } catch (e) { return ""; } }
   function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* storage off */ } }
@@ -1394,20 +1403,45 @@ select { font: inherit; color: var(--ink); background: var(--paper); border: 1px
     $("#modeRec").setAttribute("aria-selected", records ? "true" : "false");
     $("#findView").hidden = records; $("#recView").hidden = !records;
     lsSet("fbt.mode", records ? "rec" : "find");
-    if (records) { initRecords(); renderRecords(); }
+    if (records) { initRecords(); renderList(); if (!$("#recDetail").firstChild) renderDetail(); else syncDetail(); }
   }
-  function recMsg(text, kind) { var el = $("#recMsg"); el.textContent = text || ""; el.className = "rmsg" + (kind ? " " + kind : ""); }
-  function recOff(text) { rec.off = true; recMsg(text, "err"); renderRecords(); }
+  function recMsg(text, kind) { var m = $("#recMsg"); m.textContent = text || ""; m.className = "rmsg" + (kind ? " " + kind : ""); }
+  function recOff(text) { rec.off = true; recMsg(text, "err"); renderList(); renderDetail(); }
   function today() { var d = new Date(); return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2); }
   function isGood(r) { return r === "좋아짐" || r === "조금 좋아짐"; }
   function respClass(r) { return isGood(r) ? "resp good" : r === "나빠짐" ? "resp bad" : "resp"; }
+  function newId() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
+  function nameKey(label) { return "n-" + Array.from(label).map(function (c) { return c.codePointAt(0).toString(16); }).join("."); }
+  function myKey() {
+    if (rec.uid) return rec.uid;
+    var n = $("#docName").value.trim();
+    return rec.admin && n ? nameKey(n) : null;
+  }
+  function tooBig(doc) { return new TextEncoder().encode(JSON.stringify(doc)).length > MAX_DOC; }
+  function ptPath(pt) { return "clinic/" + pt.key + "/patients/" + pt.id; }
+  function findPatient(key, id) { return (rec.patients[key] || []).find(function (x) { return x.id === id; }) || null; }
+  function doctorOf(pt) { var d = rec.docs[pt.key]; return String((d && d.doctor) || pt.d.doctor || ""); }
+  // a write that hits a passing platform hiccup is tried once more; every write here is safe to repeat
+  async function write(fn) {
+    try { return await fn(); }
+    catch (e) {
+      if (!e || e.code !== "unavailable") throw e;
+      await new Promise(function (r) { setTimeout(r, 400 + Math.random() * 600); });
+      return fn();
+    }
+  }
 
   $("#docName").value = lsGet("fbt.doctor");
-  $("#docName").addEventListener("change", function () { lsSet("fbt.doctor", $("#docName").value.trim()); });
-  $("#recScope").addEventListener("change", renderRecords);
-  $("#recFilter").addEventListener("input", renderRecords);
+  $("#docName").addEventListener("change", function () {
+    lsSet("fbt.doctor", $("#docName").value.trim());
+    if (rec.ready && !rec.uid) { var k = myKey(); if (k) watchPatients(k); renderList(); syncDetail(); }
+  });
+  $("#recScope").addEventListener("change", renderList);
+  $("#recFilter").addEventListener("input", renderList);
   $("#newPatient").addEventListener("click", function () { openPatientForm(null, false); });
   $("#exportCsv").addEventListener("click", exportCsv);
+  // anything typed in the right panel holds off live refreshes until it is saved or cancelled
+  $("#recDetail").addEventListener("input", function () { rec.dirty = true; });
 
   var recInit = null;
   function initRecords() {
@@ -1416,164 +1450,200 @@ select { font: inherit; color: var(--ink); background: var(--paper); border: 1px
       if (!window.claude || typeof window.claude.use !== "function") { recOff("기록은 claude.ai 안에서 열어야 쓸 수 있어요."); return; }
       var r = await Promise.all([window.claude.use("db"), window.claude.use("user")]);
       rec.db = r[0]; rec.user = r[1];
-      if (!rec.db || !rec.user) { recOff("이 화면에서는 기록을 쓸 수 없어요. claude.ai에 로그인한 상태로 열어주세요."); return; }
-      rec.uid = await rec.user.id();
-      rec.owner = await rec.user.isOwner();
-      if (!rec.uid) { recOff("기록을 쓰려면 claude.ai에 로그인해야 해요."); return; }
+      if (!rec.db) { recOff("이 화면에서는 기록을 쓸 수 없어요. claude.ai에 로그인한 상태로 열어주세요."); return; }
+      var canWrite = null;
+      if (rec.user) {
+        var q = await Promise.all([rec.user.id(), rec.user.isOwner(), rec.user.canEdit(), rec.user.can("data.write")]);
+        rec.uid = q[0] || null; rec.owner = !!q[1]; rec.admin = !!(q[1] || q[2]); canWrite = q[3];
+      }
+      // no id and not an editor: nowhere this viewer may write
+      rec.readonly = canWrite === false || (!rec.uid && !rec.admin);
       rec.ready = true;
-      watchPatients(rec.uid);
+      if (rec.readonly) recMsg(NO_WRITE, "err");
       rec.db.collection("clinic").onSnapshot(function (snap) {
+        rec.docs = {};
         snap.docs.forEach(function (d) { rec.docs[d.id] = d.data() || {}; watchPatients(d.id); });
-        renderRecords();
-      }, function (e) { recDbError(e); });
-      renderRecords();
-    })().catch(function (e) { recDbError(e); });
+        var mine = rec.uid && rec.docs[rec.uid];
+        if (mine && mine.doctor && !$("#docName").value.trim()) $("#docName").value = String(mine.doctor);
+        recChanged();
+      }, watchError);
+      var k = myKey();
+      if (k) watchPatients(k);
+      renderList(); syncDetail();
+    })().catch(function (e) { watchError(e); });
     return recInit;
   }
-  function watchPatients(uid) {
-    if (rec.subs[uid] || !rec.db) return;
-    rec.subs[uid] = rec.db.collection("clinic/" + uid + "/patients").onSnapshot(function (snap) {
-      rec.patients[uid] = snap.docs.map(function (d) { return { id: d.id, uid: uid, d: d.data() || {} }; });
-      renderRecords();
-      if (last.ex && !current) showPoints(last.p, last.ex);    // refresh '우리 기록' badges
-    }, function (e) { recDbError(e); });
+  function watchPatients(key) {
+    if (rec.subs[key] || !rec.db) return;
+    rec.subs[key] = rec.db.collection("clinic/" + key + "/patients").onSnapshot(function (snap) {
+      rec.patients[key] = snap.docs.map(function (d) { return { id: d.id, key: key, d: d.data() || {} }; });
+      recChanged();
+    }, watchError);
   }
-  function recDbError(e) {
+  function recChanged() { statCache = null; renderList(); syncDetail(); refreshOurs(); }
+  function lifecycle(code) { return code === "revoked" || code === "not_granted" || code === "capability_disabled" || code === "capability_removed"; }
+  function watchError(e) {
     var code = e && e.code;
-    if (code === "invalid_argument") recMsg("기록을 저장할 권한이 없어요. 원장님께 이 도구의 '참여자' 이상 권한을 받아야 해요.", "err");
-    else if (code === "quota_exceeded") recMsg("기록 저장 공간이 가득 찼어요. 오래된 기록을 내보낸 뒤 정리해주세요.", "err");
-    else if (code === "revoked" || code === "not_granted" || code === "capability_disabled") recMsg("이 화면에서는 기록을 쓸 수 없어요.", "err");
-    else recMsg("기록을 불러오거나 저장하다가 문제가 생겼어요. 잠시 뒤 다시 해주세요. (" + (code || "알 수 없음") + ")", "err");
+    if (lifecycle(code)) recOff("이 화면에서는 기록을 볼 수 없어요.");
+    else recMsg("기록을 불러오다가 문제가 생겼어요. 새로고침해 주세요. (" + (code || "알 수 없음") + ")", "err");
+  }
+  function writeError(e) {
+    var code = e && e.code;
+    if (code === "invalid_argument" || code === "transform_error") { rec.readonly = true; recMsg("저장하지 못했어요. " + NO_WRITE, "err"); }
+    else if (code === "quota_exceeded") recMsg("기록 저장 공간이 가득 찼어요. 기록을 내보내 보관한 뒤 오래된 환자를 지워주세요.", "err");
+    else if (code === "resource_exhausted") recMsg("짧은 사이에 너무 많이 저장했어요. 조금 뒤 다시 눌러주세요.", "err");
+    else if (lifecycle(code)) recMsg("이 화면에서는 기록을 쓸 수 없어요.", "err");
+    else recMsg("저장하다가 문제가 생겼어요. 잠시 뒤 다시 해주세요. (" + (code || "알 수 없음") + ")", "err");
   }
   function allPatients() {
     var out = [];
-    Object.keys(rec.patients).forEach(function (uid) { out = out.concat(rec.patients[uid]); });
+    Object.keys(rec.patients).forEach(function (k) { out = out.concat(rec.patients[k]); });
     return out;
   }
-  function canEditPatient(pt) { return rec.ready && (pt.uid === rec.uid || rec.owner); }
-  function lastVisit(pt) { var v = Array.isArray(pt.d.visits) ? pt.d.visits : []; return v.length ? v[v.length - 1] : null; }
+  function canEditPatient(pt) { return rec.ready && !rec.readonly && (pt.key === myKey() || rec.owner); }
+  function visitList(d) {
+    var v = d && d.visits && typeof d.visits === "object" ? d.visits : {};
+    return Object.keys(v).filter(function (k) { return v[k] && typeof v[k] === "object"; })
+      .map(function (k) { return Object.assign({}, v[k], { vid: k, points: Array.isArray(v[k].points) ? v[k].points.map(String) : [] }); })
+      .sort(function (a, b) { return String(a.date || "").localeCompare(String(b.date || "")) || String(a.at || "").localeCompare(String(b.at || "")); });
+  }
+  function lastVisit(pt) { var v = visitList(pt.d); return v.length ? v[v.length - 1] : null; }
+  function el(tag, cls, text) { var x = document.createElement(tag); if (cls) x.className = cls; if (text != null) x.textContent = text; return x; }
 
-  // ---- list
-  function renderRecords() {
+  // ---- list (redrawn on every data change and filter keystroke; never touches the right panel)
+  function renderList() {
     if ($("#recView").hidden) return;
-    var mine = $("#recScope").value === "mine";
+    $("#newPatient").disabled = rec.readonly || rec.off;
+    var mine = $("#recScope").value === "mine", me = myKey();
     var q = $("#recFilter").value.trim().toUpperCase();
     var list = allPatients().filter(function (pt) {
-      if (mine && pt.uid !== rec.uid) return false;
+      if (mine && pt.key !== me) return false;
       if (!q) return true;
-      var v = Array.isArray(pt.d.visits) ? pt.d.visits : [];
-      var hay = [pt.d.alias, pt.d.doctor, pt.d.site, pt.d.symptoms].concat(v.map(function (x) { return (x.points || []).join(" ") + " " + (x.note || ""); })).join(" ").toUpperCase();
+      var hay = [pt.d.alias, doctorOf(pt), pt.d.site, pt.d.symptoms].concat(visitList(pt.d).map(function (x) { return x.points.join(" ") + " " + (x.note || ""); })).join(" ").toUpperCase();
       return hay.indexOf(q) >= 0;
     }).sort(function (a, b) { return String(b.d.updatedAt || "").localeCompare(String(a.d.updatedAt || "")); });
     var ol = $("#patientList");
     ol.textContent = "";
     list.forEach(function (pt) {
       var li = document.createElement("li");
-      var b = document.createElement("button"); b.type = "button"; b.className = "pcard";
-      if (rec.sel && rec.sel.uid === pt.uid && rec.sel.id === pt.id) b.setAttribute("aria-current", "true");
-      var t = document.createElement("span"); t.className = "t";
-      var nm = document.createElement("b"); nm.textContent = pt.d.alias || "(별칭 없음)";
-      t.appendChild(nm);
+      var b = el("button", "pcard"); b.type = "button";
+      if (rec.sel && rec.sel.key === pt.key && rec.sel.id === pt.id) b.setAttribute("aria-current", "true");
+      var t = el("span", "t");
+      t.appendChild(el("b", null, String(pt.d.alias || "(별칭 없음)")));
       var lv = lastVisit(pt);
-      if (lv && lv.response) { var rs = document.createElement("span"); rs.className = respClass(lv.response); rs.textContent = lv.response; t.appendChild(rs); }
-      var s = document.createElement("span"); s.className = "s";
-      var nv = Array.isArray(pt.d.visits) ? pt.d.visits.length : 0;
-      s.textContent = [pt.d.doctor || "", [pt.d.age, pt.d.sex].filter(Boolean).join("/"), pt.d.site || "", "치료 " + nv + "회", lv ? lv.date : ""].filter(Boolean).join(" · ");
+      if (lv && lv.response) t.appendChild(el("span", respClass(lv.response), String(lv.response)));
+      var nv = visitList(pt.d).length;
+      var s = el("span", "s", [doctorOf(pt), [pt.d.age, pt.d.sex].filter(Boolean).join("/"), pt.d.site || "", "치료 " + nv + "회", lv ? lv.date : ""].filter(Boolean).join(" · "));
       b.append(t, s);
-      b.addEventListener("click", function () { rec.sel = { uid: pt.uid, id: pt.id }; rec.form = null; renderRecords(); });
+      b.addEventListener("click", function () {
+        rec.sel = { key: pt.key, id: pt.id }; rec.form = null; rec.dirty = false; rec.pending = false;
+        renderList(); renderDetail();
+      });
       li.appendChild(b); ol.appendChild(li);
     });
     if (!list.length) {
-      var li2 = document.createElement("li"); li2.className = "empty";
-      li2.textContent = rec.off ? "기록을 볼 수 없어요." : rec.ready ? (q ? "찾는 기록이 없어요." : "아직 기록이 없어요. '새 환자'로 첫 기록을 남겨보세요.") : "기록을 불러오는 중이에요…";
-      ol.appendChild(li2);
+      ol.appendChild(el("li", "empty", rec.off ? "기록을 볼 수 없어요." : !rec.ready ? "기록을 불러오는 중이에요…" : q ? "찾는 기록이 없어요." :
+        rec.readonly ? "볼 수 있는 기록이 없어요." : "아직 기록이 없어요. '새 환자'로 첫 기록을 남겨보세요."));
     }
-    renderDetail();
   }
 
   // ---- right panel: summary, patient form, or patient detail
+  // renderDetail redraws it on navigation; syncDetail is the live-data path and leaves a half-filled form alone
   function renderDetail() {
     var box = $("#recDetail");
     if (rec.form) { renderForm(box); return; }
-    var pt = rec.sel && (rec.patients[rec.sel.uid] || []).find(function (x) { return x.id === rec.sel.id; });
+    var pt = rec.sel && findPatient(rec.sel.key, rec.sel.id);
     if (pt) { renderPatient(box, pt); return; }
-    renderSummary(box);
+    renderSummary(box);                                       // also while a just-saved patient is still on its way back
   }
-  function el(tag, cls, text) { var x = document.createElement(tag); if (cls) x.className = cls; if (text != null) x.textContent = text; return x; }
+  function syncDetail() { if (!rec.form && !rec.saving && !rec.dirty && !rec.pending) renderDetail(); }
+  function statLine(s) { return s.np + "명 " + s.n + "회" + (s.resp ? " · 호전 " + s.good + "/" + s.resp : " · 반응 미기록"); }
   function renderSummary(box) {
     box.textContent = "";
     box.appendChild(el("h2", null, "우리 환자 기록"));
     box.appendChild(el("p", "fine", "선생님들이 직접 치료한 환자와 반응을 모아두는 곳이에요. 카페 자료와 따로 쌓이고, 치료점 찾기 결과에 '우리 기록'으로 함께 보여요. 실명·등록번호·연락처 대신 별칭만 적어주세요."));
     var pts = allPatients();
     var visits = 0, good = 0, withResp = 0;
-    pts.forEach(function (pt) { (pt.d.visits || []).forEach(function (v) { visits++; if (v.response) { withResp++; if (isGood(v.response)) good++; } }); });
+    pts.forEach(function (pt) { visitList(pt.d).forEach(function (v) { visits++; if (RESP.indexOf(v.response) >= 0) { withResp++; if (isGood(v.response)) good++; } }); });
     var st = el("div", "stat");
-    [[pts.length, "환자"], [visits, "치료 기록"], [withResp ? Math.round(good / withResp * 100) + "%" : "-", "좋아진 비율"]].forEach(function (x) {
+    [[pts.length, "환자"], [visits, "치료 기록"], [withResp ? Math.round(good / withResp * 100) + "%" : "-", "호전 비율(조금 좋아짐 포함)"]].forEach(function (x) {
       var d = el("div"); d.appendChild(el("b", null, String(x[0]))); d.appendChild(el("span", null, x[1])); st.appendChild(d);
     });
     box.appendChild(st);
     var top = pointStats(null);
-    var keys = Object.keys(top).sort(function (a, b) { return top[b].n - top[a].n; }).slice(0, 12);
+    var keys = Object.keys(top).sort(function (a, b) { return top[b].np - top[a].np || top[b].n - top[a].n; }).slice(0, 12);
     if (keys.length) {
       box.appendChild(el("h3", null, "많이 쓴 치료점"));
+      box.appendChild(el("p", "fine", "N명 M회 = 환자 수와 치료 횟수, 호전 a/b = 반응을 적은 b회 중 좋아짐·조금 좋아짐 a회"));
       var ul = el("ol", "visits");
       keys.forEach(function (k) {
         var li = el("li", "visit");
         li.appendChild(el("span", "pts", top[k].name));
-        li.appendChild(el("span", "d", top[k].n + "회 · 좋아짐 " + top[k].good + (top[k].resp ? " (" + Math.round(top[k].good / top[k].resp * 100) + "%)" : "")));
+        li.appendChild(el("span", "d", statLine(top[k])));
         ul.appendChild(li);
       });
       box.appendChild(ul);
     }
   }
+  // asks in the page itself (a sandboxed frame may not show confirm())
+  function confirmInline(btn, text, cls, onYes) {
+    var wrap = el("span", "confirm" + (cls ? " " + cls : ""));
+    var yes = el("button", "linkbtn danger", "지우기"); yes.type = "button";
+    var no = el("button", "linkbtn", "취소"); no.type = "button";
+    wrap.append(el("span", null, text), yes, no);
+    btn.replaceWith(wrap);
+    rec.pending = true;
+    no.focus();
+    no.addEventListener("click", function () { rec.pending = false; wrap.replaceWith(btn); btn.focus(); });
+    yes.addEventListener("click", function () { yes.disabled = no.disabled = true; onYes(); });
+  }
   function renderPatient(box, pt) {
     box.textContent = "";
-    var d = pt.d;
+    var d = pt.d, edit = canEditPatient(pt);
     var head = el("div", "panel-head");
-    head.appendChild(el("h2", null, d.alias || "(별칭 없음)"));
+    head.appendChild(el("h2", null, String(d.alias || "(별칭 없음)")));
     var tools = el("span");
-    if (canEditPatient(pt)) {
+    if (edit) {
       var ed = el("button", "linkbtn", "정보 고치기"); ed.type = "button";
       ed.addEventListener("click", function () { openPatientForm(pt, false); });
       var del = el("button", "linkbtn", "환자 삭제"); del.type = "button";
-      del.addEventListener("click", function () { deletePatient(pt); });
+      del.addEventListener("click", function () { confirmInline(del, "환자와 치료 기록을 모두 지울까요? 되돌릴 수 없어요.", "", function () { deletePatient(pt); }); });
       tools.append(ed, del);
     }
     head.appendChild(tools);
     box.appendChild(head);
-    box.appendChild(el("p", "ptline", [d.doctor || "", [d.age, d.sex].filter(Boolean).join("/"), d.site || "", d.dur || ""].filter(Boolean).join(" · ")));
-    if (d.symptoms) box.appendChild(el("p", null, d.symptoms));
-    var v = Array.isArray(d.visits) ? d.visits : [];
+    box.appendChild(el("p", "ptline", [doctorOf(pt), [d.age, d.sex].filter(Boolean).join("/"), d.site || "", d.dur || ""].filter(Boolean).join(" · ")));
+    if (d.symptoms) box.appendChild(el("p", null, String(d.symptoms)));
+    var v = visitList(d);
     box.appendChild(el("h3", null, "치료와 반응 (" + v.length + "회)"));
     var ol = el("ol", "visits");
-    v.forEach(function (x, i) {
+    v.forEach(function (x) {
       var li = el("li", "visit");
-      li.appendChild(el("span", "d", x.date || ""));
-      li.appendChild(el("span", "pts", (x.points || []).join(", ") || "(치료점 없음)"));
-      var r = el("span", respClass(x.response), x.response || "반응 미기록");
-      li.appendChild(r);
-      var pain = (x.painBefore !== "" && x.painBefore != null) || (x.painAfter !== "" && x.painAfter != null)
-        ? "통증 " + (x.painBefore !== "" && x.painBefore != null ? x.painBefore : "?") + " → " + (x.painAfter !== "" && x.painAfter != null ? x.painAfter : "?") : "";
-      var note = [pain, x.note || ""].filter(Boolean).join(" · ");
+      li.appendChild(el("span", "d", String(x.date || "")));
+      li.appendChild(el("span", "pts", x.points.join(", ") || "(치료점 없음)"));
+      li.appendChild(el("span", respClass(x.response), String(x.response || "반응 미기록")));
+      var has = function (n) { return n !== "" && n != null; };
+      var pain = has(x.painBefore) || has(x.painAfter) ? "통증 " + (has(x.painBefore) ? x.painBefore : "?") + " → " + (has(x.painAfter) ? x.painAfter : "?") : "";
+      var note = [pain, String(x.note || "")].filter(Boolean).join(" · ");
       if (note) li.appendChild(el("span", "nt", note));
-      if (canEditPatient(pt)) {
+      if (edit) {
         var rm = el("button", "linkbtn x", "지우기"); rm.type = "button"; rm.setAttribute("aria-label", (x.date || "") + " 기록 지우기");
-        rm.addEventListener("click", function () { removeVisit(pt, i); });
+        rm.addEventListener("click", function () { confirmInline(rm, "지울까요?", "x", function () { removeVisit(pt, x.vid, li); }); });
         li.appendChild(rm);
       }
       ol.appendChild(li);
     });
     if (!v.length) ol.appendChild(el("li", "empty", "아직 치료 기록이 없어요."));
     box.appendChild(ol);
-    if (canEditPatient(pt)) box.appendChild(visitForm(pt));
-    else box.appendChild(el("p", "fine", "다른 선생님의 기록이라 보기만 할 수 있어요."));
+    if (edit) box.appendChild(visitForm(pt));
+    else box.appendChild(el("p", "fine", rec.readonly ? "지금은 보기만 할 수 있어요." : "다른 선생님의 기록이라 보기만 할 수 있어요."));
   }
 
   // ---- visit form (shared by new patient and add-visit)
   function pointChoices(pt) {
     var names = [];
     if (last.ex) last.ex.main.slice(0, 24).forEach(function (e) { names.push(e.name); });
-    if (pt) (pt.d.visits || []).forEach(function (v) { (v.points || []).forEach(function (n) { if (names.indexOf(n) < 0) names.push(n); }); });
+    if (pt) visitList(pt.d).forEach(function (v) { v.points.forEach(function (n) { if (names.indexOf(n) < 0) names.push(n); }); });
     return names;
   }
   function visitFields(pt) {
@@ -1598,6 +1668,7 @@ select { font: inherit; color: var(--ink); background: var(--paper); border: 1px
         var on = picked.indexOf(n) < 0;
         if (on) picked.push(n); else picked.splice(picked.indexOf(n), 1);
         c.setAttribute("aria-pressed", on ? "true" : "false");
+        rec.dirty = true;
       });
       chips.appendChild(c);
     });
@@ -1612,6 +1683,7 @@ select { font: inherit; color: var(--ink); background: var(--paper); border: 1px
       b.addEventListener("click", function () {
         resp = resp === r ? "" : r;
         seg.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", x.textContent === resp ? "true" : "false"); });
+        rec.dirty = true;
       });
       seg.appendChild(b);
     });
@@ -1624,7 +1696,7 @@ select { font: inherit; color: var(--ink); background: var(--paper); border: 1px
         var disp = /[가-힣]/.test(x) ? x : x.toUpperCase().replace(/\s+/g, "");
         if (pts.indexOf(disp) < 0) pts.push(disp);
       });
-      return { date: din.value || today(), points: pts.slice(0, 30), painBefore: pb.value === "" ? "" : +pb.value, painAfter: pa.value === "" ? "" : +pa.value,
+      return { date: din.value || today(), at: new Date().toISOString(), points: pts.slice(0, 30), painBefore: pb.value === "" ? "" : +pb.value, painAfter: pa.value === "" ? "" : +pa.value,
         response: resp, note: nin.value.trim().slice(0, 500) };
     };
     f.isEmpty = function () { var v = f.read(); return !v.points.length && !v.response && !v.note && v.painBefore === "" && v.painAfter === ""; };
@@ -1637,12 +1709,18 @@ select { font: inherit; color: var(--ink); background: var(--paper); border: 1px
     var save = el("button", "primary", "기록 추가"); save.type = "button";
     save.addEventListener("click", async function () {
       if (f.isEmpty()) { recMsg("치료점이나 반응 중 하나는 적어주세요.", "err"); return; }
-      save.disabled = true;
+      var cur = findPatient(pt.key, pt.id);
+      if (!cur) { recMsg("이 환자 기록은 지워졌어요.", "err"); return; }
+      var v = f.read(), patch = {};
+      patch[newId()] = v;
+      if (tooBig(Object.assign({}, cur.d, { visits: Object.assign({}, cur.d.visits, patch) }))) { recMsg(FULL, "err"); return; }
+      save.disabled = true; rec.saving = true;
       try {
-        var v = (pt.d.visits || []).slice(); v.push(f.read());
-        await rec.db.doc("clinic/" + pt.uid + "/patients/" + pt.id).update({ visits: v, updatedAt: new Date().toISOString() });
+        await write(function () { return rec.db.doc(ptPath(pt)).update({ visits: patch, updatedAt: v.at }); });
+        rec.saving = false; rec.dirty = false;
         recMsg("치료 기록을 추가했어요.", "ok");
-      } catch (e) { recDbError(e); save.disabled = false; }
+        renderList(); renderDetail();
+      } catch (e) { rec.saving = false; save.disabled = false; writeError(e); }
     });
     act.appendChild(save); f.appendChild(act); wrap.appendChild(f);
     return wrap;
@@ -1651,8 +1729,10 @@ select { font: inherit; color: var(--ink); background: var(--paper); border: 1px
   // ---- patient form (new or edit); fromSearch fills it from the last search
   function openPatientForm(pt, fromSearch) {
     initRecords();
-    rec.form = { pt: pt, fromSearch: !!fromSearch };
-    renderRecords();
+    if (rec.readonly) { recMsg(NO_WRITE, "err"); return; }
+    rec.form = { pt: pt, fromSearch: !!fromSearch }; rec.dirty = false; rec.pending = false;
+    renderList(); renderDetail();
+    $("#pAlias").focus();
   }
   function renderForm(box) {
     box.textContent = "";
@@ -1665,7 +1745,7 @@ select { font: inherit; color: var(--ink); background: var(--paper); border: 1px
       var f = el("div", "field"); var l = el("label", null, label); l.htmlFor = id;
       var i = type === "textarea" ? el("textarea") : el("input");
       if (type !== "textarea") i.type = type || "text";
-      i.id = id; i.value = value == null ? "" : value; f.append(l, i); return f;
+      i.id = id; i.value = value == null ? "" : String(value); f.append(l, i); return f;
     }
     g.appendChild(field("pAlias", "별칭 (필수)", pt ? pt.d.alias : ""));
     var r1 = el("div", "row"); r1.append(field("pAge", "나이", src.age, "number"), field("pSex", "성별 (M/F)", src.sex)); g.appendChild(r1);
@@ -1677,106 +1757,158 @@ select { font: inherit; color: var(--ink); background: var(--paper); border: 1px
     var act = el("div", "actions"); act.style.marginTop = "14px";
     var save = el("button", "primary", "저장"); save.type = "button";
     var cancel = el("button", null, "취소"); cancel.type = "button";
-    cancel.addEventListener("click", function () { rec.form = null; renderRecords(); });
+    cancel.addEventListener("click", function () { rec.form = null; rec.dirty = false; renderList(); renderDetail(); });
     save.addEventListener("click", async function () {
       if (!rec.ready) { recMsg("기록을 쓸 준비가 아직 안 됐어요. 잠시 뒤 다시 눌러주세요.", "err"); return; }
+      if (rec.readonly) { recMsg(NO_WRITE, "err"); return; }
       var alias = $("#pAlias").value.trim();
       if (!alias) { recMsg("별칭을 적어주세요.", "err"); $("#pAlias").focus(); return; }
-      var doctor = $("#docName").value.trim();
-      if (!doctor) { recMsg("왼쪽 위에 담당 의사 이름을 적어주세요.", "err"); $("#docName").focus(); return; }
+      var doctor = $("#docName").value.trim().slice(0, 20);
+      var own = !pt || pt.key === myKey();                   // the owner may fix another doctor's record without taking it over
+      if (own && !doctor) { recMsg("왼쪽 위에 담당 의사 이름을 적어주세요.", "err"); $("#docName").focus(); return; }
+      var key = pt ? pt.key : myKey();
+      if (!key) { recMsg(NO_WRITE, "err"); return; }
       lsSet("fbt.doctor", doctor);
+      var now = new Date().toISOString();
       var sex = $("#pSex").value.trim().toUpperCase();
-      var body = { alias: alias.slice(0, 40), doctor: doctor.slice(0, 20), age: $("#pAge").value.trim().slice(0, 3), sex: sex === "M" || sex === "F" ? sex : "",
+      var body = { alias: alias.slice(0, 40), age: $("#pAge").value.trim().slice(0, 3), sex: sex === "M" || sex === "F" ? sex : "",
         site: $("#pSite").value.trim().slice(0, 60), dur: $("#pDur").value.trim().slice(0, 30), symptoms: $("#pSym").value.trim().slice(0, 1000),
-        updatedAt: new Date().toISOString() };
-      save.disabled = true;
+        updatedAt: now };
+      if (own) body.doctor = doctor;
+      var cur = pt && findPatient(pt.key, pt.id);
+      if (pt && !cur) { recMsg("이 환자 기록은 지워졌어요.", "err"); return; }
+      if (cur && tooBig(Object.assign({}, cur.d, body))) { recMsg(FULL, "err"); return; }
+      save.disabled = true; rec.saving = true;
       try {
-        await rec.db.doc("clinic/" + rec.uid).set({ doctor: body.doctor, updatedAt: body.updatedAt });
-        if (pt) {
-          await rec.db.doc("clinic/" + pt.uid + "/patients/" + pt.id).update(body);
-          rec.sel = { uid: pt.uid, id: pt.id };
-        } else {
-          body.createdAt = body.updatedAt;
-          body.visits = vf && !vf.isEmpty() ? [vf.read()] : [];
-          var ref = rec.db.collection("clinic/" + rec.uid + "/patients").doc();
-          await ref.set(body);
-          rec.sel = { uid: rec.uid, id: ref.id };
+        if (own && (!rec.docs[key] || rec.docs[key].doctor !== doctor)) {
+          await write(function () { return rec.db.doc("clinic/" + key).set({ doctor: doctor, updatedAt: now }); });
         }
-        rec.form = null;
+        if (pt) {
+          await write(function () { return rec.db.doc(ptPath(pt)).update(body); });
+          rec.sel = { key: pt.key, id: pt.id };
+        } else {
+          body.createdAt = now;
+          body.visits = {};
+          if (vf && !vf.isEmpty()) body.visits[newId()] = vf.read();
+          var ref = rec.db.collection("clinic/" + key + "/patients").doc();
+          await write(function () { return ref.set(body); });
+          watchPatients(key);
+          rec.sel = { key: key, id: ref.id };
+        }
+        rec.form = null; rec.saving = false; rec.dirty = false;
         recMsg("저장했어요.", "ok");
-        renderRecords();
-      } catch (e) { recDbError(e); save.disabled = false; }
+        renderList(); renderDetail();
+      } catch (e) { rec.saving = false; save.disabled = false; writeError(e); }
     });
     act.append(save, cancel);
     box.appendChild(act);
-    $("#pAlias").focus();
   }
-  async function removeVisit(pt, i) {
-    if (!confirm("이 치료 기록을 지울까요?")) return;
+  async function removeVisit(pt, vid, li) {
+    var patch = {}; patch[vid] = null;
+    rec.saving = true;
     try {
-      var v = (pt.d.visits || []).slice(); v.splice(i, 1);
-      await rec.db.doc("clinic/" + pt.uid + "/patients/" + pt.id).update({ visits: v, updatedAt: new Date().toISOString() });
-    } catch (e) { recDbError(e); }
+      await write(function () { return rec.db.doc(ptPath(pt)).update({ visits: patch, updatedAt: new Date().toISOString() }); });
+      recMsg("치료 기록을 지웠어요.", "ok");
+      li.remove();
+    } catch (e) { writeError(e); }
+    rec.saving = false; rec.pending = false;
+    syncDetail();
   }
   async function deletePatient(pt) {
-    if (!confirm("'" + (pt.d.alias || "") + "' 환자와 치료 기록을 모두 지울까요? 되돌릴 수 없어요.")) return;
-    try { await rec.db.doc("clinic/" + pt.uid + "/patients/" + pt.id).delete(); rec.sel = null; renderRecords(); recMsg("지웠어요.", "ok"); }
-    catch (e) { recDbError(e); }
+    rec.saving = true;
+    try {
+      await write(function () { return rec.db.doc(ptPath(pt)).delete(); });
+      rec.sel = null; rec.dirty = false;
+      recMsg("지웠어요.", "ok");
+    } catch (e) { writeError(e); }
+    rec.saving = false; rec.pending = false;
+    renderList(); renderDetail();
   }
 
   // ---- stats used by the treatment-point list
+  // a site is compared word by word after dropping side and position words: "우측 무릎 안쪽" and "무릎통증" both give 무릎
+  var SITE_PRE = /^(우측|좌측|양측|양쪽|오른쪽|왼쪽|오른|왼)/;
+  var SITE_POST = /(바깥쪽|아래쪽|앞쪽|뒤쪽|안쪽|위쪽|내측|외측|전면|후면|측면|상부|하부|주변|부위|통증|쪽)$/;
+  var SITE_STOP = { "전체": 1, "부분": 1, "및": 1, "또는": 1, "그리고": 1, "약간": 1, "가끔": 1, "심함": 1, "양": 1, "앞": 1, "뒤": 1, "위": 1, "아래": 1, "안": 1, "밖": 1,
+    "RIGHT": 1, "LEFT": 1, "BOTH": 1, "RT": 1, "LT": 1, "BILATERAL": 1, "SIDE": 1, "PAIN": 1, "AREA": 1 };
   function siteWords(s) {
-    var stop = { "우측": 1, "좌측": 1, "양측": 1, "양쪽": 1, "오른쪽": 1, "왼쪽": 1, "앞쪽": 1, "뒤쪽": 1, "내측": 1, "외측": 1, "부위": 1, "통증": 1, "전체": 1 };
-    return (String(s || "").match(/[가-힣]{2,}|[A-Za-z]{3,}/g) || []).map(function (w) { return w.toUpperCase(); }).filter(function (w) { return !stop[w]; });
+    var out = [];
+    (String(s || "").match(/[가-힣]+|[A-Za-z]{2,}/g) || []).forEach(function (w) {
+      w = w.toUpperCase();
+      for (var i = 0; i < 4; i++) { var x = w.replace(SITE_PRE, "").replace(SITE_POST, ""); if (x === w) break; w = x; }
+      if (w && !SITE_STOP[w] && out.indexOf(w) < 0) out.push(w);
+    });
+    return out;
   }
+  // per point: patients (np), visits (n), visits with a response (resp), of which 좋아짐 or 조금 좋아짐 (good)
   function pointStats(site) {
-    var want = site ? siteWords(site) : null;
+    var want = site == null ? null : siteWords(site);
     var out = {};
+    if (want && !want.length) return out;
     allPatients().forEach(function (pt) {
-      if (want && want.length) {
+      if (want) {
         var have = siteWords(pt.d.site);
         if (!have.some(function (w) { return want.indexOf(w) >= 0; })) return;
       }
-      (pt.d.visits || []).forEach(function (v) {
+      var pk = pt.key + "/" + pt.id;
+      visitList(pt.d).forEach(function (v) {
         var seen = {};
-        (v.points || []).forEach(function (n) {
+        v.points.forEach(function (n) {
           var k = normName(cleanPoint(n));
           if (!k || seen[k]) return;
           seen[k] = 1;
-          var s = out[k] || (out[k] = { name: n, n: 0, resp: 0, good: 0 });
-          s.n++; if (v.response) { s.resp++; if (isGood(v.response)) s.good++; }
+          var s = out[k] || (out[k] = { name: n, pts: {}, np: 0, n: 0, resp: 0, good: 0 });
+          if (!s.pts[pk]) { s.pts[pk] = 1; s.np++; }
+          s.n++;
+          if (RESP.indexOf(v.response) >= 0) { s.resp++; if (isGood(v.response)) s.good++; }
         });
       });
     });
     return out;
   }
-  var statCache = { key: "", same: {}, all: {} };
+  var statCache = null;
   function oursText(key) {
-    var nP = allPatients().length;
-    if (!nP) return "";
-    var site = last.p ? last.p.site : "";
-    var ck = nP + "|" + site + "|" + JSON.stringify(Object.keys(rec.patients).map(function (u) { return (rec.patients[u] || []).map(function (p) { return p.d.updatedAt; }); }));
-    if (statCache.key !== ck) { statCache = { key: ck, same: site ? pointStats(site) : {}, all: pointStats(null) }; }
+    if (!allPatients().length) return "";
+    var site = last.p ? String(last.p.site || "") : "";
+    if (!statCache || statCache.site !== site) statCache = { site: site, same: site ? pointStats(site) : {}, all: pointStats(null) };
     var s = statCache.same[key];
-    if (s) return "우리 기록 같은 부위 " + s.n + "회 · 좋아짐 " + s.good;
+    if (s) return "우리 기록 같은 부위 " + statLine(s);
     var a = statCache.all[key];
-    return a ? "우리 기록 " + a.n + "회 · 좋아짐 " + a.good : "";
+    return a ? "우리 기록 " + (site ? "다른 부위 " : "") + statLine(a) : "";
+  }
+  // live data changes only touch the '우리 기록' badges, so an expanded point list stays as it is
+  function refreshOurs() {
+    document.querySelectorAll("#points .prow[data-key]").forEach(function (li) {
+      var m = li.querySelector(".meter");
+      if (!m) return;
+      var o = m.querySelector(".ours"), t = oursText(li.getAttribute("data-key"));
+      if (!t) { if (o) o.remove(); return; }
+      if (!o) { o = el("span", "ours"); m.appendChild(o); }
+      o.textContent = t;
+    });
   }
 
   // ---- export
-  function csvCell(v) { v = v == null ? "" : String(v); return /[",\n\r]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }
+  // a cell starting with = + - @ would run as a formula in Excel, so it gets a leading apostrophe
+  function csvCell(v) {
+    v = v == null ? "" : String(v);
+    if (/^[=+\-@\t\r]/.test(v)) v = "'" + v;
+    return /[",\n\r]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
+  }
   async function exportCsv() {
     await initRecords();
     var rows = [["담당 의사", "별칭", "나이", "성별", "부위", "기간", "증상", "날짜", "치료점", "치료 전 통증", "치료 후 통증", "반응", "메모"]];
     allPatients().forEach(function (pt) {
-      var d = pt.d, v = Array.isArray(d.visits) && d.visits.length ? d.visits : [{}];
-      v.forEach(function (x) { rows.push([d.doctor, d.alias, d.age, d.sex, d.site, d.dur, d.symptoms, x.date, (x.points || []).join(" / "), x.painBefore, x.painAfter, x.response, x.note]); });
+      var d = pt.d, v = visitList(d);
+      (v.length ? v : [{ points: [] }]).forEach(function (x) {
+        rows.push([doctorOf(pt), d.alias, d.age, d.sex, d.site, d.dur, d.symptoms, x.date, x.points.join(" / "), x.painBefore, x.painAfter, x.response, x.note]);
+      });
     });
     if (rows.length < 2) { recMsg("내보낼 기록이 없어요.", "err"); return; }
     var dl = window.claude && window.claude.use ? await window.claude.use("downloads") : null;
     if (!dl) { recMsg("이 화면에서는 파일로 내보낼 수 없어요.", "err"); return; }
     try {
-      await dl.save({ filename: "FBT_우리환자기록_" + today() + ".csv", data: "﻿" + rows.map(function (r) { return r.map(csvCell).join(","); }).join("\r\n") });
+      await dl.save({ filename: "FBT_우리환자기록_" + today() + ".csv", data: "\uFEFF" + rows.map(function (r) { return r.map(csvCell).join(","); }).join("\r\n") });
       recMsg("내보냈어요. 받은 파일을 드라이브나 8TB 하드에 보관하세요.", "ok");
     } catch (e) { if (!(e && e.code === "declined")) recMsg("내보내지 못했어요. (" + ((e && e.code) || "알 수 없음") + ")", "err"); }
   }
