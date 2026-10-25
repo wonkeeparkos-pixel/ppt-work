@@ -200,6 +200,55 @@ details.others[open] > summary { margin-bottom: 6px; }
 .crow .pt { display: inline-flex; align-items: baseline; gap: 4px; }
 .crow .pt b { font: 600 14.5px/1.4 var(--font-data); }
 .hint { margin: 0 0 8px; font-size: 13px; color: var(--ink-2); }
+
+/* modes + our patient records */
+.modes { justify-self: start; display: inline-flex; border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; margin-top: 14px; background: var(--sheet); }
+.modes button { border: 0; border-radius: 0; padding: 10px 18px; font-size: 15px; background: transparent; color: var(--ink-2); }
+.modes button + button { border-left: 1px solid var(--rule); }
+.modes button[aria-selected="true"] { background: var(--scrub); color: var(--scrub-ink); }
+.rgrid { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 24px; align-items: start; }
+@media (max-width: 880px) { .rgrid { grid-template-columns: minmax(0, 1fr); } }
+.rbar { display: grid; gap: 10px; }
+.rbar .row2 { display: flex; gap: 8px; flex-wrap: wrap; }
+.rbar .row2 > * { flex: 1 1 auto; }
+select { font: inherit; color: var(--ink); background: var(--paper); border: 1px solid var(--rule); border-radius: 8px; padding: 9px 10px; }
+.plist { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.pcard { width: 100%; text-align: left; display: grid; gap: 4px; padding: 12px 14px; border: 1px solid var(--rule); border-radius: 10px; background: var(--sheet); font: inherit; color: var(--ink); cursor: pointer; }
+.pcard[aria-current="true"] { border-color: var(--scrub); box-shadow: 0 0 0 1px var(--scrub) inset; }
+.pcard .t { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+.pcard .t b { font-weight: 600; overflow-wrap: anywhere; }
+.pcard .s { font-size: 13px; color: var(--ink-2); overflow-wrap: anywhere; }
+.resp { display: inline-block; font-size: 12px; line-height: 1; padding: 4px 8px; border-radius: 999px; white-space: nowrap; background: var(--paper); color: var(--ink-2); }
+.resp.good { background: var(--scrub-soft); color: var(--scrub); }
+.resp.bad { background: var(--danger-soft); color: var(--danger); }
+.visits { list-style: none; margin: 8px 0 0; padding: 0; display: grid; }
+.visit { display: grid; grid-template-columns: 7.5em minmax(0, 1fr) auto auto; gap: 4px 12px; padding: 10px 0; border-top: 1px solid var(--rule); align-items: baseline; }
+.visit:first-child { border-top: 0; }
+.visit .d { font: 500 13px/1.5 var(--font-data); color: var(--ink-2); }
+.visit .pts { font: 600 14px/1.5 var(--font-data); overflow-wrap: anywhere; }
+.visit .nt { grid-column: 2 / -1; font-size: 13.5px; color: var(--ink-2); overflow-wrap: anywhere; }
+.visit .x { grid-column: 4; grid-row: 1; }
+.visit .resp { justify-self: start; }
+@media (max-width: 520px) { .visit { grid-template-columns: minmax(0, 1fr) auto auto; } .visit .d { grid-column: 1 / -1; } .visit .x { grid-column: 3; grid-row: 2; } }
+.linkbtn { border: 0; background: none; padding: 2px 4px; font-size: 13px; color: var(--ink-2); text-decoration: underline; cursor: pointer; }
+.chipset { display: flex; flex-wrap: wrap; gap: 6px; }
+.pick { border: 1px solid var(--rule); border-radius: 999px; padding: 6px 11px; font: 500 13px/1 var(--font-data); background: var(--sheet); color: var(--ink); cursor: pointer; }
+.pick[aria-pressed="true"] { background: var(--scrub); border-color: var(--scrub); color: var(--scrub-ink); }
+.seg { display: flex; flex-wrap: wrap; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; }
+.seg button { flex: 1 1 auto; border: 0; border-radius: 0; padding: 9px 10px; font-size: 14px; background: var(--paper); color: var(--ink-2); }
+.seg button + button { border-left: 1px solid var(--rule); }
+.seg button[aria-pressed="true"] { background: var(--scrub-soft); color: var(--scrub); font-weight: 600; }
+.fset { display: grid; gap: 12px; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--rule); }
+.fset > h3 { margin: 0; font: 600 15px/1.3 var(--font-body); }
+.stat { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 10px 0 14px; }
+.stat div { background: var(--paper); border-radius: 8px; padding: 10px 12px; }
+.stat b { display: block; font: 600 22px/1.2 var(--font-data); }
+.stat span { font-size: 12.5px; color: var(--ink-2); }
+.ours { font-size: 12px; color: var(--amber); white-space: nowrap; }
+.rmsg { font-size: 13.5px; margin: 0; }
+.rmsg:empty { display: none; }
+.rmsg.err { color: var(--danger); }
+.rmsg.ok { color: var(--scrub); }
 </style>
 
 <header class="wrap top">
@@ -214,9 +263,13 @@ details.others[open] > summary { margin-bottom: 6px; }
     </div>
   </div>
   <p class="lede">증상을 적으면 모아둔 카페 글 중 관련 글 24개(더 많이 찾기: 48개)를 읽어, 거기에 쓰인 치료점을 많이 쓰인 순서로 보여주고 함께 쓰인 조합으로 치료 후보를 정리합니다.</p>
+  <div class="modes" role="tablist" aria-label="화면">
+    <button type="button" role="tab" id="modeFind" aria-selected="true" aria-controls="findView">치료점 찾기</button>
+    <button type="button" role="tab" id="modeRec" aria-selected="false" aria-controls="recView">우리 환자 기록</button>
+  </div>
 </header>
 
-<main class="wrap grid">
+<main class="wrap grid" id="findView" role="tabpanel" aria-labelledby="modeFind">
   <form id="intake" class="chart" autocomplete="off" novalidate>
     <div class="chart-head">
       <h2>환자</h2>
@@ -255,7 +308,7 @@ details.others[open] > summary { margin-bottom: 6px; }
       <button type="button" id="stop" hidden>멈추기</button>
       <button type="button" id="reset">새 환자</button>
     </div>
-    <p class="fine">이름·등록번호 같은 개인정보는 적지 마세요. 적은 내용은 이 화면에 저장되지 않고, 정리를 위해 Claude에게만 보내져요. 구글 드라이브 검색에는 검색어만 쓰입니다.</p>
+    <p class="fine">이름·등록번호 같은 개인정보는 적지 마세요. 검색할 때 적은 내용은 저장되지 않고, 정리를 위해 Claude에게만 보내져요. '우리 환자 기록'에 저장할 때만 기록돼요.</p>
   </form>
 
   <section class="findings">
@@ -311,6 +364,7 @@ details.others[open] > summary { margin-bottom: 6px; }
       </div>
       <p class="note" id="pointsNote" hidden></p>
       <div class="answer-tools">
+        <button type="button" id="recordThis">이 환자 기록하기</button>
         <button type="button" id="copy">결과 복사</button>
         <span class="fine" id="copyMsg"></span>
       </div>
@@ -328,6 +382,29 @@ details.others[open] > summary { margin-bottom: 6px; }
     </details>
   </section>
 </main>
+
+<section class="wrap rgrid" id="recView" role="tabpanel" aria-labelledby="modeRec" hidden>
+  <div class="rbar">
+    <div class="panel" style="display:grid;gap:12px">
+      <div class="field">
+        <label for="docName">담당 의사</label>
+        <input type="text" id="docName" placeholder="예: 박원기" maxlength="20">
+      </div>
+      <div class="row2">
+        <select id="recScope" aria-label="보기">
+          <option value="all">병원 전체 기록</option>
+          <option value="mine">내 기록만</option>
+        </select>
+        <button type="button" class="primary" id="newPatient">새 환자</button>
+      </div>
+      <input type="text" id="recFilter" placeholder="별칭·부위·증상·치료점으로 찾기" aria-label="기록 찾기">
+      <p class="rmsg" id="recMsg" role="status"></p>
+    </div>
+    <ol class="plist" id="patientList"></ol>
+    <button type="button" id="exportCsv">기록 내보내기 (엑셀 CSV)</button>
+  </div>
+  <div class="panel" id="recDetail" aria-live="polite"></div>
+</section>
 
 <script>
 (function () {
@@ -362,6 +439,9 @@ details.others[open] > summary { margin-bottom: 6px; }
   $("#intake").addEventListener("submit", onSubmit);
   $("#stop").addEventListener("click", function () { if (current) current.abort(); });
   $("#copy").addEventListener("click", copyResult);
+  $("#recordThis").addEventListener("click", function () { setMode(true); openPatientForm(null, true); });
+  $("#modeFind").addEventListener("click", function () { setMode(false); });
+  $("#modeRec").addEventListener("click", function () { setMode(true); });
   $("#morePoints").addEventListener("click", function () { togglePoints($("#morePoints").getAttribute("data-all") !== "1"); });
   $("#tabPoints").addEventListener("click", function () { setView(false); });
   $("#tabConds").addEventListener("click", function () { setView(true); });
@@ -518,7 +598,7 @@ details.others[open] > summary { margin-bottom: 6px; }
       var res;
       try {
         res = await caps.sample(buildPrompt(p, cases, ex), {
-          modelTier: p.deep ? "complex" : "default",
+          modelTier: "complex",
           signal: ctl.signal,
           onText: function (u) { renderAnswer(u.text, cases.length); }
         });
@@ -1020,7 +1100,7 @@ details.others[open] > summary { margin-bottom: 6px; }
     var points = ex.main.slice(0, 40).map(function (e) {
       return "- " + e.name + " | 글 " + e.rel.length + "개 [" + e.rel.join(", ") + "]" + (e.same ? " | 같은 증상 " + e.same : "") +
         (methodsText(e) ? " | " + methodsText(e) : "") + (e.fail ? " | 효과 없음 " + e.fail : "") + (e.comment ? " | 댓글 제안 " + e.comment : "") +
-        (e.when.length ? " | 고려 조건: " + whenText(e) : "");
+        (e.when.length ? " | 고려 조건: " + whenText(e) : "") + (oursText(e.key) ? " | " + oursText(e.key) : "");
     }).join("\n");
     var combosText = ex.combos.map(function (c) {
       return "- " + c.names.join(" + ") + " | 글 " + c.cases.length + "개 [" + c.cases.join(", ") + "]" + (c.same ? " | 같은 증상 " + c.same : "");
@@ -1042,6 +1122,7 @@ details.others[open] > summary { margin-bottom: 6px; }
       "- 치료 후보는 [함께 쓰인 조합]에서 고르고, 글 수와 글 번호를 그대로 옮긴다. 조합이 모자라면 [글별 요약]에서 한 글의 치료점 조합을 '(글 1개)'로 쓴다.",
       "- 순서: 같은 증상 글에서 쓰인 조합을 먼저, 그 안에서는 글 수가 많은 순서로 2~4개.",
       "- '어떤 증상·소견일 때'는 [치료점 목록]의 고려 조건과 [글별 요약]의 증상에서 가져온다.",
+      "- [치료점 목록]의 '우리 기록'은 이 병원 의사들이 직접 치료하고 반응을 적은 기록이다. 카페 근거와 구분해서, 있으면 '우리 기록: n회 중 좋아짐 m'처럼 덧붙인다(글 번호 없이).",
       "- 치료점 이름은 자료에 있는 그대로 쓴다. 자료에 없는 치료점·약물·용량을 지어내지 않는다.",
       "- '효과 없음'으로 적힌 치료점은 후보에 넣지 말고 주의할 점에 쓴다. 댓글에서만 권한 치료점은 '댓글 제안'이라고 밝힌다.",
       "- 근거가 약하거나 이 환자와 잘 맞지 않으면 그렇다고 쓴다.",
@@ -1159,6 +1240,8 @@ details.others[open] > summary { margin-bottom: 6px; }
     var fill = document.createElement("span"); fill.style.width = Math.max(6, Math.round(nums.length / max * 100)) + "%";
     bar.appendChild(fill); meter.append(cnt, bar);
     if (related && e.same) { var sim = document.createElement("span"); sim.className = "sim"; sim.textContent = "같은 증상 " + e.same; meter.appendChild(sim); }
+    var our = related ? oursText(e.key) : "";
+    if (our) { var o = document.createElement("span"); o.className = "ours"; o.textContent = our; meter.appendChild(o); }
     li.append(rk, nm, meter);
     if (related && e.when && e.when.length) {
       var wl = document.createElement("div"); wl.className = "when";
@@ -1296,6 +1379,411 @@ details.others[open] > summary { margin-bottom: 6px; }
     el.classList.add("on");
     setTimeout(function () { el.classList.remove("on"); }, 2200);
   });
+
+
+  // ------------------------------------------------- 7. our patient records
+  // db layout: clinic/<doctor uid> {doctor, updatedAt}; clinic/<uid>/patients/<id> {alias, doctor, age, sex, site, dur, symptoms, visits[]}
+  // rules (declared at publish): everyone at interact+ reads all of clinic/, each doctor writes only clinic/<own uid>/...
+  var RESP = ["좋아짐", "조금 좋아짐", "그대로", "나빠짐"];
+  var rec = { db: null, user: null, uid: null, owner: false, subs: {}, docs: {}, patients: {}, sel: null, form: null, ready: false, off: false };
+
+  function lsGet(k) { try { return localStorage.getItem(k) || ""; } catch (e) { return ""; } }
+  function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* storage off */ } }
+  function setMode(records) {
+    $("#modeFind").setAttribute("aria-selected", records ? "false" : "true");
+    $("#modeRec").setAttribute("aria-selected", records ? "true" : "false");
+    $("#findView").hidden = records; $("#recView").hidden = !records;
+    lsSet("fbt.mode", records ? "rec" : "find");
+    if (records) { initRecords(); renderRecords(); }
+  }
+  function recMsg(text, kind) { var el = $("#recMsg"); el.textContent = text || ""; el.className = "rmsg" + (kind ? " " + kind : ""); }
+  function recOff(text) { rec.off = true; recMsg(text, "err"); renderRecords(); }
+  function today() { var d = new Date(); return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2); }
+  function isGood(r) { return r === "좋아짐" || r === "조금 좋아짐"; }
+  function respClass(r) { return isGood(r) ? "resp good" : r === "나빠짐" ? "resp bad" : "resp"; }
+
+  $("#docName").value = lsGet("fbt.doctor");
+  $("#docName").addEventListener("change", function () { lsSet("fbt.doctor", $("#docName").value.trim()); });
+  $("#recScope").addEventListener("change", renderRecords);
+  $("#recFilter").addEventListener("input", renderRecords);
+  $("#newPatient").addEventListener("click", function () { openPatientForm(null, false); });
+  $("#exportCsv").addEventListener("click", exportCsv);
+
+  var recInit = null;
+  function initRecords() {
+    if (recInit) return recInit;
+    recInit = (async function () {
+      if (!window.claude || typeof window.claude.use !== "function") { recOff("기록은 claude.ai 안에서 열어야 쓸 수 있어요."); return; }
+      var r = await Promise.all([window.claude.use("db"), window.claude.use("user")]);
+      rec.db = r[0]; rec.user = r[1];
+      if (!rec.db || !rec.user) { recOff("이 화면에서는 기록을 쓸 수 없어요. claude.ai에 로그인한 상태로 열어주세요."); return; }
+      rec.uid = await rec.user.id();
+      rec.owner = await rec.user.isOwner();
+      if (!rec.uid) { recOff("기록을 쓰려면 claude.ai에 로그인해야 해요."); return; }
+      rec.ready = true;
+      watchPatients(rec.uid);
+      rec.db.collection("clinic").onSnapshot(function (snap) {
+        snap.docs.forEach(function (d) { rec.docs[d.id] = d.data() || {}; watchPatients(d.id); });
+        renderRecords();
+      }, function (e) { recDbError(e); });
+      renderRecords();
+    })().catch(function (e) { recDbError(e); });
+    return recInit;
+  }
+  function watchPatients(uid) {
+    if (rec.subs[uid] || !rec.db) return;
+    rec.subs[uid] = rec.db.collection("clinic/" + uid + "/patients").onSnapshot(function (snap) {
+      rec.patients[uid] = snap.docs.map(function (d) { return { id: d.id, uid: uid, d: d.data() || {} }; });
+      renderRecords();
+      if (last.ex && !current) showPoints(last.p, last.ex);    // refresh '우리 기록' badges
+    }, function (e) { recDbError(e); });
+  }
+  function recDbError(e) {
+    var code = e && e.code;
+    if (code === "invalid_argument") recMsg("기록을 저장할 권한이 없어요. 원장님께 이 도구의 '참여자' 이상 권한을 받아야 해요.", "err");
+    else if (code === "quota_exceeded") recMsg("기록 저장 공간이 가득 찼어요. 오래된 기록을 내보낸 뒤 정리해주세요.", "err");
+    else if (code === "revoked" || code === "not_granted" || code === "capability_disabled") recMsg("이 화면에서는 기록을 쓸 수 없어요.", "err");
+    else recMsg("기록을 불러오거나 저장하다가 문제가 생겼어요. 잠시 뒤 다시 해주세요. (" + (code || "알 수 없음") + ")", "err");
+  }
+  function allPatients() {
+    var out = [];
+    Object.keys(rec.patients).forEach(function (uid) { out = out.concat(rec.patients[uid]); });
+    return out;
+  }
+  function canEditPatient(pt) { return rec.ready && (pt.uid === rec.uid || rec.owner); }
+  function lastVisit(pt) { var v = Array.isArray(pt.d.visits) ? pt.d.visits : []; return v.length ? v[v.length - 1] : null; }
+
+  // ---- list
+  function renderRecords() {
+    if ($("#recView").hidden) return;
+    var mine = $("#recScope").value === "mine";
+    var q = $("#recFilter").value.trim().toUpperCase();
+    var list = allPatients().filter(function (pt) {
+      if (mine && pt.uid !== rec.uid) return false;
+      if (!q) return true;
+      var v = Array.isArray(pt.d.visits) ? pt.d.visits : [];
+      var hay = [pt.d.alias, pt.d.doctor, pt.d.site, pt.d.symptoms].concat(v.map(function (x) { return (x.points || []).join(" ") + " " + (x.note || ""); })).join(" ").toUpperCase();
+      return hay.indexOf(q) >= 0;
+    }).sort(function (a, b) { return String(b.d.updatedAt || "").localeCompare(String(a.d.updatedAt || "")); });
+    var ol = $("#patientList");
+    ol.textContent = "";
+    list.forEach(function (pt) {
+      var li = document.createElement("li");
+      var b = document.createElement("button"); b.type = "button"; b.className = "pcard";
+      if (rec.sel && rec.sel.uid === pt.uid && rec.sel.id === pt.id) b.setAttribute("aria-current", "true");
+      var t = document.createElement("span"); t.className = "t";
+      var nm = document.createElement("b"); nm.textContent = pt.d.alias || "(별칭 없음)";
+      t.appendChild(nm);
+      var lv = lastVisit(pt);
+      if (lv && lv.response) { var rs = document.createElement("span"); rs.className = respClass(lv.response); rs.textContent = lv.response; t.appendChild(rs); }
+      var s = document.createElement("span"); s.className = "s";
+      var nv = Array.isArray(pt.d.visits) ? pt.d.visits.length : 0;
+      s.textContent = [pt.d.doctor || "", [pt.d.age, pt.d.sex].filter(Boolean).join("/"), pt.d.site || "", "치료 " + nv + "회", lv ? lv.date : ""].filter(Boolean).join(" · ");
+      b.append(t, s);
+      b.addEventListener("click", function () { rec.sel = { uid: pt.uid, id: pt.id }; rec.form = null; renderRecords(); });
+      li.appendChild(b); ol.appendChild(li);
+    });
+    if (!list.length) {
+      var li2 = document.createElement("li"); li2.className = "empty";
+      li2.textContent = rec.off ? "기록을 볼 수 없어요." : rec.ready ? (q ? "찾는 기록이 없어요." : "아직 기록이 없어요. '새 환자'로 첫 기록을 남겨보세요.") : "기록을 불러오는 중이에요…";
+      ol.appendChild(li2);
+    }
+    renderDetail();
+  }
+
+  // ---- right panel: summary, patient form, or patient detail
+  function renderDetail() {
+    var box = $("#recDetail");
+    if (rec.form) { renderForm(box); return; }
+    var pt = rec.sel && (rec.patients[rec.sel.uid] || []).find(function (x) { return x.id === rec.sel.id; });
+    if (pt) { renderPatient(box, pt); return; }
+    renderSummary(box);
+  }
+  function el(tag, cls, text) { var x = document.createElement(tag); if (cls) x.className = cls; if (text != null) x.textContent = text; return x; }
+  function renderSummary(box) {
+    box.textContent = "";
+    box.appendChild(el("h2", null, "우리 환자 기록"));
+    box.appendChild(el("p", "fine", "선생님들이 직접 치료한 환자와 반응을 모아두는 곳이에요. 카페 자료와 따로 쌓이고, 치료점 찾기 결과에 '우리 기록'으로 함께 보여요. 실명·등록번호·연락처 대신 별칭만 적어주세요."));
+    var pts = allPatients();
+    var visits = 0, good = 0, withResp = 0;
+    pts.forEach(function (pt) { (pt.d.visits || []).forEach(function (v) { visits++; if (v.response) { withResp++; if (isGood(v.response)) good++; } }); });
+    var st = el("div", "stat");
+    [[pts.length, "환자"], [visits, "치료 기록"], [withResp ? Math.round(good / withResp * 100) + "%" : "-", "좋아진 비율"]].forEach(function (x) {
+      var d = el("div"); d.appendChild(el("b", null, String(x[0]))); d.appendChild(el("span", null, x[1])); st.appendChild(d);
+    });
+    box.appendChild(st);
+    var top = pointStats(null);
+    var keys = Object.keys(top).sort(function (a, b) { return top[b].n - top[a].n; }).slice(0, 12);
+    if (keys.length) {
+      box.appendChild(el("h3", null, "많이 쓴 치료점"));
+      var ul = el("ol", "visits");
+      keys.forEach(function (k) {
+        var li = el("li", "visit");
+        li.appendChild(el("span", "pts", top[k].name));
+        li.appendChild(el("span", "d", top[k].n + "회 · 좋아짐 " + top[k].good + (top[k].resp ? " (" + Math.round(top[k].good / top[k].resp * 100) + "%)" : "")));
+        ul.appendChild(li);
+      });
+      box.appendChild(ul);
+    }
+  }
+  function renderPatient(box, pt) {
+    box.textContent = "";
+    var d = pt.d;
+    var head = el("div", "panel-head");
+    head.appendChild(el("h2", null, d.alias || "(별칭 없음)"));
+    var tools = el("span");
+    if (canEditPatient(pt)) {
+      var ed = el("button", "linkbtn", "정보 고치기"); ed.type = "button";
+      ed.addEventListener("click", function () { openPatientForm(pt, false); });
+      var del = el("button", "linkbtn", "환자 삭제"); del.type = "button";
+      del.addEventListener("click", function () { deletePatient(pt); });
+      tools.append(ed, del);
+    }
+    head.appendChild(tools);
+    box.appendChild(head);
+    box.appendChild(el("p", "ptline", [d.doctor || "", [d.age, d.sex].filter(Boolean).join("/"), d.site || "", d.dur || ""].filter(Boolean).join(" · ")));
+    if (d.symptoms) box.appendChild(el("p", null, d.symptoms));
+    var v = Array.isArray(d.visits) ? d.visits : [];
+    box.appendChild(el("h3", null, "치료와 반응 (" + v.length + "회)"));
+    var ol = el("ol", "visits");
+    v.forEach(function (x, i) {
+      var li = el("li", "visit");
+      li.appendChild(el("span", "d", x.date || ""));
+      li.appendChild(el("span", "pts", (x.points || []).join(", ") || "(치료점 없음)"));
+      var r = el("span", respClass(x.response), x.response || "반응 미기록");
+      li.appendChild(r);
+      var pain = (x.painBefore !== "" && x.painBefore != null) || (x.painAfter !== "" && x.painAfter != null)
+        ? "통증 " + (x.painBefore !== "" && x.painBefore != null ? x.painBefore : "?") + " → " + (x.painAfter !== "" && x.painAfter != null ? x.painAfter : "?") : "";
+      var note = [pain, x.note || ""].filter(Boolean).join(" · ");
+      if (note) li.appendChild(el("span", "nt", note));
+      if (canEditPatient(pt)) {
+        var rm = el("button", "linkbtn x", "지우기"); rm.type = "button"; rm.setAttribute("aria-label", (x.date || "") + " 기록 지우기");
+        rm.addEventListener("click", function () { removeVisit(pt, i); });
+        li.appendChild(rm);
+      }
+      ol.appendChild(li);
+    });
+    if (!v.length) ol.appendChild(el("li", "empty", "아직 치료 기록이 없어요."));
+    box.appendChild(ol);
+    if (canEditPatient(pt)) box.appendChild(visitForm(pt));
+    else box.appendChild(el("p", "fine", "다른 선생님의 기록이라 보기만 할 수 있어요."));
+  }
+
+  // ---- visit form (shared by new patient and add-visit)
+  function pointChoices(pt) {
+    var names = [];
+    if (last.ex) last.ex.main.slice(0, 24).forEach(function (e) { names.push(e.name); });
+    if (pt) (pt.d.visits || []).forEach(function (v) { (v.points || []).forEach(function (n) { if (names.indexOf(n) < 0) names.push(n); }); });
+    return names;
+  }
+  function visitFields(pt) {
+    var f = el("div", "fset");
+    var picked = [];
+    var resp = "";
+    f.appendChild(el("h3", null, pt ? "치료 기록 추가" : "첫 치료 기록 (선택)"));
+    var row = el("div", "row");
+    var dField = el("div", "field"); var dl = el("label", null, "날짜"); var din = el("input"); din.type = "date"; din.value = today();
+    dl.htmlFor = din.id = "vDate" + (pt ? "B" : "A"); dField.append(dl, din); row.appendChild(dField);
+    var pField = el("div", "field"); var pl = el("span", "lbl", "통증 (전 → 후, 0~10)");
+    var pr = el("div", "row2"); pr.style.display = "flex"; pr.style.gap = "6px";
+    function painSel(label) { var s = el("select"); s.setAttribute("aria-label", label); s.appendChild(new Option("-", "")); for (var i = 0; i <= 10; i++) s.appendChild(new Option(String(i), String(i))); return s; }
+    var pb = painSel("치료 전 통증"), pa = painSel("치료 후 통증");
+    pr.append(pb, pa); pField.append(pl, pr); row.appendChild(pField);
+    f.appendChild(row);
+    var cField = el("div", "field"); cField.appendChild(el("span", "lbl", "한 치료점"));
+    var chips = el("div", "chipset");
+    pointChoices(pt).forEach(function (n) {
+      var c = el("button", "pick", n); c.type = "button"; c.setAttribute("aria-pressed", "false");
+      c.addEventListener("click", function () {
+        var on = picked.indexOf(n) < 0;
+        if (on) picked.push(n); else picked.splice(picked.indexOf(n), 1);
+        c.setAttribute("aria-pressed", on ? "true" : "false");
+      });
+      chips.appendChild(c);
+    });
+    cField.appendChild(chips);
+    var extra = el("input"); extra.type = "text"; extra.placeholder = "다른 치료점은 쉼표로 (예: MAA1, UTZ)"; extra.setAttribute("aria-label", "다른 치료점");
+    cField.appendChild(extra);
+    f.appendChild(cField);
+    var rField = el("div", "field"); rField.appendChild(el("span", "lbl", "반응"));
+    var seg = el("div", "seg");
+    RESP.forEach(function (r) {
+      var b = el("button", null, r); b.type = "button"; b.setAttribute("aria-pressed", "false");
+      b.addEventListener("click", function () {
+        resp = resp === r ? "" : r;
+        seg.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", x.textContent === resp ? "true" : "false"); });
+      });
+      seg.appendChild(b);
+    });
+    rField.appendChild(seg); f.appendChild(rField);
+    var nField = el("div", "field"); var nl = el("label", null, "메모 (선택)"); var nin = el("textarea"); nin.rows = 2; nin.style.minHeight = "64px";
+    nl.htmlFor = nin.id = "vNote" + (pt ? "B" : "A"); nField.append(nl, nin); f.appendChild(nField);
+    f.read = function () {
+      var pts = picked.slice();
+      extra.value.split(/[,，\n]/).map(function (x) { return cleanPoint(x); }).filter(Boolean).forEach(function (x) {
+        var disp = /[가-힣]/.test(x) ? x : x.toUpperCase().replace(/\s+/g, "");
+        if (pts.indexOf(disp) < 0) pts.push(disp);
+      });
+      return { date: din.value || today(), points: pts.slice(0, 30), painBefore: pb.value === "" ? "" : +pb.value, painAfter: pa.value === "" ? "" : +pa.value,
+        response: resp, note: nin.value.trim().slice(0, 500) };
+    };
+    f.isEmpty = function () { var v = f.read(); return !v.points.length && !v.response && !v.note && v.painBefore === "" && v.painAfter === ""; };
+    return f;
+  }
+  function visitForm(pt) {
+    var wrap = el("div");
+    var f = visitFields(pt);
+    var act = el("div", "actions"); act.style.marginTop = "12px";
+    var save = el("button", "primary", "기록 추가"); save.type = "button";
+    save.addEventListener("click", async function () {
+      if (f.isEmpty()) { recMsg("치료점이나 반응 중 하나는 적어주세요.", "err"); return; }
+      save.disabled = true;
+      try {
+        var v = (pt.d.visits || []).slice(); v.push(f.read());
+        await rec.db.doc("clinic/" + pt.uid + "/patients/" + pt.id).update({ visits: v, updatedAt: new Date().toISOString() });
+        recMsg("치료 기록을 추가했어요.", "ok");
+      } catch (e) { recDbError(e); save.disabled = false; }
+    });
+    act.appendChild(save); f.appendChild(act); wrap.appendChild(f);
+    return wrap;
+  }
+
+  // ---- patient form (new or edit); fromSearch fills it from the last search
+  function openPatientForm(pt, fromSearch) {
+    initRecords();
+    rec.form = { pt: pt, fromSearch: !!fromSearch };
+    renderRecords();
+  }
+  function renderForm(box) {
+    box.textContent = "";
+    var pt = rec.form.pt;
+    var src = pt ? pt.d : (rec.form.fromSearch && last.p ? last.p : {});
+    box.appendChild(el("h2", null, pt ? "환자 정보 고치기" : "새 환자"));
+    box.appendChild(el("p", "fine", "실명·등록번호·연락처는 적지 말고, 알아볼 수 있는 별칭만 적어주세요. (예: 무릎-1025-1)"));
+    var g = el("div"); g.style.display = "grid"; g.style.gap = "12px"; g.style.marginTop = "12px";
+    function field(id, label, value, type) {
+      var f = el("div", "field"); var l = el("label", null, label); l.htmlFor = id;
+      var i = type === "textarea" ? el("textarea") : el("input");
+      if (type !== "textarea") i.type = type || "text";
+      i.id = id; i.value = value == null ? "" : value; f.append(l, i); return f;
+    }
+    g.appendChild(field("pAlias", "별칭 (필수)", pt ? pt.d.alias : ""));
+    var r1 = el("div", "row"); r1.append(field("pAge", "나이", src.age, "number"), field("pSex", "성별 (M/F)", src.sex)); g.appendChild(r1);
+    var r2 = el("div", "row"); r2.append(field("pSite", "부위", src.site), field("pDur", "기간", src.dur)); g.appendChild(r2);
+    g.appendChild(field("pSym", "증상", src.symptoms, "textarea"));
+    box.appendChild(g);
+    var vf = pt ? null : visitFields(null);
+    if (vf) box.appendChild(vf);
+    var act = el("div", "actions"); act.style.marginTop = "14px";
+    var save = el("button", "primary", "저장"); save.type = "button";
+    var cancel = el("button", null, "취소"); cancel.type = "button";
+    cancel.addEventListener("click", function () { rec.form = null; renderRecords(); });
+    save.addEventListener("click", async function () {
+      if (!rec.ready) { recMsg("기록을 쓸 준비가 아직 안 됐어요. 잠시 뒤 다시 눌러주세요.", "err"); return; }
+      var alias = $("#pAlias").value.trim();
+      if (!alias) { recMsg("별칭을 적어주세요.", "err"); $("#pAlias").focus(); return; }
+      var doctor = $("#docName").value.trim();
+      if (!doctor) { recMsg("왼쪽 위에 담당 의사 이름을 적어주세요.", "err"); $("#docName").focus(); return; }
+      lsSet("fbt.doctor", doctor);
+      var sex = $("#pSex").value.trim().toUpperCase();
+      var body = { alias: alias.slice(0, 40), doctor: doctor.slice(0, 20), age: $("#pAge").value.trim().slice(0, 3), sex: sex === "M" || sex === "F" ? sex : "",
+        site: $("#pSite").value.trim().slice(0, 60), dur: $("#pDur").value.trim().slice(0, 30), symptoms: $("#pSym").value.trim().slice(0, 1000),
+        updatedAt: new Date().toISOString() };
+      save.disabled = true;
+      try {
+        await rec.db.doc("clinic/" + rec.uid).set({ doctor: body.doctor, updatedAt: body.updatedAt });
+        if (pt) {
+          await rec.db.doc("clinic/" + pt.uid + "/patients/" + pt.id).update(body);
+          rec.sel = { uid: pt.uid, id: pt.id };
+        } else {
+          body.createdAt = body.updatedAt;
+          body.visits = vf && !vf.isEmpty() ? [vf.read()] : [];
+          var ref = rec.db.collection("clinic/" + rec.uid + "/patients").doc();
+          await ref.set(body);
+          rec.sel = { uid: rec.uid, id: ref.id };
+        }
+        rec.form = null;
+        recMsg("저장했어요.", "ok");
+        renderRecords();
+      } catch (e) { recDbError(e); save.disabled = false; }
+    });
+    act.append(save, cancel);
+    box.appendChild(act);
+    $("#pAlias").focus();
+  }
+  async function removeVisit(pt, i) {
+    if (!confirm("이 치료 기록을 지울까요?")) return;
+    try {
+      var v = (pt.d.visits || []).slice(); v.splice(i, 1);
+      await rec.db.doc("clinic/" + pt.uid + "/patients/" + pt.id).update({ visits: v, updatedAt: new Date().toISOString() });
+    } catch (e) { recDbError(e); }
+  }
+  async function deletePatient(pt) {
+    if (!confirm("'" + (pt.d.alias || "") + "' 환자와 치료 기록을 모두 지울까요? 되돌릴 수 없어요.")) return;
+    try { await rec.db.doc("clinic/" + pt.uid + "/patients/" + pt.id).delete(); rec.sel = null; renderRecords(); recMsg("지웠어요.", "ok"); }
+    catch (e) { recDbError(e); }
+  }
+
+  // ---- stats used by the treatment-point list
+  function siteWords(s) {
+    var stop = { "우측": 1, "좌측": 1, "양측": 1, "양쪽": 1, "오른쪽": 1, "왼쪽": 1, "앞쪽": 1, "뒤쪽": 1, "내측": 1, "외측": 1, "부위": 1, "통증": 1, "전체": 1 };
+    return (String(s || "").match(/[가-힣]{2,}|[A-Za-z]{3,}/g) || []).map(function (w) { return w.toUpperCase(); }).filter(function (w) { return !stop[w]; });
+  }
+  function pointStats(site) {
+    var want = site ? siteWords(site) : null;
+    var out = {};
+    allPatients().forEach(function (pt) {
+      if (want && want.length) {
+        var have = siteWords(pt.d.site);
+        if (!have.some(function (w) { return want.indexOf(w) >= 0; })) return;
+      }
+      (pt.d.visits || []).forEach(function (v) {
+        var seen = {};
+        (v.points || []).forEach(function (n) {
+          var k = normName(cleanPoint(n));
+          if (!k || seen[k]) return;
+          seen[k] = 1;
+          var s = out[k] || (out[k] = { name: n, n: 0, resp: 0, good: 0 });
+          s.n++; if (v.response) { s.resp++; if (isGood(v.response)) s.good++; }
+        });
+      });
+    });
+    return out;
+  }
+  var statCache = { key: "", same: {}, all: {} };
+  function oursText(key) {
+    var nP = allPatients().length;
+    if (!nP) return "";
+    var site = last.p ? last.p.site : "";
+    var ck = nP + "|" + site + "|" + JSON.stringify(Object.keys(rec.patients).map(function (u) { return (rec.patients[u] || []).map(function (p) { return p.d.updatedAt; }); }));
+    if (statCache.key !== ck) { statCache = { key: ck, same: site ? pointStats(site) : {}, all: pointStats(null) }; }
+    var s = statCache.same[key];
+    if (s) return "우리 기록 같은 부위 " + s.n + "회 · 좋아짐 " + s.good;
+    var a = statCache.all[key];
+    return a ? "우리 기록 " + a.n + "회 · 좋아짐 " + a.good : "";
+  }
+
+  // ---- export
+  function csvCell(v) { v = v == null ? "" : String(v); return /[",\n\r]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; }
+  async function exportCsv() {
+    await initRecords();
+    var rows = [["담당 의사", "별칭", "나이", "성별", "부위", "기간", "증상", "날짜", "치료점", "치료 전 통증", "치료 후 통증", "반응", "메모"]];
+    allPatients().forEach(function (pt) {
+      var d = pt.d, v = Array.isArray(d.visits) && d.visits.length ? d.visits : [{}];
+      v.forEach(function (x) { rows.push([d.doctor, d.alias, d.age, d.sex, d.site, d.dur, d.symptoms, x.date, (x.points || []).join(" / "), x.painBefore, x.painAfter, x.response, x.note]); });
+    });
+    if (rows.length < 2) { recMsg("내보낼 기록이 없어요.", "err"); return; }
+    var dl = window.claude && window.claude.use ? await window.claude.use("downloads") : null;
+    if (!dl) { recMsg("이 화면에서는 파일로 내보낼 수 없어요.", "err"); return; }
+    try {
+      await dl.save({ filename: "FBT_우리환자기록_" + today() + ".csv", data: "﻿" + rows.map(function (r) { return r.map(csvCell).join(","); }).join("\r\n") });
+      recMsg("내보냈어요. 받은 파일을 드라이브나 8TB 하드에 보관하세요.", "ok");
+    } catch (e) { if (!(e && e.code === "declined")) recMsg("내보내지 못했어요. (" + ((e && e.code) || "알 수 없음") + ")", "err"); }
+  }
+
+  // load records in the background so the '우리 기록' badges appear in search results; reopen the last mode
+  initRecords();
+  if (lsGet("fbt.mode") === "rec") setMode(true);
 
   // ---------------------------------------------------------- copy
   function plainResult() {
